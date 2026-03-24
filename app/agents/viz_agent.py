@@ -1,10 +1,18 @@
 import json
 import re
+from decimal import Decimal
 from typing import Any
 
 from anthropic import Anthropic
 
 _client = Anthropic()
+
+
+def _default_serializer(obj: Any) -> Any:
+    """JSON serializer for types not handled by the default encoder."""
+    if isinstance(obj, Decimal):
+        return float(obj)
+    raise TypeError(f"Object of type {type(obj).__name__} is not JSON serializable")
 
 VIZ_SYSTEM_PROMPT = """You are a data visualization expert. Given query results and the original question,
 generate a valid Vega-Lite v5 JSON specification.
@@ -35,7 +43,7 @@ class VizAgent:
         Raises:
             ValueError: If the response is not valid JSON
         """
-        user_msg = f"Question: {nl_query}\n\nData:\n{json.dumps(rows, indent=2)}"
+        user_msg = f"Question: {nl_query}\n\nData:\n{json.dumps(rows, indent=2, default=_default_serializer)}"
 
         response = _client.messages.create(
             model="claude-sonnet-4-6",

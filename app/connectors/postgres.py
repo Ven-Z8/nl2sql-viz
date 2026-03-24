@@ -1,7 +1,16 @@
 import asyncpg
+from decimal import Decimal
 from typing import Any
 
 from .base import BaseConnector
+
+
+def _normalize_row(row: dict[str, Any]) -> dict[str, Any]:
+    """Convert asyncpg non-JSON-serializable types to their JSON-safe equivalents."""
+    return {
+        k: float(v) if isinstance(v, Decimal) else v
+        for k, v in row.items()
+    }
 
 
 class PostgresConnector(BaseConnector):
@@ -24,7 +33,7 @@ class PostgresConnector(BaseConnector):
         if self._conn is None:
             raise RuntimeError("Not connected — call connect() first")
         rows = await self._conn.fetch(sql)
-        return [dict(row) for row in rows]
+        return [_normalize_row(dict(row)) for row in rows]
 
     async def get_schema(self) -> dict[str, Any]:
         if self._conn is None:
