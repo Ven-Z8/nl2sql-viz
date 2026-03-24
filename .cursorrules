@@ -1,0 +1,136 @@
+# NL2SQL Viz — Cursor Rules
+# Ask natural language questions about your database. Get instant Vega-Lite charts.
+# Plan 1 (core agent loop) is complete. Plan 2 = BUN sandbox, Plan 3 = real-time, Plan 4 = frontend polish.
+
+## Project Architecture
+
+### Agent Pipeline
+```
+User NL query
+    ↓ WebSocket
+Coordinator (app/agents/coordinator.py)
+    ├── SchemaAgent  → introspects DB schema, caches per session (10min TTL)
+    ├── SQLAgent     → NL → SQL via Claude, retries up to 3x with error feedback
+    └── VizAgent     → rows + query → Vega-Lite v5 JSON spec via Claude
+    ↓ async generator yielding events
+WebSocket events: progress | sql | result | error
+    ↓
+Frontend (Next.js) → renders via vega-embed
+```
+
+### Layer Map
+```
+app/
+├── main.py                  # FastAPI app — REST + WebSocket endpoint
+├── core/
+│   ├── auth.py              # API key generation (secrets) + Argon2 hashing
+│   ├── security.py          # AES-256-GCM credential encryption (Plan 2 use)
+│   └── session.py           # In-memory session store + schema cache (TTL 10min)
+├── connectors/
+│   ├── base.py              # BaseConnector ABC — implement this to add new DBs
+│   └── postgres.py          # asyncpg implementation, read-only enforcement
+└── agents/
+    ├── coordinator.py       # Orchestrates the 3 sub-agents, yields WebSocket events
+    ├── schema_agent.py      # Schema introspection + compact schema map builder
+    ├── sql_agent.py         # Multi-turn Claude conversation for NL2SQL + retry
+    └── viz_agent.py         # Vega-Lite v5 spec generation from rows + query
+
+frontend/src/
+├── app/page.tsx             # Main page — WS connection, state, layout
+├── components/
+│   ├── QueryInput.tsx       # Form with text input + submit
+│   └── VegaChart.tsx        # vega-embed renderer with View lifecycle management
+└── lib/ws.ts                # QueryWebSocket class — auth handshake + query sending
+```
+
+## Tech Stack
+
+- **Backend:** Python 3.12, FastAPI, asyncpg, Anthropic Python SDK (`claude-sonnet-4-6`)
+- **Package manager:** `uv` — use `uv add`, `uv run`, never plain `pip` in this project
+- **Frontend:** Next.js 14 (App Router), TypeScript, Tailwind CSS, vega-embed v5
+- **DB:** PostgreSQL via asyncpg. New DBs: implement `BaseConnector` in `connectors/`
+- **Auth:** Argon2 (passlib) for API key hashing — NOT bcrypt (72-byte truncation risk)
+- **Encryption:** AES-256-GCM via `cryptography` library — NOT Fernet, NOT simple XOR
+- **Model:** Always `claude-sonnet-4-6` — never switch to OpenAI or other providers
+
+## Key Conventions
+
+### Python
+- All async functions use `async def` — the connector and agent methods are all async
+- Type hints required on all function signatures
+- `BaseConnector` is the only DB abstraction — never import asyncpg directly in agents
+- Schema cache is keyed by `session_id` — one session per WebSocket connection
+- Agents receive `connector: BaseConnector` — never instantiate connectors inside agents
+- `_normalize_row()` in `postgres.py` handles asyncpg → JSON serialization (Decimal, datetime, UUID, bytes)
+
+### TypeScript / Frontend
+- `"use client"` required on any component using `useState`, `useEffect`, or browser APIs
+- `vega-embed` returns a `Result` with a `view` — always call `view.finalize()` before re-embedding
+- WebSocket auth: first message must be `{"type": "auth", "api_key": "..."}` — browser can't set WS headers
+- Env vars: `NEXT_PUBLIC_API_KEY`, `NEXT_PUBLIC_DSN`, `NEXT_PUBLIC_WS_URL`
+
+### Testing
+- Unit tests: `uv run pytest tests/unit/ -v` — no API key needed
+- Integration tests: `uv run pytest tests/integration/ -v` — needs Postgres + ANTHROPIC_API_KEY
+- Use `TestClient` from starlette (sync) for WebSocket tests — not httpx async for WS
+- `seed_test_db` fixture provides `sales` table (4 rows: North/South/East regions + amounts)
+
+## WebSocket Protocol
+
+```
+Client → {"type": "auth", "api_key": "..."}
+Server → {"type": "authenticated", "user_id": "..."}
+Client → {"type": "query", "query": "...", "dsn": "postgresql://..."}
+Server → {"type": "progress", "message": "Analyzing schema..."}
+Server → {"type": "progress", "message": "Writing SQL..."}
+Server → {"type": "sql", "sql": "SELECT ..."}
+Server → {"type": "progress", "message": "Building chart..."}
+Server → {"type": "result", "vega_spec": "{...}", "sql": "SELECT ..."}
+         OR
+Server → {"type": "error", "message": "..."}
+```
+
+## What NOT to Do
+
+- **Never** use `import openai` or any non-Anthropic LLM SDK
+- **Never** create a new `asyncpg.connect()` inside agents — use the passed `connector`
+- **Never** put `asyncpg.Connection` objects directly into JSON responses (not serializable)
+- **Never** use `bcrypt` for API key hashing — use Argon2 via passlib
+- **Never** add synchronous blocking calls inside `async def` functions
+- **Never** run SQL that isn't SELECT or WITH through the connector (it enforces read-only)
+- **Never** generate a `session_id` per query — one session per WebSocket connection
+- **Never** echo DSN/passwords back in HTTP responses
+
+## Running Locally
+
+```bash
+# Backend
+cp .env.example .env   # add ANTHROPIC_API_KEY and SECRET_KEY
+uv run uvicorn app.main:app --reload --port 8000
+
+# Register + get API key
+curl -X POST http://localhost:8000/api/register \
+  -H "Content-Type: application/json" -d '{"username": "yourname"}'
+
+# Frontend
+cd frontend
+cp .env.local.example .env.local   # paste API key + DSN
+npm run dev   # http://localhost:3000
+```
+
+## Plan Roadmap
+
+| Plan | Status | What it adds |
+|------|--------|-------------|
+| Plan 1 — Core Agent Loop | ✅ Complete | NL2SQL + Vega-Lite charts via WebSocket |
+| Plan 2 — BUN Sandbox | 🔜 Next | Server-side JS execution for complex transforms (Docker sidecar pool) |
+| Plan 3 — Real-time Layer | 🔜 | CDC/Debezium, Kafka consumer, scheduled refresh |
+| Plan 4 — Frontend Polish | 🔜 | Dashboard builder, DB connection wizard, saved queries |
+
+## Known Phase 1 Limitations (Fix in Plan 2+)
+
+- `_users` dict is in-memory — resets on restart, single-process only
+- DSN passed raw in WS query messages (SSRF risk — will move to connection_id lookup)
+- No rate limiting or per-request timeouts
+- No SSH tunnel or Cloud IAM connector support yet
+- BUN/Code Exec Agent not yet implemented
