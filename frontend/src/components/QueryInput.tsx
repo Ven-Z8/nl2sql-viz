@@ -8,11 +8,17 @@ interface QueryInputProps {
 
 export default function QueryInput({ onSubmit, disabled }: QueryInputProps) {
   const [value, setValue] = useState("");
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (value.trim()) {
+      onSubmit(value);
+      setValue(""); // clear after submit
+    }
+  };
+
   return (
-    <form
-      onSubmit={(e) => { e.preventDefault(); if (value.trim()) onSubmit(value); }}
-      className="flex gap-2"
-    >
+    <form onSubmit={handleSubmit} className="flex gap-2">
       <input
         className="flex-1 border rounded px-3 py-2 text-sm"
         placeholder="Ask a question about your data..."

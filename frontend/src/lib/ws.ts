@@ -12,6 +12,14 @@ export class QueryWebSocket {
 
   connect(): Promise<void> {
     return new Promise((resolve, reject) => {
+      let settled = false;
+      const settle = (fn: () => void) => {
+        if (!settled) {
+          settled = true;
+          fn();
+        }
+      };
+
       this.ws = new WebSocket("ws://localhost:8000/ws/query");
 
       this.ws.onopen = () => {
@@ -19,15 +27,25 @@ export class QueryWebSocket {
       };
 
       this.ws.onmessage = (e) => {
-        const event = JSON.parse(e.data);
+        let event: Record<string, unknown>;
+        try {
+          event = JSON.parse(e.data) as Record<string, unknown>;
+        } catch {
+          return; // ignore non-JSON frames
+        }
         if (event.type === "authenticated") {
-          resolve();
+          settle(resolve);
         } else {
           this.onEvent(event);
         }
       };
 
-      this.ws.onerror = reject;
+      this.ws.onerror = () =>
+        settle(() => reject(new Error("WebSocket connection error")));
+      this.ws.onclose = () =>
+        settle(() =>
+          reject(new Error("WebSocket closed before authentication"))
+        );
     });
   }
 
