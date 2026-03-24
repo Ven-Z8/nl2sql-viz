@@ -1,0 +1,69 @@
+<h2>3 Architecture Approaches for NL2SQL + Real-Time Viz</h2>
+<p class="subtitle">Which foundation fits best? Consider: speed to MVP, scalability, complexity.</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Layered Monolith</h3>
+      <p><strong>FastAPI + Claude Agent SDK + BUN sidecar</strong></p>
+      <p>One app, multi-agent coordination inside it. Coordinator agent calls sub-agents (Schema, SQL, Code Exec, Viz) as tools. WebSockets stream results to browser. BUN runs as a local subprocess for code execution.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Fast to build — working in days</li>
+          <li>Easy to debug — everything in one place</li>
+          <li>Clean agent boundaries from day one</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Harder to scale BUN execution independently</li>
+          <li>Real-time streaming needs careful async design</li>
+        </ul></div>
+      </div>
+      <p style="margin-top:8px;padding:6px 10px;background:rgba(99,102,241,0.15);border-radius:6px;font-size:0.85em">⭐ <strong>Recommended for Phase 1</strong> — architect with clean service interfaces so components can be extracted later</p>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Service-Oriented Agent Mesh</h3>
+      <p><strong>Separate microservices + Redis/message queue + Claude Agent SDK across services</strong></p>
+      <p>Connector Service, Agent Orchestration Service, BUN Execution Service, Viz Service — each independently deployable. Claude Agent SDK orchestrates across service boundaries via message queues.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Scale BUN execution independently (CPU-intensive)</li>
+          <li>Fault isolation per service</li>
+          <li>Enterprise-ready from the start</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>2-3× more complex to build initially</li>
+          <li>More infra to manage (queues, service discovery)</li>
+          <li>Harder to debug distributed flows</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Event-Driven Data Platform</h3>
+      <p><strong>Kafka/CDC data layer + Agent layer + Viz layer as distinct tiers</strong></p>
+      <p>Three fully separate tiers: (1) Data ingestion tier with Kafka/CDC/schedulers feeding a time-series store. (2) Agent tier where Claude analyzes data via NL. (3) Viz tier with BUN + Vega-Lite rendering to live dashboards.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>True production-grade real-time at scale</li>
+          <li>Horizontal scaling per tier</li>
+          <li>Cleanest architecture long-term</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Weeks to months just to bootstrap</li>
+          <li>Significant infra: Kafka, time-series DB, etc.</li>
+          <li>Overkill until you have real traffic</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
