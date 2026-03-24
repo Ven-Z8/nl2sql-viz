@@ -6,8 +6,8 @@ Tests:
   2. Bad API key: server closes connection with code 4001
 """
 import json
-import pytest
 from starlette.testclient import TestClient
+from starlette.websockets import WebSocketDisconnect
 
 from app.main import app
 
@@ -53,7 +53,7 @@ def test_register_and_query_via_websocket(seed_test_db):
                 events.append(event)
                 if event["type"] in ("result", "error"):
                     break
-            except Exception:
+            except WebSocketDisconnect:
                 break
 
     event_types = [e["type"] for e in events]
@@ -89,9 +89,9 @@ def test_websocket_rejects_bad_api_key():
             # Server should close — any receive attempt must raise
             ws.receive_json()
             # If we get here the server did NOT close — that is the failure
-    except Exception:
+    except (WebSocketDisconnect, RuntimeError):
         connection_closed = True
 
     assert connection_closed, (
-        "Expected server to close the WebSocket on bad API key, but it did not."
+        "Expected server to close WebSocket on bad API key"
     )

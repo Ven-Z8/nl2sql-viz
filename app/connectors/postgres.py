@@ -1,16 +1,23 @@
 import asyncpg
+import datetime
+import uuid
 from decimal import Decimal
 from typing import Any
 
 from .base import BaseConnector
 
+_COERCE: dict[type, Any] = {
+    Decimal: float,
+    datetime.datetime: str,
+    datetime.date: str,
+    uuid.UUID: str,
+    bytes: lambda v: v.hex(),
+}
+
 
 def _normalize_row(row: dict[str, Any]) -> dict[str, Any]:
     """Convert asyncpg non-JSON-serializable types to their JSON-safe equivalents."""
-    return {
-        k: float(v) if isinstance(v, Decimal) else v
-        for k, v in row.items()
-    }
+    return {k: _COERCE.get(type(v), lambda x: x)(v) for k, v in row.items()}
 
 
 class PostgresConnector(BaseConnector):
