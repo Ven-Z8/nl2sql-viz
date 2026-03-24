@@ -41,6 +41,10 @@ export default function Home() {
   }, []);
 
   const handleQuery = (query: string) => {
+    if (!DSN) {
+      setStatus("Missing DSN — set NEXT_PUBLIC_DSN in .env.local");
+      return;
+    }
     setLoading(true);
     setVegaSpec(null);
     wsRef.current?.sendQuery(query, DSN);

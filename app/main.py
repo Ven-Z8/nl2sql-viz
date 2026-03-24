@@ -58,7 +58,7 @@ async def connect_db(req: ConnectRequest):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Cannot connect to DB: {e}")
     connection_id = hashlib.sha256(req.dsn.encode()).hexdigest()[:16]  # deterministic
-    return {"connection_id": connection_id, "dsn": req.dsn}
+    return {"connection_id": connection_id}
 
 def _verify_api_key_or_raise(api_key: str) -> str:
     for user_id, hashed in _users.items():
@@ -88,6 +88,10 @@ async def websocket_query(websocket: WebSocket):
 
         await websocket.send_json({"type": "authenticated", "user_id": user_id})
 
+        session_id = await session_store.create_session(
+            user_id=user_id, connection_id=user_id
+        )
+
         # Step 2: Handle queries
         while True:
             data = await websocket.receive_json()
@@ -100,10 +104,6 @@ async def websocket_query(websocket: WebSocket):
                 await websocket.send_json({"type": "error", "message": "query and dsn required"})
                 continue
 
-            connection_id = hashlib.sha256(dsn.encode()).hexdigest()[:16]
-            session_id = await session_store.create_session(
-                user_id=user_id, connection_id=connection_id
-            )
             connector = PostgresConnector(dsn=dsn)
             try:
                 await connector.connect()

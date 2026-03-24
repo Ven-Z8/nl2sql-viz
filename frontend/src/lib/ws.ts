@@ -1,5 +1,7 @@
 type EventHandler = (event: Record<string, unknown>) => void;
 
+const WS_URL = process.env.NEXT_PUBLIC_WS_URL ?? "ws://localhost:8000/ws/query";
+
 export class QueryWebSocket {
   private ws: WebSocket | null = null;
   private apiKey: string;
@@ -20,7 +22,7 @@ export class QueryWebSocket {
         }
       };
 
-      this.ws = new WebSocket("ws://localhost:8000/ws/query");
+      this.ws = new WebSocket(WS_URL);
 
       this.ws.onopen = () => {
         this.ws!.send(JSON.stringify({ type: "auth", api_key: this.apiKey }));

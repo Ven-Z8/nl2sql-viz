@@ -54,3 +54,8 @@ async def seed_test_db():
         ('East',  800.00,  '2024-02-15')
     """)
     await conn.close()
+    yield
+    # Teardown
+    conn = await asyncpg.connect("postgresql://testuser:testpass@localhost:5432/testdb")
+    await conn.execute("DROP TABLE IF EXISTS sales")
+    await conn.close()
