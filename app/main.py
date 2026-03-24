@@ -1,6 +1,4 @@
 # app/main.py
-import json
-import os
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
@@ -47,7 +45,7 @@ class ConnectRequest(BaseModel):
 
 @app.post("/api/connections")
 async def connect_db(req: ConnectRequest):
-    user_id = _verify_api_key_or_raise(req.api_key)
+    _verify_api_key_or_raise(req.api_key)
     # Test the connection
     conn = PostgresConnector(dsn=req.dsn)
     try:
