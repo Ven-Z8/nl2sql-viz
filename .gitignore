@@ -13,3 +13,7 @@ wheels/
 .env
 .env.local
 .env.*.local
+
+# Tooling artifacts
+.superpowers/
+.python-version
