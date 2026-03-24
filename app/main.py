@@ -1,4 +1,5 @@
 # app/main.py
+import hashlib
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
@@ -26,6 +27,7 @@ app.add_middleware(
     allow_origins=["http://localhost:3000"],
     allow_methods=["*"],
     allow_headers=["*"],
+    allow_credentials=True,
 )
 
 # --- REST: Register user, get API key ---
@@ -34,6 +36,8 @@ class RegisterRequest(BaseModel):
 
 @app.post("/api/register")
 async def register(req: RegisterRequest):
+    if req.username in _users:
+        raise HTTPException(status_code=409, detail="Username already exists")
     api_key = generate_api_key()
     _users[req.username] = hash_api_key(api_key)
     return {"api_key": api_key, "username": req.username}
@@ -53,7 +57,6 @@ async def connect_db(req: ConnectRequest):
         await conn.disconnect()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Cannot connect to DB: {e}")
-    import hashlib
     connection_id = hashlib.sha256(req.dsn.encode()).hexdigest()[:16]  # deterministic
     return {"connection_id": connection_id, "dsn": req.dsn}
 
@@ -97,13 +100,13 @@ async def websocket_query(websocket: WebSocket):
                 await websocket.send_json({"type": "error", "message": "query and dsn required"})
                 continue
 
+            connection_id = hashlib.sha256(dsn.encode()).hexdigest()[:16]
             session_id = await session_store.create_session(
-                user_id=user_id, connection_id=dsn[:16]
+                user_id=user_id, connection_id=connection_id
             )
             connector = PostgresConnector(dsn=dsn)
-            await connector.connect()
-
             try:
+                await connector.connect()
                 coordinator = Coordinator(
                     connector=connector,
                     session_store=session_store,
@@ -111,6 +114,8 @@ async def websocket_query(websocket: WebSocket):
                 )
                 async for event in coordinator.run(nl_query):
                     await websocket.send_json(event)
+            except Exception as e:
+                await websocket.send_json({"type": "error", "message": str(e)})
             finally:
                 await connector.disconnect()
 
