@@ -1,5 +1,8 @@
 # app/main.py
+import asyncio
 import hashlib
+import time
+from collections import deque
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
@@ -13,6 +16,26 @@ from app.connectors.postgres import PostgresConnector
 from app.agents.coordinator import Coordinator
 
 load_dotenv()
+
+QUERY_TIMEOUT_SECONDS = 30
+RATE_LIMIT_QUERIES = 10       # max queries per window
+RATE_LIMIT_WINDOW_SECONDS = 60  # rolling window in seconds
+
+
+def _check_rate_limit(timestamps: deque) -> None:
+    """Raise RuntimeError if too many queries in the rolling window.
+
+    Mutates `timestamps` — removes expired entries, then checks count.
+    """
+    now = time.monotonic()
+    # Evict expired entries from the left
+    while timestamps and now - timestamps[0] > RATE_LIMIT_WINDOW_SECONDS:
+        timestamps.popleft()
+    if len(timestamps) >= RATE_LIMIT_QUERIES:
+        raise RuntimeError(
+            f"Rate limit: max {RATE_LIMIT_QUERIES} queries per {RATE_LIMIT_WINDOW_SECONDS}s"
+        )
+
 
 session_store = SessionStore()
 user_store = UserStore()  # persists to data/users.db
@@ -93,6 +116,7 @@ async def websocket_query(websocket: WebSocket):
         session_id = await session_store.create_session(
             user_id=user_id, connection_id=user_id
         )
+        query_timestamps: deque = deque()
 
         # Step 2: Handle queries
         while True:
@@ -106,6 +130,15 @@ async def websocket_query(websocket: WebSocket):
                 await websocket.send_json({"type": "error", "message": "query and dsn required"})
                 continue
 
+            # Rate limit check
+            try:
+                _check_rate_limit(query_timestamps)
+            except RuntimeError as e:
+                await websocket.send_json({"type": "error", "message": str(e)})
+                continue
+            query_timestamps.append(time.monotonic())
+
+            # Per-query timeout
             connector = PostgresConnector(dsn=dsn)
             try:
                 await connector.connect()
@@ -114,8 +147,18 @@ async def websocket_query(websocket: WebSocket):
                     session_store=session_store,
                     session_id=session_id,
                 )
-                async for event in coordinator.run(nl_query):
-                    await websocket.send_json(event)
+
+                async def _run_query():
+                    async for event in coordinator.run(nl_query):
+                        await websocket.send_json(event)
+
+                try:
+                    await asyncio.wait_for(_run_query(), timeout=QUERY_TIMEOUT_SECONDS)
+                except asyncio.TimeoutError:
+                    await websocket.send_json({
+                        "type": "error",
+                        "message": f"Query timed out after {QUERY_TIMEOUT_SECONDS}s",
+                    })
             except Exception as e:
                 await websocket.send_json({"type": "error", "message": str(e)})
             finally:
