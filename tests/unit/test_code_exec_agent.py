@@ -18,14 +18,14 @@ async def test_run_returns_transformed_rows():
     mock_sandbox.run = AsyncMock(return_value=[{"region": "North", "pct": 0.6}])
 
     mock_client = MagicMock()
-    mock_client.messages.create = MagicMock(
+    mock_client.messages.create = AsyncMock(
         return_value=_make_claude_response(
             "const result = rows.map(r => ({...r, pct: r.amount / 1000}));"
         )
     )
 
     # Patch Anthropic class BEFORE construction so __init__ gets the mock
-    with patch("app.agents.code_exec_agent.Anthropic", return_value=mock_client):
+    with patch("app.agents.code_exec_agent.AsyncAnthropic", return_value=mock_client):
         agent = CodeExecAgent(sandbox=mock_sandbox)
         result = await agent.run(
             nl_query="What percentage does each region contribute?",
@@ -45,20 +45,21 @@ async def test_run_strips_markdown_fences():
     mock_sandbox.run = AsyncMock(return_value=[{"x": 1}])
 
     mock_client = MagicMock()
-    mock_client.messages.create = MagicMock(
+    mock_client.messages.create = AsyncMock(
         return_value=_make_claude_response(
             "```javascript\nconst result = rows;\n```"
         )
     )
 
-    with patch("app.agents.code_exec_agent.Anthropic", return_value=mock_client):
+    with patch("app.agents.code_exec_agent.AsyncAnthropic", return_value=mock_client):
         agent = CodeExecAgent(sandbox=mock_sandbox)
         result = await agent.run("test", [{"x": 1}], "schema")
 
     assert result["status"] == "success"
     # Verify the code passed to sandbox has no fences
-    passed_code = mock_sandbox.run.call_args[1]["code"] if mock_sandbox.run.call_args[1] else mock_sandbox.run.call_args[0][0]
+    passed_code = mock_sandbox.run.call_args.kwargs["code"]
     assert "```" not in passed_code
+    assert "const result = rows;" in passed_code
 
 
 @pytest.mark.asyncio
@@ -67,11 +68,11 @@ async def test_run_returns_timeout_on_bun_timeout():
     mock_sandbox.run = AsyncMock(side_effect=BunTimeoutError("timed out"))
 
     mock_client = MagicMock()
-    mock_client.messages.create = MagicMock(
+    mock_client.messages.create = AsyncMock(
         return_value=_make_claude_response("const result = rows;")
     )
 
-    with patch("app.agents.code_exec_agent.Anthropic", return_value=mock_client):
+    with patch("app.agents.code_exec_agent.AsyncAnthropic", return_value=mock_client):
         agent = CodeExecAgent(sandbox=mock_sandbox)
         result = await agent.run("test", [{"x": 1}], "schema")
 
@@ -85,11 +86,11 @@ async def test_run_returns_error_on_sandbox_error():
     mock_sandbox.run = AsyncMock(side_effect=BunSandboxError("ReferenceError: result not defined"))
 
     mock_client = MagicMock()
-    mock_client.messages.create = MagicMock(
+    mock_client.messages.create = AsyncMock(
         return_value=_make_claude_response("// no result defined")
     )
 
-    with patch("app.agents.code_exec_agent.Anthropic", return_value=mock_client):
+    with patch("app.agents.code_exec_agent.AsyncAnthropic", return_value=mock_client):
         agent = CodeExecAgent(sandbox=mock_sandbox)
         result = await agent.run("test", [{"x": 1}], "schema")
 

@@ -2,7 +2,7 @@ import json
 import re
 from typing import Any
 
-from anthropic import Anthropic
+from anthropic import AsyncAnthropic
 
 from app.execution.bun_sandbox import BunSandbox, BunSandboxError, BunTimeoutError
 
@@ -28,7 +28,7 @@ class CodeExecAgent:
     """
 
     def __init__(self, sandbox: BunSandbox | None = None) -> None:
-        self._client = Anthropic()
+        self._client = AsyncAnthropic()
         self._sandbox = sandbox or BunSandbox()
 
     async def run(
@@ -59,7 +59,7 @@ class CodeExecAgent:
             f"Write JavaScript that transforms the full `rows` array and sets `result`."
         )
 
-        response = self._client.messages.create(
+        response = await self._client.messages.create(
             model="claude-sonnet-4-6",
             max_tokens=2048,
             system=_CODE_EXEC_SYSTEM,
@@ -68,8 +68,9 @@ class CodeExecAgent:
 
         code = response.content[0].text.strip()
         # Strip markdown fences (```javascript ... ``` or ``` ... ```)
-        code = re.sub(r"^```[a-z]*\s*", "", code, flags=re.IGNORECASE)
-        code = re.sub(r"\s*```$", "", code).strip()
+        fence_match = re.search(r"```[a-z]*\n([\s\S]*?)\n?```", code, flags=re.IGNORECASE)
+        if fence_match:
+            code = fence_match.group(1).strip()
 
         try:
             result_rows = await self._sandbox.run(code=code, input_data=rows)
