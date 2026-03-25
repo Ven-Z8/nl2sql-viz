@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 import shutil
 import tempfile
 from pathlib import Path
@@ -78,6 +79,11 @@ class BunSandbox:
                 stdin=asyncio.subprocess.PIPE,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
+                # Strip secrets: pass only PATH so BUN can run.
+                # Also set CWD to the temp dir so BUN doesn't auto-load the
+                # project's .env file (Bun reads .env from CWD automatically).
+                env={"PATH": os.environ.get("PATH", "")},
+                cwd=str(Path(tmp_path).parent),
             )
             try:
                 stdout, stderr = await asyncio.wait_for(

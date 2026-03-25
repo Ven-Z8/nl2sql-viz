@@ -13,7 +13,8 @@ You receive database rows and write JavaScript to transform them for a user's qu
 
 Rules (critical — violations cause a crash):
 - `rows` is already defined as an array of objects (do NOT redeclare it)
-- You MUST set `result` to an array of objects (the transformed output)
+- You MUST declare result as: `const result = [...]` — never `result = ...` (strict mode forbids undeclared assignment)
+- `result` must be an array of objects
 - Do NOT use: fetch(), XMLHttpRequest, require(), import(), Bun.file(), fs, child_process
 - Do NOT access: process.env, Bun.env, globalThis
 - Pure data transformation only — no I/O, no network, no filesystem
