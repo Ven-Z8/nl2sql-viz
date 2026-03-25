@@ -61,6 +61,7 @@ async def test_run_raises_on_timeout():
             await sandbox.run(code="while(true){}", input_data=[])
 
     mock_proc.kill.assert_called_once()
+    mock_proc.wait.assert_called_once()
 
 
 @pytest.mark.asyncio
