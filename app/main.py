@@ -116,7 +116,7 @@ async def websocket_query(websocket: WebSocket):
         session_id = await session_store.create_session(
             user_id=user_id, connection_id=user_id
         )
-        query_timestamps: deque = deque()
+        query_timestamps: deque = deque(maxlen=RATE_LIMIT_QUERIES)
 
         # Step 2: Handle queries
         while True:

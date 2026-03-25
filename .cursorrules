@@ -155,13 +155,19 @@ npm run dev   # http://localhost:3000
 |------|--------|-------------|
 | Plan 1 — Core Agent Loop | ✅ Complete | NL2SQL + Vega-Lite charts via WebSocket |
 | Plan 2 — BUN Sandbox | ✅ Complete | Server-side JS execution for complex transforms via BunSandbox + CodeExecAgent |
+| Plan 2.5 — Hardening Sprint | ✅ Complete | AsyncAnthropic in all agents, SQLite user store (data/users.db), 30s query timeout + per-session rate limit |
 | Plan 3 — Real-time Layer | 🔜 | CDC/Debezium, Kafka consumer, scheduled refresh |
 | Plan 4 — Frontend Polish | 🔜 | Dashboard builder, DB connection wizard, saved queries |
 
-## Known Phase 1 Limitations (Fix in Plan 2+)
+## What NOT to Do
 
-- `_users` dict is in-memory — resets on restart, single-process only
-- DSN passed raw in WS query messages (SSRF risk — will move to connection_id lookup)
-- No rate limiting or per-request timeouts
+- **Never** use module-level `Anthropic()` — always use `AsyncAnthropic()` as an instance attribute inside agent classes
+- **Never** store users in `_users: dict` in main.py — use `UserStore` (persists to `data/users.db`)
+- **Never** use `:memory:` with `UserStore` in tests — each `aiosqlite.connect()` opens a separate empty database; use `tmp_path / "test.db"` instead
+
+## Known Limitations (Post Plan 2.5)
+
+- DSN passed raw in WS query messages (SSRF risk — will move to connection_id lookup in Plan 3+)
+- Auth is O(n × argon2) per request — will require username in auth payload to fix
+- Rate limit is per-connection, not per-user (multiple tabs bypass it)
 - No SSH tunnel or Cloud IAM connector support yet
-- BUN/Code Exec Agent not yet implemented

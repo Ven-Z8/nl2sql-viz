@@ -25,8 +25,7 @@ class UserStore:
 
     async def init(self) -> None:
         """Create the users table if it doesn't exist."""
-        if self._db_path != ":memory:":
-            Path(self._db_path).parent.mkdir(parents=True, exist_ok=True)
+        Path(self._db_path).parent.mkdir(parents=True, exist_ok=True)
         async with aiosqlite.connect(self._db_path) as db:
             await db.execute(
                 """CREATE TABLE IF NOT EXISTS users (
