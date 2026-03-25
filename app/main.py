@@ -8,17 +8,18 @@ from pydantic import BaseModel
 
 from app.core.auth import generate_api_key, hash_api_key, verify_api_key
 from app.core.session import SessionStore
+from app.core.user_store import UserStore
 from app.connectors.postgres import PostgresConnector
 from app.agents.coordinator import Coordinator
 
 load_dotenv()
 
 session_store = SessionStore()
-# In-memory user store for Phase 1 — replace with DB in Phase 2
-_users: dict[str, str] = {}  # user_id -> hashed_api_key
+user_store = UserStore()  # persists to data/users.db
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    await user_store.init()
     yield
 
 app = FastAPI(lifespan=lifespan)
@@ -36,11 +37,12 @@ class RegisterRequest(BaseModel):
 
 @app.post("/api/register")
 async def register(req: RegisterRequest):
-    if req.username in _users:
+    try:
+        api_key = generate_api_key()
+        await user_store.register(req.username, hash_api_key(api_key))
+        return {"api_key": api_key, "username": req.username}
+    except ValueError:
         raise HTTPException(status_code=409, detail="Username already exists")
-    api_key = generate_api_key()
-    _users[req.username] = hash_api_key(api_key)
-    return {"api_key": api_key, "username": req.username}
 
 # --- REST: Connect a database ---
 class ConnectRequest(BaseModel):
@@ -49,7 +51,7 @@ class ConnectRequest(BaseModel):
 
 @app.post("/api/connections")
 async def connect_db(req: ConnectRequest):
-    _verify_api_key_or_raise(req.api_key)
+    await _verify_api_key_or_raise(req.api_key)
     # Test the connection
     conn = PostgresConnector(dsn=req.dsn)
     try:
@@ -60,10 +62,10 @@ async def connect_db(req: ConnectRequest):
     connection_id = hashlib.sha256(req.dsn.encode()).hexdigest()[:16]  # deterministic
     return {"connection_id": connection_id}
 
-def _verify_api_key_or_raise(api_key: str) -> str:
-    for user_id, hashed in _users.items():
+async def _verify_api_key_or_raise(api_key: str) -> str:
+    for username, hashed in await user_store.all_users():
         if verify_api_key(api_key, hashed):
-            return user_id
+            return username
     raise HTTPException(status_code=401, detail="Invalid API key")
 
 # --- WebSocket: NL query endpoint ---
@@ -78,9 +80,9 @@ async def websocket_query(websocket: WebSocket):
             await websocket.close(code=4001)
             return
         user_id = None
-        for uid, hashed in _users.items():
+        for username, hashed in await user_store.all_users():
             if verify_api_key(auth_msg["api_key"], hashed):
-                user_id = uid
+                user_id = username
                 break
         if not user_id:
             await websocket.close(code=4001)
