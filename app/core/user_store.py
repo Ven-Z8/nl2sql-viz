@@ -1,8 +1,12 @@
-import sqlite3
+import sqlite3  # for sqlite3.IntegrityError — aiosqlite re-raises stdlib exceptions
 
 import aiosqlite
 from pathlib import Path
 from typing import Optional
+
+# Compute absolute default path relative to this file's location:
+# app/core/user_store.py → project root is two levels up → data/users.db
+_DEFAULT_DB_PATH = str(Path(__file__).parent.parent.parent / "data" / "users.db")
 
 
 class UserStore:
@@ -16,7 +20,7 @@ class UserStore:
                  would be invisible to all subsequent method calls.
     """
 
-    def __init__(self, db_path: str = "data/users.db") -> None:
+    def __init__(self, db_path: str = _DEFAULT_DB_PATH) -> None:
         self._db_path = db_path
 
     async def init(self) -> None:
