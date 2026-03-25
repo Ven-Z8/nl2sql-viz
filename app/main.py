@@ -162,6 +162,10 @@ async def websocket_query(websocket: WebSocket):
             except Exception as e:
                 await websocket.send_json({"type": "error", "message": str(e)})
             finally:
+                # IMPORTANT: connector.disconnect() must stay here in the outer finally.
+                # asyncio.wait_for cancels _run_query() but does NOT immediately call
+                # aclose() on the coordinator async generator — Python schedules that
+                # at GC time. Cleanup must not be moved inside coordinator.run().
                 await connector.disconnect()
 
     except WebSocketDisconnect:

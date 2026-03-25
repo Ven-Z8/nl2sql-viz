@@ -29,3 +29,29 @@ def test_rate_limit_resets_after_window():
         timestamps.append(old)  # all outside the window
     # Should NOT raise (old timestamps expire)
     _check_rate_limit(timestamps)
+
+
+def test_rate_limit_boundary_exact_window_edge():
+    """Entry just beyond RATE_LIMIT_WINDOW_SECONDS old is evicted (strict >).
+
+    The eviction condition is: now - ts > RATE_LIMIT_WINDOW_SECONDS
+    So entries at exactly the boundary (=) are NOT evicted.
+    Due to floating point precision, we test with slightly beyond boundary.
+    """
+    timestamps: deque = deque()
+    now = time.monotonic()
+
+    # Fill to threshold with entries just BEYOND the boundary
+    # now - ts > RATE_LIMIT_WINDOW_SECONDS, so they WILL be evicted
+    for _ in range(RATE_LIMIT_QUERIES):
+        timestamps.append(now - RATE_LIMIT_WINDOW_SECONDS - 0.1)  # just beyond — evicted
+    # Should NOT raise (all entries are evicted)
+    _check_rate_limit(timestamps)
+
+    # Fill to threshold with entries just INSIDE the window
+    # now - ts < RATE_LIMIT_WINDOW_SECONDS, so they will NOT be evicted
+    timestamps.clear()
+    for _ in range(RATE_LIMIT_QUERIES):
+        timestamps.append(now - RATE_LIMIT_WINDOW_SECONDS + 0.1)  # just inside — retained
+    with pytest.raises(RuntimeError, match="Rate limit"):
+        _check_rate_limit(timestamps)
