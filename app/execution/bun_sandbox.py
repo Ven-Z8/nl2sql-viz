@@ -86,6 +86,7 @@ class BunSandbox:
                 )
             except asyncio.TimeoutError:
                 proc.kill()
+                await proc.wait()
                 raise BunTimeoutError(
                     f"BUN execution timed out after {self._timeout}s"
                 )
@@ -98,7 +99,12 @@ class BunSandbox:
             )
 
         try:
-            return json.loads(stdout.decode())
+            parsed = json.loads(stdout.decode())
+            if not isinstance(parsed, list):
+                raise BunSandboxError(
+                    f"BUN output must be a JSON array, got {type(parsed).__name__}"
+                )
+            return parsed
         except json.JSONDecodeError as exc:
             raise BunSandboxError(
                 f"BUN output was not valid JSON: {exc}"
