@@ -3,9 +3,7 @@ import re
 from decimal import Decimal
 from typing import Any
 
-from anthropic import Anthropic
-
-_client = Anthropic()
+from anthropic import AsyncAnthropic
 
 
 def _default_serializer(obj: Any) -> Any:
@@ -29,6 +27,9 @@ Rules:
 class VizAgent:
     """Generates Vega-Lite v5 specifications from query results."""
 
+    def __init__(self) -> None:
+        self._client = AsyncAnthropic()
+
     async def run(self, nl_query: str, rows: list[dict[str, Any]]) -> str:
         """
         Generate a Vega-Lite spec from natural language query and data rows.
@@ -45,7 +46,7 @@ class VizAgent:
         """
         user_msg = f"Question: {nl_query}\n\nData:\n{json.dumps(rows, indent=2, default=_default_serializer)}"
 
-        response = _client.messages.create(
+        response = await self._client.messages.create(
             model="claude-sonnet-4-6",
             max_tokens=2048,
             system=VIZ_SYSTEM_PROMPT,

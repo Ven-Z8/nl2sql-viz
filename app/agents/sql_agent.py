@@ -3,11 +3,9 @@
 import re
 from typing import Any
 
-from anthropic import Anthropic
+from anthropic import AsyncAnthropic
 
 from app.connectors.base import BaseConnector
-
-_client = Anthropic()
 
 SQL_SYSTEM_PROMPT = """You are a SQL expert. Given a natural language query and a database schema,
 write a single valid PostgreSQL SELECT query that answers the question.
@@ -19,6 +17,7 @@ class SQLAgent:
     def __init__(self, connector: BaseConnector, max_retries: int = 3):
         self._connector = connector
         self._max_retries = max_retries
+        self._client = AsyncAnthropic()
 
     async def run(self, nl_query: str, schema_map: str) -> dict[str, Any]:
         messages: list[dict[str, str]] = []
@@ -31,7 +30,7 @@ class SQLAgent:
 
             messages.append({"role": "user", "content": user_msg})
 
-            response = _client.messages.create(
+            response = await self._client.messages.create(
                 model="claude-sonnet-4-6",
                 max_tokens=1024,
                 system=SQL_SYSTEM_PROMPT,

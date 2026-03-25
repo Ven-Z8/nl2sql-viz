@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>nl2sql-viz — Project Status</title>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #0d1117;
+      --bg-card:      #161b22;
+      --bg-card-alt:  #1c2128;
+      --bg-code:      #0d1117;
+      --border:       #30363d;
+      --border-subtle:#21262d;
+
+      --text-primary:   #e6edf3;
+      --text-secondary: #8b949e;
+      --text-muted:     #484f58;
+
+      --green:    #3fb950;
+      --green-bg: #0d2b14;
+      --blue:     #388bfd;
+      --blue-bg:  #0c1f3a;
+      --purple:   #bc8cff;
+      --purple-bg:#1e1030;
+      --gray:     #6e7681;
+      --gray-bg:  #1c2128;
+      --red:      #f85149;
+      --red-bg:   #2d0b0b;
+      --orange:   #e3b341;
+      --orange-bg:#2b1d00;
+
+      --accent:   #388bfd;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", Helvetica, Arial, sans-serif;
+      --font-mono: "SF Mono", "Cascadia Code", "Fira Code", "JetBrains Mono", Menlo, Consolas, monospace;
+    }
+
+    html { font-size: 15px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 0 0 64px;
+    }
+
+    /* ─── Layout ───────────────────────────────────────────── */
+    .page-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── Header ───────────────────────────────────────────── */
+    .header {
+      padding: 48px 24px 40px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: linear-gradient(
+        180deg,
+        rgba(56, 139, 253, 0.04) 0%,
+        transparent 100%
+      );
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0.5;
+    }
+
+    .header-inner { max-width: 960px; margin: 0 auto; }
+
+    .project-name {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, #e6edf3 0%, #8b949e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .project-name span {
+      background: linear-gradient(135deg, #388bfd 0%, #bc8cff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .stack-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      border: 1px solid;
+    }
+
+    .badge-blue  { color: #79c0ff; background: rgba(56,139,253,0.12); border-color: rgba(56,139,253,0.3); }
+    .badge-green { color: #56d364; background: rgba(63,185,80,0.10);  border-color: rgba(63,185,80,0.25); }
+    .badge-purple{ color: #d2a8ff; background: rgba(188,140,255,0.10);border-color: rgba(188,140,255,0.25); }
+    .badge-gray  { color: #8b949e; background: rgba(110,118,129,0.12);border-color: rgba(110,118,129,0.25); }
+    .badge-orange{ color: #f0a84e; background: rgba(227,179,65,0.10); border-color: rgba(227,179,65,0.25); }
+
+    /* ─── Updated at ───────────────────────────────────────── */
+    .updated-at {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 10px 0 0;
+      letter-spacing: 0.03em;
+    }
+
+    /* ─── Section ──────────────────────────────────────────── */
+    .section { margin-top: 48px; }
+
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 3px;
+      height: 14px;
+      border-radius: 2px;
+      background: var(--blue);
+    }
+
+    /* ─── Cards ────────────────────────────────────────────── */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px 22px;
+    }
+
+    .card + .card { margin-top: 10px; }
+
+    /* ─── Plan Progress ────────────────────────────────────── */
+    .plan-track {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .plan-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      transition: border-color 0.15s;
+    }
+
+    .plan-item:hover { border-color: #444c56; }
+
+    .plan-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .plan-dot.complete   { background: var(--green-bg);  border: 2px solid var(--green);  }
+    .plan-dot.inprogress { background: var(--blue-bg);   border: 2px solid var(--blue);   }
+    .plan-dot.upcoming   { background: var(--gray-bg);   border: 2px solid var(--border); }
+
+    .plan-body { min-width: 0; }
+
+    .plan-name {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+    }
+
+    .plan-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .plan-status-pill {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+    }
+
+    .pill-complete   { color: var(--green);  background: var(--green-bg);  border: 1px solid rgba(63,185,80,0.3);  }
+    .pill-inprogress { color: var(--blue);   background: var(--blue-bg);   border: 1px solid rgba(56,139,253,0.35); }
+    .pill-upcoming   { color: var(--gray);   background: var(--gray-bg);   border: 1px solid var(--border-subtle); }
+
+    /* overall progress bar */
+    .progress-bar-wrap {
+      margin-bottom: 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+    }
+
+    .progress-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      margin-bottom: 10px;
+    }
+
+    .progress-bar-label strong { color: var(--text-primary); }
+
+    .progress-track {
+      height: 8px;
+      background: var(--bg-code);
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 50%;
+      border-radius: 6px;
+      background: linear-gradient(90deg, #3fb950 0%, #388bfd 50%, #388bfd 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      animation: shimmer 2.5s infinite;
+    }
+
+    @keyframes shimmer {
+      to { left: 200%; }
+    }
+
+    /* ─── Architecture ─────────────────────────────────────── */
+    .arch-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .arch-card-header {
+      padding: 10px 18px;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+    }
+
+    .arch-code {
+      padding: 20px 22px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.8;
+      color: #c9d1d9;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .arch-code .c-dim    { color: var(--text-muted); }
+    .arch-code .c-arrow  { color: #388bfd; }
+    .arch-code .c-agent  { color: #79c0ff; font-weight: 600; }
+    .arch-code .c-label  { color: #56d364; }
+    .arch-code .c-event  { color: #d2a8ff; }
+    .arch-code .c-pipe   { color: var(--text-muted); }
+    .arch-code .c-sub    { color: #f0a84e; }
+
+    /* ─── Test Status ──────────────────────────────────────── */
+    .test-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .test-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px 20px;
+      text-align: center;
+    }
+
+    .test-num {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .test-num.green  { color: var(--green); }
+    .test-num.blue   { color: var(--blue); }
+    .test-num.purple { color: var(--purple); }
+
+    .test-label {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .test-note {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 20px;
+      font-size: 0.83rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .test-note .dot { color: var(--green); font-size: 1rem; }
+
+    /* ─── Issues / Tech Debt ───────────────────────────────── */
+    .issue-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .issue-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 18px;
+      border-radius: 9px;
+      border: 1px solid;
+      font-size: 0.83rem;
+    }
+
+    .issue-item.red    { background: var(--red-bg);    border-color: rgba(248,81,73,0.25); }
+    .issue-item.yellow { background: var(--orange-bg); border-color: rgba(227,179,65,0.25); }
+    .issue-item.green  { background: var(--green-bg);  border-color: rgba(63,185,80,0.25); }
+
+    .issue-icon { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    .issue-body {}
+    .issue-text { color: var(--text-primary); line-height: 1.5; }
+    .issue-text code {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: rgba(255,255,255,0.07);
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+    .issue-fix {
+      margin-top: 3px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* ─── Plan 2.5 Scope ───────────────────────────────────── */
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 10px;
+    }
+
+    .scope-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scope-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--blue), var(--purple));
+    }
+
+    .scope-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 8px;
+    }
+
+    .scope-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+
+    .scope-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .scope-desc code {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: rgba(255,255,255,0.07);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: #c9d1d9;
+    }
+
+    /* ─── File Map ─────────────────────────────────────────── */
+    .file-map-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .file-map-header {
+      padding: 10px 18px;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-map-header::before {
+      content: '';
+      display: inline-block;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #f85149;
+      box-shadow: 16px 0 0 #e3b341, 32px 0 0 #3fb950;
+    }
+
+    .file-map-code {
+      padding: 18px 22px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 1.9;
+      color: #c9d1d9;
+      white-space: pre;
+      overflow-x: auto;
+    }
+
+    .file-map-code .fm-dir    { color: #79c0ff; font-weight: 600; }
+    .file-map-code .fm-file   { color: #e6edf3; }
+    .file-map-code .fm-tree   { color: var(--text-muted); }
+    .file-map-code .fm-desc   { color: var(--text-muted); font-style: italic; }
+    .file-map-code .fm-dash   { color: var(--border); }
+
+    /* ─── WebSocket Protocol ───────────────────────────────── */
+    .ws-wrap {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .ws-header {
+      padding: 10px 18px;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+    }
+
+    .ws-body {
+      padding: 18px 22px;
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      line-height: 2;
+      overflow-x: auto;
+    }
+
+    .ws-row { display: flex; gap: 10px; align-items: baseline; }
+    .ws-dir  { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; white-space: nowrap; }
+    .ws-dir.client { color: var(--blue); }
+    .ws-dir.server { color: var(--green); }
+    .ws-json { color: #c9d1d9; }
+    .ws-key  { color: #79c0ff; }
+    .ws-str  { color: #a5d6ff; }
+    .ws-cmt  { color: var(--text-muted); font-style: italic; padding-left: 4px; }
+
+    /* ─── Running Locally ──────────────────────────────────── */
+    .run-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .run-block-header {
+      padding: 10px 18px;
+      background: var(--bg-card-alt);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+      letter-spacing: 0.05em;
+    }
+
+    .run-code {
+      padding: 18px 22px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.9;
+      color: #c9d1d9;
+    }
+
+    .run-comment { color: #8b949e; }
+    .run-cmd     { color: #e6edf3; }
+    .run-cmd::before { content: '$ '; color: var(--green); }
+
+    /* ─── Footer ───────────────────────────────────────────── */
+    .footer {
+      margin-top: 64px;
+      padding: 24px;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* ─── Responsive ───────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .project-name { font-size: 1.7rem; }
+      .plan-item { grid-template-columns: auto 1fr; }
+      .plan-status-pill { display: none; }
+      .arch-code, .file-map-code, .ws-body, .run-code { font-size: 0.72rem; }
+      .test-grid { grid-template-columns: repeat(2, 1fr); }
+      .scope-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ HEADER -->
+<header class="header">
+  <div class="header-inner">
+    <div class="project-name">nl2sql<span>-viz</span></div>
+    <p class="tagline">"Ask natural language questions about your database. Get instant Vega-Lite charts."</p>
+    <div class="stack-badges">
+      <span class="badge badge-blue">Python 3.12</span>
+      <span class="badge badge-green">FastAPI</span>
+      <span class="badge badge-blue">AsyncAnthropic</span>
+      <span class="badge badge-orange">BUN</span>
+      <span class="badge badge-blue">Next.js</span>
+      <span class="badge badge-gray">PostgreSQL</span>
+    </div>
+    <p class="updated-at">Last updated: 2026-03-25</p>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- ═══════════════════════════════════════════ PLAN PROGRESS -->
+  <section class="section">
+    <div class="section-title">Plan Progress</div>
+
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-label">
+        <span>Overall completion</span>
+        <strong>2 of 5 plans complete · Plan 2.5 in progress</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+    </div>
+
+    <div class="plan-track">
+
+      <div class="plan-item">
+        <div class="plan-dot complete">✅</div>
+        <div class="plan-body">
+          <div class="plan-name">Plan 1 — Core Agent Loop</div>
+          <div class="plan-desc">NL2SQL + Vega-Lite charts via WebSocket</div>
+        </div>
+        <span class="plan-status-pill pill-complete">Complete</span>
+      </div>
+
+      <div class="plan-item">
+        <div class="plan-dot complete">✅</div>
+        <div class="plan-body">
+          <div class="plan-name">Plan 2 — BUN Sandbox</div>
+          <div class="plan-desc">Server-side JS transforms via CodeExecAgent</div>
+        </div>
+        <span class="plan-status-pill pill-complete">Complete</span>
+      </div>
+
+      <div class="plan-item">
+        <div class="plan-dot inprogress">🔄</div>
+        <div class="plan-body">
+          <div class="plan-name">Plan 2.5 — Hardening</div>
+          <div class="plan-desc">Async clients, SQLite sessions, request guard</div>
+        </div>
+        <span class="plan-status-pill pill-inprogress">In Progress</span>
+      </div>
+
+      <div class="plan-item">
+        <div class="plan-dot upcoming">🔜</div>
+        <div class="plan-body">
+          <div class="plan-name">Plan 3 — Real-time Layer</div>
+          <div class="plan-desc">CDC/Debezium, Kafka consumer, scheduled refresh</div>
+        </div>
+        <span class="plan-status-pill pill-upcoming">Upcoming</span>
+      </div>
+
+      <div class="plan-item">
+        <div class="plan-dot upcoming">🔜</div>
+        <div class="plan-body">
+          <div class="plan-name">Plan 4 — Frontend Polish</div>
+          <div class="plan-desc">Dashboard builder, DB connection wizard, saved queries</div>
+        </div>
+        <span class="plan-status-pill pill-upcoming">Upcoming</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ ARCHITECTURE -->
+  <section class="section">
+    <div class="section-title">Architecture</div>
+    <div class="arch-card">
+      <div class="arch-card-header">pipeline · coordinator.py</div>
+      <div class="arch-code"><span class="c-label">User NL query</span>
+    <span class="c-arrow">↓</span> WebSocket <span class="c-dim">(auth handshake first)</span>
+<span class="c-agent">Coordinator</span>
+    <span class="c-pipe">├──</span> <span class="c-agent">Claude Haiku</span>  <span class="c-arrow">→</span> route: <span class="c-label">sql_only</span> | <span class="c-label">needs_transform</span>
+    <span class="c-pipe">├──</span> <span class="c-agent">SchemaAgent</span>   <span class="c-arrow">→</span> introspects DB, caches 10min
+    <span class="c-pipe">├──</span> <span class="c-agent">SQLAgent</span>      <span class="c-arrow">→</span> NL<span class="c-arrow">→</span>SQL, retries 3x on error
+    <span class="c-pipe">├──</span> <span class="c-agent">CodeExecAgent</span> <span class="c-dim">(needs_transform only)</span>
+    <span class="c-pipe">│</span>     <span class="c-pipe">└──</span> <span class="c-sub">BunSandbox</span>  <span class="c-arrow">→</span> JS subprocess, isolated env
+    <span class="c-pipe">└──</span> <span class="c-agent">VizAgent</span>      <span class="c-arrow">→</span> Vega-Lite v5 spec
+    <span class="c-arrow">↓</span> WebSocket events: <span class="c-event">progress</span> | <span class="c-event">sql</span> | <span class="c-event">result</span> | <span class="c-event">error</span>
+<span class="c-label">Frontend (Next.js)</span>  <span class="c-arrow">→</span> vega-embed renders chart</div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ TEST STATUS -->
+  <section class="section">
+    <div class="section-title">Test Status</div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-num green">42</div>
+        <div class="test-label">Total Passing</div>
+      </div>
+      <div class="test-card">
+        <div class="test-num blue">24</div>
+        <div class="test-label">Unit Tests</div>
+      </div>
+      <div class="test-card">
+        <div class="test-num purple">12</div>
+        <div class="test-label">Integration Tests</div>
+      </div>
+      <div class="test-card">
+        <div class="test-num" style="color: var(--orange);">6</div>
+        <div class="test-label">Security Tests</div>
+      </div>
+    </div>
+    <div class="test-note">
+      <span class="dot">✅</span>
+      Real BUN + Real Postgres + Real Claude — no mocks for integration layer
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ KNOWN ISSUES -->
+  <section class="section">
+    <div class="section-title">Known Issues / Tech Debt</div>
+    <div class="issue-list">
+
+      <div class="issue-item red">
+        <span class="issue-icon">🔴</span>
+        <div class="issue-body">
+          <div class="issue-text"><code>SQLAgent</code> + <code>VizAgent</code> use sync <code>Anthropic()</code> — blocks the event loop under concurrent load</div>
+          <div class="issue-fix">Fix target: Plan 2.5 — swap to <code>AsyncAnthropic()</code></div>
+        </div>
+      </div>
+
+      <div class="issue-item red">
+        <span class="issue-icon">🔴</span>
+        <div class="issue-body">
+          <div class="issue-text"><code>_users</code> dict is in-memory — all sessions are lost on restart</div>
+          <div class="issue-fix">Fix target: Plan 2.5 — SQLite session store behind an interface</div>
+        </div>
+      </div>
+
+      <div class="issue-item yellow">
+        <span class="issue-icon">🟡</span>
+        <div class="issue-body">
+          <div class="issue-text">DSN passed raw in WebSocket messages — potential SSRF risk if untrusted clients connect</div>
+          <div class="issue-fix">Fix target: Plan 4 — DB connection wizard with server-side DSN registry</div>
+        </div>
+      </div>
+
+      <div class="issue-item yellow">
+        <span class="issue-icon">🟡</span>
+        <div class="issue-body">
+          <div class="issue-text">No rate limiting or per-request timeouts — a slow query can hold a WebSocket open indefinitely</div>
+          <div class="issue-fix">Fix target: Plan 2.5 — 30s wall-clock timeout + N queries/min per session</div>
+        </div>
+      </div>
+
+      <div class="issue-item green">
+        <span class="issue-icon">🟢</span>
+        <div class="issue-body">
+          <div class="issue-text"><code>security.py</code> (AES-256-GCM encryption) is built and tested but currently unused</div>
+          <div class="issue-fix">Ready to activate in Plan 4 for encrypted DSN storage</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ PLAN 2.5 SCOPE -->
+  <section class="section">
+    <div class="section-title">Plan 2.5 — What's Being Built Now</div>
+    <div class="scope-grid">
+
+      <div class="scope-card">
+        <div class="scope-num">Task 1</div>
+        <div class="scope-title">Async Clients</div>
+        <div class="scope-desc">
+          Replace <code>Anthropic()</code> with <code>AsyncAnthropic()</code> in
+          <code>sql_agent.py</code> and <code>viz_agent.py</code>.
+          Eliminates the sync bottleneck so the FastAPI event loop stays
+          non-blocking under concurrent WebSocket connections.
+        </div>
+      </div>
+
+      <div class="scope-card">
+        <div class="scope-num">Task 2</div>
+        <div class="scope-title">SQLite Session Store</div>
+        <div class="scope-desc">
+          Abstract <code>_users</code> and session data behind a clean interface,
+          backed by SQLite. Sessions survive process restarts and can later be
+          swapped to Postgres without touching agent code.
+        </div>
+      </div>
+
+      <div class="scope-card">
+        <div class="scope-num">Task 3</div>
+        <div class="scope-title">Request Guard</div>
+        <div class="scope-desc">
+          30-second wall-clock timeout per WebSocket request. Rate limit of
+          N queries/minute per session. Protects against runaway queries
+          and basic abuse without needing a full API gateway.
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ KEY FILES -->
+  <section class="section">
+    <div class="section-title">Key Files Map</div>
+    <div class="file-map-wrap">
+      <div class="file-map-header">nl2sql-viz/app/ · nl2sql-viz/frontend/src/</div>
+      <div class="file-map-code"><span class="fm-dir">app/</span>
+<span class="fm-tree">├── </span><span class="fm-file">main.py</span>                  <span class="fm-dash">—</span> <span class="fm-desc">FastAPI app, WebSocket endpoint, REST routes</span>
+<span class="fm-tree">├── core/</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">auth.py</span>              <span class="fm-dash">—</span> <span class="fm-desc">API key generation (Argon2)</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">security.py</span>          <span class="fm-dash">—</span> <span class="fm-desc">AES-256-GCM encryption (unused until Plan 4)</span>
+<span class="fm-tree">│   └── </span><span class="fm-file">session.py</span>           <span class="fm-dash">—</span> <span class="fm-desc">Session store (in-memory → SQLite in Plan 2.5)</span>
+<span class="fm-tree">├── connectors/</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">base.py</span>              <span class="fm-dash">—</span> <span class="fm-desc">BaseConnector ABC</span>
+<span class="fm-tree">│   └── </span><span class="fm-file">postgres.py</span>          <span class="fm-dash">—</span> <span class="fm-desc">asyncpg, read-only enforcement</span>
+<span class="fm-tree">├── agents/</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">coordinator.py</span>       <span class="fm-dash">—</span> <span class="fm-desc">Pipeline orchestrator + routing</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">schema_agent.py</span>      <span class="fm-dash">—</span> <span class="fm-desc">Schema introspection + 10min cache</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">sql_agent.py</span>         <span class="fm-dash">—</span> <span class="fm-desc">NL→SQL with 3x retry on error</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">viz_agent.py</span>         <span class="fm-dash">—</span> <span class="fm-desc">Vega-Lite spec generation</span>
+<span class="fm-tree">│   └── </span><span class="fm-file">code_exec_agent.py</span>   <span class="fm-dash">—</span> <span class="fm-desc">JS transform via Claude + BUN</span>
+<span class="fm-tree">└── execution/</span>
+<span class="fm-tree">    └── </span><span class="fm-file">bun_sandbox.py</span>       <span class="fm-dash">—</span> <span class="fm-desc">BUN subprocess runner, isolated env</span>
+
+<span class="fm-dir">frontend/src/</span>
+<span class="fm-tree">├── app/</span>
+<span class="fm-tree">│   └── </span><span class="fm-file">page.tsx</span>             <span class="fm-dash">—</span> <span class="fm-desc">Main page</span>
+<span class="fm-tree">├── components/</span>
+<span class="fm-tree">│   ├── </span><span class="fm-file">QueryInput.tsx</span>       <span class="fm-dash">—</span> <span class="fm-desc">Input form</span>
+<span class="fm-tree">│   └── </span><span class="fm-file">VegaChart.tsx</span>        <span class="fm-dash">—</span> <span class="fm-desc">vega-embed renderer</span>
+<span class="fm-tree">└── lib/</span>
+<span class="fm-tree">    └── </span><span class="fm-file">ws.ts</span>                <span class="fm-dash">—</span> <span class="fm-desc">WebSocket client with auth</span></div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ WS PROTOCOL -->
+  <section class="section">
+    <div class="section-title">WebSocket Protocol</div>
+    <div class="ws-wrap">
+      <div class="ws-header">message · sequence</div>
+      <div class="ws-body">
+        <div class="ws-row">
+          <span class="ws-dir client">CLIENT →</span>
+          <span class="ws-json">{<span class="ws-key">"type"</span>: <span class="ws-str">"auth"</span>, <span class="ws-key">"api_key"</span>: <span class="ws-str">"..."</span>}</span>
+        </div>
+        <div class="ws-row">
+          <span class="ws-dir server">SERVER →</span>
+          <span class="ws-json">{<span class="ws-key">"type"</span>: <span class="ws-str">"authenticated"</span>, <span class="ws-key">"user_id"</span>: <span class="ws-str">"..."</span>}</span>
+        </div>
+        <div class="ws-row">
+          <span class="ws-dir client">CLIENT →</span>
+          <span class="ws-json">{<span class="ws-key">"type"</span>: <span class="ws-str">"query"</span>, <span class="ws-key">"query"</span>: <span class="ws-str">"..."</span>, <span class="ws-key">"dsn"</span>: <span class="ws-str">"postgresql://..."</span>}</span>
+        </div>
+        <div class="ws-row">
+          <span class="ws-dir server">SERVER →</span>
+          <span class="ws-json">{<span class="ws-key">"type"</span>: <span class="ws-str">"progress"</span>, <span class="ws-key">"message"</span>: <span class="ws-str">"..."</span>} <span class="ws-cmt">← multiple</span></span>
+        </div>
+        <div class="ws-row">
+          <span class="ws-dir server">SERVER →</span>
+          <span class="ws-json">{<span class="ws-key">"type"</span>: <span class="ws-str">"sql"</span>, <span class="ws-key">"sql"</span>: <span class="ws-str">"SELECT ..."</span>}</span>
+        </div>
+        <div class="ws-row">
+          <span class="ws-dir server">SERVER →</span>
+          <span class="ws-json">{<span class="ws-key">"type"</span>: <span class="ws-str">"result"</span>, <span class="ws-key">"vega_spec"</span>: <span class="ws-str">"..."</span>, <span class="ws-key">"sql"</span>: <span class="ws-str">"..."</span>}</span>
+        </div>
+        <div class="ws-row">
+          <span class="ws-dir server">SERVER →</span>
+          <span class="ws-json">{<span class="ws-key">"type"</span>: <span class="ws-str">"error"</span>, <span class="ws-key">"message"</span>: <span class="ws-str">"..."</span>} <span class="ws-cmt">← on failure</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════ RUNNING LOCALLY -->
+  <section class="section">
+    <div class="section-title">Running Locally</div>
+    <div class="run-block">
+      <div class="run-block-header">bash · startup commands</div>
+      <div class="run-code">
+        <div class="run-comment"># Backend</div>
+        <div class="run-cmd">cp .env.example .env</div>
+        <div style="color: var(--text-muted); font-size: 0.76rem; padding-left: 16px; margin-bottom: 4px;">  — add ANTHROPIC_API_KEY + SECRET_KEY</div>
+        <div class="run-cmd">uv run uvicorn app.main:app --reload --port 8000</div>
+        <br>
+        <div class="run-comment"># Tests</div>
+        <div class="run-cmd">uv run pytest tests/ -v</div>
+        <div style="color: var(--text-muted); font-size: 0.76rem; padding-left: 16px; margin-bottom: 4px;">  — 42 tests</div>
+        <br>
+        <div class="run-comment"># Frontend</div>
+        <div class="run-cmd">cd frontend && npm run dev</div>
+        <div style="color: var(--text-muted); font-size: 0.76rem; padding-left: 16px;">  — http://localhost:3000</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-wrap -->
+
+<footer class="footer">
+  nl2sql-viz · personal reference · updated 2026-03-25
+</footer>
+
+</body>
+</html>
