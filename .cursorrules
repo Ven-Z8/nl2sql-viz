@@ -90,6 +90,37 @@ Server → {"type": "result", "vega_spec": "{...}", "sql": "SELECT ..."}
 Server → {"type": "error", "message": "..."}
 ```
 
+## Code Exec Agent Protocol
+
+When the Coordinator routes to `needs_transform` (decided by Claude Haiku, `max_tokens=5`):
+1. SQL Agent runs first — produces raw rows
+2. `CodeExecAgent` generates JS via Claude (`claude-sonnet-4-6`), executes in `BunSandbox`
+3. JS receives `rows` (array of objects), must define `result` (array of objects)
+4. On success: transformed `rows` passed to VizAgent
+5. On timeout/error: fallback to original SQL rows with a progress warning event
+
+BunSandbox JS wrapper template:
+```javascript
+const input = JSON.parse(await Bun.stdin.text());
+const rows = input.rows;
+// USER CODE — must define `result`
+process.stdout.write(JSON.stringify(result));
+```
+
+Production isolation: Docker `--network=none --read-only --memory=512m --cpus=1`
+Dev: plain asyncio subprocess (no Docker), timeout enforced via `asyncio.wait_for`
+
+### Key files added in Plan 2
+- `app/execution/bun_sandbox.py` — `BunSandbox`, `BunSandboxError`, `BunTimeoutError`
+- `app/agents/code_exec_agent.py` — `CodeExecAgent` (uses `AsyncAnthropic`)
+- `app/agents/coordinator.py` — now includes `_decide_route()` branching logic
+
+### Async client rule
+All Anthropic API calls **must** use `AsyncAnthropic` (not `Anthropic`) inside `async def` functions.
+`Anthropic()` blocks the event loop — `AsyncAnthropic()` + `await` does not.
+
+---
+
 ## What NOT to Do
 
 - **Never** use `import openai` or any non-Anthropic LLM SDK
@@ -123,7 +154,7 @@ npm run dev   # http://localhost:3000
 | Plan | Status | What it adds |
 |------|--------|-------------|
 | Plan 1 — Core Agent Loop | ✅ Complete | NL2SQL + Vega-Lite charts via WebSocket |
-| Plan 2 — BUN Sandbox | 🔜 Next | Server-side JS execution for complex transforms (Docker sidecar pool) |
+| Plan 2 — BUN Sandbox | ✅ Complete | Server-side JS execution for complex transforms via BunSandbox + CodeExecAgent |
 | Plan 3 — Real-time Layer | 🔜 | CDC/Debezium, Kafka consumer, scheduled refresh |
 | Plan 4 — Frontend Polish | 🔜 | Dashboard builder, DB connection wizard, saved queries |
 
