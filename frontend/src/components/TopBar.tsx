@@ -48,8 +48,8 @@ export default function TopBar({ connected }: TopBarProps) {
           gap: "6px",
           padding: "4px 10px",
           borderRadius: "999px",
-          background: connected ? "#0d2b14" : "var(--bg-input)",
-          border: `1px solid ${connected ? "#238636" : "var(--border)"}`,
+          background: connected ? "var(--green-bg)" : "var(--bg-input)",
+          border: `1px solid ${connected ? "var(--green-border)" : "var(--border)"}`,
           fontSize: "12px",
           color: connected ? "var(--green)" : "var(--text-muted)",
         }}

@@ -18,7 +18,9 @@
   --accent-dim:  #06b6d444;
   --accent-hist: #071922;
 
-  --green:   #3fb950;
+  --green:        #3fb950;
+  --green-bg:     #0d2b14;
+  --green-border: #238636;
 
   --kw-color:  #06b6d4;
   --fn-color:  #a5f3fc;
