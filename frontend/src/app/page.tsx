@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { QueryWebSocket } from "@/lib/ws";
 import TopBar from "@/components/TopBar";
 import LeftPanel, { HistoryItem } from "@/components/LeftPanel";
@@ -29,15 +29,6 @@ export default function Home() {
   const [resultTitle, setResultTitle] = useState("");
 
   const wsRef = useRef<QueryWebSocket | null>(null);
-
-  // Mark the last active log entry as done
-  const markLastDone = useCallback(() => {
-    setLogs((prev) =>
-      prev.map((e, i) =>
-        i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
-      )
-    );
-  }, []);
 
   useEffect(() => {
     if (!API_KEY) return;
@@ -108,7 +99,7 @@ export default function Home() {
       ws.disconnect();
       setConnected(false);
     };
-  }, [markLastDone]);
+  }, []);
 
   const handleSubmit = () => {
     if (!query.trim() || isLoading) return;
