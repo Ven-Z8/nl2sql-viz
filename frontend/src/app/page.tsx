@@ -1,65 +1,162 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { QueryWebSocket } from "@/lib/ws";
-import QueryInput from "@/components/QueryInput";
-import VegaChart from "@/components/VegaChart";
+import TopBar from "@/components/TopBar";
+import LeftPanel, { HistoryItem } from "@/components/LeftPanel";
+import RightPanel from "@/components/RightPanel";
+import { LogEntry } from "@/components/LogStream";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY ?? "";
 const DSN = process.env.NEXT_PUBLIC_DSN ?? "";
 
+function now(): string {
+  return new Date().toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
+
 export default function Home() {
-  const [status, setStatus] = useState<string>("Connecting...");
-  const [loading, setLoading] = useState(false);
+  const [query, setQuery] = useState("");
+  const [logs, setLogs] = useState<LogEntry[]>([]);
+  const [history, setHistory] = useState<HistoryItem[]>([]);
   const [vegaSpec, setVegaSpec] = useState<string | null>(null);
+  const [sql, setSql] = useState("");
+  const [sqlVisible, setSqlVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [connected, setConnected] = useState(false);
+  const [resultTitle, setResultTitle] = useState("");
+
   const wsRef = useRef<QueryWebSocket | null>(null);
 
+  // Mark the last active log entry as done
+  const markLastDone = useCallback(() => {
+    setLogs((prev) =>
+      prev.map((e, i) =>
+        i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
+      )
+    );
+  }, []);
+
   useEffect(() => {
-    if (!API_KEY) {
-      setStatus("Missing API key — set NEXT_PUBLIC_API_KEY in .env.local");
-      return;
-    }
+    if (!API_KEY) return;
 
     const ws = new QueryWebSocket(API_KEY, (event) => {
-      if (event.type === "progress") setStatus(event.message as string);
-      if (event.type === "result") {
-        setVegaSpec(event.vega_spec as string);
-        setLoading(false);
-        setStatus("Done");
+      if (event.type === "progress") {
+        const msg = event.message as string;
+        setLogs((prev) => {
+          const updated = prev.map((e, i) =>
+            i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
+          );
+          return [...updated, { time: now(), icon: "run" as const, text: msg, active: true }];
+        });
       }
+
+      if (event.type === "sql") {
+        const rawSql = event.sql as string;
+        setSql(rawSql);
+        setLogs((prev) => [
+          ...prev,
+          {
+            time: now(),
+            icon: "sql" as const,
+            text: rawSql.slice(0, 40) + (rawSql.length > 40 ? "…" : ""),
+            active: false,
+          },
+        ]);
+      }
+
+      if (event.type === "result") {
+        setLogs((prev) =>
+          prev.map((e, i) =>
+            i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
+          )
+        );
+        setVegaSpec(event.vega_spec as string);
+        if (event.sql) setSql(event.sql as string);
+        setIsLoading(false);
+      }
+
       if (event.type === "error") {
-        setStatus(`Error: ${event.message}`);
-        setLoading(false);
+        setLogs((prev) => {
+          const updated = prev.map((e, i) =>
+            i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
+          );
+          return [
+            ...updated,
+            {
+              time: now(),
+              icon: "run" as const,
+              text: `Error: ${event.message as string}`,
+              active: false,
+            },
+          ];
+        });
+        setIsLoading(false);
       }
     });
 
     ws.connect()
-      .then(() => setStatus("Connected — ask a question"))
-      .catch(() => setStatus("Failed to connect — is the backend running?"));
+      .then(() => {
+        wsRef.current = ws;
+        setConnected(true);
+      })
+      .catch(() => setConnected(false));
 
-    wsRef.current = ws;
-    return () => ws.disconnect();
-  }, []);
+    return () => {
+      ws.disconnect();
+      setConnected(false);
+    };
+  }, [markLastDone]);
 
-  const handleQuery = (query: string) => {
+  const handleSubmit = () => {
+    if (!query.trim() || isLoading) return;
+
     if (!DSN) {
-      setStatus("Missing DSN — set NEXT_PUBLIC_DSN in .env.local");
+      setLogs((prev) => [
+        ...prev,
+        { time: now(), icon: "run", text: "Missing DSN — set NEXT_PUBLIC_DSN", active: false },
+      ]);
       return;
     }
-    setLoading(true);
+
+    // Reset result state
+    setLogs([]);
     setVegaSpec(null);
+    setSql("");
+    setSqlVisible(false);
+    setIsLoading(true);
+    setResultTitle(query);
+
+    // Prepend to history
+    setHistory((prev) => [{ query, timestamp: now() }, ...prev]);
+
     wsRef.current?.sendQuery(query, DSN);
   };
 
   return (
-    <main className="max-w-3xl mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-2">DataLens AI</h1>
-      <p className="text-gray-500 text-sm mb-6">{status}</p>
-      <QueryInput onSubmit={handleQuery} disabled={loading} />
-      {vegaSpec && (
-        <div className="mt-8">
-          <VegaChart spec={vegaSpec} />
-        </div>
-      )}
-    </main>
+    <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
+      <TopBar connected={connected} />
+      <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
+        <LeftPanel
+          query={query}
+          onQueryChange={setQuery}
+          onSubmit={handleSubmit}
+          isLoading={isLoading}
+          logs={logs}
+          history={history}
+          activeHistoryIndex={history.length > 0 ? 0 : null}
+          onHistoryClick={(q) => setQuery(q)}
+        />
+        <RightPanel
+          title={resultTitle}
+          vegaSpec={vegaSpec}
+          sql={sql}
+          sqlVisible={sqlVisible}
+          onToggleSql={() => setSqlVisible((v) => !v)}
+        />
+      </div>
+    </div>
   );
 }
