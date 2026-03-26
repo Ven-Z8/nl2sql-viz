@@ -1,0 +1,117 @@
+---
+description: DataLens AI — project overview, architecture, and current state
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# DataLens AI
+
+Ask natural language questions about your database. Get real-time streaming logs and instant Vega-Lite charts.
+
+## Current State (as of 2026-03-25)
+
+| Plan | Status | Summary |
+|------|--------|---------|
+| Plan 1 — Core Agent Loop | ✅ Done | NL→SQL→Vega pipeline, WebSocket, auth |
+| Plan 2 — BUN Sandbox | ✅ Done | Server-side JS execution for complex transforms |
+| Plan 2.5 — Hardening | ✅ Done | AsyncAnthropic, SQLite UserStore, timeout + rate limit |
+| Frontend — DataLens UI | ✅ Done | Full two-panel UI: streaming logs, Vega charts, history |
+| Plan 3 — Real-time Layer | 🔜 Next | CDC/Debezium, Kafka consumer, scheduled refresh |
+| Plan 4 — Frontend Polish | 🔜 | Dashboard builder, DB connection wizard, saved queries |
+
+## Architecture
+
+```
+User (browser)
+  ↕ WebSocket (ws://localhost:8000/ws/query)
+FastAPI app/main.py
+  └── Coordinator (app/agents/coordinator.py)
+        ├── SchemaAgent    → DB schema introspection, cached 10min per session
+        ├── SQLAgent       → NL→SQL via Claude, retries 3x with error feedback
+        ├── CodeExecAgent  → JS transform in BunSandbox (when needed)
+        └── VizAgent       → rows + query → Vega-Lite v5 JSON spec
+```
+
+## Full File Map
+
+```
+app/
+├── main.py                      # FastAPI: REST /api/register, WS /ws/query
+├── core/
+│   ├── auth.py                  # API key gen (secrets.token_urlsafe) + Argon2 hash
+│   ├── security.py              # AES-256-GCM credential encryption
+│   ├── session.py               # In-memory SessionStore + schema cache (TTL 10min)
+│   └── user_store.py            # SQLite-backed UserStore (aiosqlite → data/users.db)
+├── connectors/
+│   ├── base.py                  # BaseConnector ABC
+│   └── postgres.py              # asyncpg, read-only enforced
+├── agents/
+│   ├── coordinator.py           # Orchestrator: yields WS events, routes sql_only vs needs_transform
+│   ├── schema_agent.py          # Schema introspection + compact map
+│   ├── sql_agent.py             # Multi-turn NL2SQL + retry (AsyncAnthropic)
+│   ├── viz_agent.py             # Vega-Lite v5 spec generation (AsyncAnthropic)
+│   └── code_exec_agent.py       # JS generation + BunSandbox execution
+└── execution/
+    └── bun_sandbox.py           # BunSandbox, BunSandboxError, BunTimeoutError
+
+frontend/src/
+├── app/
+│   ├── page.tsx                 # Shell: all state + WS event routing
+│   ├── layout.tsx               # Title "DataLens AI", full-height body
+│   └── globals.css              # Color tokens, blink animation, .kw/.fn/.id/.lit
+├── components/
+│   ├── TopBar.tsx               # Logo + Connected/Disconnected pill
+│   ├── LeftPanel.tsx            # Query textarea, Ask button, LogStream, history list
+│   ├── LogStream.tsx            # Streaming activity log with icon rows + blink cursor
+│   ├── RightPanel.tsx           # Vega chart area + collapsible SQL panel
+│   └── VegaChart.tsx            # vega-embed lifecycle (keep unchanged)
+└── lib/
+    └── ws.ts                    # QueryWebSocket: auth handshake, sendQuery (keep unchanged)
+
+tests/
+├── unit/                        # No API key or Postgres needed
+└── integration/                 # Needs Postgres + ANTHROPIC_API_KEY
+```
+
+## WebSocket Protocol
+
+```
+Client → {"type": "auth", "api_key": "nlq_..."}
+Server → {"type": "authenticated"}
+Client → {"type": "query", "query": "...", "dsn": "postgresql://..."}
+Server → {"type": "progress", "message": "Analyzing schema..."}   (multiple)
+Server → {"type": "sql", "sql": "SELECT ..."}
+Server → {"type": "progress", "message": "Generating chart..."}
+Server → {"type": "result", "vega_spec": "{...}", "sql": "SELECT ...", "rows": [...]}
+         OR
+Server → {"type": "error", "message": "..."}
+```
+
+## Running Locally
+
+```bash
+# Backend
+cp .env.example .env   # add ANTHROPIC_API_KEY + SECRET_KEY
+uv run uvicorn app.main:app --reload --port 8000
+
+# Register and get your API key
+curl -X POST http://localhost:8000/api/register \
+  -H "Content-Type: application/json" -d '{"username": "yourname"}'
+
+# Frontend
+cd frontend
+# create .env.local:
+#   NEXT_PUBLIC_API_KEY=nlq_<from_above>
+#   NEXT_PUBLIC_DSN=postgresql://testuser:testpass@localhost:5432/testdb
+#   NEXT_PUBLIC_WS_URL=ws://localhost:8000/ws/query
+npm run dev   # → http://localhost:3000
+```
+
+## Tests
+
+```bash
+uv run pytest tests/unit/ -v                  # fast, no external services
+uv run pytest tests/integration/ -v           # needs Postgres + ANTHROPIC_API_KEY
+cd frontend && npx tsc --noEmit               # TypeScript check
+cd frontend && npm run build                  # full build
+```

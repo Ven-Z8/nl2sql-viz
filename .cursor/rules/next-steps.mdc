@@ -1,0 +1,84 @@
+---
+description: What to build next — Plan 3 (real-time) and Plan 4 (polish) roadmap
+globs: []
+alwaysApply: false
+---
+
+# What to Build Next
+
+## Plan 3 — Real-time Layer
+
+**Goal:** Push live data updates to connected dashboards without user re-querying.
+
+### Features
+- **CDC integration** — Debezium captures Postgres row changes and publishes to Kafka
+- **Kafka consumer** — Python consumer reads change events, re-runs affected queries
+- **Scheduled refresh** — per-saved-query refresh interval (e.g., every 60s)
+- **Push to browser** — backend broadcasts `{ type: "refresh", vega_spec, sql }` over existing WS
+
+### New files expected
+```
+app/
+├── streaming/
+│   ├── kafka_consumer.py    # aiokafka consumer
+│   └── refresh_scheduler.py # asyncio task scheduler per saved query
+```
+
+### Key decisions to make first
+- How are "saved queries" stored? (SQLite alongside users.db, or Postgres)
+- Should each connected client get its own Kafka consumer group, or shared?
+- Debezium CDC requires Postgres WAL — confirm `wal_level = logical` in docker-compose
+
+---
+
+## Plan 4 — Frontend Polish
+
+### Features
+
+**Connection Wizard**
+- UI to enter DSN (host, port, db, user, password) instead of raw connection string
+- Store encrypted DSN server-side (use `app.core.security.encrypt()`) and return a `connection_id`
+- Replace `dsn` in WS query messages with `connection_id` (fixes current SSRF exposure)
+
+**Saved Queries**
+- "Save" button on each result → stores `{query, sql, vega_spec, connection_id}` in SQLite
+- Sidebar section below History showing saved queries with ▶ replay button
+
+**Dashboard Builder**
+- Multi-panel layout — drag and drop saved queries into a grid
+- Each cell runs its query independently; cells refresh per Plan 3 schedule
+
+**DB Connection UI flow**
+```
+New Connection modal
+  → host / port / db / user / password fields
+  → POST /api/connections  (encrypts DSN, returns connection_id)
+  → connection_id stored in localStorage alongside API key
+  → WS query message: { type: "query", query: "...", connection_id: "..." }
+```
+
+---
+
+## Known Issues / Tech Debt
+
+| Issue | Severity | Fix |
+|-------|----------|-----|
+| DSN passed raw in WS messages | High | Move to connection_id (Plan 4) |
+| Auth is O(n × argon2) per WS connect | Medium | Add username to auth payload |
+| Rate limit is per-connection, not per-user | Low | Shared rate limit map keyed by user_id |
+| `connected` pill never goes grey mid-session | Low | Add `ws.onclose` callback after auth |
+| No SSH tunnel support | Low | Plan 4 connection wizard |
+
+---
+
+## Current Known Limitation: DSN Exposure
+
+The WebSocket query message includes the raw Postgres DSN:
+```json
+{ "type": "query", "query": "...", "dsn": "postgresql://user:pass@host/db" }
+```
+
+This is an SSRF risk — a malicious user could target internal network hosts.
+
+The fix (Plan 4): store DSNs server-side, issue `connection_id`, use that in query messages.
+Until then: only expose to trusted users (single-user local setup is safe).

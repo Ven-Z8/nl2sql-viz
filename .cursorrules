@@ -1,6 +1,7 @@
-# NL2SQL Viz — Cursor Rules
-# Ask natural language questions about your database. Get instant Vega-Lite charts.
-# Plan 1 (core agent loop) is complete. Plan 2 = BUN sandbox, Plan 3 = real-time, Plan 4 = frontend polish.
+# DataLens AI — Cursor Rules
+# Ask natural language questions about your database. Get real-time streaming logs and instant Vega-Lite charts.
+# Plans 1, 2, 2.5, and the full frontend (DataLens UI) are complete.
+# See .cursor/rules/ for full context: project.mdc, backend.mdc, frontend.mdc, next-steps.mdc
 
 ## Project Architecture
 
@@ -21,26 +22,37 @@ Frontend (Next.js) → renders via vega-embed
 ### Layer Map
 ```
 app/
-├── main.py                  # FastAPI app — REST + WebSocket endpoint
+├── main.py                      # FastAPI: REST /api/register, WS /ws/query
 ├── core/
-│   ├── auth.py              # API key generation (secrets) + Argon2 hashing
-│   ├── security.py          # AES-256-GCM credential encryption (Plan 2 use)
-│   └── session.py           # In-memory session store + schema cache (TTL 10min)
+│   ├── auth.py                  # API key gen (secrets) + Argon2 hashing
+│   ├── security.py              # AES-256-GCM credential encryption
+│   ├── session.py               # In-memory SessionStore + schema cache (TTL 10min)
+│   └── user_store.py            # SQLite-backed UserStore (data/users.db)
 ├── connectors/
-│   ├── base.py              # BaseConnector ABC — implement this to add new DBs
-│   └── postgres.py          # asyncpg implementation, read-only enforcement
-└── agents/
-    ├── coordinator.py       # Orchestrates the 3 sub-agents, yields WebSocket events
-    ├── schema_agent.py      # Schema introspection + compact schema map builder
-    ├── sql_agent.py         # Multi-turn Claude conversation for NL2SQL + retry
-    └── viz_agent.py         # Vega-Lite v5 spec generation from rows + query
+│   ├── base.py                  # BaseConnector ABC
+│   └── postgres.py              # asyncpg, read-only enforced
+├── agents/
+│   ├── coordinator.py           # Orchestrator: yields WS events, routes sql_only vs needs_transform
+│   ├── schema_agent.py          # Schema introspection + compact map
+│   ├── sql_agent.py             # NL2SQL + retry (AsyncAnthropic)
+│   ├── viz_agent.py             # Vega-Lite v5 spec generation (AsyncAnthropic)
+│   └── code_exec_agent.py       # JS generation + BunSandbox execution
+└── execution/
+    └── bun_sandbox.py           # BunSandbox, BunSandboxError, BunTimeoutError
 
 frontend/src/
-├── app/page.tsx             # Main page — WS connection, state, layout
+├── app/
+│   ├── page.tsx                 # Shell: all state + WS event routing
+│   ├── layout.tsx               # Title "DataLens AI", full-height body
+│   └── globals.css              # Color tokens, blink animation, .kw/.fn/.id/.lit
 ├── components/
-│   ├── QueryInput.tsx       # Form with text input + submit
-│   └── VegaChart.tsx        # vega-embed renderer with View lifecycle management
-└── lib/ws.ts                # QueryWebSocket class — auth handshake + query sending
+│   ├── TopBar.tsx               # Logo + Connected/Disconnected pill
+│   ├── LeftPanel.tsx            # Query textarea, Ask button, LogStream, history
+│   ├── LogStream.tsx            # Streaming activity log (done/run/sql icons)
+│   ├── RightPanel.tsx           # Vega chart + collapsible SQL panel
+│   └── VegaChart.tsx            # vega-embed lifecycle (keep unchanged)
+└── lib/
+    └── ws.ts                    # QueryWebSocket: auth handshake + sendQuery (keep unchanged)
 ```
 
 ## Tech Stack
@@ -156,6 +168,7 @@ npm run dev   # http://localhost:3000
 | Plan 1 — Core Agent Loop | ✅ Complete | NL2SQL + Vega-Lite charts via WebSocket |
 | Plan 2 — BUN Sandbox | ✅ Complete | Server-side JS execution for complex transforms via BunSandbox + CodeExecAgent |
 | Plan 2.5 — Hardening Sprint | ✅ Complete | AsyncAnthropic in all agents, SQLite user store (data/users.db), 30s query timeout + per-session rate limit |
+| Frontend — DataLens UI | ✅ Complete | Two-panel UI: streaming activity log, Vega charts, query history, SQL viewer |
 | Plan 3 — Real-time Layer | 🔜 | CDC/Debezium, Kafka consumer, scheduled refresh |
 | Plan 4 — Frontend Polish | 🔜 | Dashboard builder, DB connection wizard, saved queries |
 
