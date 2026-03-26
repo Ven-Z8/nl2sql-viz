@@ -38,7 +38,7 @@ export default function Home() {
         const msg = event.message as string;
         setLogs((prev) => {
           const updated = prev.map((e, i) =>
-            i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
+            e.active ? { ...e, active: false, icon: "done" as const } : e
           );
           return [...updated, { time: now(), icon: "run" as const, text: msg, active: true }];
         });
@@ -61,7 +61,7 @@ export default function Home() {
       if (event.type === "result") {
         setLogs((prev) =>
           prev.map((e, i) =>
-            i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
+            e.active ? { ...e, active: false, icon: "done" as const } : e
           )
         );
         setVegaSpec(event.vega_spec as string);
@@ -72,7 +72,7 @@ export default function Home() {
       if (event.type === "error") {
         setLogs((prev) => {
           const updated = prev.map((e, i) =>
-            i === prev.length - 1 && e.active ? { ...e, active: false, icon: "done" as const } : e
+            e.active ? { ...e, active: false, icon: "done" as const } : e
           );
           return [
             ...updated,
@@ -103,6 +103,14 @@ export default function Home() {
 
   const handleSubmit = () => {
     if (!query.trim() || isLoading) return;
+
+    if (!wsRef.current) {
+      setLogs((prev) => [
+        ...prev,
+        { time: now(), icon: "run" as const, text: "Not connected — check NEXT_PUBLIC_API_KEY", active: false },
+      ]);
+      return;
+    }
 
     if (!DSN) {
       setLogs((prev) => [
