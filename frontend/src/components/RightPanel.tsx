@@ -13,10 +13,12 @@ function highlightSQL(sql: string): string {
   const keywords = /\b(SELECT|FROM|WHERE|GROUP BY|ORDER BY|HAVING|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AS|AND|OR|NOT|IN|LIKE|LIMIT|OFFSET|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|WITH|UNION|DISTINCT|COUNT|SUM|AVG|MIN|MAX|CASE|WHEN|THEN|ELSE|END|NULL|IS|BY|ASC|DESC)\b/gi;
   const functions = /\b(count|sum|avg|min|max|coalesce|nullif|cast|extract|date_trunc|now|current_date|round|floor|ceil|abs|length|lower|upper|trim|substr|replace)\b/gi;
   const strings = /('(?:[^']|'')*')/g;
+  const identifiers = /(`[^`]+`|"[^"]+")/g;
   const numbers = /\b(\d+(?:\.\d+)?)\b/g;
 
   return sql
     .replace(strings, '<span class="lit">$1</span>')
+    .replace(identifiers, '<span class="id">$1</span>')
     .replace(numbers, '<span class="lit">$1</span>')
     .replace(functions, '<span class="fn">$&</span>')
     .replace(keywords, '<span class="kw">$&</span>');
