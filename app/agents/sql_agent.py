@@ -7,10 +7,27 @@ from anthropic import AsyncAnthropic
 
 from app.connectors.base import BaseConnector
 
-SQL_SYSTEM_PROMPT = """You are a SQL expert. Given a natural language query and a database schema,
-write a single valid PostgreSQL SELECT query that answers the question.
-Return ONLY the SQL query — no explanation, no markdown, no backticks.
-The query must be a SELECT or WITH statement."""
+SQL_SYSTEM_PROMPT = """You are a senior PostgreSQL analytics engineer for a BI copilot.
+Given a natural language business question and a compact database schema, write one
+safe, correct PostgreSQL query that answers the question.
+
+Hard rules:
+- Return ONLY the SQL query. No explanation, markdown, comments, or backticks.
+- The query must be a single read-only SELECT or WITH statement.
+- Do not use SELECT *.
+- Use explicit JOIN conditions from the schema relationships when available.
+- Choose the correct grain before aggregating. Avoid accidental fanout from joins.
+- Use clear aliases for computed metrics and dimensions.
+- For time-series questions, use DATE_TRUNC at the requested grain and ORDER BY time.
+- For ranking or "top/highest" questions, order by the metric and use a sensible LIMIT.
+- For averages and rates, guard division with NULLIF when needed.
+- When filtering text values from user wording, prefer case-insensitive comparisons
+  such as LOWER(column) = LOWER('value') unless exact casing is known from schema context.
+- Preserve NULL semantics unless the question asks to exclude NULLs.
+- Prefer simple SQL over clever SQL when both are correct.
+
+If a previous attempt failed, correct the SQL using the database error while keeping
+the same business intent."""
 
 
 class SQLAgent:
@@ -44,6 +61,14 @@ class SQLAgent:
 
             try:
                 rows = await self._connector.execute_read(sql)
+                if not rows and attempt < self._max_retries:
+                    last_error = (
+                        "The SQL ran successfully but returned zero rows. "
+                        "This may be caused by an exact text value or casing mismatch. "
+                        "Retry with case-insensitive text filters or a broader predicate "
+                        "while preserving the user's business intent."
+                    )
+                    continue
                 return {"status": "success", "sql": sql, "rows": rows, "attempts": attempt}
             except Exception as e:
                 last_error = str(e)

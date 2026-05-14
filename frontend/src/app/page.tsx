@@ -2,12 +2,13 @@
 import { useState, useEffect, useRef } from "react";
 import { QueryWebSocket } from "@/lib/ws";
 import TopBar from "@/components/TopBar";
-import LeftPanel, { HistoryItem } from "@/components/LeftPanel";
+import LeftPanel, { HistoryItem, SuggestedQuestion } from "@/components/LeftPanel";
 import RightPanel from "@/components/RightPanel";
 import { LogEntry } from "@/components/LogStream";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY ?? "";
 const DSN = process.env.NEXT_PUBLIC_DSN ?? "";
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 function now(): string {
   return new Date().toLocaleTimeString("en-US", {
@@ -22,18 +23,72 @@ export default function Home() {
   const [logs, setLogs] = useState<LogEntry[]>([]);
   const [history, setHistory] = useState<HistoryItem[]>([]);
   const [vegaSpec, setVegaSpec] = useState<string | null>(null);
+  const [rows, setRows] = useState<Record<string, unknown>[]>([]);
   const [sql, setSql] = useState("");
   const [sqlVisible, setSqlVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [connected, setConnected] = useState(false);
   const [resultTitle, setResultTitle] = useState("");
+  const [runtimeDsn, setRuntimeDsn] = useState(DSN);
+  const [datasetName, setDatasetName] = useState("Postgres Workspace");
+  const [connectionLabel, setConnectionLabel] = useState("Waiting for connection");
+  const [suggestedQuestions, setSuggestedQuestions] = useState<SuggestedQuestion[]>([]);
 
   const wsRef = useRef<QueryWebSocket | null>(null);
 
   useEffect(() => {
-    if (!API_KEY) return;
+    let cancelled = false;
 
-    const ws = new QueryWebSocket(API_KEY, (event) => {
+    const start = async () => {
+      let apiKey = API_KEY;
+      let dsn = DSN;
+
+      try {
+        const questionsResp = await fetch(`${API_URL}/api/demo/questions`);
+        if (questionsResp.ok) {
+          const body = (await questionsResp.json()) as {
+            dataset: string;
+            questions: SuggestedQuestion[];
+          };
+          if (!cancelled) {
+            setDatasetName(body.dataset);
+            setSuggestedQuestions(body.questions);
+          }
+        }
+
+        if (!apiKey || !dsn) {
+          const sessionResp = await fetch(`${API_URL}/api/demo/session`, {
+            method: "POST",
+          });
+          if (!sessionResp.ok) {
+            throw new Error("Could not create demo session");
+          }
+          const session = (await sessionResp.json()) as {
+            username: string;
+            api_key: string;
+            dsn: string;
+            dataset: string;
+          };
+          apiKey = session.api_key;
+          dsn = session.dsn;
+          if (!cancelled) {
+            setDatasetName(session.dataset);
+          }
+        }
+      } catch {
+        if (!apiKey || !dsn) {
+          if (!cancelled) {
+            setConnectionLabel("Set NEXT_PUBLIC_API_KEY and NEXT_PUBLIC_DSN");
+          }
+          return;
+        }
+      }
+
+      if (cancelled) return;
+      setRuntimeDsn(dsn);
+      setConnectionLabel(new URL(API_URL).host);
+
+      const ws = new QueryWebSocket(apiKey, (event) => {
       if (event.type === "progress") {
         const msg = event.message as string;
         setLogs((prev) => {
@@ -65,6 +120,7 @@ export default function Home() {
           )
         );
         setVegaSpec(event.vega_spec as string);
+        setRows((event.rows as Record<string, unknown>[] | undefined) ?? []);
         if (event.sql) setSql(event.sql as string);
         setIsLoading(false);
       }
@@ -86,17 +142,27 @@ export default function Home() {
         });
         setIsLoading(false);
       }
-    });
+      });
 
-    ws.connect()
-      .then(() => {
-        wsRef.current = ws;
-        setConnected(true);
-      })
-      .catch(() => setConnected(false));
+      ws.connect()
+        .then(() => {
+          if (cancelled) {
+            ws.disconnect();
+            return;
+          }
+          wsRef.current = ws;
+          setConnected(true);
+        })
+        .catch(() => {
+          if (!cancelled) setConnected(false);
+        });
+    };
+
+    void start();
 
     return () => {
-      ws.disconnect();
+      cancelled = true;
+      wsRef.current?.disconnect();
       setConnected(false);
     };
   }, []);
@@ -112,7 +178,7 @@ export default function Home() {
       return;
     }
 
-    if (!DSN) {
+    if (!runtimeDsn) {
       setLogs((prev) => [
         ...prev,
         { time: now(), icon: "run", text: "Missing DSN — set NEXT_PUBLIC_DSN", active: false },
@@ -123,6 +189,7 @@ export default function Home() {
     // Reset result state
     setLogs([]);
     setVegaSpec(null);
+    setRows([]);
     setSql("");
     setSqlVisible(false);
     setIsLoading(true);
@@ -131,7 +198,7 @@ export default function Home() {
     // Prepend to history
     setHistory((prev) => [{ query, timestamp: now() }, ...prev]);
 
-    wsRef.current?.sendQuery(query, DSN);
+    wsRef.current?.sendQuery(query, runtimeDsn);
   };
 
   return (
@@ -143,14 +210,19 @@ export default function Home() {
           onQueryChange={setQuery}
           onSubmit={handleSubmit}
           isLoading={isLoading}
+          datasetName={datasetName}
+          connectionLabel={connectionLabel}
+          suggestedQuestions={suggestedQuestions}
           logs={logs}
           history={history}
           activeHistoryIndex={history.length > 0 ? 0 : null}
           onHistoryClick={(q) => setQuery(q)}
+          onSuggestedQuestionClick={(q) => setQuery(q)}
         />
         <RightPanel
           title={resultTitle}
           vegaSpec={vegaSpec}
+          rows={rows}
           sql={sql}
           sqlVisible={sqlVisible}
           onToggleSql={() => setSqlVisible((v) => !v)}

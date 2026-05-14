@@ -42,7 +42,16 @@ class SchemaAgent:
             cols = schema["columns"].get(table, [])
             col_strs = []
             for col in cols:
-                constraint = f" [{col['constraint']}]" if col["constraint"] else ""
+                if col.get("foreign_table") and col.get("foreign_column"):
+                    constraint = (
+                        f" [FK -> {col['foreign_table']}.{col['foreign_column']}]"
+                    )
+                elif col["constraint"] == "PRIMARY KEY":
+                    constraint = " [PK]"
+                elif col["constraint"]:
+                    constraint = f" [{col['constraint']}]"
+                else:
+                    constraint = ""
                 col_strs.append(f"{col['column']}:{col['type']}{constraint}")
             lines.append(f"{table}({', '.join(col_strs)})")
         return "\n".join(lines)

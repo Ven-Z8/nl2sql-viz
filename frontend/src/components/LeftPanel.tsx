@@ -2,16 +2,21 @@
 import LogStream, { LogEntry } from "./LogStream";
 
 export type HistoryItem = { query: string; timestamp: string };
+export type SuggestedQuestion = { id: string; question: string; category: string };
 
 interface LeftPanelProps {
   query: string;
   onQueryChange: (q: string) => void;
   onSubmit: () => void;
   isLoading: boolean;
+  datasetName: string;
+  connectionLabel: string;
+  suggestedQuestions: SuggestedQuestion[];
   logs: LogEntry[];
   history: HistoryItem[];
   activeHistoryIndex: number | null;
   onHistoryClick: (q: string) => void;
+  onSuggestedQuestionClick: (q: string) => void;
 }
 
 export default function LeftPanel({
@@ -19,10 +24,14 @@ export default function LeftPanel({
   onQueryChange,
   onSubmit,
   isLoading,
+  datasetName,
+  connectionLabel,
+  suggestedQuestions,
   logs,
   history,
   activeHistoryIndex,
   onHistoryClick,
+  onSuggestedQuestionClick,
 }: LeftPanelProps) {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
@@ -43,7 +52,27 @@ export default function LeftPanel({
         overflow: "hidden",
       }}
     >
-      {/* Query section */}
+      <div style={{ padding: "14px 16px", borderBottom: "1px solid var(--border-subtle)" }}>
+        <div
+          style={{
+            fontSize: "11px",
+            fontWeight: 600,
+            color: "var(--text-muted)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            marginBottom: "8px",
+          }}
+        >
+          Workspace
+        </div>
+        <div style={{ fontSize: "13px", color: "var(--text-primary)", fontWeight: 600 }}>
+          {datasetName || "Postgres Workspace"}
+        </div>
+        <div style={{ fontSize: "12px", color: "var(--text-secondary)", marginTop: "4px" }}>
+          {connectionLabel}
+        </div>
+      </div>
+
       <div style={{ padding: "16px", borderBottom: "1px solid var(--border-subtle)" }}>
         <textarea
           value={query}
@@ -96,6 +125,62 @@ export default function LeftPanel({
         >
           {isLoading ? "Running…" : "Ask DataLens →"}
         </button>
+      </div>
+
+      <div style={{ padding: "12px 16px", borderBottom: "1px solid var(--border-subtle)" }}>
+        <div
+          style={{
+            fontSize: "11px",
+            fontWeight: 600,
+            color: "var(--text-muted)",
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            marginBottom: "8px",
+          }}
+        >
+          Suggested Analysis
+        </div>
+        {suggestedQuestions.length === 0 && (
+          <p style={{ fontSize: "12px", color: "var(--text-muted)" }}>
+            Connect a database or configure demo mode to see sample questions.
+          </p>
+        )}
+        {suggestedQuestions.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => onSuggestedQuestionClick(item.question)}
+            disabled={isLoading}
+            style={{
+              width: "100%",
+              textAlign: "left",
+              padding: "8px 10px",
+              borderRadius: "6px",
+              border: "1px solid var(--border-subtle)",
+              background: "var(--bg-log)",
+              color: "var(--text-primary)",
+              marginBottom: "6px",
+              cursor: isLoading ? "not-allowed" : "pointer",
+              opacity: isLoading ? 0.6 : 1,
+            }}
+          >
+            <span
+              style={{
+                display: "block",
+                fontSize: "10px",
+                color: "var(--accent)",
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                marginBottom: "3px",
+              }}
+            >
+              {item.category}
+            </span>
+            <span style={{ display: "block", fontSize: "12px", lineHeight: 1.35 }}>
+              {item.question}
+            </span>
+          </button>
+        ))}
       </div>
 
       {/* Activity log section */}

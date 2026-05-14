@@ -5,6 +5,8 @@ from typing import Any
 
 from anthropic import AsyncAnthropic
 
+from app.agents.chart_planner import build_chart_spec
+
 
 def _default_serializer(obj: Any) -> Any:
     """JSON serializer for types not handled by the default encoder."""
@@ -44,6 +46,10 @@ class VizAgent:
         Raises:
             ValueError: If the response is not valid JSON
         """
+        planned_spec = build_chart_spec(nl_query=nl_query, rows=rows)
+        if planned_spec is not None:
+            return planned_spec
+
         user_msg = f"Question: {nl_query}\n\nData:\n{json.dumps(rows, indent=2, default=_default_serializer)}"
 
         response = await self._client.messages.create(

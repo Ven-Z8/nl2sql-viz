@@ -1,6 +1,15 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 from app.agents.sql_agent import SQLAgent
+from app.agents.sql_agent import SQL_SYSTEM_PROMPT
+
+
+def test_sql_system_prompt_requires_analyst_grade_postgres() -> None:
+    assert "PostgreSQL analytics engineer" in SQL_SYSTEM_PROMPT
+    assert "Use explicit JOIN conditions" in SQL_SYSTEM_PROMPT
+    assert "Choose the correct grain" in SQL_SYSTEM_PROMPT
+    assert "Do not use SELECT *" in SQL_SYSTEM_PROMPT
+    assert "case-insensitive" in SQL_SYSTEM_PROMPT
 
 
 @pytest.mark.asyncio
@@ -50,6 +59,48 @@ async def test_sql_agent_retries_on_connector_error():
     assert result["status"] == "success"
     assert result["attempts"] == 2
     assert mock_connector.execute_read.call_count == 2
+
+
+@pytest.mark.asyncio
+async def test_sql_agent_retries_empty_rows_as_value_mismatch():
+    """SQLAgent retries once when a syntactically valid query returns no rows."""
+    mock_connector = AsyncMock()
+    mock_connector.execute_read = AsyncMock(
+        side_effect=[[], [{"country": "US", "accounts": 28}]]
+    )
+
+    agent = SQLAgent(connector=mock_connector, max_retries=3)
+    first_response = MagicMock()
+    first_response.content = [
+        MagicMock(
+            text=(
+                "SELECT country, COUNT(*) AS accounts FROM accounts "
+                "WHERE industry = 'Fintech' GROUP BY country"
+            )
+        )
+    ]
+    second_response = MagicMock()
+    second_response.content = [
+        MagicMock(
+            text=(
+                "SELECT country, COUNT(*) AS accounts FROM accounts "
+                "WHERE LOWER(industry) = LOWER('Fintech') GROUP BY country"
+            )
+        )
+    ]
+    agent._client = AsyncMock()
+    agent._client.messages.create = AsyncMock(
+        side_effect=[first_response, second_response]
+    )
+
+    result = await agent.run(
+        nl_query="Which countries had highest accounts Fintech industry",
+        schema_map="accounts(country:text, industry:text)",
+    )
+
+    assert result["status"] == "success"
+    assert result["attempts"] == 2
+    assert "LOWER(industry)" in result["sql"]
 
 
 @pytest.mark.asyncio

@@ -4,6 +4,7 @@ import VegaChart from "./VegaChart";
 interface RightPanelProps {
   title: string;
   vegaSpec: string | null;
+  rows: Record<string, unknown>[];
   sql: string;
   sqlVisible: boolean;
   onToggleSql: () => void;
@@ -30,10 +31,13 @@ function highlightSQL(sql: string): string {
 export default function RightPanel({
   title,
   vegaSpec,
+  rows,
   sql,
   sqlVisible,
   onToggleSql,
 }: RightPanelProps) {
+  const rowColumns = rows.length > 0 ? Object.keys(rows[0]).slice(0, 6) : [];
+
   return (
     <div
       style={{
@@ -64,39 +68,71 @@ export default function RightPanel({
         >
           {title || "Results"}
         </span>
-        {sql && (
-          <button
-            onClick={onToggleSql}
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: "var(--accent)",
-              fontSize: "13px",
-              fontWeight: 500,
-              padding: "4px 8px",
-              borderRadius: "4px",
-            }}
-          >
-            SQL {sqlVisible ? "▴" : "▾"}
-          </button>
-        )}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {rows.length > 0 && (
+            <span style={{ color: "var(--text-secondary)", fontSize: "12px" }}>
+              {rows.length} rows
+            </span>
+          )}
+          {sql && (
+            <button
+              onClick={onToggleSql}
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                color: "var(--accent)",
+                fontSize: "13px",
+                fontWeight: 500,
+                padding: "4px 8px",
+                borderRadius: "4px",
+              }}
+            >
+              SQL {sqlVisible ? "▴" : "▾"}
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Chart area */}
       <div
         style={{
           flex: 1,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
+          display: "grid",
+          gridTemplateRows: rows.length > 0 ? "minmax(0, 1fr) 190px" : "1fr",
           padding: "24px",
+          gap: "16px",
           overflow: "hidden",
         }}
       >
-        {vegaSpec ? (
-          <div style={{ width: "100%", maxWidth: "600px" }}>
+        {vegaSpec && rows.length > 0 ? (
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              minHeight: 0,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <VegaChart spec={vegaSpec} />
+          </div>
+        ) : vegaSpec && rows.length === 0 ? (
+          <div
+            style={{
+              alignSelf: "center",
+              justifySelf: "center",
+              color: "var(--text-secondary)",
+              fontSize: "14px",
+              textAlign: "center",
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "8px",
+              padding: "18px 22px",
+              background: "var(--bg-panel)",
+            }}
+          >
+            No rows returned for this question.
           </div>
         ) : (
           <p
@@ -108,6 +144,72 @@ export default function RightPanel({
           >
             Ask a question to see results
           </p>
+        )}
+
+        {rows.length > 0 && (
+          <div
+            style={{
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "8px",
+              background: "var(--bg-panel)",
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                padding: "8px 10px",
+                borderBottom: "1px solid var(--border-subtle)",
+                color: "var(--text-secondary)",
+                fontSize: "11px",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+              }}
+            >
+              Result Rows
+            </div>
+            <div style={{ overflow: "auto", maxHeight: "150px" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
+                <thead>
+                  <tr>
+                    {rowColumns.map((column) => (
+                      <th
+                        key={column}
+                        style={{
+                          padding: "8px 10px",
+                          color: "var(--text-muted)",
+                          textAlign: "left",
+                          borderBottom: "1px solid var(--border-subtle)",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {column}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {rows.slice(0, 8).map((row, index) => (
+                    <tr key={index}>
+                      {rowColumns.map((column) => (
+                        <td
+                          key={column}
+                          style={{
+                            padding: "7px 10px",
+                            color: "var(--text-secondary)",
+                            borderBottom: "1px solid var(--border-subtle)",
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          {String(row[column] ?? "")}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         )}
       </div>
 

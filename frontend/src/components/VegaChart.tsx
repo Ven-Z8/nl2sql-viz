@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import embed, { Result } from "vega-embed";
 
 interface VegaChartProps {
@@ -9,6 +9,7 @@ interface VegaChartProps {
 export default function VegaChart({ spec }: VegaChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const resultRef = useRef<Result | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!containerRef.current || !spec) return;
@@ -16,12 +17,30 @@ export default function VegaChart({ spec }: VegaChartProps) {
     // Finalize previous view before creating new one
     resultRef.current?.view.finalize();
     resultRef.current = null;
+    setError(null);
 
-    embed(containerRef.current, JSON.parse(spec) as object, { actions: false })
+    let parsedSpec: Record<string, unknown>;
+    try {
+      parsedSpec = JSON.parse(spec) as Record<string, unknown>;
+    } catch {
+      setError("Chart spec was not valid JSON.");
+      return;
+    }
+
+    const width = Math.max(containerRef.current.clientWidth - 8, 320);
+    const height = Math.max(containerRef.current.clientHeight - 8, 260);
+    const sizedSpec = { ...parsedSpec, width, height };
+
+    embed(containerRef.current, sizedSpec, {
+      actions: false,
+      renderer: "canvas",
+    })
       .then((result) => {
         resultRef.current = result;
       })
-      .catch(console.error);
+      .catch((err: unknown) => {
+        setError(err instanceof Error ? err.message : "Chart rendering failed.");
+      });
 
     return () => {
       resultRef.current?.view.finalize();
@@ -29,5 +48,22 @@ export default function VegaChart({ spec }: VegaChartProps) {
     };
   }, [spec]);
 
-  return <div ref={containerRef} className="w-full" />;
+  return (
+    <div ref={containerRef} style={{ width: "100%", height: "100%" }}>
+      {error && (
+        <div
+          style={{
+            border: "1px solid var(--border)",
+            borderRadius: "8px",
+            padding: "14px",
+            color: "var(--text-secondary)",
+            background: "var(--bg-panel)",
+            fontSize: "13px",
+          }}
+        >
+          {error}
+        </div>
+      )}
+    </div>
+  );
 }

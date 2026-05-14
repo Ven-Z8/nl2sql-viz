@@ -5,6 +5,8 @@ build/
 dist/
 wheels/
 *.egg-info
+.pytest_cache/
+.ruff_cache/
 
 # Virtual environments
 .venv
@@ -13,7 +15,17 @@ wheels/
 .env
 .env.local
 .env.*.local
+*.pem
+
+# Local runtime data
+*.db
+*.sqlite
+*.sqlite3
 
 # Tooling artifacts
 .superpowers/
 .python-version
+
+# OS/editor noise
+.DS_Store
+.claude/

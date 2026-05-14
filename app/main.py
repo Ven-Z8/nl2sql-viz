@@ -10,6 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.core.auth import generate_api_key, hash_api_key, verify_api_key
+from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questions
 from app.core.session import SessionStore
 from app.core.user_store import UserStore
 from app.connectors.postgres import PostgresConnector
@@ -66,6 +67,18 @@ async def register(req: RegisterRequest):
         return {"api_key": api_key, "username": req.username}
     except ValueError:
         raise HTTPException(status_code=409, detail="Username already exists")
+
+
+@app.get("/api/demo/questions")
+async def demo_questions():
+    return {"dataset": DEMO_DATASET_NAME, "questions": get_demo_questions()}
+
+
+@app.post("/api/demo/session")
+async def demo_session():
+    session = build_demo_session()
+    await user_store.register(session["username"], hash_api_key(session["api_key"]))
+    return session
 
 # --- REST: Connect a database ---
 class ConnectRequest(BaseModel):
