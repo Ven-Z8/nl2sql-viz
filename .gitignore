@@ -25,6 +25,8 @@ wheels/
 # Tooling artifacts
 .superpowers/
 .python-version
+.cursor/
+.cursorrules
 
 # OS/editor noise
 .DS_Store

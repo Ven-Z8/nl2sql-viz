@@ -1,7 +1,7 @@
 [project]
 name = "nl2sql-viz"
 version = "0.1.0"
-description = "Add your description here"
+description = "Natural-language analytics for Postgres with guarded SQL generation and Vega-Lite charts"
 requires-python = ">=3.12"
 dependencies = [
     "aiosqlite>=0.22.1",

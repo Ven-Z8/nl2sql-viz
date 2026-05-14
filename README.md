@@ -1,28 +1,116 @@
-# nl2sql-viz
+# NL2SQL Viz
 
-Ask natural language questions about your database. Get instant Vega-Lite charts.
+Natural-language analytics for Postgres: ask a business question, generate guarded SQL, execute read-only queries, and render the result as a Vega-Lite chart.
 
-## Stack
+## Why It Exists
 
-- **Backend:** Python/FastAPI + Claude Agent SDK (Anthropic)
-- **Visualization:** Vega-Lite v5 rendered via vega-embed
-- **Frontend:** Next.js + Tailwind CSS
-- **Database:** PostgreSQL (asyncpg), plugin interface for others
+Most NL2SQL demos stop at "the model wrote a query." This project treats the workflow like a product surface: schema inspection, SQL safety checks, retries, streaming status, chart planning, and a realistic SaaS demo dataset that makes the app easy to evaluate.
 
-## Setup
+## Demo Dataset
+
+The bundled RavenStack dataset models a SaaS business with customer accounts, subscriptions, feature usage, support tickets, and churn events.
+
+| Table | Rows | Example questions |
+| --- | ---: | --- |
+| `accounts` | 500 | Which referral sources produce the highest average ARR? |
+| `subscriptions` | 5,000 | Show monthly recurring revenue by plan tier over time. |
+| `feature_usage` | 25,000 | Which features have high usage and high error counts? |
+| `support_tickets` | 2,000 | Show support volume and satisfaction by priority. |
+| `churn_events` | 600 | Compare churn reasons by initial plan tier. |
+
+See [docs/ravenstack-demo.md](docs/ravenstack-demo.md) for the full walkthrough.
+
+## Architecture
+
+```text
+Browser
+  -> WebSocket query
+  -> FastAPI coordinator
+  -> SchemaAgent introspects Postgres
+  -> SQLAgent generates read-only SQL
+  -> SQL guard validates SELECT/WITH only
+  -> Postgres connector executes query
+  -> Chart planner selects visualization intent
+  -> VizAgent returns Vega-Lite JSON
+  -> Next.js UI renders chart + SQL + event log
+```
+
+## What It Shows
+
+- Async FastAPI backend with WebSocket progress events
+- Anthropic SDK calls isolated inside agent classes
+- Postgres connector with read-only execution guardrails
+- Synthetic but realistic SaaS analytics dataset
+- Vega-Lite chart rendering in a Next.js frontend
+- Unit and integration tests around SQL generation, demo loading, chart planning, auth, and security
+
+## Quick Start
 
 ```bash
 cp .env.example .env
-# Edit .env — add your ANTHROPIC_API_KEY and SECRET_KEY
+# Add ANTHROPIC_API_KEY and SECRET_KEY
 
 uv sync
-docker compose up -d   # starts dev Postgres
+docker compose up -d
+uv run python -m scripts.load_ravenstack
 uv run uvicorn app.main:app --reload --port 8000
 ```
 
-## Run tests
+In another terminal:
 
 ```bash
-uv run pytest tests/unit/ -v                  # unit tests (no API key needed)
-uv run pytest tests/integration/ -v           # integration tests (needs Postgres + API key)
+cd frontend
+npm install
+npm run dev
 ```
+
+Open `http://localhost:3000`.
+
+## Verification
+
+| Check | Command | Notes |
+| --- | --- | --- |
+| Backend unit tests | `uv run pytest tests/unit -q` | Does not require API keys |
+| Backend lint | `uv run ruff check .` | Python style and import checks |
+| Frontend typecheck | `cd frontend && npm run typecheck` | TypeScript compile check |
+| Demo loader | `uv run python -m scripts.load_ravenstack` | Requires local Postgres |
+
+Latest local readiness pass before publishing:
+
+| Check | Result |
+| --- | --- |
+| Unit tests | 55 passed |
+| Ruff | Passed |
+| Frontend typecheck | Passed |
+
+## Safety Boundaries
+
+- Only `SELECT` and `WITH` statements are allowed through the SQL guard.
+- Multiple SQL statements are rejected.
+- Mutating keywords such as `INSERT`, `UPDATE`, `DELETE`, `DROP`, and `ALTER` are blocked.
+- API keys are hashed with Argon2.
+- Stored database credentials use AES-256-GCM encryption.
+- `.env`, local databases, private keys, virtualenvs, build output, and editor state are ignored.
+
+## Repository Map
+
+```text
+app/
+  agents/        # schema, SQL, chart, visualization, and coordinator logic
+  connectors/    # Postgres connector and DB abstraction
+  core/          # auth, demo session, SQL guard, security, session state
+  execution/     # Bun sandbox for optional transform code execution
+frontend/
+  src/app/       # Next.js app shell
+  src/components # query panel, event log, chart panel, SQL viewer
+data/ravenstack/ # synthetic SaaS analytics CSVs
+docs/            # demo notes and status docs
+tests/           # unit, integration, and security tests
+```
+
+## Next Milestones
+
+- Add a screenshot-driven demo walkthrough.
+- Add saved queries and a connection wizard.
+- Replace raw DSN browser messages with server-side `connection_id` references.
+- Add benchmark cases for SQL validity, chart choice, and guardrail rejection.
