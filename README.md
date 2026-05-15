@@ -1,10 +1,10 @@
 # NL2SQL Viz
 
-Natural-language analytics for Postgres: ask a business question, generate guarded SQL, execute read-only queries, and render the result as a Vega-Lite chart.
+Natural-language analytics for Postgres. Ask a business question, get a guarded SQL query, and inspect the result as a Vega-Lite chart.
 
-## Why It Exists
+## Overview
 
-Most NL2SQL demos stop at "the model wrote a query." This project treats the workflow like a product surface: schema inspection, SQL safety checks, retries, streaming status, chart planning, and a realistic SaaS demo dataset that makes the app easy to evaluate.
+NL2SQL Viz turns a database into an analyst-friendly interface. It inspects schema, generates read-only SQL, executes the query, streams status back to the browser, and renders a chart with the SQL visible for review.
 
 ## Demo Dataset
 
@@ -20,7 +20,7 @@ The bundled RavenStack dataset models a SaaS business with customer accounts, su
 
 See [docs/ravenstack-demo.md](docs/ravenstack-demo.md) for the full walkthrough.
 
-## Architecture
+## How It Works
 
 ```text
 Browser
@@ -35,10 +35,10 @@ Browser
   -> Next.js UI renders chart + SQL + event log
 ```
 
-## What It Shows
+## Highlights
 
 - Async FastAPI backend with WebSocket progress events
-- Anthropic SDK calls isolated inside agent classes
+- Anthropic SDK calls isolated inside service classes
 - Postgres connector with read-only execution guardrails
 - Synthetic but realistic SaaS analytics dataset
 - Vega-Lite chart rendering in a Next.js frontend
@@ -66,7 +66,7 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-## Verification
+## Quality Checks
 
 | Check | Command | Notes |
 | --- | --- | --- |
@@ -75,7 +75,7 @@ Open `http://localhost:3000`.
 | Frontend typecheck | `cd frontend && npm run typecheck` | TypeScript compile check |
 | Demo loader | `uv run python -m scripts.load_ravenstack` | Requires local Postgres |
 
-Latest local readiness pass before publishing:
+Current validation:
 
 | Check | Result |
 | --- | --- |
@@ -104,7 +104,7 @@ frontend/
   src/app/       # Next.js app shell
   src/components # query panel, event log, chart panel, SQL viewer
 data/ravenstack/ # synthetic SaaS analytics CSVs
-docs/            # demo notes and status docs
+docs/            # demo notes
 tests/           # unit, integration, and security tests
 ```
 

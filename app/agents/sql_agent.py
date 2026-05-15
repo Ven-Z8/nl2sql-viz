@@ -1,5 +1,3 @@
-# NOTE: Uses Anthropic SDK directly for Plan 1 simplicity.
-# Will be refactored to Claude Agent SDK in a later plan when subagent orchestration is needed.
 import re
 from typing import Any
 
