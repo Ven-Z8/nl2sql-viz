@@ -2,6 +2,20 @@
 
 Natural-language analytics for Postgres. Ask a business question, get a guarded SQL query, and inspect the result as a Vega-Lite chart.
 
+## Demo
+
+> _Screenshots and walkthrough video: TBD — to be added before public release._
+
+```bash
+# Ask in the UI
+"Show monthly recurring revenue by plan tier over time."
+# intent -> schema -> guarded SQL -> chart plan -> Vega-Lite render
+```
+
+## Stack
+
+Python · FastAPI (async, WebSocket) · Anthropic Claude (SQL + chart agents) · PostgreSQL · Vega-Lite · Next.js 14 + TypeScript · Tailwind CSS · Argon2 (API key hashing) · AES-256-GCM (stored DSN encryption) · pytest · Docker Compose.
+
 ## Overview
 
 NL2SQL Viz turns a database into an analyst-friendly interface. It inspects schema, generates read-only SQL, executes the query, streams status back to the browser, and renders a chart with the SQL visible for review.
@@ -22,17 +36,17 @@ See [docs/ravenstack-demo.md](docs/ravenstack-demo.md) for the full walkthrough.
 
 ## How It Works
 
-```text
-Browser
-  -> WebSocket query
-  -> FastAPI coordinator
-  -> SchemaAgent introspects Postgres
-  -> SQLAgent generates read-only SQL
-  -> SQL guard validates SELECT/WITH only
-  -> Postgres connector executes query
-  -> Chart planner selects visualization intent
-  -> VizAgent returns Vega-Lite JSON
-  -> Next.js UI renders chart + SQL + event log
+```mermaid
+flowchart TD
+  B[Browser] -->|WebSocket query| F[FastAPI Coordinator]
+  F --> SA[SchemaAgent]
+  SA -->|schema context| SQ[SQLAgent]
+  SQ -->|generated SQL| G[SQL Guard]
+  G -->|SELECT/WITH only| PG[Postgres]
+  PG -->|rows| CP[Chart Planner]
+  CP --> VZ[VizAgent]
+  VZ -->|Vega-Lite JSON| UI[Next.js UI]
+  G -.->|reject| F
 ```
 
 ## Highlights
