@@ -10,6 +10,7 @@ dependencies = [
     "asyncpg>=0.31.0",
     "cryptography>=46.0.5",
     "fastapi>=0.135.2",
+    "nooa>=0.0.8",
     "passlib[bcrypt]>=1.7.4",
     "python-dotenv>=1.2.2",
     "uvicorn[standard]>=0.42.0",

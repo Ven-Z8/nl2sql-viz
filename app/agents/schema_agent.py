@@ -1,57 +1,65 @@
-from typing import Optional
+"""SchemaAgent — introspects database schemas for NL2SQL context.
 
-from app.connectors.base import BaseConnector
-from app.core.session import SessionStore
+NOOA Agent that:
+- Fetches schema from Postgres via the pool
+- Caches per-session to avoid repeated introspection
+- Provides row estimates from pg_stat_user_tables
+- Produces compact text representations for LLM context
+"""
+
+from __future__ import annotations
+
+from nooa import Agent, strategy
+from nooa.strategies import PredictStrategy
+
+from app.db.pool import PostgresPool
+from app.llm import HAIKU
+from app.models import SchemaMap
 
 
-class SchemaAgent:
+class SchemaAgent(Agent, llm=HAIKU):
+    """You are a database schema analyst. You introspect Postgres databases
+    and produce compact, accurate schema summaries for SQL generation agents.
+
+    You have access to self.pool (a PostgresPool) for querying the database,
+    and self._cache for session-level schema caching.
     """
-    Introspects the DB and returns a compact schema map string
-    suitable for inclusion in Claude prompts.
-    Caches per session — invalidated by TTL or explicit call.
-    """
 
-    def __init__(
-        self,
-        connector: BaseConnector,
-        session_store: Optional[SessionStore] = None,
-        session_id: Optional[str] = None,
-    ) -> None:
-        self._connector = connector
-        self._session_store = session_store
-        self._session_id = session_id
+    pool: PostgresPool
+    _cache: SchemaMap | None = None
 
-    async def get_schema_map(self) -> str:
-        # Check cache first
-        if self._session_store and self._session_id:
-            cached = await self._session_store.get_schema_cache(self._session_id)
-            if cached is not None:
-                return cached
+    # ------------------------------------------------------------------
+    # Deterministic helpers (real body → normal Python)
+    # ------------------------------------------------------------------
 
-        schema = await self._connector.get_schema()
-        compact = self._build_compact_map(schema)
+    def get_cached(self) -> SchemaMap | None:
+        """Return cached schema if available."""
+        return self._cache
 
-        if self._session_store and self._session_id:
-            await self._session_store.set_schema_cache(self._session_id, compact)
+    def set_cache(self, schema: SchemaMap) -> None:
+        """Store schema in session cache."""
+        self._cache = schema
 
-        return compact
+    def compact_map(self, schema: SchemaMap) -> str:
+        """Produce compact text representation for LLM context."""
+        return schema.compact_repr()
 
-    def _build_compact_map(self, schema: dict) -> str:
-        lines = []
-        for table in schema["tables"]:
-            cols = schema["columns"].get(table, [])
-            col_strs = []
-            for col in cols:
-                if col.get("foreign_table") and col.get("foreign_column"):
-                    constraint = (
-                        f" [FK -> {col['foreign_table']}.{col['foreign_column']}]"
-                    )
-                elif col["constraint"] == "PRIMARY KEY":
-                    constraint = " [PK]"
-                elif col["constraint"]:
-                    constraint = f" [{col['constraint']}]"
-                else:
-                    constraint = ""
-                col_strs.append(f"{col['column']}:{col['type']}{constraint}")
-            lines.append(f"{table}({', '.join(col_strs)})")
-        return "\n".join(lines)
+    async def fetch_schema(self) -> SchemaMap:
+        """Fetch the full schema from the database."""
+        cached = self.get_cached()
+        if cached is not None:
+            return cached
+        schema = await self.pool.get_schema()
+        self.set_cache(schema)
+        return schema
+
+    # ------------------------------------------------------------------
+    # Generation methods (ellipsis body → LLM-driven)
+    # ------------------------------------------------------------------
+
+    @strategy(PredictStrategy())
+    async def summarize(self, schema_text: str) -> str:
+        """Summarize this database schema in 2-3 sentences.
+        Focus on: what kind of data it contains, key relationships between tables,
+        and which tables are largest. Be specific with table names."""
+        ...

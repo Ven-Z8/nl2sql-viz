@@ -1,127 +1,130 @@
-from typing import AsyncIterator, Any
+"""CoordinatorAgent — orchestrates the full NL2SQL analytics pipeline.
 
-from anthropic import AsyncAnthropic
+NOOA Agent using CodeActStrategy to coordinate:
+1. Schema introspection (SchemaAgent)
+2. SQL generation (SQLAgent)
+3. Query execution + cost gating
+4. Result size management
+5. Visualization (VizAgent)
+6. Cache lookup/storage
 
-from app.agents.code_exec_agent import CodeExecAgent
+Streams progress events as an async generator for WebSocket delivery.
+"""
+
+from __future__ import annotations
+
+from collections.abc import AsyncIterator
+from typing import Any
+
+from nooa import Agent, strategy
+from nooa.config import CodeActConfig
+from nooa.strategies import CodeActStrategy
+
 from app.agents.schema_agent import SchemaAgent
 from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
-from app.connectors.base import BaseConnector
-from app.core.session import SessionStore
-
-_ROUTE_SYSTEM = """\
-Decide if a user's data question requires JavaScript post-processing after SQL execution.
-
-Reply with ONLY one of these two words — nothing else:
-  sql_only
-  needs_transform
-
-Choose needs_transform ONLY when the query requires:
-- Multi-step rolling averages or cumulative sums across partitions
-- Pivot / unpivot / matrix reshaping
-- Percentile ranking across multiple independent dimensions
-- Complex regex or string transformation on result sets
-- Custom data shaping that standard PostgreSQL window/aggregate functions cannot produce
-
-Choose sql_only for everything else: aggregations, GROUP BY, JOINs, window functions, filters."""
+from app.db.guard import validate_read_only
+from app.engine.cache import QueryCache, cache_key
+from app.llm import SONNET
 
 
-class Coordinator:
-    """Orchestrates the nl2sql-viz pipeline with optional code execution routing.
+class CoordinatorAgent(Agent, llm=SONNET):
+    """You are the analytics coordinator for NL2SQL Viz.
+    You orchestrate the full pipeline: schema → SQL → execute → visualize.
 
-    Pipeline:
-      Schema Agent → [route decision] → SQL Agent → (optional) Code Exec Agent → Viz Agent
+    You have access to:
+    - self.schema_agent: SchemaAgent for database introspection
+    - self.sql_agent: SQLAgent for SQL generation
+    - self.viz_agent: VizAgent for chart generation
+    - self.cache: QueryCache for result caching
+    - self.connection_id: unique identifier for this database connection
 
-    Streams progress events as an async generator.
+    Call the sub-agents' methods in your Python code to complete the pipeline.
     """
 
-    def __init__(
-        self,
-        connector: BaseConnector,
-        session_store: SessionStore,
-        session_id: str,
-    ) -> None:
-        self._connector = connector
-        self._session_store = session_store
-        self._session_id = session_id
-        self._client = AsyncAnthropic()
+    schema_agent: SchemaAgent
+    sql_agent: SQLAgent
+    viz_agent: VizAgent
+    cache: QueryCache
+    connection_id: str = "default"
 
-    async def _decide_route(self, nl_query: str, schema_map: str) -> str:
-        """Ask Claude Haiku whether the query needs post-SQL transformation.
-
-        Returns "sql_only" or "needs_transform".
-        Defaults to "sql_only" on any unexpected response.
-        """
-        response = await self._client.messages.create(
-            model="claude-haiku-4-5-20251001",
-            max_tokens=5,
-            system=_ROUTE_SYSTEM,
-            messages=[
-                {
-                    "role": "user",
-                    "content": f"Schema:\n{schema_map}\n\nQuery: {nl_query}",
-                }
-            ],
-        )
-        decision = response.content[0].text.strip().lower()
-        return "needs_transform" if "needs_transform" in decision else "sql_only"
+    # ------------------------------------------------------------------
+    # Deterministic helpers
+    # ------------------------------------------------------------------
 
     async def run(self, nl_query: str) -> AsyncIterator[dict[str, Any]]:
-        """Orchestrate the full pipeline, yielding WebSocket events."""
-        try:
-            yield {"type": "progress", "message": "Analyzing your database schema..."}
-            schema_agent = SchemaAgent(
-                connector=self._connector,
-                session_store=self._session_store,
-                session_id=self._session_id,
-            )
-            schema_map = await schema_agent.get_schema_map()
+        """Orchestrate the full pipeline, yielding WebSocket-compatible events."""
 
-            yield {"type": "progress", "message": "Planning query approach..."}
-            route = await self._decide_route(nl_query, schema_map)
-
-            yield {"type": "progress", "message": "Writing and running SQL query..."}
-            sql_agent = SQLAgent(connector=self._connector)
-            sql_result = await sql_agent.run(nl_query=nl_query, schema_map=schema_map)
-
-            if sql_result["status"] == "error":
-                yield {
-                    "type": "error",
-                    "message": sql_result["message"],
-                    "details": sql_result.get("last_error"),
-                }
-                return
-
-            yield {"type": "sql", "sql": sql_result["sql"]}
-
-            rows = sql_result["rows"]
-
-            if route == "needs_transform":
-                yield {"type": "progress", "message": "Transforming results..."}
-                code_agent = CodeExecAgent()
-                exec_result = await code_agent.run(
-                    nl_query=nl_query,
-                    rows=rows,
-                    schema_map=schema_map,
-                )
-                if exec_result["status"] == "success":
-                    rows = exec_result["rows"]
-                else:
-                    yield {
-                        "type": "progress",
-                        "message": "Transform failed, using raw SQL result...",
-                    }
-
-            yield {"type": "progress", "message": "Generating visualization..."}
-            viz_agent = VizAgent()
-            vega_spec = await viz_agent.run(nl_query=nl_query, rows=rows)
-
+        # 1. Cache check
+        key = cache_key(self.connection_id, nl_query)
+        cached = self.cache.get(key)
+        if cached is not None:
+            yield {"type": "progress", "message": "Cache hit — returning stored result"}
+            plan = self.viz_agent.plan_chart(nl_query, cached)
+            chart_spec = self.viz_agent.build_vega_lite(plan, cached)
             yield {
                 "type": "result",
-                "vega_spec": vega_spec,
-                "rows": rows,
-                "sql": sql_result["sql"],
+                "chart_spec": chart_spec.model_dump(),
+                "rows": cached.rows[:100],  # preview for table
+                "row_count": cached.row_count,
+                "sql": cached.sql,
+                "execution_time_ms": cached.execution_time_ms,
+                "cached": True,
             }
+            return
 
-        except Exception as e:
-            yield {"type": "error", "message": str(e)}
+        # 2. Schema introspection
+        yield {"type": "progress", "message": "Analyzing database schema..."}
+        schema = await self.schema_agent.fetch_schema()
+
+        # 3. SQL generation via SQLAgent
+        yield {"type": "progress", "message": "Generating SQL query..."}
+        generated = await self.sql_agent.generate(question=nl_query, schema=schema)
+
+        # 4. Validate and execute
+        sql = generated.sql
+        validate_read_only(sql)
+        yield {"type": "sql", "sql": sql}
+
+        yield {"type": "progress", "message": "Executing query..."}
+        result = await self.sql_agent.execute_query(sql)
+
+        if result.row_count == 0:
+            yield {"type": "error", "message": "Query returned zero rows. Try a broader question."}
+            return
+
+        # 5. Visualization
+        yield {"type": "progress", "message": "Building visualization..."}
+        plan = self.viz_agent.plan_chart(nl_query, result)
+        chart_spec = self.viz_agent.build_vega_lite(plan, result)
+
+        # 6. Cache the result
+        self.cache.put(key, result)
+
+        yield {
+            "type": "result",
+            "chart_spec": chart_spec.model_dump(),
+            "rows": result.rows[:100],  # preview for table
+            "row_count": result.row_count,
+            "sql": sql,
+            "execution_time_ms": result.execution_time_ms,
+            "cached": False,
+        }
+
+    # ------------------------------------------------------------------
+    # CodeAct method for complex multi-step analytics
+    # ------------------------------------------------------------------
+
+    @strategy(CodeActStrategy(config=CodeActConfig(max_iterations=5)))
+    async def analyze(self, question: str) -> dict[str, Any]:
+        """Answer a complex analytics question that may require multiple SQL queries.
+
+        Use the sub-agents to:
+        1. Get schema context: await self.schema_agent.fetch_schema()
+        2. Generate and execute SQL: await self.sql_agent.generate(...) then execute
+        3. Compare results across queries if needed
+        4. Build visualization: self.viz_agent.plan_chart() + build_vega_lite()
+
+        Return a dict with keys: sql, rows, chart_spec, analysis_summary
+        """
+        ...

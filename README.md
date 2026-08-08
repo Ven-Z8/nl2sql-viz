@@ -14,7 +14,7 @@ Natural-language analytics for Postgres. Ask a business question, get a guarded 
 
 ## Stack
 
-Python · FastAPI (async, WebSocket) · Anthropic Claude (SQL + chart agents) · PostgreSQL · Vega-Lite · Next.js 14 + TypeScript · Tailwind CSS · Argon2 (API key hashing) · AES-256-GCM (stored DSN encryption) · pytest · Docker Compose.
+Python · FastAPI (async, WebSocket) · Anthropic Claude (SQL + chart agents) · PostgreSQL · Vega-Lite · Next.js 16 + TypeScript · Tailwind CSS · Argon2 (API key hashing) · AES-256-GCM (stored DSN encryption) · pytest · Docker Compose.
 
 ## Overview
 
@@ -24,13 +24,13 @@ NL2SQL Viz turns a database into an analyst-friendly interface. It inspects sche
 
 The bundled RavenStack dataset models a SaaS business with customer accounts, subscriptions, feature usage, support tickets, and churn events.
 
-| Table | Rows | Example questions |
-| --- | ---: | --- |
-| `accounts` | 500 | Which referral sources produce the highest average ARR? |
-| `subscriptions` | 5,000 | Show monthly recurring revenue by plan tier over time. |
-| `feature_usage` | 25,000 | Which features have high usage and high error counts? |
-| `support_tickets` | 2,000 | Show support volume and satisfaction by priority. |
-| `churn_events` | 600 | Compare churn reasons by initial plan tier. |
+| Table             |   Rows | Example questions                                       |
+| ----------------- | -----: | ------------------------------------------------------- |
+| `accounts`        |    500 | Which referral sources produce the highest average ARR? |
+| `subscriptions`   |  5,000 | Show monthly recurring revenue by plan tier over time.  |
+| `feature_usage`   | 25,000 | Which features have high usage and high error counts?   |
+| `support_tickets` |  2,000 | Show support volume and satisfaction by priority.       |
+| `churn_events`    |    600 | Compare churn reasons by initial plan tier.             |
 
 See [docs/ravenstack-demo.md](docs/ravenstack-demo.md) for the full walkthrough.
 
@@ -82,20 +82,20 @@ Open `http://localhost:3000`.
 
 ## Quality Checks
 
-| Check | Command | Notes |
-| --- | --- | --- |
-| Backend unit tests | `uv run pytest tests/unit -q` | Does not require API keys |
-| Backend lint | `uv run ruff check .` | Python style and import checks |
-| Frontend typecheck | `cd frontend && npm run typecheck` | TypeScript compile check |
-| Demo loader | `uv run python -m scripts.load_ravenstack` | Requires local Postgres |
+| Check              | Command                                    | Notes                          |
+| ------------------ | ------------------------------------------ | ------------------------------ |
+| Backend unit tests | `uv run pytest tests/unit -q`              | Does not require API keys      |
+| Backend lint       | `uv run ruff check .`                      | Python style and import checks |
+| Frontend typecheck | `cd frontend && npm run typecheck`         | TypeScript compile check       |
+| Demo loader        | `uv run python -m scripts.load_ravenstack` | Requires local Postgres        |
 
 Current validation:
 
-| Check | Result |
-| --- | --- |
-| Unit tests | 55 passed |
-| Ruff | Passed |
-| Frontend typecheck | Passed |
+| Check              | Result    |
+| ------------------ | --------- |
+| Unit tests         | 72 passed |
+| Ruff               | Passed    |
+| Frontend typecheck | Passed    |
 
 ## Safety Boundaries
 

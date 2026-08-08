@@ -39,3 +39,5 @@ AUDIT-*.md
 docs/cursor/
 docs/harness/
 **/docs/superpowers/
+.scratch/
+tasks/

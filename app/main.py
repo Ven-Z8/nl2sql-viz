@@ -14,7 +14,12 @@ from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questi
 from app.core.session import SessionStore
 from app.core.user_store import UserStore
 from app.connectors.postgres import PostgresConnector
-from app.agents.coordinator import Coordinator
+from app.agents.coordinator import CoordinatorAgent
+from app.agents.schema_agent import SchemaAgent
+from app.agents.sql_agent import SQLAgent
+from app.agents.viz_agent import VizAgent
+from app.db.pool import PostgresPool
+from app.engine.cache import QueryCache
 
 load_dotenv()
 
@@ -126,9 +131,7 @@ async def websocket_query(websocket: WebSocket):
 
         await websocket.send_json({"type": "authenticated", "user_id": user_id})
 
-        session_id = await session_store.create_session(
-            user_id=user_id, connection_id=user_id
-        )
+        await session_store.create_session(user_id=user_id, connection_id=user_id)
         query_timestamps: deque = deque(maxlen=RATE_LIMIT_QUERIES)
 
         # Step 2: Handle queries
@@ -152,14 +155,21 @@ async def websocket_query(websocket: WebSocket):
             query_timestamps.append(time.monotonic())
 
             # Per-query timeout
-            connector = PostgresConnector(dsn=dsn)
+            pool = PostgresPool(dsn=dsn)
             try:
-                await connector.connect()
-                coordinator = Coordinator(
-                    connector=connector,
-                    session_store=session_store,
-                    session_id=session_id,
-                )
+                await pool.connect()
+                query_cache = QueryCache()
+                schema_agent = SchemaAgent()
+                schema_agent.pool = pool
+                sql_agent = SQLAgent()
+                sql_agent.pool = pool
+                viz_agent = VizAgent()
+                coordinator = CoordinatorAgent()
+                coordinator.schema_agent = schema_agent
+                coordinator.sql_agent = sql_agent
+                coordinator.viz_agent = viz_agent
+                coordinator.cache = query_cache
+                coordinator.connection_id = user_id or "default"
 
                 async def _run_query():
                     async for event in coordinator.run(nl_query):
@@ -175,11 +185,11 @@ async def websocket_query(websocket: WebSocket):
             except Exception as e:
                 await websocket.send_json({"type": "error", "message": str(e)})
             finally:
-                # IMPORTANT: connector.disconnect() must stay here in the outer finally.
+                # IMPORTANT: pool.disconnect() must stay here in the outer finally.
                 # asyncio.wait_for cancels _run_query() but does NOT immediately call
                 # aclose() on the coordinator async generator — Python schedules that
                 # at GC time. Cleanup must not be moved inside coordinator.run().
-                await connector.disconnect()
+                await pool.disconnect()
 
     except WebSocketDisconnect:
         pass
