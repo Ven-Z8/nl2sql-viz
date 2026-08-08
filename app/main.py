@@ -25,7 +25,7 @@ from app.skills import get_domain_skill, list_domains, skill_guidance
 
 load_dotenv()
 
-QUERY_TIMEOUT_SECONDS = 30
+QUERY_TIMEOUT_SECONDS = 60
 RATE_LIMIT_QUERIES = 10       # max queries per window
 RATE_LIMIT_WINDOW_SECONDS = 60  # rolling window in seconds
 UPLOAD_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://testuser:testpass@localhost:5432/testdb")

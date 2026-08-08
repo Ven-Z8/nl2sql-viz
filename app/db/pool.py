@@ -96,6 +96,25 @@ class PostgresPool:
         async with self._pool.acquire() as conn:
             await conn.execute(sql, *args)
 
+    async def copy_records(
+        self,
+        table_name: str,
+        columns: list[str],
+        records: Any,
+    ) -> int:
+        """Bulk-load rows via Postgres COPY. Returns the number of rows copied.
+
+        Internal use only — CSV ingestion. ``records`` is an iterable of
+        row tuples matching ``columns``.
+        """
+        if not self._pool:
+            raise RuntimeError("Not connected — call connect() first")
+        async with self._pool.acquire() as conn:
+            await conn.copy_records_to_table(
+                table_name, records=records, columns=columns
+            )
+        return len(records) if hasattr(records, "__len__") else 0
+
     async def stream(self, sql: str, batch_size: int = 1000) -> AsyncIterator[list[dict[str, Any]]]:
         """Stream results via server-side cursor for large result sets."""
         if not self._pool:

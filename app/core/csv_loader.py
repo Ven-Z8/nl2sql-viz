@@ -15,7 +15,7 @@ from typing import Any
 
 from app.db.pool import PostgresPool
 
-_MAX_ROWS = 500_000  # safety cap on uploaded rows
+_MAX_ROWS = 1_000_000  # safety cap on uploaded rows
 _SAMPLE_SIZE = 1000  # rows used for type inference
 
 
@@ -58,6 +58,20 @@ def _is_date(value: str) -> bool:
     return False
 
 
+def _is_timestamp(value: str) -> bool:
+    for fmt in (
+        "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M",
+        "%m/%d/%Y %H:%M:%S", "%m/%d/%Y %H:%M",
+        "%d-%m-%Y %H:%M:%S", "%d-%m-%Y %H:%M",
+    ):
+        try:
+            datetime.strptime(value, fmt)
+            return True
+        except ValueError:
+            continue
+    return False
+
+
 def _infer_type(values: list[str]) -> str:
     """Infer a Postgres column type from a sample of string values."""
     non_empty = [v for v in values if v and v.strip()]
@@ -67,6 +81,8 @@ def _infer_type(values: list[str]) -> str:
         return "BIGINT"
     if all(_is_float(v) for v in non_empty):
         return "DOUBLE PRECISION"
+    if all(_is_timestamp(v) for v in non_empty):
+        return "TIMESTAMP"
     if all(_is_date(v) for v in non_empty):
         return "DATE"
     return "TEXT"
@@ -80,6 +96,17 @@ def _coerce(value: str, col_type: str) -> Any:
         return int(value)
     if col_type == "DOUBLE PRECISION":
         return float(value)
+    if col_type == "TIMESTAMP":
+        for fmt in (
+            "%Y-%m-%d %H:%M:%S", "%Y-%m-%d %H:%M",
+            "%m/%d/%Y %H:%M:%S", "%m/%d/%Y %H:%M",
+            "%d-%m-%Y %H:%M:%S", "%d-%m-%Y %H:%M",
+        ):
+            try:
+                return datetime.strptime(value, fmt)
+            except ValueError:
+                continue
+        return None
     if col_type == "DATE":
         for fmt in ("%Y-%m-%d", "%Y/%m/%d", "%m/%d/%Y", "%d-%m-%Y"):
             try:
@@ -124,15 +151,14 @@ async def load_csv(
     rows: list[dict[str, str]],
     types: dict[str, str],
 ) -> int:
-    """Create the table and insert all rows. Returns row count."""
+    """Create the table and bulk-load all rows via COPY. Returns row count."""
     col_defs = ", ".join(f'"{c}" {types[c]}' for c in columns)
     await pool.execute_raw(f'DROP TABLE IF EXISTS "{table_name}"')
     await pool.execute_raw(f'CREATE TABLE "{table_name}" ({col_defs})')
 
-    placeholders = ", ".join(f"${i + 1}" for i in range(len(columns)))
-    insert_sql = f'INSERT INTO "{table_name}" ({", ".join(f"\"{c}\"" for c in columns)}) VALUES ({placeholders})'
-
-    for row in rows:
-        values = [_coerce(row.get(c, ""), types[c]) for c in columns]
-        await pool.execute_raw(insert_sql, *values)
+    records = (
+        [_coerce(row.get(c, ""), types[c]) for c in columns]
+        for row in rows
+    )
+    await pool.copy_records(table_name, columns, records)
     return len(rows)
