@@ -3,7 +3,7 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
 
-_VEGA_SCHEMA = "https://vega.github.io/schema/vega-lite/v5.json"
+_VEGA_SCHEMA = "https://vega.github.io/schema/vega-lite/v6.json"
 
 
 def _base_spec(title: str, rows: list[dict[str, Any]]) -> dict[str, Any]:

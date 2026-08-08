@@ -53,7 +53,7 @@ class VizAgent(Agent, llm=SONNET):
 
     You have deterministic helpers:
     - self.plan_chart(question, result): analyzes data shape and picks chart type
-    - self.build_vega_lite(plan, result): builds a Vega-Lite v5 spec
+    - self.build_vega_lite(plan, result): builds a Vega-Lite v6 spec
     """
 
     # ------------------------------------------------------------------
@@ -110,11 +110,11 @@ class VizAgent(Agent, llm=SONNET):
         )
 
     def build_vega_lite(self, plan: ChartPlan, result: QueryResult) -> ChartSpec:
-        """Build a Vega-Lite v5 spec from a chart plan and data."""
+        """Build a Vega-Lite v6 spec from a chart plan and data."""
         data_strategy, data, meta = prepare_for_viz(result)
 
         spec: dict[str, Any] = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
             "title": {"text": plan.title, "color": "#e5e7eb", "fontSize": 15, "anchor": "start"},
             "background": "transparent",
             "width": 760,
