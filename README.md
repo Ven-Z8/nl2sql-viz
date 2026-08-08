@@ -99,6 +99,22 @@ Current validation:
 | Ruff               | Passed                                               |
 | Frontend typecheck | Passed                                               |
 
+## Datasets
+
+The app ships with bundled sample datasets (in `data/samples/`) plus real public datasets you can download. Large files are **not committed to the repo** — grab them from the links below and drop them into `data/samples/` (they're picked up automatically by the manifest).
+
+| Dataset                       | Domain     |            Rows | Download                                                                                    |
+| ----------------------------- | ---------- | --------------: | ------------------------------------------------------------------------------------------- |
+| Online Retail II              | Retail     |         541,910 | [UCI](https://archive.ics.uci.edu/dataset/502/online+retail+ii)                             |
+| Taiwanese Bankruptcy          | Finance    | 6,819 (96 cols) | [UCI](https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction)              |
+| Online Shoppers Intention     | Marketing  |          12,330 | [UCI](https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset) |
+| Telco Customer Churn          | Finance    |           7,043 | [Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)                    |
+| Lending Club Loans            | Finance    |            2.2M | [Kaggle](https://www.kaggle.com/datasets/wordsforthewise/lending-club)                      |
+| Olist Brazilian E-commerce    | Retail     |     100K orders | [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)                       |
+| Hospital Inpatient Discharges | Healthcare |            2.5M | [Kaggle](https://www.kaggle.com/datasets/rohitrox/hospital-inpatient-discharges)            |
+
+To add a dataset: place the CSV in `data/samples/` and add an entry to `data/samples/manifest.json` (name, domain, description, questions). The upload pipeline handles up to **20M rows** via Postgres COPY.
+
 ## Safety Boundaries
 
 - Only `SELECT` and `WITH` statements are allowed through the SQL guard.

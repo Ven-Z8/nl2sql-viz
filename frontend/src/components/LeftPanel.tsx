@@ -85,7 +85,13 @@ export default function LeftPanel({
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploadDomain, setUploadDomain] = useState("general");
   const [dsnInput, setDsnInput] = useState("");
+  const [sampleDomain, setSampleDomain] = useState("all");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const filteredSamples =
+    sampleDomain === "all"
+      ? samples
+      : samples.filter((s) => s.domain === sampleDomain);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
@@ -246,12 +252,36 @@ export default function LeftPanel({
             }}
           >
             <div style={SECTION_LABEL}>Sample datasets</div>
-            {samples.length === 0 && (
+            {/* Domain filter — pick a domain to see its datasets */}
+            <select
+              value={sampleDomain}
+              onChange={(e) => setSampleDomain(e.target.value)}
+              style={{
+                width: "100%",
+                padding: "8px 10px",
+                borderRadius: "var(--radius-md)",
+                background: "var(--color-paper-3)",
+                border: "1px solid var(--color-border)",
+                color: "var(--color-ink)",
+                fontSize: "12px",
+                fontFamily: "inherit",
+                outline: "none",
+                marginBottom: "var(--space-3)",
+              }}
+            >
+              <option value="all">All domains</option>
+              {domains.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
+              ))}
+            </select>
+            {filteredSamples.length === 0 && (
               <p style={{ fontSize: "12.5px", color: "var(--color-ink-faint)" }}>
-                No samples available.
+                No datasets for this domain yet.
               </p>
             )}
-            {samples.map((s) => (
+            {filteredSamples.map((s) => (
               <button
                 key={s.id}
                 onClick={() => onLoadSample(s.id)}

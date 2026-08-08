@@ -15,7 +15,7 @@ from typing import Any
 
 from app.db.pool import PostgresPool
 
-_MAX_ROWS = 1_000_000  # safety cap on uploaded rows
+_MAX_ROWS = 20_000_000  # safety cap on uploaded rows (5M–20M target)
 _SAMPLE_SIZE = 1000  # rows used for type inference
 
 
