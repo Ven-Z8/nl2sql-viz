@@ -136,7 +136,7 @@ export default function LeftPanel({
           }}
         />
         <button
-          onClick={onSubmit}
+          onClick={() => onSubmit()}
           disabled={isLoading || !query.trim()}
           style={{
             marginTop: "var(--space-3)",

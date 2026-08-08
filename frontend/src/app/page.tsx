@@ -216,7 +216,7 @@ export default function Home() {
   }, []);
 
   const handleSubmit = (q?: string) => {
-    const question = (q ?? query).trim();
+    const question = (typeof q === "string" ? q : query).trim();
     if (!question || isLoading) return;
 
     if (!wsRef.current) {
