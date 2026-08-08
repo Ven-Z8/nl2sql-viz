@@ -47,5 +47,8 @@ scripts/*.zip
 scripts/*.xlsx
 scripts/online_retail_ii*/
 scripts/online_retail_ii.csv
+scripts/census/
+scripts/bankruptcy/
+scripts/shoppers/
 data/samples/retail_online.csv
 data/samples/finance_bankruptcy.csv
