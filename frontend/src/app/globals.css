@@ -1,26 +1,28 @@
 @import "tailwindcss";
 
-/* Hallmark · genre: atmospheric · macrostructure: workbench · theme: night-foundry
- * tone: technical · anchor hue: amber-gold · nav: N9 edge-aligned · footer: n/a (app shell)
+/* Hallmark · genre: modern-minimal · macrostructure: workbench · theme: cobalt-light
+ * tone: technical · anchor hue: professional blue · nav: N9 edge-aligned
  * Design-taste baseline: variance 8 · motion 6 · density 4
+ * Light mode is the default (PowerBI/Tableau register); dark via [data-theme="dark"]
  */
 
 :root {
-  /* ── Palette (OKLCH, dark) ─────────────────────────────── */
-  --color-paper:        oklch(16% 0.012 260);
-  --color-paper-2:      oklch(19% 0.014 260);
-  --color-paper-3:      oklch(23% 0.016 260);
-  --color-ink:          oklch(92% 0.008 260);
-  --color-ink-dim:      oklch(70% 0.01 260);
-  --color-ink-faint:    oklch(52% 0.012 260);
-  --color-accent:       oklch(80% 0.13 80);
-  --color-accent-strong: oklch(72% 0.14 75);
-  --color-accent-dim:   oklch(80% 0.13 80 / 0.14);
-  --color-success:      oklch(78% 0.15 150);
-  --color-success-dim:  oklch(78% 0.15 150 / 0.12);
-  --color-danger:       oklch(70% 0.18 25);
-  --color-border:       oklch(30% 0.012 260);
-  --color-border-subtle: oklch(24% 0.012 260);
+  /* ── Palette (light — professional BI) ─────────────────── */
+  --color-paper:        oklch(97% 0.004 250);
+  --color-paper-2:      oklch(100% 0 0);
+  --color-paper-3:      oklch(94.5% 0.005 250);
+  --color-ink:          oklch(24% 0.01 250);
+  --color-ink-dim:      oklch(44% 0.012 250);
+  --color-ink-faint:    oklch(60% 0.012 250);
+  --color-accent:       oklch(55% 0.2 260);
+  --color-accent-strong: oklch(48% 0.2 260);
+  --color-accent-dim:   oklch(55% 0.2 260 / 0.12);
+  --color-on-accent:    oklch(100% 0 0);
+  --color-success:      oklch(50% 0.15 150);
+  --color-success-dim:  oklch(50% 0.15 150 / 0.12);
+  --color-danger:       oklch(55% 0.2 25);
+  --color-border:       oklch(82% 0.01 250);
+  --color-border-subtle: oklch(88% 0.01 250);
 
   /* ── Typography ────────────────────────────────────────── */
   --font-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
@@ -50,7 +52,31 @@
   --dur-med: 300ms;
   --dur-slow: 500ms;
 
-  /* ── SQL highlight (restyled for dark) ─────────────────── */
+  /* ── SQL highlight (light) ─────────────────────────────── */
+  --kw-color:  oklch(48% 0.2 260);
+  --fn-color:  oklch(45% 0.15 150);
+  --id-color:  oklch(40% 0.05 250);
+  --lit-color: oklch(45% 0.1 80);
+}
+
+[data-theme="dark"] {
+  /* ── Palette (dark — night) ────────────────────────────── */
+  --color-paper:        oklch(16% 0.012 260);
+  --color-paper-2:      oklch(19% 0.014 260);
+  --color-paper-3:      oklch(23% 0.016 260);
+  --color-ink:          oklch(92% 0.008 260);
+  --color-ink-dim:      oklch(70% 0.01 260);
+  --color-ink-faint:    oklch(52% 0.012 260);
+  --color-accent:       oklch(80% 0.13 80);
+  --color-accent-strong: oklch(72% 0.14 75);
+  --color-accent-dim:   oklch(80% 0.13 80 / 0.14);
+  --color-on-accent:    oklch(18% 0.02 80);
+  --color-success:      oklch(78% 0.15 150);
+  --color-success-dim:  oklch(78% 0.15 150 / 0.12);
+  --color-danger:       oklch(70% 0.18 25);
+  --color-border:       oklch(30% 0.012 260);
+  --color-border-subtle: oklch(24% 0.012 260);
+
   --kw-color:  oklch(80% 0.13 80);
   --fn-color:  oklch(85% 0.1 150);
   --id-color:  oklch(85% 0.05 260);
@@ -61,11 +87,12 @@ html,
 body {
   height: 100%;
   overflow: hidden;
-  background: var(--color-bg, var(--color-paper));
+  background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-body);
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+  transition: background var(--dur-med) var(--ease-out), color var(--dur-med) var(--ease-out);
 }
 
 * {
@@ -108,9 +135,9 @@ body {
   border-radius: var(--radius-sm);
   background: linear-gradient(
     90deg,
-    var(--color-paper-2) 25%,
-    var(--color-paper-3) 50%,
-    var(--color-paper-2) 75%
+    var(--color-paper-3) 25%,
+    var(--color-border-subtle) 50%,
+    var(--color-paper-3) 75%
   );
   background-size: 800px 100%;
   animation: shimmer 1.4s infinite linear;

@@ -56,4 +56,5 @@ async def load_sample(pool: PostgresPool, sample_id: str, dsn: str) -> dict:
         "domain": meta["domain"],
         "preview": rows[:5],
         "dsn": dsn,
+        "questions": meta.get("questions", []),
     }

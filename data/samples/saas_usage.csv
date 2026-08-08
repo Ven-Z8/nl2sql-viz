@@ -1,0 +1,1501 @@
+user_id,signup_date,plan,top_feature,sessions,days_active,mrr,status
+U1,2024-05-06,Business,Integrations,156,17,421.69,churned
+U2,2023-12-15,Enterprise,API,62,18,285.43,trial
+U3,2023-09-02,Free,Integrations,126,30,339.41,active
+U4,2023-09-21,Free,Automation,101,28,235.51,active
+U5,2023-04-22,Free,Dashboard,156,16,386.11,active
+U6,2023-08-02,Enterprise,Reports,68,5,226.53,active
+U7,2024-05-08,Enterprise,Reports,79,23,448.94,active
+U8,2023-03-17,Enterprise,Dashboard,168,26,93.63,active
+U9,2023-03-05,Free,Reports,156,19,347.24,active
+U10,2024-03-04,Pro,Reports,18,28,4.5,churned
+U11,2023-11-12,Pro,API,151,8,164.07,active
+U12,2023-11-22,Business,API,198,20,332.48,active
+U13,2023-09-28,Pro,Automation,52,14,245.87,active
+U14,2024-03-29,Free,Reports,31,2,109.02,active
+U15,2024-02-22,Enterprise,Reports,12,29,94.2,active
+U16,2023-04-15,Business,AI Insights,166,0,261.6,active
+U17,2024-05-07,Business,API,128,2,355.1,active
+U18,2023-01-14,Enterprise,Integrations,197,28,93.85,active
+U19,2023-07-03,Pro,API,126,11,233.63,active
+U20,2023-07-26,Free,AI Insights,59,12,111.9,trial
+U21,2023-06-16,Business,AI Insights,62,15,324.13,churned
+U22,2023-10-31,Business,Integrations,46,5,67.85,active
+U23,2023-07-22,Enterprise,Reports,53,15,42.13,active
+U24,2023-01-15,Pro,Reports,78,28,69.0,trial
+U25,2023-06-16,Free,Dashboard,178,17,28.43,active
+U26,2023-02-25,Free,Dashboard,65,24,216.86,active
+U27,2023-12-02,Business,Automation,118,6,197.29,active
+U28,2023-07-14,Free,Integrations,153,3,228.71,trial
+U29,2024-02-24,Free,AI Insights,115,20,32.45,churned
+U30,2023-10-15,Pro,Automation,29,22,70.92,active
+U31,2023-02-22,Pro,Automation,40,1,385.79,churned
+U32,2023-12-23,Business,Dashboard,116,6,277.54,trial
+U33,2024-05-05,Enterprise,Automation,11,15,132.67,trial
+U34,2024-01-24,Pro,AI Insights,161,24,388.63,trial
+U35,2023-10-09,Pro,Integrations,91,16,24.12,active
+U36,2023-04-08,Free,Dashboard,14,15,226.8,trial
+U37,2024-02-24,Pro,Reports,184,27,495.33,active
+U38,2023-09-06,Business,Automation,128,13,482.03,churned
+U39,2023-04-25,Enterprise,Dashboard,73,13,38.45,active
+U40,2024-01-22,Pro,Dashboard,126,11,257.35,active
+U41,2024-02-13,Enterprise,AI Insights,18,4,492.7,churned
+U42,2023-09-27,Enterprise,Automation,16,1,90.55,churned
+U43,2023-12-11,Free,Integrations,111,23,205.08,trial
+U44,2023-06-18,Enterprise,AI Insights,166,9,280.47,active
+U45,2024-04-23,Business,Reports,166,4,368.24,active
+U46,2023-01-07,Pro,Reports,170,1,154.34,active
+U47,2023-01-18,Business,Reports,64,1,222.12,active
+U48,2023-02-21,Free,API,109,14,25.59,churned
+U49,2023-10-11,Pro,Automation,43,19,211.68,trial
+U50,2024-05-12,Pro,API,157,25,365.54,active
+U51,2023-03-01,Business,AI Insights,111,3,281.28,trial
+U52,2023-11-24,Enterprise,API,147,5,234.95,active
+U53,2023-10-28,Business,Integrations,103,30,134.91,active
+U54,2024-02-05,Pro,Dashboard,42,14,148.35,churned
+U55,2023-01-12,Free,Integrations,128,7,296.27,active
+U56,2024-01-03,Free,AI Insights,11,0,354.76,active
+U57,2023-08-20,Free,API,45,8,412.81,churned
+U58,2024-01-03,Enterprise,Dashboard,45,4,104.77,active
+U59,2023-10-07,Pro,Integrations,81,0,255.38,active
+U60,2023-03-14,Pro,AI Insights,165,3,158.0,churned
+U61,2023-11-05,Enterprise,Integrations,104,10,280.42,active
+U62,2024-02-20,Free,API,105,3,422.63,churned
+U63,2023-07-12,Business,Dashboard,64,20,21.36,active
+U64,2023-07-04,Pro,Dashboard,120,17,132.84,trial
+U65,2023-08-16,Enterprise,API,60,1,133.97,active
+U66,2023-12-16,Enterprise,Automation,127,20,189.67,trial
+U67,2024-05-03,Business,Reports,91,16,112.61,active
+U68,2023-01-17,Enterprise,AI Insights,98,23,83.59,trial
+U69,2024-05-03,Pro,Reports,189,25,155.83,active
+U70,2023-03-02,Enterprise,Automation,88,19,253.15,active
+U71,2023-07-06,Pro,API,30,5,161.46,churned
+U72,2023-12-14,Pro,Reports,196,2,26.4,active
+U73,2023-05-28,Enterprise,Reports,37,4,89.14,trial
+U74,2024-02-10,Business,Dashboard,169,17,433.74,churned
+U75,2023-06-02,Business,Integrations,143,10,286.32,active
+U76,2023-07-25,Enterprise,Automation,12,4,250.59,active
+U77,2024-05-13,Free,Dashboard,18,7,47.48,active
+U78,2023-10-05,Free,Integrations,71,26,197.88,trial
+U79,2023-10-10,Pro,Automation,95,4,236.89,active
+U80,2024-01-13,Pro,AI Insights,31,16,348.29,active
+U81,2023-11-19,Enterprise,API,36,16,397.38,active
+U82,2023-03-12,Pro,AI Insights,4,29,36.23,churned
+U83,2024-03-14,Free,Automation,190,16,315.87,active
+U84,2023-08-04,Business,AI Insights,127,6,476.93,active
+U85,2023-01-06,Free,Reports,152,5,228.55,churned
+U86,2023-02-02,Business,Integrations,157,11,292.42,active
+U87,2023-10-07,Business,Integrations,77,5,260.29,churned
+U88,2023-12-25,Free,Automation,67,8,438.46,active
+U89,2023-09-15,Pro,Automation,21,1,217.01,active
+U90,2023-12-09,Enterprise,Dashboard,114,14,191.45,trial
+U91,2023-09-24,Free,Reports,151,14,292.86,active
+U92,2023-09-06,Pro,Reports,116,5,51.86,active
+U93,2024-05-01,Free,API,123,10,385.84,active
+U94,2023-03-17,Free,Automation,141,6,265.95,active
+U95,2023-08-08,Enterprise,Integrations,175,3,457.94,churned
+U96,2023-08-29,Enterprise,Reports,142,13,179.51,active
+U97,2024-05-11,Pro,Dashboard,112,13,69.12,active
+U98,2024-01-13,Business,Automation,76,1,190.18,active
+U99,2023-12-15,Enterprise,API,51,24,198.32,trial
+U100,2024-03-13,Enterprise,Reports,128,20,284.45,trial
+U101,2023-10-27,Pro,Reports,169,2,369.88,active
+U102,2023-05-15,Free,API,116,7,369.92,churned
+U103,2024-04-16,Business,Automation,123,10,113.05,trial
+U104,2024-03-27,Business,Reports,49,7,444.98,active
+U105,2024-02-18,Pro,AI Insights,132,17,179.3,active
+U106,2024-03-11,Pro,AI Insights,176,13,489.24,active
+U107,2023-02-09,Business,Dashboard,108,4,195.4,active
+U108,2023-11-10,Business,API,106,25,78.03,active
+U109,2023-02-20,Business,Dashboard,171,8,350.49,churned
+U110,2023-08-09,Pro,AI Insights,127,21,155.63,trial
+U111,2024-01-13,Business,AI Insights,93,3,38.86,churned
+U112,2023-11-13,Pro,API,143,3,226.99,active
+U113,2023-11-22,Business,Reports,106,2,314.21,active
+U114,2024-05-08,Business,Automation,129,17,474.63,active
+U115,2024-04-24,Pro,AI Insights,129,12,431.96,active
+U116,2024-02-13,Pro,API,61,3,73.92,active
+U117,2023-08-06,Pro,Dashboard,27,11,47.92,active
+U118,2023-09-22,Business,API,84,7,198.47,active
+U119,2023-01-22,Free,Automation,51,29,319.32,active
+U120,2023-10-15,Free,Integrations,182,10,35.44,trial
+U121,2023-03-18,Pro,Dashboard,64,7,255.68,trial
+U122,2024-05-05,Enterprise,Integrations,165,20,440.29,active
+U123,2023-01-15,Enterprise,Integrations,120,3,261.09,active
+U124,2024-02-12,Business,Automation,20,11,464.78,active
+U125,2023-08-20,Pro,API,133,2,281.17,trial
+U126,2023-08-14,Pro,Reports,84,18,277.66,churned
+U127,2024-03-01,Business,Dashboard,24,15,488.81,active
+U128,2024-01-11,Pro,Reports,76,13,104.03,active
+U129,2024-03-24,Enterprise,Integrations,115,0,455.43,trial
+U130,2023-09-28,Free,AI Insights,14,2,147.14,active
+U131,2023-01-27,Pro,AI Insights,194,8,463.44,active
+U132,2024-01-12,Free,AI Insights,153,30,280.22,active
+U133,2024-01-11,Pro,Integrations,172,30,327.24,active
+U134,2023-08-02,Business,Dashboard,69,30,1.05,active
+U135,2023-03-30,Free,Integrations,197,7,28.18,trial
+U136,2023-12-23,Business,API,87,25,268.01,trial
+U137,2024-01-26,Enterprise,Integrations,47,11,115.63,active
+U138,2023-11-15,Pro,AI Insights,73,11,247.77,active
+U139,2024-05-09,Enterprise,API,154,8,267.98,active
+U140,2024-01-12,Enterprise,Automation,165,11,52.32,active
+U141,2023-08-28,Business,Dashboard,180,30,452.99,churned
+U142,2024-03-12,Free,AI Insights,33,26,294.65,active
+U143,2023-03-03,Pro,Reports,120,27,111.53,active
+U144,2023-03-30,Free,AI Insights,103,3,139.77,active
+U145,2023-03-24,Pro,Integrations,26,19,471.03,churned
+U146,2023-11-11,Free,Dashboard,55,17,367.55,active
+U147,2024-01-28,Enterprise,Automation,33,9,448.33,active
+U148,2023-12-07,Pro,Automation,20,29,360.78,churned
+U149,2023-05-02,Business,Automation,28,22,432.74,churned
+U150,2023-05-04,Business,API,71,12,182.24,active
+U151,2023-10-22,Free,API,91,9,0.14,active
+U152,2023-05-16,Enterprise,AI Insights,70,21,2.7,trial
+U153,2023-10-30,Enterprise,AI Insights,150,25,266.41,active
+U154,2023-12-14,Free,API,6,12,100.24,churned
+U155,2024-04-20,Business,Reports,61,15,82.8,trial
+U156,2023-01-15,Pro,Dashboard,97,16,427.12,active
+U157,2023-10-02,Pro,Dashboard,123,8,226.42,churned
+U158,2023-06-25,Free,API,148,30,354.24,active
+U159,2024-04-25,Enterprise,Automation,37,19,326.54,trial
+U160,2023-06-18,Business,Dashboard,32,9,63.97,active
+U161,2023-07-16,Free,Dashboard,194,24,72.8,active
+U162,2023-09-22,Enterprise,Automation,109,2,239.56,active
+U163,2023-02-24,Free,Dashboard,182,20,424.69,active
+U164,2023-04-28,Business,API,130,29,56.61,active
+U165,2023-05-21,Enterprise,Dashboard,41,24,42.16,active
+U166,2023-04-02,Free,AI Insights,5,18,126.12,active
+U167,2023-02-18,Business,Integrations,134,22,324.3,trial
+U168,2023-06-14,Free,Integrations,61,30,308.27,active
+U169,2023-03-06,Business,Dashboard,1,14,20.97,active
+U170,2023-07-12,Enterprise,API,141,25,386.88,trial
+U171,2024-03-29,Pro,Reports,59,7,185.16,trial
+U172,2024-04-06,Free,Automation,78,26,291.79,active
+U173,2023-12-26,Business,AI Insights,41,8,268.9,trial
+U174,2023-06-23,Free,Dashboard,134,13,317.82,active
+U175,2024-05-06,Free,Automation,109,9,227.38,trial
+U176,2023-09-06,Free,Integrations,147,9,176.22,active
+U177,2023-08-21,Enterprise,AI Insights,95,26,430.89,churned
+U178,2023-09-26,Pro,API,17,21,99.6,active
+U179,2024-03-03,Pro,Integrations,61,14,354.35,active
+U180,2023-06-12,Enterprise,Dashboard,182,1,331.38,trial
+U181,2023-09-18,Business,API,2,22,123.41,active
+U182,2023-02-25,Pro,AI Insights,75,20,168.32,churned
+U183,2023-01-09,Enterprise,Reports,131,3,54.21,active
+U184,2024-01-08,Enterprise,Reports,58,9,255.07,active
+U185,2023-05-28,Free,Integrations,90,9,88.16,churned
+U186,2023-10-22,Free,Dashboard,191,24,432.8,active
+U187,2023-06-23,Pro,Integrations,143,19,433.89,active
+U188,2023-05-07,Enterprise,Integrations,196,16,52.21,active
+U189,2024-02-18,Business,Dashboard,111,19,61.83,active
+U190,2023-06-09,Enterprise,Reports,43,16,120.12,active
+U191,2023-09-19,Free,Reports,67,10,479.32,churned
+U192,2024-02-12,Free,Integrations,43,20,314.44,active
+U193,2023-12-28,Enterprise,Reports,165,16,341.03,trial
+U194,2024-01-26,Business,Automation,99,22,376.28,active
+U195,2023-05-11,Business,AI Insights,190,18,233.35,trial
+U196,2023-02-06,Business,Integrations,171,26,156.22,active
+U197,2024-04-04,Business,Reports,78,27,253.39,active
+U198,2023-04-04,Enterprise,API,157,29,170.71,active
+U199,2024-02-24,Business,Automation,156,16,252.79,trial
+U200,2024-02-10,Enterprise,Dashboard,80,14,364.65,churned
+U201,2023-10-29,Free,Integrations,7,5,137.56,active
+U202,2023-10-07,Business,Reports,50,3,414.74,churned
+U203,2023-11-12,Business,AI Insights,157,1,76.41,churned
+U204,2024-01-05,Pro,Automation,110,28,266.32,active
+U205,2023-05-20,Business,Automation,120,17,463.16,active
+U206,2023-01-01,Pro,AI Insights,198,20,326.96,churned
+U207,2023-12-25,Enterprise,Reports,104,30,146.35,churned
+U208,2023-07-11,Pro,AI Insights,73,22,462.85,trial
+U209,2024-01-07,Business,Automation,91,25,117.28,active
+U210,2024-04-04,Free,Reports,20,5,343.72,churned
+U211,2023-03-15,Business,API,171,24,494.49,churned
+U212,2023-07-25,Business,Automation,10,14,341.37,active
+U213,2024-03-03,Business,Reports,11,26,386.71,trial
+U214,2023-07-02,Pro,API,19,27,125.19,trial
+U215,2023-01-28,Business,Dashboard,110,7,347.14,churned
+U216,2024-02-07,Business,Reports,9,26,347.75,trial
+U217,2023-09-24,Business,Automation,97,13,328.85,trial
+U218,2023-11-22,Enterprise,Integrations,185,3,112.65,active
+U219,2024-02-06,Free,API,86,20,169.1,active
+U220,2023-08-07,Business,AI Insights,151,10,168.21,active
+U221,2023-05-22,Free,AI Insights,34,15,98.79,trial
+U222,2023-09-11,Business,Dashboard,47,11,293.78,churned
+U223,2023-07-10,Pro,API,154,3,181.1,active
+U224,2023-07-22,Free,Automation,56,6,438.81,active
+U225,2024-03-04,Pro,Dashboard,100,10,331.67,active
+U226,2023-05-27,Business,Automation,60,13,272.42,active
+U227,2024-05-02,Free,AI Insights,10,28,103.81,active
+U228,2024-03-15,Free,AI Insights,60,17,233.64,active
+U229,2023-09-28,Pro,Automation,75,8,417.12,active
+U230,2023-06-10,Pro,Automation,121,2,391.04,active
+U231,2023-12-08,Pro,AI Insights,82,20,476.43,churned
+U232,2023-07-18,Enterprise,Integrations,12,4,343.23,active
+U233,2023-11-26,Pro,API,115,24,227.8,active
+U234,2023-09-08,Free,Integrations,134,11,54.47,active
+U235,2023-04-25,Business,Reports,93,8,177.75,active
+U236,2023-11-03,Free,API,184,28,395.45,active
+U237,2024-03-08,Pro,AI Insights,21,10,164.44,churned
+U238,2024-04-18,Enterprise,Reports,37,21,463.68,active
+U239,2023-02-14,Business,Dashboard,59,17,56.06,active
+U240,2023-09-23,Free,Integrations,156,20,6.24,active
+U241,2023-04-18,Business,Automation,36,25,391.93,trial
+U242,2023-05-28,Business,Reports,86,26,491.23,active
+U243,2023-11-01,Free,Integrations,151,12,246.84,active
+U244,2023-07-19,Business,AI Insights,39,26,436.11,active
+U245,2024-01-27,Enterprise,AI Insights,39,1,302.58,active
+U246,2024-03-10,Pro,Reports,90,10,473.01,churned
+U247,2023-06-20,Enterprise,Integrations,160,9,104.59,trial
+U248,2023-12-14,Enterprise,AI Insights,173,29,367.34,active
+U249,2023-01-30,Business,Dashboard,183,7,7.61,churned
+U250,2023-07-04,Enterprise,Automation,122,16,240.49,churned
+U251,2023-05-30,Free,Reports,51,26,375.85,trial
+U252,2024-04-09,Enterprise,Reports,196,15,182.85,active
+U253,2023-06-20,Enterprise,API,31,20,285.42,trial
+U254,2024-04-10,Free,AI Insights,175,14,5.0,active
+U255,2023-05-04,Business,Dashboard,80,4,13.33,active
+U256,2023-04-06,Business,AI Insights,193,21,318.4,trial
+U257,2023-01-03,Enterprise,Dashboard,128,2,355.83,active
+U258,2023-06-10,Pro,Reports,49,19,13.81,trial
+U259,2024-01-11,Free,Reports,70,18,5.86,active
+U260,2024-04-26,Pro,API,77,9,13.78,churned
+U261,2023-08-10,Enterprise,Integrations,15,10,55.96,active
+U262,2023-03-20,Business,Integrations,42,24,258.71,trial
+U263,2023-04-15,Pro,API,136,20,426.29,churned
+U264,2024-04-20,Business,Reports,116,13,233.62,active
+U265,2024-02-27,Business,Dashboard,122,14,382.3,active
+U266,2023-11-27,Free,API,97,6,31.22,active
+U267,2023-05-14,Enterprise,API,187,28,351.58,active
+U268,2024-04-07,Free,Dashboard,47,28,131.09,active
+U269,2023-12-26,Enterprise,Dashboard,176,7,257.39,active
+U270,2023-06-01,Free,Automation,110,13,415.18,active
+U271,2023-01-02,Pro,Dashboard,36,30,33.13,churned
+U272,2024-05-12,Free,API,115,29,442.88,active
+U273,2024-05-04,Pro,AI Insights,93,1,493.27,active
+U274,2024-03-07,Enterprise,Reports,170,16,244.19,active
+U275,2023-01-14,Pro,Dashboard,88,26,228.98,trial
+U276,2024-01-16,Business,AI Insights,124,13,363.23,active
+U277,2023-09-09,Free,API,12,21,409.61,active
+U278,2023-04-22,Pro,Dashboard,138,24,414.46,active
+U279,2023-07-26,Business,API,34,1,116.93,active
+U280,2023-04-01,Enterprise,Reports,159,25,445.57,active
+U281,2023-09-11,Free,Automation,8,23,205.16,active
+U282,2023-07-07,Pro,Dashboard,135,0,389.61,trial
+U283,2023-01-15,Free,Reports,114,24,51.06,active
+U284,2023-03-22,Business,Dashboard,120,8,420.43,active
+U285,2023-11-25,Business,API,35,9,268.05,trial
+U286,2023-12-13,Pro,Reports,197,5,68.91,trial
+U287,2023-02-15,Pro,Dashboard,181,20,287.89,active
+U288,2023-05-29,Enterprise,Reports,39,24,100.91,active
+U289,2023-09-24,Pro,Automation,110,30,37.81,active
+U290,2023-07-27,Business,Reports,8,0,151.96,trial
+U291,2023-05-11,Free,API,89,4,398.4,active
+U292,2023-09-23,Pro,Integrations,64,2,117.19,churned
+U293,2024-04-27,Free,Dashboard,198,26,331.96,churned
+U294,2023-05-05,Enterprise,AI Insights,88,16,459.8,trial
+U295,2023-03-11,Business,Dashboard,2,0,326.1,churned
+U296,2023-01-07,Free,API,96,17,462.58,active
+U297,2024-04-14,Pro,Integrations,131,23,422.44,active
+U298,2024-03-21,Enterprise,Automation,51,6,327.3,trial
+U299,2023-08-12,Pro,AI Insights,158,21,97.23,active
+U300,2023-03-16,Free,AI Insights,146,15,94.57,active
+U301,2024-03-21,Enterprise,Integrations,149,29,305.05,trial
+U302,2024-05-13,Free,AI Insights,45,18,239.24,active
+U303,2023-07-11,Free,Reports,38,7,181.58,trial
+U304,2023-07-12,Free,API,90,19,323.98,active
+U305,2024-03-04,Free,Automation,27,20,465.81,active
+U306,2023-09-04,Free,Automation,3,24,121.87,active
+U307,2023-07-08,Pro,API,179,8,439.18,churned
+U308,2023-05-25,Pro,AI Insights,191,8,96.98,churned
+U309,2024-03-01,Free,Automation,71,23,148.42,churned
+U310,2023-09-01,Business,Dashboard,154,7,117.89,active
+U311,2023-11-07,Pro,API,58,22,298.93,churned
+U312,2023-03-25,Free,API,94,13,237.13,active
+U313,2024-02-28,Enterprise,API,63,16,133.15,trial
+U314,2023-09-24,Enterprise,Dashboard,196,14,176.8,active
+U315,2023-09-30,Pro,API,14,21,459.11,active
+U316,2024-01-16,Free,Integrations,104,4,190.94,active
+U317,2023-07-20,Free,Integrations,24,13,369.4,trial
+U318,2024-03-13,Enterprise,Dashboard,125,11,393.37,active
+U319,2023-11-13,Enterprise,Dashboard,89,6,468.79,trial
+U320,2023-07-09,Free,Dashboard,74,1,176.64,churned
+U321,2023-10-23,Pro,API,14,25,490.42,active
+U322,2023-11-09,Pro,AI Insights,44,27,190.01,active
+U323,2023-11-10,Enterprise,Dashboard,36,3,424.97,active
+U324,2023-01-17,Business,Reports,100,10,215.76,trial
+U325,2023-12-29,Enterprise,API,91,24,147.57,active
+U326,2024-04-27,Free,Automation,193,27,232.26,active
+U327,2023-05-26,Pro,Automation,30,26,78.95,active
+U328,2023-12-09,Business,Integrations,161,3,458.68,trial
+U329,2023-09-23,Free,Integrations,20,3,52.25,churned
+U330,2023-01-04,Enterprise,AI Insights,103,25,169.52,active
+U331,2023-08-07,Pro,Reports,196,12,400.82,trial
+U332,2023-05-07,Business,API,184,23,376.28,churned
+U333,2023-05-23,Business,Automation,3,6,188.11,active
+U334,2024-02-03,Enterprise,Automation,13,1,350.43,trial
+U335,2023-07-04,Free,Automation,153,23,340.42,trial
+U336,2023-10-04,Free,Integrations,161,14,377.27,active
+U337,2024-05-03,Business,Dashboard,8,19,280.9,active
+U338,2024-02-22,Business,Reports,11,12,73.85,active
+U339,2023-04-01,Free,API,183,30,295.13,churned
+U340,2024-01-10,Enterprise,AI Insights,99,12,434.93,active
+U341,2023-11-03,Enterprise,Automation,87,8,491.6,churned
+U342,2024-04-03,Enterprise,API,82,25,2.56,active
+U343,2023-11-16,Pro,Integrations,196,3,369.61,trial
+U344,2023-08-12,Pro,Integrations,40,21,275.72,active
+U345,2023-03-24,Business,Automation,18,3,482.65,churned
+U346,2024-05-13,Free,AI Insights,123,12,277.71,active
+U347,2023-06-24,Pro,API,183,24,397.12,active
+U348,2024-02-08,Enterprise,Reports,120,13,113.34,active
+U349,2023-12-23,Business,Integrations,197,27,101.3,trial
+U350,2023-12-02,Pro,Automation,16,6,171.82,churned
+U351,2023-05-22,Pro,API,62,3,412.53,active
+U352,2023-03-08,Pro,API,26,5,404.65,trial
+U353,2023-06-10,Enterprise,Automation,164,11,346.7,churned
+U354,2023-04-27,Pro,Automation,49,10,438.47,active
+U355,2024-04-03,Business,API,95,6,244.91,active
+U356,2023-06-19,Free,API,174,24,182.01,trial
+U357,2024-04-10,Business,AI Insights,196,7,53.36,active
+U358,2023-11-10,Pro,Dashboard,3,23,424.89,trial
+U359,2023-02-08,Business,Reports,77,5,2.42,churned
+U360,2023-12-03,Business,Reports,172,21,31.49,active
+U361,2024-03-22,Enterprise,API,157,8,334.09,active
+U362,2023-03-21,Enterprise,Dashboard,179,12,109.13,churned
+U363,2023-06-07,Enterprise,Integrations,164,22,300.76,active
+U364,2023-03-05,Enterprise,API,5,16,264.69,active
+U365,2023-02-15,Free,Reports,118,19,154.81,active
+U366,2023-01-06,Pro,Dashboard,191,16,376.27,trial
+U367,2023-05-19,Free,AI Insights,182,29,180.66,trial
+U368,2023-04-10,Pro,API,154,2,378.41,active
+U369,2023-04-01,Pro,Integrations,175,25,446.45,active
+U370,2023-01-29,Enterprise,API,54,16,471.98,active
+U371,2023-12-26,Business,Dashboard,110,14,237.56,trial
+U372,2023-04-15,Business,Integrations,119,19,425.37,active
+U373,2024-03-30,Pro,Integrations,199,13,92.87,trial
+U374,2023-12-11,Pro,API,118,11,160.23,active
+U375,2024-03-08,Business,API,178,13,30.72,active
+U376,2023-06-05,Pro,API,157,2,170.22,trial
+U377,2023-08-08,Enterprise,API,116,12,54.76,active
+U378,2023-06-22,Business,Automation,44,21,407.49,active
+U379,2023-09-19,Business,API,200,19,143.51,active
+U380,2023-07-28,Pro,Automation,29,28,282.65,active
+U381,2023-01-23,Free,Dashboard,29,13,250.3,trial
+U382,2023-03-12,Enterprise,Integrations,160,4,211.67,active
+U383,2023-08-23,Business,Integrations,150,6,220.4,active
+U384,2023-10-05,Enterprise,API,15,6,267.04,active
+U385,2023-10-01,Enterprise,API,142,24,180.37,active
+U386,2023-10-01,Enterprise,API,160,12,92.84,active
+U387,2023-05-24,Enterprise,Automation,125,10,475.81,active
+U388,2023-08-25,Business,API,115,21,111.22,active
+U389,2024-02-12,Business,API,200,9,146.2,active
+U390,2023-09-16,Pro,Dashboard,149,7,467.31,active
+U391,2024-04-02,Pro,Integrations,4,14,49.93,trial
+U392,2023-04-25,Free,Reports,19,26,90.24,active
+U393,2023-12-06,Free,Automation,128,6,18.66,active
+U394,2023-09-09,Pro,Reports,59,6,361.0,trial
+U395,2023-09-16,Pro,Dashboard,169,5,125.09,trial
+U396,2024-03-08,Pro,Integrations,0,28,492.01,trial
+U397,2024-01-05,Free,Dashboard,164,3,351.98,active
+U398,2023-09-25,Business,API,5,8,236.61,active
+U399,2024-04-09,Pro,Automation,91,19,148.04,churned
+U400,2023-08-11,Business,Dashboard,16,5,48.18,active
+U401,2023-11-25,Business,API,134,9,362.75,active
+U402,2023-06-09,Business,Dashboard,184,3,232.77,active
+U403,2023-06-17,Free,Reports,64,25,348.83,active
+U404,2024-01-03,Free,Dashboard,136,16,89.7,active
+U405,2023-08-19,Pro,AI Insights,108,10,126.44,active
+U406,2023-04-06,Free,Integrations,107,5,377.46,active
+U407,2023-12-23,Enterprise,Dashboard,138,10,256.76,active
+U408,2023-02-13,Free,Integrations,98,24,483.3,churned
+U409,2023-09-18,Enterprise,AI Insights,51,22,235.38,active
+U410,2023-07-18,Business,Dashboard,179,11,384.04,active
+U411,2023-01-09,Free,API,32,10,256.27,active
+U412,2023-04-28,Free,Integrations,46,25,327.45,trial
+U413,2024-05-02,Pro,Integrations,188,21,153.32,trial
+U414,2024-04-24,Business,Automation,117,24,301.49,trial
+U415,2023-06-23,Free,API,178,19,183.61,active
+U416,2023-02-17,Enterprise,Integrations,119,19,261.08,active
+U417,2023-12-23,Business,AI Insights,133,12,248.52,churned
+U418,2023-10-11,Business,Automation,43,28,233.37,active
+U419,2023-09-20,Pro,Integrations,135,0,86.61,active
+U420,2023-12-16,Free,AI Insights,19,18,289.16,active
+U421,2024-03-22,Free,Reports,172,30,314.24,trial
+U422,2024-02-06,Enterprise,API,84,26,200.03,active
+U423,2023-01-29,Pro,Integrations,104,11,12.66,active
+U424,2024-04-06,Free,Reports,10,7,245.42,active
+U425,2023-12-03,Free,Dashboard,198,5,297.04,active
+U426,2023-06-19,Free,AI Insights,28,2,394.39,active
+U427,2023-01-15,Pro,Dashboard,149,30,272.83,active
+U428,2023-01-27,Free,AI Insights,104,26,84.17,churned
+U429,2023-09-02,Pro,Dashboard,189,26,412.09,active
+U430,2023-10-24,Free,Dashboard,120,14,295.87,churned
+U431,2023-10-02,Free,Reports,190,0,254.73,active
+U432,2024-04-29,Free,Reports,166,18,467.35,churned
+U433,2024-05-09,Enterprise,Integrations,166,12,5.48,active
+U434,2024-01-26,Pro,Dashboard,50,22,122.84,active
+U435,2023-01-01,Enterprise,Automation,10,17,302.02,active
+U436,2023-01-31,Business,Reports,96,21,351.73,active
+U437,2024-03-03,Enterprise,Integrations,12,28,287.28,trial
+U438,2023-10-18,Free,Integrations,56,6,255.08,active
+U439,2023-02-22,Business,API,66,23,188.89,churned
+U440,2023-07-15,Enterprise,Dashboard,1,3,172.45,active
+U441,2023-08-18,Enterprise,API,51,11,437.28,churned
+U442,2023-11-09,Pro,Integrations,133,23,485.63,active
+U443,2023-12-08,Free,Dashboard,26,14,153.59,trial
+U444,2023-12-25,Enterprise,Dashboard,10,19,204.76,active
+U445,2024-03-23,Pro,Integrations,59,19,236.64,active
+U446,2023-12-20,Enterprise,Reports,54,22,107.37,active
+U447,2023-04-04,Business,Automation,183,17,54.1,active
+U448,2023-03-24,Enterprise,AI Insights,126,3,488.93,active
+U449,2024-03-16,Pro,Integrations,198,4,197.05,trial
+U450,2023-08-03,Free,Reports,86,24,352.94,active
+U451,2023-05-28,Enterprise,AI Insights,37,12,458.63,trial
+U452,2023-09-20,Pro,Reports,39,5,5.83,active
+U453,2023-05-13,Enterprise,Dashboard,198,7,376.42,trial
+U454,2023-04-06,Enterprise,Dashboard,124,12,414.79,active
+U455,2023-02-26,Enterprise,Dashboard,7,12,247.52,active
+U456,2023-02-10,Enterprise,AI Insights,163,27,394.9,churned
+U457,2023-01-30,Pro,API,101,23,291.02,active
+U458,2023-03-02,Business,Dashboard,63,13,387.37,active
+U459,2023-09-27,Business,AI Insights,65,6,175.07,trial
+U460,2024-01-02,Business,API,169,23,55.06,active
+U461,2024-02-16,Free,AI Insights,49,15,270.79,active
+U462,2023-02-09,Business,Integrations,185,14,460.55,active
+U463,2023-03-06,Pro,API,146,17,399.19,active
+U464,2023-03-21,Business,Integrations,20,30,412.25,active
+U465,2024-02-15,Enterprise,Automation,181,23,25.37,churned
+U466,2024-01-26,Business,API,18,3,332.61,trial
+U467,2023-12-26,Pro,API,183,29,232.08,trial
+U468,2024-05-13,Pro,Integrations,121,22,190.53,churned
+U469,2023-04-22,Free,API,168,0,227.72,churned
+U470,2023-06-18,Enterprise,API,47,28,423.39,trial
+U471,2023-02-16,Business,Dashboard,100,3,392.61,trial
+U472,2023-01-15,Enterprise,API,62,21,231.38,trial
+U473,2023-12-15,Enterprise,Reports,102,9,258.03,churned
+U474,2023-08-02,Business,API,81,11,68.0,active
+U475,2023-02-07,Enterprise,Dashboard,93,1,53.03,churned
+U476,2023-05-09,Pro,AI Insights,131,29,312.93,trial
+U477,2023-02-26,Business,API,195,13,401.09,active
+U478,2023-02-03,Business,Automation,33,25,58.18,churned
+U479,2023-06-16,Enterprise,Integrations,50,7,263.28,trial
+U480,2023-04-26,Business,Integrations,12,12,459.44,active
+U481,2023-11-18,Enterprise,Integrations,144,8,39.23,active
+U482,2023-09-06,Free,Dashboard,118,8,428.53,active
+U483,2023-06-06,Free,Reports,103,7,9.65,active
+U484,2023-05-12,Enterprise,Dashboard,29,21,38.78,active
+U485,2023-06-17,Enterprise,Reports,87,4,164.9,active
+U486,2023-09-06,Pro,AI Insights,112,23,6.56,active
+U487,2024-02-15,Pro,API,163,17,228.75,active
+U488,2023-03-14,Business,API,188,9,424.92,active
+U489,2023-08-02,Pro,AI Insights,100,27,139.25,active
+U490,2023-10-05,Business,Automation,78,0,13.88,active
+U491,2023-12-12,Pro,Automation,104,23,364.83,active
+U492,2023-06-02,Enterprise,Reports,39,7,259.06,active
+U493,2023-11-28,Free,Automation,199,4,396.42,active
+U494,2024-01-13,Pro,Integrations,119,6,46.82,active
+U495,2024-01-05,Business,AI Insights,196,24,0.54,active
+U496,2023-03-05,Enterprise,API,153,28,13.4,trial
+U497,2024-05-05,Business,Automation,68,19,100.4,active
+U498,2024-02-23,Pro,Integrations,183,2,32.76,active
+U499,2023-05-24,Free,Reports,21,10,345.1,trial
+U500,2023-04-19,Business,Dashboard,180,2,433.34,churned
+U501,2023-05-31,Free,API,112,3,217.84,active
+U502,2024-02-19,Enterprise,API,20,28,34.94,active
+U503,2024-01-07,Free,Dashboard,96,18,76.15,trial
+U504,2023-04-18,Free,Dashboard,129,30,166.16,churned
+U505,2023-01-07,Pro,Dashboard,73,5,435.22,active
+U506,2023-07-11,Free,API,71,29,322.53,churned
+U507,2023-07-15,Enterprise,Reports,20,26,456.15,churned
+U508,2023-11-06,Free,AI Insights,169,14,238.08,active
+U509,2023-08-06,Free,API,50,0,243.9,active
+U510,2023-11-12,Enterprise,Dashboard,24,11,320.85,trial
+U511,2023-04-06,Pro,Automation,200,2,495.62,trial
+U512,2023-06-23,Pro,AI Insights,146,10,460.11,trial
+U513,2023-04-03,Business,Reports,11,1,463.69,active
+U514,2023-07-31,Free,Dashboard,109,6,239.36,active
+U515,2023-01-04,Free,Automation,169,10,497.19,trial
+U516,2024-04-04,Enterprise,Dashboard,174,24,435.72,active
+U517,2024-02-25,Enterprise,Automation,155,17,489.46,active
+U518,2023-08-23,Free,Automation,45,22,133.27,active
+U519,2023-07-04,Business,Dashboard,196,30,357.34,active
+U520,2023-11-15,Pro,Reports,110,30,481.4,churned
+U521,2023-03-05,Pro,Integrations,141,17,283.33,trial
+U522,2023-07-03,Enterprise,AI Insights,182,13,401.64,trial
+U523,2023-02-06,Free,Automation,116,25,473.97,active
+U524,2023-09-12,Enterprise,Integrations,30,15,16.67,active
+U525,2023-02-26,Free,Reports,176,9,144.68,trial
+U526,2023-10-25,Enterprise,API,183,25,289.95,active
+U527,2023-08-27,Pro,API,150,15,282.54,trial
+U528,2023-04-20,Enterprise,API,121,19,111.46,active
+U529,2023-11-19,Business,Dashboard,96,28,418.09,active
+U530,2023-08-16,Enterprise,Integrations,103,30,305.71,active
+U531,2023-12-14,Business,Reports,184,10,261.02,churned
+U532,2023-08-31,Free,AI Insights,75,25,245.57,active
+U533,2023-09-06,Free,Automation,192,7,402.98,active
+U534,2024-04-17,Pro,Integrations,85,8,476.56,active
+U535,2023-12-09,Enterprise,API,183,2,256.96,active
+U536,2024-01-26,Business,Integrations,133,13,77.83,active
+U537,2024-04-09,Business,Reports,92,24,303.25,active
+U538,2023-06-15,Business,Dashboard,158,29,8.44,active
+U539,2023-05-22,Free,API,74,16,355.91,active
+U540,2023-12-18,Pro,AI Insights,160,10,248.58,active
+U541,2024-01-28,Business,Automation,195,10,232.59,trial
+U542,2023-04-01,Pro,Automation,104,22,324.57,trial
+U543,2023-06-21,Pro,Reports,60,3,497.7,active
+U544,2023-12-18,Business,Reports,161,2,289.48,active
+U545,2023-03-01,Free,Automation,72,23,95.39,active
+U546,2024-03-08,Pro,AI Insights,189,11,247.21,active
+U547,2023-01-06,Free,Integrations,23,3,251.38,active
+U548,2024-05-05,Enterprise,Automation,38,20,211.82,active
+U549,2023-06-11,Pro,Reports,196,25,99.13,churned
+U550,2023-11-03,Business,Reports,24,18,390.09,active
+U551,2023-02-11,Free,Dashboard,125,6,368.03,churned
+U552,2024-03-31,Pro,Dashboard,80,24,494.21,active
+U553,2023-11-30,Business,Automation,43,12,411.79,churned
+U554,2024-04-23,Enterprise,Automation,196,15,109.08,churned
+U555,2023-10-19,Enterprise,Integrations,140,24,271.85,churned
+U556,2024-02-16,Enterprise,Integrations,102,6,287.37,active
+U557,2023-07-20,Free,Integrations,17,10,472.03,trial
+U558,2023-08-21,Pro,Integrations,116,28,105.2,active
+U559,2024-04-27,Enterprise,Reports,22,28,408.69,active
+U560,2024-03-19,Free,API,162,16,174.77,active
+U561,2023-09-28,Enterprise,AI Insights,92,12,55.53,active
+U562,2023-06-30,Pro,API,122,5,256.11,trial
+U563,2023-03-01,Free,Reports,159,16,61.46,active
+U564,2024-04-27,Business,Integrations,65,4,408.16,active
+U565,2023-05-17,Free,Dashboard,175,11,244.8,active
+U566,2023-10-04,Pro,Integrations,148,6,460.85,active
+U567,2024-05-06,Free,Integrations,159,17,38.85,active
+U568,2024-04-12,Free,Dashboard,199,23,435.89,active
+U569,2023-06-02,Business,Integrations,184,22,369.77,active
+U570,2024-01-28,Pro,Reports,194,4,84.48,trial
+U571,2024-01-04,Business,Reports,55,2,140.46,churned
+U572,2024-02-16,Free,AI Insights,181,6,154.43,churned
+U573,2023-07-04,Business,Dashboard,190,19,482.81,active
+U574,2023-09-23,Enterprise,AI Insights,60,23,26.72,active
+U575,2023-04-06,Business,Reports,40,25,354.73,active
+U576,2024-01-21,Pro,API,88,8,15.28,active
+U577,2023-02-07,Free,API,126,2,304.87,trial
+U578,2023-09-02,Free,Integrations,189,16,301.63,active
+U579,2023-11-26,Enterprise,Integrations,158,10,370.11,active
+U580,2023-12-13,Free,Reports,92,14,302.42,active
+U581,2023-06-02,Business,AI Insights,55,5,222.57,trial
+U582,2023-01-30,Business,AI Insights,3,14,481.76,active
+U583,2023-07-01,Business,Reports,54,23,5.38,active
+U584,2023-01-26,Pro,Automation,72,4,42.89,churned
+U585,2023-11-17,Pro,Dashboard,165,23,160.43,churned
+U586,2024-05-11,Business,Automation,120,18,440.81,active
+U587,2024-01-28,Pro,API,100,3,37.88,active
+U588,2024-02-28,Free,Automation,72,28,231.8,active
+U589,2023-01-15,Free,Reports,15,20,169.96,trial
+U590,2023-05-29,Business,Dashboard,22,19,408.87,active
+U591,2023-05-17,Free,Dashboard,63,16,342.33,churned
+U592,2023-11-05,Enterprise,Reports,194,19,247.85,active
+U593,2023-05-21,Business,Reports,112,9,460.1,churned
+U594,2024-04-18,Pro,Reports,131,19,8.31,active
+U595,2023-02-21,Enterprise,Integrations,65,4,221.58,active
+U596,2023-10-03,Pro,Integrations,177,8,252.53,active
+U597,2023-12-29,Enterprise,AI Insights,131,8,232.96,churned
+U598,2023-10-02,Free,Integrations,6,1,419.47,active
+U599,2024-04-03,Business,AI Insights,3,7,485.61,active
+U600,2023-10-28,Free,Automation,176,29,128.11,active
+U601,2023-03-05,Enterprise,Automation,107,20,340.2,active
+U602,2023-04-20,Free,Dashboard,100,15,314.02,trial
+U603,2023-08-23,Pro,Dashboard,44,15,87.24,active
+U604,2023-11-02,Enterprise,AI Insights,190,14,273.93,active
+U605,2023-10-21,Business,API,47,28,418.62,active
+U606,2024-04-13,Pro,API,28,10,286.62,active
+U607,2023-11-24,Free,Integrations,11,23,129.07,active
+U608,2023-03-10,Business,Dashboard,173,2,438.91,active
+U609,2023-08-06,Pro,Dashboard,107,7,391.19,active
+U610,2023-10-10,Pro,Automation,95,14,159.14,trial
+U611,2024-02-11,Business,Dashboard,144,27,253.88,active
+U612,2023-08-12,Pro,Automation,167,27,353.58,churned
+U613,2023-07-02,Free,Reports,2,22,300.81,trial
+U614,2023-05-25,Enterprise,API,128,10,224.11,churned
+U615,2023-05-26,Business,Reports,137,5,346.05,active
+U616,2023-06-07,Free,API,92,1,37.69,trial
+U617,2023-11-10,Business,AI Insights,41,13,354.08,active
+U618,2023-12-27,Business,Dashboard,99,16,454.55,active
+U619,2023-07-13,Enterprise,Automation,98,23,51.29,churned
+U620,2023-09-29,Enterprise,Reports,47,17,26.43,active
+U621,2024-01-09,Business,Reports,181,14,231.52,active
+U622,2024-04-07,Enterprise,API,0,27,331.13,active
+U623,2023-07-29,Pro,Reports,6,14,90.61,trial
+U624,2023-01-23,Pro,AI Insights,18,18,348.52,trial
+U625,2024-02-08,Pro,Integrations,64,0,348.84,active
+U626,2023-07-25,Enterprise,Reports,102,21,458.67,active
+U627,2023-02-15,Pro,Reports,86,16,151.01,active
+U628,2024-03-14,Business,Dashboard,80,13,498.29,active
+U629,2024-03-02,Enterprise,API,199,3,249.48,active
+U630,2023-03-28,Business,API,96,13,138.39,churned
+U631,2023-09-28,Pro,Integrations,71,30,295.68,churned
+U632,2023-09-26,Free,Integrations,159,21,435.05,churned
+U633,2023-08-30,Enterprise,API,163,28,206.84,churned
+U634,2024-01-02,Business,AI Insights,147,14,486.79,trial
+U635,2023-07-19,Business,Reports,37,15,220.87,trial
+U636,2024-04-30,Pro,Reports,27,7,427.77,active
+U637,2023-05-23,Business,Dashboard,151,10,429.58,trial
+U638,2024-05-09,Pro,AI Insights,93,22,138.4,trial
+U639,2023-04-06,Pro,Reports,96,25,249.03,active
+U640,2023-12-25,Pro,Dashboard,176,29,113.11,active
+U641,2023-01-14,Enterprise,Integrations,100,10,285.34,churned
+U642,2023-11-02,Pro,AI Insights,50,26,139.3,trial
+U643,2023-06-12,Pro,AI Insights,180,21,70.66,trial
+U644,2024-02-19,Enterprise,AI Insights,100,22,221.14,active
+U645,2024-04-06,Business,AI Insights,195,24,234.08,trial
+U646,2024-01-25,Business,Dashboard,194,19,31.99,active
+U647,2024-04-05,Enterprise,Automation,113,22,391.08,active
+U648,2024-02-20,Pro,AI Insights,50,2,159.14,churned
+U649,2023-02-17,Free,Reports,10,10,20.36,churned
+U650,2023-05-26,Pro,Reports,42,9,330.85,active
+U651,2024-02-24,Pro,Reports,164,7,212.62,active
+U652,2024-04-03,Free,Integrations,184,2,225.12,trial
+U653,2023-10-11,Business,Automation,26,27,110.53,churned
+U654,2024-02-11,Pro,Reports,15,11,239.05,trial
+U655,2023-09-11,Enterprise,Reports,33,14,330.99,active
+U656,2023-07-13,Enterprise,Dashboard,141,17,207.08,active
+U657,2024-02-25,Enterprise,API,180,27,267.51,active
+U658,2023-01-07,Free,Integrations,62,24,406.63,churned
+U659,2023-09-11,Pro,Reports,177,25,400.06,active
+U660,2023-08-17,Pro,AI Insights,118,14,125.09,active
+U661,2024-04-30,Free,API,62,0,14.1,churned
+U662,2024-04-16,Free,Reports,50,2,238.62,active
+U663,2023-05-20,Business,Automation,140,23,480.02,active
+U664,2024-02-04,Business,Dashboard,25,29,176.05,active
+U665,2023-08-03,Enterprise,Dashboard,173,8,58.29,trial
+U666,2024-02-24,Free,Dashboard,57,16,48.44,active
+U667,2023-10-06,Free,Integrations,173,2,471.82,trial
+U668,2023-06-29,Business,AI Insights,58,6,19.52,trial
+U669,2024-05-02,Pro,Dashboard,124,20,495.76,active
+U670,2023-07-10,Business,Automation,67,5,80.94,trial
+U671,2024-01-03,Free,Reports,88,12,130.95,trial
+U672,2023-07-24,Pro,AI Insights,130,24,306.68,trial
+U673,2023-08-18,Pro,Reports,196,26,15.4,churned
+U674,2023-06-28,Pro,Reports,150,16,197.44,trial
+U675,2023-02-26,Pro,Automation,105,24,367.26,active
+U676,2023-01-30,Pro,Reports,157,28,150.37,churned
+U677,2024-04-28,Business,AI Insights,78,27,135.83,active
+U678,2023-07-07,Business,Reports,28,20,367.92,trial
+U679,2024-03-02,Enterprise,AI Insights,94,5,166.76,active
+U680,2024-04-17,Free,AI Insights,119,14,113.53,active
+U681,2024-04-27,Free,Automation,42,20,431.67,trial
+U682,2023-08-18,Free,Automation,31,30,23.81,active
+U683,2023-09-08,Pro,Reports,191,3,217.04,active
+U684,2024-01-03,Pro,Dashboard,7,21,80.16,active
+U685,2023-08-20,Business,Dashboard,3,25,157.77,trial
+U686,2023-07-18,Free,Reports,185,29,167.85,active
+U687,2024-03-23,Free,Dashboard,147,0,493.46,churned
+U688,2024-02-25,Business,API,26,7,375.44,active
+U689,2023-06-13,Business,Integrations,85,25,294.55,churned
+U690,2023-03-06,Pro,Reports,38,1,337.81,active
+U691,2023-08-10,Free,Integrations,106,7,474.04,churned
+U692,2023-12-19,Business,Dashboard,129,23,86.14,trial
+U693,2023-07-02,Free,Dashboard,170,11,307.28,churned
+U694,2023-01-11,Business,AI Insights,161,29,485.21,active
+U695,2023-04-23,Enterprise,Reports,166,20,229.2,active
+U696,2023-11-20,Free,API,14,24,252.87,active
+U697,2023-03-16,Pro,AI Insights,159,26,119.33,active
+U698,2023-05-17,Pro,Automation,123,17,195.78,trial
+U699,2023-08-05,Pro,AI Insights,130,25,371.29,trial
+U700,2024-05-03,Business,Reports,69,2,17.99,active
+U701,2023-03-29,Enterprise,Reports,66,11,45.83,active
+U702,2023-01-21,Free,Automation,136,3,377.96,active
+U703,2023-11-06,Enterprise,Integrations,100,4,82.13,active
+U704,2023-02-19,Business,AI Insights,163,18,429.97,active
+U705,2023-04-15,Pro,Integrations,84,0,204.23,active
+U706,2024-04-11,Pro,Integrations,28,28,71.77,active
+U707,2023-07-09,Enterprise,Integrations,37,17,172.9,active
+U708,2023-07-03,Business,Integrations,23,7,240.99,active
+U709,2023-12-18,Enterprise,Integrations,86,27,60.7,churned
+U710,2023-07-31,Business,Reports,142,26,163.18,churned
+U711,2023-07-31,Free,API,167,14,144.47,active
+U712,2023-07-25,Enterprise,Integrations,85,16,497.02,active
+U713,2023-11-04,Free,Reports,174,8,416.09,active
+U714,2023-09-27,Free,Dashboard,139,3,322.6,trial
+U715,2023-02-19,Free,Dashboard,107,27,277.84,trial
+U716,2023-05-26,Pro,Dashboard,63,4,418.37,active
+U717,2023-02-24,Pro,Automation,5,0,208.71,trial
+U718,2023-05-07,Business,API,169,11,277.6,active
+U719,2023-04-25,Free,API,98,18,446.21,active
+U720,2023-02-06,Business,API,61,0,45.13,active
+U721,2023-07-25,Pro,AI Insights,93,20,110.07,trial
+U722,2023-04-11,Pro,AI Insights,175,27,166.63,active
+U723,2023-09-07,Business,API,70,1,393.76,active
+U724,2024-01-20,Business,Integrations,149,19,409.65,churned
+U725,2023-05-07,Pro,Dashboard,162,15,286.9,active
+U726,2024-02-11,Enterprise,Automation,140,2,142.23,trial
+U727,2023-06-14,Pro,Integrations,191,16,267.99,active
+U728,2023-08-19,Pro,API,70,23,398.89,active
+U729,2024-02-12,Free,AI Insights,125,8,421.21,active
+U730,2023-06-01,Free,Automation,84,12,241.19,active
+U731,2023-01-31,Enterprise,AI Insights,177,5,312.13,active
+U732,2023-03-16,Enterprise,AI Insights,67,17,152.29,trial
+U733,2023-06-20,Pro,API,49,5,324.17,active
+U734,2023-04-13,Free,AI Insights,75,20,21.08,active
+U735,2024-04-15,Enterprise,AI Insights,31,6,78.26,trial
+U736,2023-08-28,Pro,AI Insights,185,5,475.12,active
+U737,2023-01-06,Enterprise,API,89,25,334.96,active
+U738,2024-01-04,Pro,Dashboard,170,16,474.08,churned
+U739,2023-08-06,Enterprise,Automation,53,20,31.17,active
+U740,2023-06-25,Enterprise,Dashboard,23,21,103.86,active
+U741,2023-11-07,Pro,API,120,14,216.41,trial
+U742,2023-08-01,Pro,Dashboard,103,8,444.9,active
+U743,2023-08-09,Business,Reports,29,3,105.63,trial
+U744,2023-07-05,Free,API,21,25,460.01,churned
+U745,2023-02-09,Free,AI Insights,137,18,79.89,active
+U746,2024-04-16,Enterprise,API,87,18,458.4,churned
+U747,2023-09-23,Free,Automation,182,13,165.52,active
+U748,2023-03-18,Enterprise,Automation,5,19,153.93,active
+U749,2023-03-21,Enterprise,Integrations,103,20,92.48,active
+U750,2024-04-20,Enterprise,API,10,30,224.58,trial
+U751,2023-07-31,Free,Integrations,21,27,184.98,active
+U752,2023-05-12,Enterprise,Integrations,8,26,143.1,active
+U753,2023-05-14,Pro,API,104,11,135.25,active
+U754,2023-04-15,Pro,Dashboard,98,3,155.03,trial
+U755,2023-02-13,Free,AI Insights,35,2,233.71,churned
+U756,2023-02-17,Business,Dashboard,176,0,268.79,churned
+U757,2024-05-10,Pro,API,115,5,136.81,churned
+U758,2023-06-04,Enterprise,Reports,90,1,178.78,trial
+U759,2024-01-29,Pro,Integrations,45,12,344.15,active
+U760,2024-01-16,Enterprise,Integrations,48,1,3.78,active
+U761,2023-12-02,Enterprise,Dashboard,49,0,35.58,active
+U762,2023-04-21,Pro,API,85,13,454.84,trial
+U763,2024-01-02,Business,Integrations,178,26,302.89,churned
+U764,2024-01-19,Business,Reports,58,1,490.7,trial
+U765,2024-05-05,Business,Dashboard,25,7,493.77,trial
+U766,2023-09-17,Pro,Automation,48,4,20.99,active
+U767,2023-06-04,Pro,Dashboard,144,18,226.93,active
+U768,2023-01-03,Pro,AI Insights,138,20,397.99,churned
+U769,2024-01-28,Enterprise,Dashboard,140,6,484.38,active
+U770,2023-12-07,Pro,Automation,36,18,231.66,active
+U771,2023-11-11,Business,API,76,21,204.63,active
+U772,2024-02-25,Free,AI Insights,99,22,116.78,trial
+U773,2023-07-20,Pro,API,199,9,205.11,churned
+U774,2023-11-14,Pro,AI Insights,111,26,227.75,active
+U775,2024-04-18,Free,AI Insights,40,15,96.29,active
+U776,2023-11-26,Business,Automation,31,22,372.17,active
+U777,2023-11-21,Business,AI Insights,47,27,309.98,trial
+U778,2024-04-21,Enterprise,API,163,2,353.59,active
+U779,2023-07-26,Free,AI Insights,125,11,244.71,active
+U780,2023-03-06,Free,Reports,131,11,288.26,churned
+U781,2023-10-22,Pro,API,122,27,451.99,active
+U782,2023-05-02,Business,API,94,27,398.71,active
+U783,2024-04-21,Free,Reports,170,10,450.7,trial
+U784,2023-10-03,Free,Automation,136,24,300.45,active
+U785,2024-05-08,Pro,Reports,43,5,409.2,churned
+U786,2023-12-07,Business,API,193,23,170.31,active
+U787,2024-01-15,Free,API,89,16,485.87,active
+U788,2023-04-19,Enterprise,API,97,16,265.1,active
+U789,2023-05-29,Business,API,178,5,124.06,active
+U790,2023-04-17,Business,Dashboard,91,26,451.27,active
+U791,2023-09-27,Pro,Automation,155,8,56.68,active
+U792,2023-09-08,Enterprise,AI Insights,84,3,106.96,trial
+U793,2024-02-17,Pro,AI Insights,155,19,96.55,active
+U794,2023-02-09,Enterprise,Reports,173,22,326.48,active
+U795,2023-10-04,Free,Dashboard,146,23,399.3,active
+U796,2023-10-07,Pro,API,88,16,498.83,active
+U797,2023-05-19,Enterprise,Reports,94,17,375.63,active
+U798,2023-09-07,Free,API,180,28,442.44,active
+U799,2023-08-28,Enterprise,Automation,195,9,194.08,churned
+U800,2023-02-27,Business,Dashboard,74,14,445.29,churned
+U801,2023-01-09,Business,Reports,105,9,84.29,active
+U802,2023-04-23,Enterprise,API,62,9,255.88,active
+U803,2023-07-21,Pro,Automation,75,10,235.41,active
+U804,2023-02-22,Pro,API,143,13,123.6,active
+U805,2023-02-13,Free,Integrations,127,10,40.81,trial
+U806,2023-06-09,Free,Dashboard,39,12,172.07,trial
+U807,2023-08-21,Free,Integrations,106,21,248.8,active
+U808,2023-01-16,Pro,API,69,11,73.07,churned
+U809,2023-02-18,Business,Dashboard,175,1,110.3,churned
+U810,2023-06-02,Enterprise,Automation,49,6,177.24,active
+U811,2023-10-20,Enterprise,AI Insights,179,26,156.94,active
+U812,2023-03-04,Free,Automation,97,28,473.3,active
+U813,2023-03-01,Pro,Integrations,31,23,420.6,trial
+U814,2024-01-25,Free,API,63,17,429.25,active
+U815,2024-02-25,Pro,Reports,199,15,98.1,active
+U816,2023-08-29,Enterprise,Reports,123,29,405.83,churned
+U817,2023-07-04,Free,Dashboard,141,23,135.02,churned
+U818,2023-04-29,Free,Dashboard,16,9,226.88,active
+U819,2024-01-25,Business,API,33,7,383.34,active
+U820,2023-07-22,Free,Reports,130,14,360.95,active
+U821,2023-01-20,Pro,Reports,166,30,124.63,active
+U822,2024-03-18,Free,API,155,28,368.79,trial
+U823,2023-05-20,Enterprise,AI Insights,196,21,412.47,active
+U824,2023-12-05,Business,Automation,127,3,290.29,active
+U825,2023-09-22,Pro,Automation,123,6,81.84,trial
+U826,2023-12-14,Business,AI Insights,6,24,305.86,trial
+U827,2024-03-26,Pro,AI Insights,43,8,32.45,active
+U828,2023-03-26,Pro,AI Insights,47,28,52.48,churned
+U829,2023-04-25,Free,Automation,172,10,369.49,active
+U830,2023-11-05,Pro,Integrations,127,13,292.02,active
+U831,2024-01-06,Enterprise,Reports,146,14,223.83,active
+U832,2023-03-19,Business,Integrations,133,29,237.03,active
+U833,2023-05-27,Free,Automation,23,0,445.92,active
+U834,2024-03-01,Free,Dashboard,114,9,271.18,churned
+U835,2023-12-08,Pro,Integrations,148,8,204.14,churned
+U836,2024-04-05,Pro,Automation,35,22,92.94,active
+U837,2023-09-09,Free,Dashboard,60,10,205.35,active
+U838,2023-06-21,Business,Reports,5,19,144.17,active
+U839,2023-05-27,Pro,API,155,4,84.51,active
+U840,2024-04-01,Enterprise,Integrations,19,9,230.35,active
+U841,2024-04-16,Enterprise,Dashboard,188,12,203.75,trial
+U842,2024-03-09,Free,Integrations,122,0,481.41,active
+U843,2024-03-15,Business,AI Insights,195,8,450.73,trial
+U844,2023-11-24,Enterprise,API,106,28,225.78,churned
+U845,2023-07-11,Business,API,191,8,249.58,active
+U846,2023-03-19,Enterprise,Automation,19,6,126.61,churned
+U847,2023-11-14,Business,Dashboard,9,9,43.12,active
+U848,2023-03-02,Pro,Automation,108,21,8.59,active
+U849,2023-04-04,Pro,Reports,95,23,127.06,active
+U850,2024-04-18,Free,AI Insights,31,21,171.46,trial
+U851,2023-09-11,Enterprise,Integrations,152,11,434.79,trial
+U852,2023-02-11,Enterprise,Reports,11,26,14.33,active
+U853,2023-11-20,Pro,Dashboard,195,13,174.4,churned
+U854,2023-06-24,Free,Integrations,178,6,318.52,churned
+U855,2024-01-16,Pro,Reports,7,23,260.14,trial
+U856,2024-01-30,Free,AI Insights,173,15,487.93,active
+U857,2024-03-14,Enterprise,AI Insights,86,5,222.69,active
+U858,2023-02-16,Free,Reports,179,20,397.7,churned
+U859,2023-09-15,Business,Integrations,101,6,339.64,trial
+U860,2024-05-12,Pro,AI Insights,164,2,298.3,active
+U861,2023-03-27,Business,Dashboard,74,9,304.73,trial
+U862,2023-08-22,Business,Integrations,189,3,359.84,active
+U863,2023-09-29,Business,AI Insights,179,29,17.4,active
+U864,2023-03-15,Enterprise,Automation,132,21,144.44,active
+U865,2024-04-13,Free,Reports,166,23,466.9,active
+U866,2023-07-13,Business,Dashboard,150,1,25.39,active
+U867,2024-01-08,Enterprise,Integrations,148,24,9.03,active
+U868,2024-02-11,Enterprise,Dashboard,67,19,372.15,churned
+U869,2024-01-29,Pro,Automation,199,16,420.05,active
+U870,2023-12-02,Business,Integrations,115,17,219.71,active
+U871,2024-01-02,Free,Reports,41,24,311.06,active
+U872,2023-07-10,Business,Reports,139,9,295.0,active
+U873,2023-09-11,Enterprise,Dashboard,103,1,49.84,active
+U874,2024-02-10,Enterprise,API,40,12,149.23,churned
+U875,2023-02-14,Enterprise,API,151,27,401.36,active
+U876,2023-05-16,Pro,API,17,8,11.27,active
+U877,2024-04-02,Enterprise,Integrations,28,8,321.05,active
+U878,2024-02-17,Business,AI Insights,93,23,13.13,active
+U879,2024-05-06,Business,Dashboard,50,0,402.59,active
+U880,2023-07-12,Business,API,93,6,459.07,active
+U881,2024-05-05,Free,Dashboard,47,13,231.39,active
+U882,2023-12-19,Pro,Automation,40,10,282.59,active
+U883,2024-03-14,Enterprise,Reports,122,28,337.64,active
+U884,2023-11-16,Business,Integrations,114,22,489.57,active
+U885,2023-03-10,Enterprise,Automation,61,29,84.01,trial
+U886,2023-03-06,Pro,Reports,159,20,139.57,active
+U887,2023-04-12,Business,Dashboard,104,30,60.03,active
+U888,2023-02-27,Business,Reports,172,15,393.88,trial
+U889,2024-03-28,Free,Reports,27,24,301.81,active
+U890,2024-02-25,Pro,Integrations,77,23,160.49,active
+U891,2023-10-25,Business,Dashboard,35,22,353.64,active
+U892,2024-02-12,Enterprise,Automation,112,21,34.96,active
+U893,2023-06-16,Business,Integrations,22,30,209.53,active
+U894,2023-09-15,Pro,Reports,38,14,141.62,active
+U895,2023-08-09,Business,Dashboard,175,29,233.71,trial
+U896,2023-12-27,Pro,API,5,5,241.26,active
+U897,2023-05-20,Pro,Integrations,29,15,38.12,trial
+U898,2024-01-03,Enterprise,AI Insights,110,27,112.57,active
+U899,2023-10-18,Free,Integrations,73,9,246.9,churned
+U900,2023-03-01,Enterprise,Automation,170,25,227.31,active
+U901,2023-10-24,Enterprise,AI Insights,71,27,439.76,active
+U902,2023-06-20,Pro,Dashboard,66,6,16.03,trial
+U903,2024-03-26,Pro,API,6,15,400.01,active
+U904,2023-02-17,Business,Automation,136,13,21.47,active
+U905,2024-02-17,Business,API,46,30,300.58,active
+U906,2023-12-22,Free,AI Insights,20,12,293.34,churned
+U907,2024-01-08,Free,AI Insights,46,11,178.82,active
+U908,2023-07-09,Business,Integrations,125,3,4.96,active
+U909,2023-03-26,Pro,Integrations,26,30,444.96,active
+U910,2023-04-17,Free,API,105,17,293.83,churned
+U911,2023-05-06,Enterprise,AI Insights,200,26,453.5,active
+U912,2023-05-13,Free,Integrations,26,3,7.1,active
+U913,2023-08-15,Free,Automation,199,22,371.57,churned
+U914,2024-03-31,Business,Reports,90,14,329.4,churned
+U915,2024-05-05,Enterprise,Automation,20,10,9.72,active
+U916,2023-04-30,Pro,Automation,67,20,138.68,trial
+U917,2023-06-19,Business,Reports,80,26,464.42,active
+U918,2023-02-24,Free,Reports,129,8,192.56,active
+U919,2023-12-07,Business,Automation,6,2,5.19,churned
+U920,2023-04-29,Pro,Reports,187,10,190.31,churned
+U921,2023-07-06,Business,AI Insights,109,19,219.28,trial
+U922,2023-06-05,Pro,AI Insights,196,6,223.27,churned
+U923,2023-09-05,Free,AI Insights,93,1,70.81,active
+U924,2024-02-08,Enterprise,Reports,120,9,117.28,churned
+U925,2023-07-03,Enterprise,Reports,49,0,281.02,active
+U926,2023-04-05,Free,Integrations,130,27,305.65,trial
+U927,2023-11-13,Pro,Reports,150,5,453.87,churned
+U928,2023-08-26,Free,Automation,11,23,179.33,active
+U929,2023-07-31,Free,Reports,180,6,498.18,active
+U930,2023-07-30,Pro,API,36,2,271.01,active
+U931,2023-03-20,Enterprise,Dashboard,168,23,394.64,churned
+U932,2023-02-02,Free,Automation,127,4,325.21,churned
+U933,2024-02-26,Business,Integrations,86,19,406.86,active
+U934,2023-02-16,Pro,Reports,11,27,286.27,trial
+U935,2023-03-25,Free,Integrations,102,19,368.98,active
+U936,2023-09-11,Business,Integrations,75,1,365.13,churned
+U937,2023-09-22,Enterprise,Automation,107,11,21.13,trial
+U938,2023-08-24,Free,Integrations,24,19,390.03,trial
+U939,2023-11-25,Free,AI Insights,66,15,460.18,churned
+U940,2023-05-22,Enterprise,Integrations,164,25,87.1,active
+U941,2023-11-05,Enterprise,Integrations,15,17,238.12,active
+U942,2023-03-03,Enterprise,Dashboard,195,5,299.25,active
+U943,2023-08-19,Business,Integrations,132,2,320.89,active
+U944,2024-01-29,Business,Automation,68,8,140.34,active
+U945,2023-03-20,Pro,AI Insights,94,5,441.8,active
+U946,2023-06-16,Business,API,115,18,100.49,churned
+U947,2024-01-01,Enterprise,Reports,198,23,350.21,churned
+U948,2023-09-06,Enterprise,API,140,22,289.28,churned
+U949,2023-09-23,Pro,Integrations,51,17,431.79,churned
+U950,2024-03-22,Pro,AI Insights,17,2,208.12,trial
+U951,2023-12-11,Free,AI Insights,160,1,123.23,churned
+U952,2023-08-14,Enterprise,Dashboard,46,28,454.49,active
+U953,2023-09-01,Enterprise,Integrations,170,2,191.84,trial
+U954,2024-04-07,Enterprise,AI Insights,67,6,263.2,active
+U955,2023-12-20,Enterprise,Integrations,44,4,278.28,active
+U956,2024-03-23,Free,Dashboard,176,0,227.92,churned
+U957,2023-07-20,Business,Dashboard,54,22,68.22,churned
+U958,2023-04-11,Enterprise,Automation,140,18,390.13,trial
+U959,2023-02-26,Enterprise,Reports,141,16,155.39,trial
+U960,2023-05-11,Free,Automation,140,19,296.63,active
+U961,2024-03-10,Enterprise,Dashboard,16,12,23.45,active
+U962,2024-02-04,Pro,Integrations,107,30,233.64,trial
+U963,2023-03-10,Enterprise,Integrations,12,4,278.12,active
+U964,2024-04-04,Pro,Integrations,144,27,100.43,churned
+U965,2023-10-06,Free,API,117,26,376.63,active
+U966,2024-04-21,Free,Automation,111,22,37.75,active
+U967,2023-01-31,Enterprise,Dashboard,63,24,426.51,active
+U968,2024-02-08,Pro,AI Insights,73,29,277.54,active
+U969,2024-03-19,Pro,API,35,18,247.09,active
+U970,2023-11-20,Pro,Integrations,170,25,350.82,active
+U971,2024-01-01,Enterprise,Automation,97,19,57.12,active
+U972,2023-06-07,Pro,Reports,61,3,492.49,active
+U973,2023-12-16,Business,Reports,183,21,335.42,active
+U974,2023-04-23,Free,Dashboard,189,8,304.05,active
+U975,2023-05-25,Pro,API,11,5,387.3,active
+U976,2024-04-10,Free,AI Insights,146,8,48.87,churned
+U977,2024-03-03,Enterprise,Integrations,101,2,173.24,active
+U978,2023-11-04,Free,API,199,21,161.01,trial
+U979,2023-08-28,Free,Dashboard,93,18,366.3,active
+U980,2023-11-16,Business,Dashboard,38,3,368.39,active
+U981,2023-03-26,Free,AI Insights,195,26,85.1,active
+U982,2024-03-01,Free,Reports,147,6,1.62,churned
+U983,2023-05-08,Pro,Reports,140,9,410.33,active
+U984,2024-04-13,Enterprise,Dashboard,37,27,415.34,trial
+U985,2023-07-29,Pro,Reports,49,4,207.32,churned
+U986,2023-12-21,Free,Reports,70,21,83.27,active
+U987,2024-04-13,Enterprise,Dashboard,89,3,349.73,trial
+U988,2023-09-14,Free,Integrations,11,17,428.05,trial
+U989,2024-03-13,Enterprise,API,65,6,262.44,churned
+U990,2023-04-20,Business,AI Insights,96,16,228.75,active
+U991,2023-06-23,Business,Dashboard,92,12,274.08,trial
+U992,2023-02-19,Pro,Dashboard,132,18,232.76,trial
+U993,2023-09-22,Free,Reports,13,0,330.93,churned
+U994,2023-03-08,Enterprise,Dashboard,103,11,228.18,trial
+U995,2024-01-17,Free,Integrations,184,2,221.84,active
+U996,2024-01-17,Enterprise,Dashboard,2,3,83.65,active
+U997,2023-02-22,Pro,Dashboard,121,24,42.8,churned
+U998,2023-02-23,Business,Dashboard,146,11,63.42,active
+U999,2023-10-17,Pro,Automation,188,17,69.08,active
+U1000,2023-02-20,Free,API,179,1,44.65,active
+U1001,2023-05-11,Enterprise,Reports,141,2,362.99,churned
+U1002,2023-01-13,Free,Reports,167,30,397.62,active
+U1003,2024-04-28,Enterprise,Automation,72,13,112.88,trial
+U1004,2023-05-27,Business,Reports,176,22,194.42,active
+U1005,2023-04-15,Free,Reports,132,12,418.63,active
+U1006,2023-05-09,Free,Dashboard,29,20,413.81,trial
+U1007,2023-10-18,Enterprise,AI Insights,44,30,405.05,trial
+U1008,2023-04-01,Free,Integrations,175,29,56.81,active
+U1009,2023-11-12,Business,Dashboard,1,20,96.73,churned
+U1010,2023-11-03,Enterprise,Automation,134,26,343.01,active
+U1011,2024-03-13,Pro,Dashboard,120,2,316.65,active
+U1012,2023-11-17,Pro,Reports,181,15,113.97,active
+U1013,2023-10-27,Enterprise,API,12,10,14.48,active
+U1014,2023-07-19,Business,Dashboard,47,13,216.49,churned
+U1015,2023-09-21,Enterprise,Automation,100,27,205.45,active
+U1016,2024-03-15,Pro,Reports,0,14,475.37,churned
+U1017,2023-08-12,Business,API,145,25,235.33,active
+U1018,2023-08-22,Pro,AI Insights,187,20,321.55,trial
+U1019,2023-04-11,Enterprise,Reports,39,27,129.5,active
+U1020,2023-11-03,Pro,Dashboard,156,2,406.28,active
+U1021,2023-06-03,Free,AI Insights,164,19,85.28,active
+U1022,2023-05-16,Free,Automation,188,1,394.2,churned
+U1023,2023-05-30,Enterprise,AI Insights,96,17,27.08,trial
+U1024,2024-01-20,Business,Reports,58,3,95.73,active
+U1025,2023-04-08,Free,Dashboard,173,22,281.69,churned
+U1026,2023-10-08,Business,Dashboard,126,2,315.3,active
+U1027,2024-01-04,Business,AI Insights,99,27,435.47,active
+U1028,2023-01-29,Business,AI Insights,180,28,256.55,active
+U1029,2023-08-14,Enterprise,AI Insights,125,29,402.9,active
+U1030,2023-05-13,Free,Dashboard,155,7,377.9,active
+U1031,2024-01-26,Enterprise,Integrations,129,11,171.78,active
+U1032,2023-12-12,Free,AI Insights,53,5,144.62,trial
+U1033,2023-01-06,Pro,AI Insights,170,7,420.91,active
+U1034,2024-05-01,Business,API,76,10,117.58,trial
+U1035,2023-12-24,Business,AI Insights,137,1,208.78,churned
+U1036,2023-11-09,Free,Reports,188,1,277.8,active
+U1037,2023-10-17,Enterprise,API,4,12,111.67,active
+U1038,2024-02-19,Enterprise,Automation,135,5,353.67,active
+U1039,2023-09-27,Free,Integrations,60,26,158.29,churned
+U1040,2023-09-14,Pro,Dashboard,61,6,483.7,active
+U1041,2023-09-24,Free,API,69,24,181.66,active
+U1042,2023-01-30,Enterprise,Integrations,55,3,162.18,active
+U1043,2023-11-10,Business,API,27,19,109.46,active
+U1044,2024-02-23,Business,Dashboard,61,1,221.59,trial
+U1045,2023-07-04,Pro,Integrations,103,22,50.71,churned
+U1046,2023-01-17,Free,Integrations,196,20,113.7,active
+U1047,2024-03-12,Free,AI Insights,130,30,199.41,active
+U1048,2023-07-22,Free,AI Insights,7,3,191.81,trial
+U1049,2023-03-04,Pro,Reports,81,7,214.32,trial
+U1050,2023-04-15,Enterprise,Reports,197,23,247.28,active
+U1051,2024-04-12,Free,API,193,22,168.1,active
+U1052,2023-04-11,Enterprise,API,175,0,223.54,active
+U1053,2023-04-25,Enterprise,Integrations,129,17,489.28,trial
+U1054,2023-09-28,Free,API,80,26,446.67,churned
+U1055,2023-06-17,Free,API,156,16,192.4,trial
+U1056,2024-01-21,Free,Dashboard,102,12,53.26,trial
+U1057,2024-02-21,Pro,Reports,0,13,280.65,active
+U1058,2024-03-06,Business,AI Insights,118,24,249.08,active
+U1059,2023-12-02,Enterprise,Automation,102,27,484.78,trial
+U1060,2023-09-05,Business,API,158,17,56.69,active
+U1061,2024-04-10,Free,API,180,5,190.69,active
+U1062,2024-02-10,Business,Integrations,154,20,127.67,churned
+U1063,2024-05-02,Free,Dashboard,146,3,101.71,active
+U1064,2023-03-06,Free,API,19,19,18.29,active
+U1065,2023-01-08,Business,Reports,99,25,87.37,trial
+U1066,2024-03-12,Enterprise,Reports,103,27,101.51,active
+U1067,2024-03-20,Enterprise,AI Insights,20,23,84.53,trial
+U1068,2023-04-28,Pro,Dashboard,39,6,147.52,active
+U1069,2023-10-07,Business,Integrations,148,16,211.19,active
+U1070,2023-06-17,Pro,Automation,113,3,374.96,active
+U1071,2023-06-22,Free,Integrations,55,2,181.65,active
+U1072,2023-04-19,Business,API,103,4,192.03,churned
+U1073,2023-08-19,Pro,Automation,165,4,17.88,trial
+U1074,2023-01-20,Pro,AI Insights,12,10,100.68,trial
+U1075,2024-04-27,Free,Dashboard,20,17,321.2,churned
+U1076,2023-12-30,Pro,Dashboard,114,6,228.74,trial
+U1077,2023-09-30,Free,Automation,99,1,453.33,active
+U1078,2023-01-18,Free,Reports,153,0,3.98,active
+U1079,2023-12-17,Free,Automation,100,13,496.72,active
+U1080,2023-04-23,Pro,Automation,90,11,212.71,active
+U1081,2023-05-02,Enterprise,AI Insights,126,8,62.08,active
+U1082,2023-09-19,Business,AI Insights,162,24,9.97,active
+U1083,2023-04-27,Business,Integrations,38,12,386.28,active
+U1084,2024-02-21,Pro,Dashboard,95,11,360.95,active
+U1085,2023-04-17,Pro,Automation,51,24,53.41,active
+U1086,2023-12-14,Pro,Reports,179,10,333.27,churned
+U1087,2024-03-03,Pro,Automation,105,17,472.77,active
+U1088,2024-03-01,Enterprise,API,0,10,264.9,churned
+U1089,2023-09-11,Free,AI Insights,190,5,428.04,trial
+U1090,2023-07-27,Free,Dashboard,89,28,316.55,active
+U1091,2023-02-28,Free,Dashboard,159,30,338.84,churned
+U1092,2023-01-25,Enterprise,Integrations,38,10,387.91,trial
+U1093,2023-04-07,Business,AI Insights,14,16,288.67,active
+U1094,2023-06-14,Pro,Dashboard,158,8,419.69,active
+U1095,2023-09-05,Business,Dashboard,162,3,207.81,active
+U1096,2023-06-20,Business,API,182,15,470.57,trial
+U1097,2023-12-30,Free,Dashboard,35,30,12.58,trial
+U1098,2023-02-14,Free,Dashboard,106,14,484.89,churned
+U1099,2024-02-21,Business,AI Insights,40,4,219.72,active
+U1100,2023-01-27,Enterprise,AI Insights,99,4,69.78,trial
+U1101,2023-01-25,Enterprise,Dashboard,161,13,127.24,active
+U1102,2023-12-01,Business,Dashboard,30,22,132.11,churned
+U1103,2023-05-21,Free,Integrations,39,20,9.8,trial
+U1104,2023-05-12,Free,Integrations,15,24,327.37,active
+U1105,2024-05-08,Free,Dashboard,172,15,382.08,trial
+U1106,2023-07-29,Pro,Reports,199,6,131.51,trial
+U1107,2023-01-30,Business,AI Insights,123,5,427.09,churned
+U1108,2023-03-02,Pro,AI Insights,18,10,420.74,trial
+U1109,2024-03-02,Business,Integrations,92,0,408.05,active
+U1110,2023-08-12,Enterprise,Integrations,56,25,255.16,churned
+U1111,2023-08-26,Pro,Integrations,154,18,55.14,active
+U1112,2023-06-29,Enterprise,AI Insights,79,9,447.89,active
+U1113,2023-02-24,Free,AI Insights,175,5,238.46,trial
+U1114,2023-04-04,Enterprise,Integrations,3,5,48.37,active
+U1115,2024-05-11,Enterprise,Integrations,58,29,219.81,trial
+U1116,2023-09-04,Enterprise,AI Insights,196,7,420.89,trial
+U1117,2023-03-31,Free,Integrations,75,22,211.42,active
+U1118,2023-08-05,Pro,Integrations,5,26,317.58,churned
+U1119,2023-10-18,Business,AI Insights,129,20,352.18,active
+U1120,2023-02-01,Pro,API,131,0,238.02,active
+U1121,2023-06-01,Pro,Integrations,2,16,401.87,active
+U1122,2023-09-01,Pro,Integrations,115,19,143.03,trial
+U1123,2023-04-18,Business,Integrations,172,19,317.94,active
+U1124,2023-11-13,Free,Integrations,107,9,436.05,active
+U1125,2024-03-19,Free,Reports,146,18,226.31,active
+U1126,2024-01-26,Pro,Integrations,47,8,314.09,active
+U1127,2023-06-12,Pro,Automation,131,10,466.89,trial
+U1128,2024-04-02,Business,AI Insights,76,23,493.09,trial
+U1129,2023-10-06,Pro,Automation,47,1,166.61,active
+U1130,2024-01-24,Pro,Automation,182,14,81.48,trial
+U1131,2023-07-25,Enterprise,AI Insights,121,14,435.33,trial
+U1132,2023-10-07,Enterprise,Dashboard,13,12,307.03,active
+U1133,2024-03-17,Business,Automation,179,9,119.49,active
+U1134,2023-04-23,Pro,Integrations,168,30,234.32,active
+U1135,2023-11-07,Pro,Integrations,34,14,295.45,active
+U1136,2023-04-13,Free,AI Insights,26,19,283.51,active
+U1137,2023-09-30,Enterprise,Dashboard,132,13,99.01,churned
+U1138,2024-03-16,Pro,Reports,68,6,396.27,trial
+U1139,2023-06-08,Free,AI Insights,113,29,411.56,trial
+U1140,2023-07-17,Pro,API,69,17,477.93,trial
+U1141,2023-05-30,Pro,Integrations,176,13,53.61,churned
+U1142,2023-08-15,Free,API,153,0,269.85,churned
+U1143,2023-03-03,Enterprise,Automation,64,8,105.44,active
+U1144,2023-08-18,Business,Automation,161,4,14.65,active
+U1145,2023-04-04,Enterprise,Reports,115,14,172.83,active
+U1146,2024-04-09,Enterprise,Integrations,116,17,171.25,active
+U1147,2023-06-09,Pro,Reports,117,15,408.2,active
+U1148,2024-03-30,Free,API,92,26,398.89,active
+U1149,2024-01-15,Enterprise,Integrations,171,9,168.42,active
+U1150,2024-04-03,Pro,AI Insights,17,3,156.26,active
+U1151,2023-04-18,Enterprise,Reports,85,9,132.44,trial
+U1152,2023-01-13,Business,Automation,141,8,433.21,active
+U1153,2023-11-05,Business,Automation,200,23,255.4,active
+U1154,2023-07-11,Enterprise,Integrations,66,7,203.12,churned
+U1155,2023-05-11,Free,Dashboard,47,1,393.02,churned
+U1156,2023-09-01,Free,Automation,34,10,326.83,active
+U1157,2023-10-12,Business,Automation,174,5,489.64,churned
+U1158,2023-04-16,Enterprise,Integrations,31,27,264.55,churned
+U1159,2023-10-08,Pro,Dashboard,15,9,385.2,active
+U1160,2023-01-12,Business,Integrations,116,29,404.46,trial
+U1161,2023-08-18,Business,AI Insights,20,22,294.71,active
+U1162,2024-04-15,Free,Dashboard,57,18,479.68,active
+U1163,2023-06-16,Pro,AI Insights,179,12,223.49,churned
+U1164,2023-09-30,Business,Integrations,22,17,165.48,churned
+U1165,2024-01-20,Business,Integrations,74,10,63.08,trial
+U1166,2023-12-10,Enterprise,Dashboard,161,17,13.83,active
+U1167,2023-04-27,Free,Automation,43,30,110.87,active
+U1168,2023-03-14,Free,Dashboard,25,13,433.96,trial
+U1169,2023-09-18,Business,Reports,111,3,17.98,active
+U1170,2023-01-04,Business,Automation,36,5,491.28,active
+U1171,2024-02-23,Enterprise,Reports,157,11,71.0,churned
+U1172,2023-07-08,Pro,Automation,186,4,137.08,trial
+U1173,2023-09-02,Pro,Reports,46,3,157.14,active
+U1174,2023-01-30,Business,API,78,20,188.5,trial
+U1175,2024-05-03,Business,Reports,144,2,142.29,active
+U1176,2023-12-27,Free,Reports,135,20,360.95,active
+U1177,2023-05-25,Business,Dashboard,30,8,299.69,churned
+U1178,2023-06-13,Business,Integrations,138,13,195.35,active
+U1179,2023-10-25,Pro,Integrations,96,5,402.72,trial
+U1180,2024-01-05,Business,Automation,180,4,36.23,active
+U1181,2023-10-24,Free,Automation,78,13,42.27,churned
+U1182,2023-08-30,Pro,AI Insights,31,2,266.23,active
+U1183,2024-03-29,Free,AI Insights,78,17,305.5,active
+U1184,2024-02-10,Free,AI Insights,181,18,309.62,active
+U1185,2023-07-09,Enterprise,Dashboard,139,7,341.39,trial
+U1186,2024-05-07,Free,Integrations,154,29,118.34,trial
+U1187,2023-01-19,Business,Integrations,44,3,435.13,active
+U1188,2024-01-30,Free,Reports,110,29,130.15,active
+U1189,2024-02-04,Business,Automation,147,21,433.75,churned
+U1190,2023-04-26,Enterprise,API,180,6,405.71,churned
+U1191,2023-01-23,Enterprise,Dashboard,123,14,326.7,trial
+U1192,2024-02-04,Free,Reports,125,17,180.65,active
+U1193,2023-11-16,Free,API,30,19,13.62,active
+U1194,2023-12-09,Business,Dashboard,192,4,161.67,churned
+U1195,2023-02-27,Business,API,98,8,247.03,active
+U1196,2023-09-29,Pro,Reports,3,0,149.53,active
+U1197,2023-02-16,Free,API,133,2,456.95,active
+U1198,2024-03-08,Pro,Dashboard,185,22,346.18,active
+U1199,2024-03-08,Pro,Reports,190,3,168.03,active
+U1200,2023-10-23,Business,Dashboard,85,5,130.93,active
+U1201,2023-12-04,Pro,Reports,181,13,439.73,trial
+U1202,2023-10-02,Free,API,184,30,262.46,active
+U1203,2023-04-07,Pro,Automation,6,0,467.66,active
+U1204,2023-12-21,Business,API,163,30,241.72,active
+U1205,2024-03-24,Pro,API,71,6,195.6,trial
+U1206,2023-07-24,Business,Automation,108,24,134.57,active
+U1207,2023-03-31,Free,Automation,179,20,431.97,churned
+U1208,2024-02-12,Free,API,86,30,251.97,trial
+U1209,2023-04-12,Free,Reports,62,8,429.78,active
+U1210,2024-02-25,Pro,Reports,38,13,178.16,trial
+U1211,2023-07-16,Free,AI Insights,176,27,466.46,active
+U1212,2024-04-04,Business,Dashboard,94,28,169.66,active
+U1213,2024-03-13,Business,Automation,103,0,455.58,churned
+U1214,2024-01-21,Enterprise,Reports,136,30,423.55,active
+U1215,2024-02-14,Pro,Dashboard,165,6,271.95,trial
+U1216,2023-07-13,Enterprise,API,187,18,44.37,churned
+U1217,2023-01-07,Pro,Reports,149,14,404.67,trial
+U1218,2024-01-24,Business,Integrations,9,15,178.22,active
+U1219,2023-09-08,Business,Reports,178,25,38.78,active
+U1220,2024-03-01,Enterprise,AI Insights,61,15,499.49,churned
+U1221,2023-06-21,Free,API,153,21,88.94,churned
+U1222,2023-10-11,Pro,Automation,183,15,432.41,trial
+U1223,2024-02-26,Enterprise,API,48,11,241.35,trial
+U1224,2023-06-26,Business,AI Insights,3,29,313.44,active
+U1225,2023-12-15,Enterprise,Integrations,24,19,8.36,active
+U1226,2023-08-28,Enterprise,Automation,23,25,329.46,trial
+U1227,2023-08-31,Business,API,20,4,300.25,active
+U1228,2023-03-31,Free,Reports,105,27,417.57,active
+U1229,2023-04-16,Free,Integrations,44,7,341.63,active
+U1230,2023-04-08,Business,Automation,14,3,11.34,active
+U1231,2023-10-15,Free,Reports,145,2,138.27,active
+U1232,2024-05-04,Business,API,183,12,336.0,active
+U1233,2024-02-29,Enterprise,AI Insights,4,18,333.86,active
+U1234,2023-07-20,Enterprise,Automation,182,9,196.36,churned
+U1235,2023-06-06,Enterprise,Automation,47,7,169.16,active
+U1236,2024-05-09,Business,AI Insights,146,22,236.97,active
+U1237,2023-01-31,Free,API,0,27,379.91,active
+U1238,2024-04-10,Business,Automation,91,21,212.83,active
+U1239,2023-12-08,Business,AI Insights,37,4,228.62,trial
+U1240,2024-01-02,Business,AI Insights,92,23,197.7,churned
+U1241,2024-02-18,Pro,Automation,70,22,18.69,active
+U1242,2024-04-19,Pro,Reports,46,8,463.01,active
+U1243,2023-10-25,Pro,Reports,199,25,98.99,active
+U1244,2024-04-02,Pro,Dashboard,95,14,286.39,active
+U1245,2023-08-11,Free,Reports,151,11,158.65,trial
+U1246,2023-03-20,Free,AI Insights,104,12,191.64,active
+U1247,2023-06-20,Business,Automation,193,22,53.29,active
+U1248,2023-05-13,Free,API,79,29,434.47,active
+U1249,2023-04-07,Enterprise,AI Insights,97,3,419.6,active
+U1250,2023-11-03,Pro,AI Insights,143,22,323.7,trial
+U1251,2023-08-10,Pro,Automation,113,17,492.83,churned
+U1252,2023-10-08,Business,Reports,193,23,384.99,active
+U1253,2023-04-28,Business,Reports,75,23,161.41,active
+U1254,2023-08-22,Free,Reports,93,25,75.52,active
+U1255,2023-09-27,Free,Dashboard,144,27,141.96,active
+U1256,2024-02-11,Pro,Reports,186,21,352.97,active
+U1257,2024-02-28,Free,Dashboard,51,27,18.26,active
+U1258,2024-01-17,Enterprise,API,124,20,223.91,churned
+U1259,2023-09-03,Free,Reports,74,12,136.67,trial
+U1260,2024-05-02,Free,Automation,101,22,26.43,churned
+U1261,2023-03-25,Enterprise,Integrations,197,12,449.33,active
+U1262,2023-02-25,Pro,Automation,54,0,455.57,trial
+U1263,2024-02-12,Pro,Integrations,103,27,262.43,churned
+U1264,2023-05-06,Free,AI Insights,175,8,100.79,active
+U1265,2023-09-23,Enterprise,Dashboard,71,14,454.38,trial
+U1266,2023-03-30,Pro,AI Insights,152,16,497.54,active
+U1267,2024-04-27,Enterprise,Dashboard,7,14,463.47,active
+U1268,2023-04-15,Free,AI Insights,20,21,177.22,active
+U1269,2023-12-08,Pro,Reports,129,22,476.45,active
+U1270,2023-08-16,Pro,AI Insights,120,14,348.99,active
+U1271,2023-07-02,Business,Integrations,7,16,37.06,active
+U1272,2023-08-30,Enterprise,Reports,19,27,411.27,active
+U1273,2024-04-01,Enterprise,Integrations,164,8,356.53,active
+U1274,2023-03-23,Business,Automation,129,22,217.77,churned
+U1275,2023-07-23,Business,AI Insights,48,14,28.95,trial
+U1276,2024-02-21,Pro,Automation,92,24,483.58,active
+U1277,2023-09-22,Pro,Automation,140,28,256.41,active
+U1278,2023-05-07,Enterprise,Integrations,128,13,209.75,trial
+U1279,2024-03-23,Business,Integrations,45,1,345.8,trial
+U1280,2023-02-10,Free,Reports,193,9,469.66,active
+U1281,2023-04-15,Business,AI Insights,7,12,17.05,trial
+U1282,2023-10-21,Free,Integrations,192,5,173.83,active
+U1283,2024-03-07,Pro,API,41,5,136.03,churned
+U1284,2024-04-07,Business,Dashboard,118,26,108.02,trial
+U1285,2023-08-02,Pro,Dashboard,159,27,109.42,active
+U1286,2023-03-10,Free,Reports,156,12,397.42,active
+U1287,2024-01-19,Enterprise,Automation,29,22,374.72,active
+U1288,2023-09-01,Free,API,160,16,415.62,active
+U1289,2024-04-28,Business,AI Insights,38,12,262.64,active
+U1290,2023-02-26,Pro,API,28,3,93.05,churned
+U1291,2024-01-08,Enterprise,Integrations,196,15,23.5,churned
+U1292,2023-05-08,Free,Reports,92,0,84.86,trial
+U1293,2023-11-22,Enterprise,API,13,12,394.58,trial
+U1294,2023-04-01,Pro,Reports,149,14,297.21,trial
+U1295,2023-11-23,Free,Dashboard,109,5,338.95,active
+U1296,2023-06-19,Business,Automation,18,13,428.26,active
+U1297,2023-05-09,Enterprise,Automation,25,22,346.18,churned
+U1298,2023-05-10,Pro,Automation,26,10,457.91,churned
+U1299,2024-03-09,Free,API,51,25,78.37,active
+U1300,2023-11-06,Free,Reports,91,9,11.87,active
+U1301,2023-09-30,Free,Reports,122,4,426.62,active
+U1302,2024-04-24,Free,Reports,21,29,149.95,trial
+U1303,2023-07-27,Free,AI Insights,21,25,356.37,churned
+U1304,2024-04-11,Pro,API,11,6,96.88,churned
+U1305,2023-03-31,Pro,Dashboard,187,9,150.81,churned
+U1306,2023-02-15,Free,Integrations,147,7,70.77,trial
+U1307,2024-04-08,Pro,Reports,102,4,147.47,trial
+U1308,2023-03-05,Enterprise,Automation,52,17,379.66,active
+U1309,2024-05-15,Free,Reports,126,1,10.96,active
+U1310,2023-02-14,Business,Integrations,97,16,19.72,active
+U1311,2023-03-20,Enterprise,Dashboard,46,14,424.1,active
+U1312,2023-01-16,Enterprise,Dashboard,27,21,85.69,churned
+U1313,2023-04-25,Business,Automation,28,4,1.24,churned
+U1314,2023-04-27,Enterprise,API,137,26,24.92,active
+U1315,2023-12-05,Free,Integrations,138,10,159.75,active
+U1316,2024-03-13,Enterprise,Reports,108,22,68.16,active
+U1317,2023-05-01,Enterprise,Reports,92,20,72.28,active
+U1318,2023-01-19,Enterprise,Automation,112,2,88.4,active
+U1319,2024-02-25,Business,Reports,173,4,29.91,active
+U1320,2024-03-06,Pro,Automation,16,30,489.21,churned
+U1321,2023-05-29,Business,AI Insights,0,4,84.17,active
+U1322,2023-04-24,Pro,Integrations,143,15,71.22,active
+U1323,2023-03-04,Business,AI Insights,120,22,335.84,active
+U1324,2024-03-03,Business,AI Insights,186,24,443.99,active
+U1325,2023-10-01,Pro,Automation,151,15,110.35,churned
+U1326,2023-09-09,Business,Automation,53,23,342.05,trial
+U1327,2024-05-04,Pro,AI Insights,186,26,376.09,churned
+U1328,2024-04-04,Business,Dashboard,95,26,94.98,active
+U1329,2024-04-16,Free,Reports,199,0,168.4,active
+U1330,2023-08-08,Enterprise,Integrations,130,7,267.63,trial
+U1331,2024-02-25,Pro,Automation,79,18,42.31,active
+U1332,2023-11-25,Enterprise,AI Insights,79,13,56.39,active
+U1333,2023-08-01,Enterprise,Dashboard,126,10,436.49,active
+U1334,2023-12-30,Free,Reports,82,12,143.12,trial
+U1335,2024-03-28,Pro,Integrations,181,30,466.86,active
+U1336,2024-03-28,Pro,Integrations,132,14,362.06,trial
+U1337,2024-02-24,Business,AI Insights,155,27,183.8,active
+U1338,2023-06-24,Business,API,49,17,9.35,trial
+U1339,2023-08-02,Free,Dashboard,24,25,298.5,trial
+U1340,2023-05-19,Pro,AI Insights,51,29,44.19,churned
+U1341,2023-01-23,Pro,Reports,116,8,427.0,active
+U1342,2023-11-06,Free,Reports,53,22,62.93,active
+U1343,2023-12-07,Pro,AI Insights,149,9,179.88,trial
+U1344,2024-04-15,Pro,Integrations,102,16,385.9,active
+U1345,2023-03-28,Free,Dashboard,57,27,213.04,active
+U1346,2024-04-06,Pro,Automation,104,7,177.65,active
+U1347,2023-09-24,Enterprise,Integrations,6,18,360.44,active
+U1348,2023-07-10,Business,Automation,118,4,423.93,active
+U1349,2024-05-02,Business,API,106,30,96.24,active
+U1350,2023-06-14,Business,API,127,15,283.07,active
+U1351,2023-03-09,Free,Dashboard,176,9,165.39,trial
+U1352,2023-12-15,Free,Reports,65,18,309.55,active
+U1353,2024-02-01,Business,Integrations,125,29,30.03,churned
+U1354,2023-10-17,Pro,Reports,26,27,300.91,trial
+U1355,2023-10-06,Business,Integrations,12,30,272.33,active
+U1356,2023-12-31,Pro,Automation,93,6,7.41,active
+U1357,2024-03-29,Free,API,79,8,295.14,churned
+U1358,2024-03-16,Pro,AI Insights,32,18,42.92,active
+U1359,2024-02-12,Enterprise,Integrations,44,15,297.87,active
+U1360,2023-07-04,Free,Integrations,169,0,296.84,active
+U1361,2023-09-28,Business,Reports,77,28,122.69,trial
+U1362,2023-10-28,Enterprise,Dashboard,58,29,24.77,active
+U1363,2023-11-06,Enterprise,AI Insights,62,21,282.77,active
+U1364,2023-06-28,Business,Automation,123,6,53.79,active
+U1365,2024-04-08,Pro,API,181,29,314.88,trial
+U1366,2023-07-14,Pro,Reports,108,25,108.0,active
+U1367,2023-11-05,Enterprise,API,40,19,466.26,active
+U1368,2023-07-26,Pro,API,52,13,241.72,churned
+U1369,2024-03-22,Enterprise,Automation,193,24,468.57,active
+U1370,2023-04-11,Business,API,101,29,96.34,active
+U1371,2023-12-08,Pro,Integrations,164,12,297.66,active
+U1372,2023-09-03,Business,Reports,107,12,300.78,trial
+U1373,2023-09-22,Free,Reports,80,29,159.13,active
+U1374,2024-01-26,Pro,API,183,14,114.33,trial
+U1375,2023-02-19,Pro,AI Insights,59,22,332.92,churned
+U1376,2023-11-19,Free,AI Insights,111,14,491.88,active
+U1377,2023-03-13,Free,Automation,87,16,373.76,active
+U1378,2024-03-17,Business,Dashboard,150,6,308.52,active
+U1379,2024-01-09,Pro,Reports,46,27,29.69,active
+U1380,2023-10-05,Pro,Integrations,43,25,126.98,trial
+U1381,2023-01-12,Pro,AI Insights,173,6,357.08,active
+U1382,2023-08-17,Business,AI Insights,108,10,9.12,active
+U1383,2023-03-22,Business,Dashboard,135,2,106.28,active
+U1384,2023-12-09,Business,Integrations,127,29,224.27,churned
+U1385,2023-08-26,Enterprise,API,191,30,131.88,trial
+U1386,2023-05-27,Enterprise,AI Insights,164,30,334.62,churned
+U1387,2023-11-14,Pro,Automation,193,5,348.94,trial
+U1388,2023-10-20,Business,Reports,132,21,25.1,trial
+U1389,2023-06-06,Pro,API,64,22,290.11,active
+U1390,2023-08-23,Pro,Integrations,133,6,245.47,trial
+U1391,2023-12-01,Enterprise,AI Insights,50,18,477.13,active
+U1392,2023-05-31,Business,Integrations,86,3,388.06,active
+U1393,2023-11-03,Business,Integrations,95,1,298.0,active
+U1394,2023-06-19,Business,Dashboard,54,30,125.34,active
+U1395,2023-12-07,Enterprise,API,144,30,78.36,active
+U1396,2023-08-02,Free,Integrations,31,23,330.06,active
+U1397,2023-12-04,Business,Integrations,184,5,270.85,trial
+U1398,2024-03-26,Enterprise,Automation,163,10,471.89,trial
+U1399,2023-04-12,Pro,Dashboard,91,24,270.6,active
+U1400,2024-04-09,Pro,Dashboard,12,20,158.4,active
+U1401,2023-03-13,Business,Dashboard,62,5,422.64,trial
+U1402,2024-04-05,Pro,Dashboard,121,10,475.47,active
+U1403,2024-01-17,Free,Reports,170,25,240.41,active
+U1404,2023-02-15,Enterprise,AI Insights,32,12,472.79,trial
+U1405,2024-03-25,Business,Automation,138,20,493.59,active
+U1406,2023-09-28,Free,API,166,6,35.9,churned
+U1407,2023-04-07,Free,AI Insights,4,23,249.73,active
+U1408,2023-04-20,Pro,Dashboard,143,9,89.99,churned
+U1409,2024-03-04,Free,Automation,44,27,288.7,active
+U1410,2024-02-01,Pro,API,35,4,140.84,active
+U1411,2023-04-06,Pro,Automation,107,9,414.4,churned
+U1412,2023-01-24,Pro,Integrations,38,8,421.87,active
+U1413,2024-04-15,Business,Reports,192,19,321.22,active
+U1414,2024-05-09,Pro,Integrations,87,0,175.82,active
+U1415,2023-04-26,Pro,Integrations,173,3,359.44,trial
+U1416,2023-06-01,Enterprise,AI Insights,199,1,406.2,active
+U1417,2023-03-04,Free,Automation,89,26,269.75,churned
+U1418,2023-05-03,Business,Integrations,114,7,207.27,active
+U1419,2023-05-05,Business,Reports,17,0,461.71,active
+U1420,2023-07-01,Business,Dashboard,194,11,229.82,active
+U1421,2024-01-25,Pro,Reports,50,13,235.62,active
+U1422,2024-04-18,Enterprise,Dashboard,169,7,92.12,active
+U1423,2023-07-06,Business,API,94,20,247.84,trial
+U1424,2024-05-06,Free,Integrations,157,29,91.13,churned
+U1425,2023-06-20,Business,API,104,16,481.25,active
+U1426,2023-11-23,Enterprise,Automation,77,24,66.13,active
+U1427,2024-02-05,Pro,AI Insights,99,11,33.63,active
+U1428,2023-07-13,Free,AI Insights,78,27,460.95,trial
+U1429,2023-09-24,Pro,API,152,12,453.59,churned
+U1430,2023-05-25,Enterprise,Integrations,161,29,24.79,active
+U1431,2023-04-29,Free,AI Insights,105,28,130.09,active
+U1432,2023-01-09,Business,AI Insights,107,18,26.02,active
+U1433,2023-12-19,Free,Dashboard,25,27,446.3,active
+U1434,2024-02-24,Enterprise,Dashboard,152,10,167.03,active
+U1435,2024-01-10,Business,Dashboard,172,7,332.02,active
+U1436,2024-04-20,Pro,Dashboard,56,8,45.39,active
+U1437,2023-09-12,Business,Dashboard,53,18,124.13,active
+U1438,2023-06-29,Pro,Automation,184,25,160.27,active
+U1439,2023-08-30,Enterprise,API,149,1,10.4,active
+U1440,2023-10-22,Business,Automation,100,9,45.94,active
+U1441,2023-12-03,Pro,Dashboard,195,3,332.57,trial
+U1442,2023-02-03,Pro,API,124,9,445.52,active
+U1443,2023-06-15,Enterprise,Reports,103,28,327.28,churned
+U1444,2023-05-07,Pro,Integrations,17,10,17.94,churned
+U1445,2024-01-04,Pro,AI Insights,167,24,77.44,active
+U1446,2023-07-19,Pro,AI Insights,36,4,493.8,active
+U1447,2023-06-10,Pro,Reports,175,2,453.91,churned
+U1448,2023-06-25,Business,Dashboard,95,1,119.88,active
+U1449,2023-09-19,Enterprise,Reports,40,27,371.55,trial
+U1450,2023-04-10,Business,Dashboard,130,7,113.72,churned
+U1451,2023-08-02,Pro,AI Insights,62,26,17.59,trial
+U1452,2023-09-15,Enterprise,Integrations,170,25,221.18,churned
+U1453,2023-05-02,Pro,Integrations,174,27,235.71,trial
+U1454,2023-07-26,Free,Integrations,60,9,247.66,churned
+U1455,2023-02-02,Pro,Integrations,37,21,126.86,active
+U1456,2023-04-21,Free,Integrations,198,23,286.01,active
+U1457,2023-12-15,Pro,Dashboard,45,14,312.47,active
+U1458,2023-04-12,Free,Integrations,136,30,391.76,active
+U1459,2023-02-12,Business,API,98,8,315.48,active
+U1460,2023-01-31,Business,Integrations,148,8,60.58,active
+U1461,2023-03-05,Free,AI Insights,71,5,374.4,trial
+U1462,2024-02-15,Pro,Automation,132,14,281.08,active
+U1463,2024-01-25,Enterprise,Integrations,108,16,241.92,active
+U1464,2024-01-24,Enterprise,Integrations,173,20,177.77,active
+U1465,2023-03-05,Business,Automation,84,3,49.2,active
+U1466,2023-08-16,Enterprise,AI Insights,85,29,114.53,active
+U1467,2023-07-27,Free,Automation,193,17,56.85,churned
+U1468,2023-05-23,Business,Dashboard,148,16,443.74,active
+U1469,2023-08-29,Enterprise,Reports,150,6,487.31,active
+U1470,2023-06-05,Enterprise,Automation,2,8,471.84,active
+U1471,2024-03-17,Free,Automation,19,1,213.9,churned
+U1472,2024-04-18,Business,Integrations,5,10,312.77,active
+U1473,2023-11-25,Enterprise,AI Insights,23,25,398.64,active
+U1474,2023-06-13,Enterprise,API,122,20,185.37,active
+U1475,2023-04-21,Enterprise,Integrations,8,25,191.45,churned
+U1476,2024-04-27,Enterprise,Integrations,155,1,154.98,churned
+U1477,2024-02-17,Business,Automation,171,9,109.36,active
+U1478,2023-01-07,Enterprise,Integrations,59,14,64.6,trial
+U1479,2023-07-18,Pro,Automation,107,20,215.29,active
+U1480,2023-08-23,Enterprise,Automation,161,5,462.79,active
+U1481,2023-12-05,Free,Dashboard,78,19,482.32,active
+U1482,2023-11-13,Pro,Integrations,156,12,268.78,trial
+U1483,2023-12-02,Free,AI Insights,23,23,180.26,active
+U1484,2023-02-15,Free,AI Insights,188,23,189.21,active
+U1485,2023-06-22,Free,API,60,7,472.47,active
+U1486,2024-04-19,Pro,Automation,163,15,166.23,churned
+U1487,2024-01-06,Business,AI Insights,6,24,414.31,churned
+U1488,2023-07-18,Enterprise,Integrations,71,18,171.48,active
+U1489,2023-01-13,Pro,AI Insights,53,28,208.53,active
+U1490,2023-10-08,Pro,API,116,30,128.22,churned
+U1491,2024-04-24,Business,AI Insights,103,20,108.59,active
+U1492,2023-05-26,Pro,Integrations,146,1,331.79,active
+U1493,2024-05-01,Free,API,15,27,267.56,active
+U1494,2023-06-23,Free,AI Insights,130,23,381.9,active
+U1495,2023-12-03,Enterprise,API,63,9,132.49,active
+U1496,2024-02-04,Enterprise,Integrations,99,4,338.61,churned
+U1497,2023-07-18,Pro,Reports,111,10,348.61,trial
+U1498,2023-12-18,Pro,Automation,13,11,332.12,churned
+U1499,2024-01-24,Enterprise,Dashboard,45,4,329.93,trial
+U1500,2023-03-02,Business,API,117,4,135.48,churned

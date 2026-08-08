@@ -2,6 +2,92 @@
   "retail_orders": {
     "name": "Retail Orders",
     "domain": "retail",
-    "description": "2,000 retail orders — customers, products, categories, regions, statuses"
+    "description": "2,000 retail orders — customers, products, categories, regions, statuses",
+    "questions": [
+      "What is the total revenue by region?",
+      "What is the average order value by category?",
+      "Show monthly revenue over time",
+      "Which products are the top 5 best sellers by quantity?",
+      "What is the refund rate by category?",
+      "How many orders are there per region?"
+    ]
+  },
+  "healthcare_encounters": {
+    "name": "Healthcare Encounters",
+    "domain": "healthcare",
+    "description": "1,500 patient encounters — departments, diagnoses, payers, length of stay, cost",
+    "questions": [
+      "What is the average length of stay by department?",
+      "What is the total cost by payer?",
+      "How many encounters are there per department?",
+      "What is the readmission rate by diagnosis?",
+      "Show monthly admissions over time",
+      "What is the average cost per encounter by department?"
+    ]
+  },
+  "finance_transactions": {
+    "name": "Finance Transactions",
+    "domain": "finance",
+    "description": "1,500 transactions — products, channels, amounts, statuses",
+    "questions": [
+      "What is the total transaction amount by product?",
+      "What is the average transaction amount by channel?",
+      "How many transactions are there per product?",
+      "What is the refund rate by channel?",
+      "Show monthly transaction volume over time",
+      "What is the total revenue by channel?"
+    ]
+  },
+  "marketing_campaigns": {
+    "name": "Marketing Campaigns",
+    "domain": "marketing",
+    "description": "1,500 campaign records — channels, spend, revenue, leads, clicks",
+    "questions": [
+      "What is the return on ad spend (ROAS) by channel?",
+      "What is the total spend by campaign?",
+      "What is the click-through rate by channel?",
+      "Which campaigns have the highest revenue?",
+      "Show monthly spend over time",
+      "What is the cost per lead by channel?"
+    ]
+  },
+  "saas_usage": {
+    "name": "SaaS Product Usage",
+    "domain": "saas",
+    "description": "1,500 users — plans, features, sessions, MRR, churn status",
+    "questions": [
+      "What is the total MRR by plan?",
+      "What is the churn rate by plan?",
+      "What is the average sessions per user by plan?",
+      "Which features have the highest adoption?",
+      "Show signups over time",
+      "What is the average MRR per active user?"
+    ]
+  },
+  "supply_chain_shipments": {
+    "name": "Supply Chain Shipments",
+    "domain": "operations",
+    "description": "1,500 shipments — warehouses, SKUs, lead times, costs, statuses",
+    "questions": [
+      "What is the average lead time by warehouse?",
+      "What is the total cost by warehouse?",
+      "What is the on-time delivery rate by warehouse?",
+      "How many shipments are delayed?",
+      "Show shipment volume over time",
+      "What is the average cost per shipment by SKU?"
+    ]
+  },
+  "hr_employees": {
+    "name": "HR Employees",
+    "domain": "hr",
+    "description": "1,500 employees — departments, roles, tenure, salary, performance",
+    "questions": [
+      "What is the attrition rate by department?",
+      "What is the average salary by department?",
+      "What is the average tenure by role?",
+      "What is the average performance score by department?",
+      "How many employees are per department?",
+      "What is the salary distribution by role?"
+    ]
   }
 }

@@ -1,8 +1,17 @@
+"use client";
+import { useEffect, useState } from "react";
+
 interface TopBarProps {
   connected: boolean;
 }
 
 export default function TopBar({ connected }: TopBarProps) {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
+
   return (
     <header
       style={{
@@ -48,29 +57,54 @@ export default function TopBar({ connected }: TopBarProps) {
         </span>
       </div>
 
-      {/* Status pill */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "8px",
-          padding: "5px 12px",
-          borderRadius: "var(--radius-pill)",
-          background: connected ? "var(--color-success-dim)" : "var(--color-paper-3)",
-          border: `1px solid ${connected ? "var(--color-success-dim)" : "var(--color-border)"}`,
-          fontSize: "12px",
-          fontWeight: 500,
-          color: connected ? "var(--color-success)" : "var(--color-ink-faint)",
-          transition: "background var(--dur-fast) var(--ease-out)",
-        }}
-      >
-        <span
-          className="status-dot"
-          style={{
-            background: connected ? "var(--color-success)" : "var(--color-ink-faint)",
+      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
+        {/* Theme toggle */}
+        <button
+          onClick={() => {
+            const next = theme === "light" ? "dark" : "light";
+            setTheme(next);
+            document.documentElement.setAttribute("data-theme", next);
           }}
-        />
-        {connected ? "Connected" : "Disconnected"}
+          title="Toggle theme"
+          style={{
+            background: "var(--color-paper-3)",
+            border: "1px solid var(--color-border)",
+            borderRadius: "var(--radius-pill)",
+            padding: "5px 12px",
+            fontSize: "12px",
+            fontWeight: 500,
+            color: "var(--color-ink-dim)",
+            cursor: "pointer",
+            transition: "background var(--dur-fast) var(--ease-out)",
+          }}
+        >
+          {theme === "light" ? "◐ Dark" : "◐ Light"}
+        </button>
+
+        {/* Status pill */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "5px 12px",
+            borderRadius: "var(--radius-pill)",
+            background: connected ? "var(--color-success-dim)" : "var(--color-paper-3)",
+            border: `1px solid ${connected ? "var(--color-success-dim)" : "var(--color-border)"}`,
+            fontSize: "12px",
+            fontWeight: 500,
+            color: connected ? "var(--color-success)" : "var(--color-ink-faint)",
+            transition: "background var(--dur-fast) var(--ease-out)",
+          }}
+        >
+          <span
+            className="status-dot"
+            style={{
+              background: connected ? "var(--color-success)" : "var(--color-ink-faint)",
+            }}
+          />
+          {connected ? "Connected" : "Disconnected"}
+        </div>
       </div>
     </header>
   );

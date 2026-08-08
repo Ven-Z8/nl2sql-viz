@@ -317,6 +317,7 @@ export default function Home() {
         columns: string[];
         domain: string;
         dsn: string;
+        questions?: string[];
         detail?: string;
       };
       if (!resp.ok) {
@@ -331,8 +332,46 @@ export default function Home() {
       setActiveDomain(body.domain);
       setRuntimeDsn(body.dsn);
       setDatasetName(body.table_name.replace(/^upload_/, ""));
+      // Show the dataset's suggested questions
+      if (body.questions && body.questions.length > 0) {
+        setSuggestedQuestions(
+          body.questions.map((q, i) => ({
+            id: `sample-q-${i}`,
+            question: q,
+            category: body.domain,
+          }))
+        );
+      }
     } catch (e) {
       setUploadError(e instanceof Error ? e.message : "Failed to load sample");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleConnect = async (dsn: string) => {
+    if (!apiKeyRef.current) {
+      setUploadError("Not connected — register or start a demo session first.");
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const resp = await fetch(`${API_URL}/api/connections`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ api_key: apiKeyRef.current, dsn }),
+      });
+      const body = (await resp.json()) as { connection_id?: string; detail?: string };
+      if (!resp.ok) {
+        throw new Error(body.detail ?? "Connection failed");
+      }
+      setRuntimeDsn(dsn);
+      setDatasetName("Connected Database");
+      setConnectionLabel(new URL(dsn).host);
+      setUploadedDataset(null);
+    } catch (e) {
+      setUploadError(e instanceof Error ? e.message : "Connection failed");
     } finally {
       setUploading(false);
     }
@@ -367,6 +406,7 @@ export default function Home() {
           onUpload={handleUpload}
           samples={samples}
           onLoadSample={handleLoadSample}
+          onConnect={handleConnect}
         />
         <RightPanel
           title={resultTitle}

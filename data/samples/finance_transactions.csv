@@ -1,0 +1,1501 @@
+transaction_id,customer_id,transaction_date,product,channel,amount,status
+T1,C1010,2024-11-27,Mortgage,Web,4023.19,refunded
+T2,C1316,2024-10-08,Investment,API,914.29,pending
+T3,C1541,2024-04-03,Loan,Mobile,435.14,completed
+T4,C1064,2024-09-28,Loan,Web,1421.43,refunded
+T5,C1782,2024-09-18,Mortgage,Web,3826.67,completed
+T6,C1070,2024-11-12,Loan,Branch,2376.48,pending
+T7,C1725,2024-12-07,Savings,Mobile,2393.28,completed
+T8,C1011,2024-06-09,Investment,Branch,4564.93,pending
+T9,C1038,2024-03-07,Savings,Web,184.38,completed
+T10,C1165,2024-04-09,Credit Card,Web,3487.18,completed
+T11,C1366,2024-06-09,Checking,API,2360.98,completed
+T12,C1454,2024-02-27,Loan,API,4219.18,completed
+T13,C1506,2024-02-03,Savings,API,3334.13,completed
+T14,C1174,2024-04-21,Credit Card,Web,1108.34,completed
+T15,C1342,2024-11-10,Checking,Branch,348.55,completed
+T16,C1586,2024-07-04,Checking,Branch,4237.32,pending
+T17,C1360,2024-11-19,Savings,Partner,2966.65,pending
+T18,C1268,2024-03-12,Savings,Branch,4078.93,completed
+T19,C1152,2024-11-19,Mortgage,Branch,3576.56,completed
+T20,C1006,2024-09-01,Mortgage,Partner,2796.1,completed
+T21,C1522,2024-03-20,Credit Card,API,3502.37,refunded
+T22,C1211,2024-03-23,Savings,Partner,4475.16,completed
+T23,C1765,2024-01-02,Investment,Branch,1340.47,completed
+T24,C1994,2024-11-19,Checking,API,4804.41,refunded
+T25,C1686,2024-05-28,Mortgage,API,3116.82,completed
+T26,C1174,2024-09-11,Savings,Branch,1327.81,completed
+T27,C1880,2024-07-23,Checking,Web,4025.18,completed
+T28,C1254,2024-01-17,Mortgage,Mobile,2333.62,completed
+T29,C1587,2024-03-26,Investment,API,3355.74,refunded
+T30,C1632,2024-09-12,Mortgage,API,2696.72,completed
+T31,C1507,2024-03-22,Credit Card,Branch,3445.89,pending
+T32,C1653,2024-10-20,Savings,API,46.58,refunded
+T33,C1303,2024-08-11,Savings,Branch,2342.69,completed
+T34,C1292,2024-05-10,Loan,Mobile,173.45,pending
+T35,C1817,2024-07-29,Savings,Branch,2580.51,refunded
+T36,C1380,2024-09-28,Loan,API,1735.57,completed
+T37,C1113,2024-02-14,Checking,Branch,2072.77,completed
+T38,C1843,2024-05-07,Mortgage,Mobile,3770.32,completed
+T39,C1854,2024-09-26,Checking,Web,3938.26,pending
+T40,C1250,2024-12-19,Credit Card,Mobile,647.21,completed
+T41,C1824,2024-08-12,Mortgage,Mobile,682.03,completed
+T42,C1937,2024-08-31,Checking,Web,2788.81,completed
+T43,C1460,2024-12-07,Savings,Branch,4445.61,completed
+T44,C1352,2024-06-10,Mortgage,API,4960.49,pending
+T45,C1548,2024-07-17,Mortgage,API,1305.74,completed
+T46,C1672,2024-08-03,Credit Card,Web,918.22,pending
+T47,C1518,2024-02-24,Credit Card,API,1851.65,completed
+T48,C1689,2024-02-02,Checking,Partner,4402.44,pending
+T49,C1622,2024-07-22,Credit Card,Partner,665.45,pending
+T50,C1701,2024-08-15,Credit Card,Branch,1381.44,completed
+T51,C1651,2024-02-27,Mortgage,Web,4598.46,completed
+T52,C1721,2024-07-03,Checking,API,4892.25,completed
+T53,C1310,2024-09-12,Checking,Mobile,1092.44,completed
+T54,C1615,2024-05-09,Loan,API,3411.62,completed
+T55,C1842,2024-03-04,Mortgage,Branch,4616.76,completed
+T56,C1125,2024-12-23,Checking,API,223.07,refunded
+T57,C1863,2024-05-01,Investment,API,1506.22,refunded
+T58,C1083,2024-08-29,Checking,Web,4773.89,completed
+T59,C1129,2024-12-25,Checking,API,481.19,completed
+T60,C1768,2024-12-07,Credit Card,Partner,1164.97,refunded
+T61,C1988,2024-04-18,Loan,API,869.89,completed
+T62,C1907,2024-11-13,Mortgage,Mobile,2956.67,refunded
+T63,C1760,2024-10-09,Mortgage,Branch,1395.81,pending
+T64,C1824,2024-04-19,Loan,Web,1963.09,completed
+T65,C1214,2024-09-27,Mortgage,API,3548.37,completed
+T66,C1471,2024-09-17,Investment,Partner,4406.96,pending
+T67,C1008,2024-01-23,Investment,Partner,606.67,completed
+T68,C1420,2024-06-09,Credit Card,Branch,1083.37,completed
+T69,C1474,2024-05-05,Investment,Branch,1862.21,pending
+T70,C1946,2024-06-11,Savings,Branch,4794.3,refunded
+T71,C1534,2024-02-26,Credit Card,Mobile,2373.95,pending
+T72,C1425,2024-08-12,Credit Card,Branch,2324.36,refunded
+T73,C1915,2024-07-19,Mortgage,Branch,887.2,completed
+T74,C1143,2024-01-04,Checking,Mobile,1589.83,completed
+T75,C1681,2024-08-31,Loan,Mobile,3567.84,refunded
+T76,C1230,2024-05-06,Credit Card,Web,1647.02,completed
+T77,C1851,2024-04-17,Investment,Branch,4498.86,completed
+T78,C1713,2024-07-26,Savings,Web,4833.24,completed
+T79,C1561,2024-04-27,Checking,Web,1423.58,refunded
+T80,C1648,2024-03-15,Mortgage,API,3225.81,completed
+T81,C1765,2024-03-21,Savings,Mobile,1213.92,completed
+T82,C1869,2024-10-09,Investment,Web,1069.02,completed
+T83,C1038,2024-02-14,Credit Card,Mobile,4854.61,completed
+T84,C1681,2024-03-12,Checking,Partner,3111.46,completed
+T85,C1100,2024-01-01,Mortgage,Branch,3994.23,completed
+T86,C1766,2024-01-22,Checking,Web,2754.97,completed
+T87,C1519,2024-04-11,Loan,Branch,3447.59,completed
+T88,C1158,2024-03-05,Investment,Web,2961.66,completed
+T89,C1162,2024-10-02,Investment,Web,994.45,completed
+T90,C1485,2024-11-23,Credit Card,Partner,56.31,pending
+T91,C1369,2024-09-22,Savings,Partner,4629.51,pending
+T92,C1468,2024-09-07,Checking,Mobile,2741.0,refunded
+T93,C1212,2024-06-20,Loan,Web,1113.66,completed
+T94,C1817,2024-04-20,Investment,Partner,1130.06,pending
+T95,C1128,2024-02-13,Mortgage,Mobile,3724.8,refunded
+T96,C1463,2024-03-26,Investment,API,2493.39,completed
+T97,C1354,2024-02-27,Checking,API,921.99,completed
+T98,C1679,2024-03-15,Mortgage,API,2914.66,pending
+T99,C1137,2024-03-15,Mortgage,API,2991.21,completed
+T100,C1954,2024-02-16,Credit Card,API,1281.21,refunded
+T101,C1786,2024-06-04,Investment,Partner,4549.06,completed
+T102,C1305,2024-01-29,Checking,Branch,2675.53,completed
+T103,C1288,2024-08-02,Investment,Web,4338.06,completed
+T104,C1919,2024-09-17,Mortgage,Web,3182.13,pending
+T105,C1350,2024-09-26,Savings,Mobile,893.64,refunded
+T106,C1146,2024-12-28,Credit Card,API,914.8,refunded
+T107,C1437,2024-12-02,Checking,Web,2099.05,completed
+T108,C1118,2024-03-08,Savings,Web,4958.24,pending
+T109,C1538,2024-06-14,Mortgage,Mobile,162.03,completed
+T110,C1196,2024-12-12,Savings,Partner,214.34,pending
+T111,C1490,2024-12-31,Credit Card,Web,3017.77,completed
+T112,C1076,2024-10-28,Mortgage,API,4803.07,refunded
+T113,C1114,2024-05-03,Mortgage,API,1796.18,completed
+T114,C1723,2024-01-13,Mortgage,Partner,1290.28,refunded
+T115,C1306,2024-09-26,Mortgage,Partner,288.29,refunded
+T116,C1092,2024-08-03,Savings,Web,2001.75,pending
+T117,C1589,2024-05-23,Loan,Web,1912.41,completed
+T118,C1249,2024-11-11,Savings,Web,2840.01,completed
+T119,C1316,2024-06-29,Investment,Web,113.95,completed
+T120,C1101,2024-06-28,Mortgage,Web,4705.08,refunded
+T121,C1862,2024-01-15,Checking,Mobile,3906.43,completed
+T122,C1795,2024-06-12,Savings,Web,425.75,pending
+T123,C1405,2024-11-06,Mortgage,Partner,903.75,pending
+T124,C1357,2024-04-20,Credit Card,Mobile,4100.49,refunded
+T125,C1969,2024-08-02,Loan,API,632.38,completed
+T126,C1583,2024-05-23,Savings,Partner,1817.27,refunded
+T127,C1576,2024-12-29,Investment,Partner,2468.12,completed
+T128,C1577,2024-06-08,Savings,Web,2011.99,completed
+T129,C1268,2024-08-03,Investment,API,747.08,pending
+T130,C1365,2024-08-02,Mortgage,Mobile,2635.33,pending
+T131,C1367,2024-04-11,Loan,Branch,3812.75,refunded
+T132,C1638,2024-06-22,Investment,Web,2748.75,completed
+T133,C1602,2024-08-23,Investment,Web,463.08,refunded
+T134,C1731,2024-03-10,Loan,Branch,309.41,pending
+T135,C1263,2024-04-26,Mortgage,Mobile,1179.74,completed
+T136,C1947,2024-01-07,Mortgage,API,533.18,refunded
+T137,C1340,2024-01-06,Investment,Branch,2040.14,refunded
+T138,C1343,2024-04-08,Credit Card,Mobile,4054.81,completed
+T139,C1503,2024-07-04,Loan,Web,2098.66,completed
+T140,C1696,2024-09-08,Checking,Partner,3186.35,pending
+T141,C1953,2024-07-26,Mortgage,Partner,369.34,completed
+T142,C1531,2024-11-07,Savings,API,4385.58,completed
+T143,C1446,2024-04-08,Credit Card,Partner,1842.18,completed
+T144,C1141,2024-05-16,Credit Card,Branch,2999.55,completed
+T145,C1019,2024-05-01,Checking,Branch,3397.56,completed
+T146,C1104,2024-04-10,Investment,API,4434.87,completed
+T147,C1825,2024-01-26,Loan,Partner,1098.89,completed
+T148,C1454,2024-05-04,Loan,API,2920.12,completed
+T149,C1292,2024-03-09,Checking,Partner,132.89,completed
+T150,C1458,2024-04-15,Investment,Branch,4887.79,completed
+T151,C1643,2024-08-26,Mortgage,API,4257.45,completed
+T152,C1542,2024-01-26,Credit Card,Web,258.89,refunded
+T153,C1108,2024-03-12,Mortgage,Mobile,2163.15,completed
+T154,C1685,2024-05-09,Savings,API,4676.15,refunded
+T155,C1997,2024-06-22,Credit Card,Web,1379.49,completed
+T156,C1065,2024-10-02,Investment,Web,3311.16,pending
+T157,C1621,2024-05-01,Investment,Web,2983.75,completed
+T158,C1155,2024-02-10,Mortgage,Branch,2262.61,completed
+T159,C1009,2024-10-13,Checking,Branch,2258.39,completed
+T160,C1897,2024-07-02,Mortgage,API,2189.1,refunded
+T161,C1727,2024-08-09,Savings,Branch,1686.92,completed
+T162,C1905,2024-07-17,Credit Card,Mobile,1014.79,completed
+T163,C1701,2024-05-21,Savings,Branch,2307.33,completed
+T164,C1736,2024-12-28,Credit Card,Mobile,2453.11,completed
+T165,C1444,2024-05-20,Investment,Partner,3289.55,completed
+T166,C1539,2024-09-23,Credit Card,Web,310.02,pending
+T167,C1734,2024-12-21,Checking,Partner,4433.86,refunded
+T168,C1017,2024-03-13,Savings,Web,1256.9,completed
+T169,C1535,2024-03-27,Savings,API,2376.63,refunded
+T170,C1037,2024-09-05,Mortgage,Web,2005.9,pending
+T171,C1520,2024-06-20,Mortgage,Mobile,4204.35,completed
+T172,C1698,2024-08-09,Checking,Mobile,4113.31,completed
+T173,C1274,2024-07-31,Investment,Partner,284.87,completed
+T174,C1801,2024-11-20,Checking,Branch,2700.72,pending
+T175,C1033,2024-06-24,Mortgage,API,3531.65,completed
+T176,C1390,2024-06-02,Investment,Web,1853.14,pending
+T177,C1653,2024-09-04,Loan,Branch,3763.61,refunded
+T178,C1401,2024-11-11,Investment,Partner,780.75,completed
+T179,C1515,2024-02-18,Investment,Mobile,2067.75,completed
+T180,C1273,2024-07-16,Investment,API,4090.76,completed
+T181,C1210,2024-10-27,Loan,Branch,153.67,completed
+T182,C1704,2024-06-21,Investment,Mobile,878.8,refunded
+T183,C1139,2024-05-18,Mortgage,Branch,3443.64,pending
+T184,C1144,2024-05-21,Mortgage,Web,2092.74,refunded
+T185,C1550,2024-06-07,Loan,Branch,3216.53,completed
+T186,C1235,2024-09-08,Investment,API,37.5,completed
+T187,C1456,2024-10-27,Loan,Partner,4964.05,completed
+T188,C1235,2024-08-24,Investment,Mobile,3139.23,completed
+T189,C1300,2024-05-18,Loan,API,1421.53,completed
+T190,C1072,2024-10-22,Checking,Branch,2950.34,completed
+T191,C1404,2024-03-07,Credit Card,Mobile,1897.98,pending
+T192,C1455,2024-05-25,Mortgage,API,4428.82,completed
+T193,C1694,2024-01-14,Checking,Web,2185.5,refunded
+T194,C1137,2024-03-13,Loan,Mobile,1824.04,completed
+T195,C1430,2024-12-24,Investment,Mobile,2364.72,completed
+T196,C1904,2024-01-11,Credit Card,Mobile,4583.17,completed
+T197,C1923,2024-12-23,Checking,Web,3702.64,completed
+T198,C1023,2024-02-25,Investment,Branch,3975.29,completed
+T199,C1324,2024-01-02,Credit Card,Web,4991.77,pending
+T200,C1302,2024-07-06,Mortgage,Branch,1119.95,refunded
+T201,C1373,2024-04-23,Savings,Partner,2963.92,refunded
+T202,C1318,2024-03-18,Loan,Mobile,4276.61,refunded
+T203,C1269,2024-08-04,Investment,Branch,3778.12,completed
+T204,C1941,2024-09-29,Loan,Mobile,45.0,pending
+T205,C1317,2024-06-30,Checking,Mobile,4965.7,completed
+T206,C1468,2024-05-28,Checking,Branch,3956.21,completed
+T207,C1689,2024-12-10,Credit Card,Partner,4012.45,completed
+T208,C1851,2024-10-17,Investment,Partner,3774.76,completed
+T209,C1823,2024-08-05,Loan,Branch,2383.05,refunded
+T210,C1695,2024-09-02,Credit Card,API,3884.09,refunded
+T211,C1697,2024-12-10,Loan,Web,4497.02,completed
+T212,C1390,2024-06-28,Loan,API,2856.99,pending
+T213,C1290,2024-09-22,Checking,API,1078.44,completed
+T214,C1740,2024-07-26,Investment,Web,3767.55,refunded
+T215,C1633,2024-03-01,Savings,API,4387.38,completed
+T216,C1621,2024-09-12,Loan,API,4873.98,refunded
+T217,C1824,2024-08-22,Loan,Partner,3138.33,completed
+T218,C1244,2024-01-22,Loan,API,2990.94,pending
+T219,C1665,2024-06-16,Credit Card,API,3392.71,completed
+T220,C1857,2024-09-09,Mortgage,Web,1408.54,completed
+T221,C1317,2024-01-11,Mortgage,Web,3234.15,refunded
+T222,C1499,2024-07-18,Loan,Partner,3636.32,completed
+T223,C1371,2024-08-02,Credit Card,Branch,4609.25,completed
+T224,C1421,2024-04-14,Investment,Web,921.71,completed
+T225,C1809,2024-10-13,Mortgage,API,1504.97,completed
+T226,C1895,2024-07-14,Loan,Mobile,3822.55,completed
+T227,C1872,2024-09-28,Investment,API,2241.29,completed
+T228,C1003,2024-07-01,Investment,API,1412.06,completed
+T229,C1554,2024-01-27,Credit Card,Branch,3012.81,completed
+T230,C1965,2024-04-07,Investment,Partner,989.55,pending
+T231,C1863,2024-02-09,Mortgage,API,2078.9,pending
+T232,C1690,2024-08-04,Checking,API,4843.04,pending
+T233,C1587,2024-07-27,Credit Card,Mobile,4478.32,pending
+T234,C1179,2024-01-05,Mortgage,Mobile,2066.7,pending
+T235,C1807,2024-03-08,Loan,Mobile,1559.81,completed
+T236,C1109,2024-01-20,Checking,Branch,1346.29,pending
+T237,C1886,2024-12-17,Savings,Partner,1452.25,completed
+T238,C1077,2024-11-23,Credit Card,Branch,3938.02,pending
+T239,C1153,2024-05-29,Checking,Partner,2902.79,completed
+T240,C1137,2024-01-25,Credit Card,Branch,336.96,completed
+T241,C1707,2024-02-20,Savings,Partner,2053.49,completed
+T242,C1954,2024-02-14,Credit Card,Web,4549.03,refunded
+T243,C1598,2024-06-10,Mortgage,API,3283.15,refunded
+T244,C1407,2024-06-03,Loan,API,3399.54,completed
+T245,C1352,2024-06-21,Loan,Partner,4508.16,completed
+T246,C1363,2024-04-06,Investment,Partner,1110.91,completed
+T247,C1592,2024-11-01,Savings,Web,3118.36,completed
+T248,C1245,2024-11-26,Investment,Mobile,2422.01,pending
+T249,C1310,2024-06-17,Credit Card,Partner,4656.71,completed
+T250,C1745,2024-08-23,Investment,Partner,465.56,refunded
+T251,C1540,2024-04-10,Investment,Branch,2626.04,pending
+T252,C1053,2024-04-06,Investment,API,1996.58,refunded
+T253,C1762,2024-05-14,Loan,Branch,1428.43,completed
+T254,C1993,2024-05-07,Loan,Branch,4576.36,pending
+T255,C1899,2024-02-07,Checking,API,504.34,refunded
+T256,C1769,2024-08-21,Loan,Web,4364.39,completed
+T257,C1210,2024-10-01,Mortgage,Web,2257.64,completed
+T258,C1838,2024-12-02,Credit Card,Partner,2529.21,pending
+T259,C1686,2024-10-25,Checking,Mobile,4063.06,refunded
+T260,C1833,2024-03-22,Checking,Web,2786.75,completed
+T261,C1757,2024-04-19,Mortgage,API,288.94,completed
+T262,C1941,2024-03-24,Investment,Partner,1105.29,completed
+T263,C1102,2024-03-10,Savings,API,1584.8,completed
+T264,C1475,2024-09-16,Checking,API,3778.21,completed
+T265,C1093,2024-01-30,Checking,Mobile,4234.37,completed
+T266,C1474,2024-03-24,Checking,API,4380.72,completed
+T267,C1637,2024-02-06,Checking,Mobile,3253.3,refunded
+T268,C1983,2024-03-16,Mortgage,API,4536.32,completed
+T269,C1869,2024-08-11,Checking,API,2451.79,completed
+T270,C1388,2024-01-26,Credit Card,Web,166.58,completed
+T271,C1526,2024-03-12,Savings,Branch,1055.51,completed
+T272,C1707,2024-02-13,Loan,API,536.11,completed
+T273,C1290,2024-05-28,Savings,Partner,4609.05,pending
+T274,C1276,2024-11-01,Checking,Branch,384.6,completed
+T275,C1609,2024-01-28,Credit Card,Branch,4172.45,refunded
+T276,C1120,2024-06-13,Mortgage,Branch,4719.49,refunded
+T277,C1568,2024-12-19,Checking,Partner,3278.91,completed
+T278,C1866,2024-12-18,Loan,Mobile,976.34,completed
+T279,C1407,2024-02-04,Credit Card,API,4202.29,completed
+T280,C1868,2024-07-14,Loan,Mobile,4977.63,refunded
+T281,C1021,2024-04-03,Loan,API,2785.8,completed
+T282,C1913,2024-11-04,Credit Card,Web,126.79,completed
+T283,C1703,2024-01-20,Investment,Mobile,3131.15,completed
+T284,C1128,2024-09-27,Investment,Web,1579.5,completed
+T285,C1313,2024-11-13,Credit Card,Partner,2434.74,pending
+T286,C1466,2024-01-28,Credit Card,Partner,2849.8,completed
+T287,C1904,2024-04-13,Investment,API,2732.39,completed
+T288,C1944,2024-04-22,Checking,Partner,593.32,completed
+T289,C1162,2024-07-17,Checking,Partner,4205.28,completed
+T290,C1457,2024-09-15,Mortgage,Web,4927.96,pending
+T291,C1907,2024-02-10,Mortgage,Web,3675.1,completed
+T292,C1201,2024-08-21,Investment,Web,834.72,completed
+T293,C1484,2024-12-16,Mortgage,Partner,3483.4,completed
+T294,C1518,2024-07-09,Loan,Mobile,1835.81,completed
+T295,C1672,2024-08-21,Savings,API,2377.38,completed
+T296,C1341,2024-01-21,Savings,Partner,4679.49,completed
+T297,C1151,2024-11-19,Mortgage,Mobile,1002.51,pending
+T298,C1562,2024-07-19,Mortgage,Mobile,3102.56,refunded
+T299,C1856,2024-11-12,Investment,Mobile,4051.89,refunded
+T300,C1900,2024-01-28,Mortgage,Partner,2631.06,refunded
+T301,C1002,2024-02-24,Mortgage,Partner,3568.94,refunded
+T302,C1462,2024-09-09,Checking,Partner,415.5,refunded
+T303,C1777,2024-06-13,Savings,Branch,718.72,completed
+T304,C1325,2024-06-26,Mortgage,API,2534.42,completed
+T305,C1738,2024-10-17,Checking,API,680.63,refunded
+T306,C1133,2024-07-19,Checking,API,286.43,completed
+T307,C1416,2024-04-05,Mortgage,API,2984.87,completed
+T308,C1013,2024-06-20,Checking,Branch,2094.72,completed
+T309,C1801,2024-06-19,Investment,Web,912.08,refunded
+T310,C1814,2024-05-11,Savings,Mobile,1751.03,pending
+T311,C1941,2024-12-27,Checking,Branch,3458.9,refunded
+T312,C1124,2024-09-27,Checking,API,2135.91,refunded
+T313,C1773,2024-10-23,Investment,Partner,2084.8,completed
+T314,C1781,2024-12-24,Investment,API,803.25,pending
+T315,C1971,2024-01-26,Savings,Mobile,4035.72,completed
+T316,C1753,2024-06-09,Investment,API,440.11,completed
+T317,C1265,2024-08-22,Credit Card,API,1316.4,refunded
+T318,C1134,2024-04-03,Savings,Partner,2608.9,completed
+T319,C1174,2024-03-31,Credit Card,Web,247.17,pending
+T320,C1857,2024-11-13,Loan,Partner,3211.25,pending
+T321,C1700,2024-12-15,Checking,Partner,1655.19,completed
+T322,C1792,2024-03-22,Mortgage,Branch,686.21,pending
+T323,C1151,2024-07-12,Credit Card,Partner,4358.82,completed
+T324,C1988,2024-10-16,Savings,Partner,1768.83,refunded
+T325,C1780,2024-07-12,Credit Card,Branch,4831.49,pending
+T326,C1865,2024-06-07,Checking,Branch,4456.92,completed
+T327,C1607,2024-01-06,Loan,Partner,3087.95,refunded
+T328,C1453,2024-02-20,Investment,API,443.8,completed
+T329,C1344,2024-06-03,Savings,Mobile,4072.5,refunded
+T330,C1082,2024-04-25,Checking,Mobile,2148.68,pending
+T331,C1055,2024-03-18,Checking,API,1443.82,completed
+T332,C1478,2024-07-25,Savings,Partner,2949.72,completed
+T333,C1291,2024-11-28,Credit Card,Partner,2523.63,completed
+T334,C1778,2024-08-07,Credit Card,API,922.65,completed
+T335,C1357,2024-10-18,Checking,Mobile,4246.86,refunded
+T336,C1572,2024-01-19,Credit Card,Web,922.33,completed
+T337,C1067,2024-05-16,Savings,Web,4037.72,pending
+T338,C1198,2024-07-28,Investment,Mobile,4418.08,completed
+T339,C1823,2024-01-31,Credit Card,Mobile,379.56,pending
+T340,C1673,2024-06-27,Loan,Partner,1625.96,pending
+T341,C1244,2024-06-04,Savings,Partner,1722.62,refunded
+T342,C1519,2024-08-20,Checking,Branch,2380.83,completed
+T343,C1304,2024-09-09,Savings,Partner,1352.84,refunded
+T344,C1729,2024-09-02,Loan,Partner,3406.49,completed
+T345,C1828,2024-03-31,Credit Card,Partner,2450.25,refunded
+T346,C1879,2024-01-16,Savings,Web,3743.26,refunded
+T347,C1317,2024-09-30,Mortgage,API,22.4,refunded
+T348,C1581,2024-09-30,Loan,Web,208.43,completed
+T349,C1153,2024-02-23,Mortgage,Branch,2595.28,refunded
+T350,C1867,2024-05-28,Loan,Mobile,2211.31,completed
+T351,C1013,2024-08-04,Checking,Mobile,61.13,completed
+T352,C1373,2024-09-08,Credit Card,Web,522.77,completed
+T353,C1639,2024-05-11,Mortgage,Branch,345.54,refunded
+T354,C1908,2024-02-20,Loan,Branch,354.17,completed
+T355,C1224,2024-05-24,Loan,Partner,3661.05,completed
+T356,C1041,2024-11-27,Savings,Web,1061.95,completed
+T357,C1268,2024-01-22,Mortgage,Branch,1735.25,pending
+T358,C1419,2024-07-19,Credit Card,Branch,1181.08,pending
+T359,C1709,2024-08-14,Credit Card,Mobile,2338.12,completed
+T360,C1535,2024-07-07,Investment,Mobile,2151.81,refunded
+T361,C1276,2024-07-06,Mortgage,Mobile,2837.91,completed
+T362,C1205,2024-10-09,Checking,Mobile,4123.1,pending
+T363,C1404,2024-11-12,Savings,Mobile,462.72,completed
+T364,C1311,2024-08-10,Savings,API,3543.12,completed
+T365,C1516,2024-12-13,Checking,Web,1929.52,completed
+T366,C1927,2024-07-27,Investment,Partner,2996.88,completed
+T367,C1046,2024-07-07,Savings,Branch,2977.31,refunded
+T368,C1433,2024-03-09,Checking,Partner,2007.24,completed
+T369,C1442,2024-11-07,Mortgage,Branch,1489.74,refunded
+T370,C1420,2024-01-02,Checking,Mobile,75.22,refunded
+T371,C1479,2024-11-17,Loan,Branch,159.5,completed
+T372,C1733,2024-01-01,Loan,Web,2455.14,refunded
+T373,C1060,2024-10-20,Mortgage,Mobile,3721.15,completed
+T374,C1654,2024-05-01,Loan,Web,4986.17,completed
+T375,C1445,2024-05-28,Savings,Mobile,4163.67,completed
+T376,C1281,2024-08-28,Savings,Web,3337.08,completed
+T377,C1871,2024-08-25,Investment,API,2588.77,completed
+T378,C1842,2024-02-12,Mortgage,Web,1765.79,refunded
+T379,C1791,2024-08-29,Mortgage,Mobile,4524.99,completed
+T380,C1854,2024-08-27,Investment,Web,61.81,refunded
+T381,C1422,2024-08-24,Savings,API,2313.31,pending
+T382,C1438,2024-06-18,Savings,Web,4249.14,completed
+T383,C1170,2024-11-03,Checking,API,1455.35,completed
+T384,C1516,2024-01-19,Investment,Branch,4364.5,completed
+T385,C1880,2024-10-05,Loan,Mobile,3503.82,completed
+T386,C1418,2024-08-12,Checking,Partner,545.55,completed
+T387,C1749,2024-07-04,Credit Card,Mobile,733.61,completed
+T388,C1800,2024-10-29,Loan,Mobile,960.44,completed
+T389,C1205,2024-12-24,Investment,Web,680.07,completed
+T390,C1125,2024-10-25,Investment,Web,708.56,completed
+T391,C1560,2024-08-07,Checking,Partner,3279.77,pending
+T392,C1249,2024-05-28,Mortgage,Web,2272.88,pending
+T393,C1112,2024-08-21,Credit Card,Partner,234.14,completed
+T394,C1558,2024-08-11,Mortgage,Mobile,3240.61,completed
+T395,C1501,2024-07-17,Credit Card,Branch,2176.25,completed
+T396,C1213,2024-05-25,Loan,Mobile,1549.55,completed
+T397,C1520,2024-07-28,Credit Card,Partner,4857.88,completed
+T398,C1842,2024-12-18,Credit Card,Branch,803.72,completed
+T399,C1683,2024-08-13,Mortgage,API,4049.5,pending
+T400,C1251,2024-12-15,Credit Card,API,2014.2,completed
+T401,C1948,2024-07-20,Loan,Branch,1588.08,completed
+T402,C1551,2024-08-27,Investment,Web,3027.78,completed
+T403,C1234,2024-03-20,Mortgage,Partner,2592.67,completed
+T404,C1304,2024-08-17,Checking,Branch,2614.89,completed
+T405,C1663,2024-06-20,Savings,Branch,2113.0,pending
+T406,C1390,2024-10-20,Mortgage,Partner,971.76,completed
+T407,C1372,2024-08-16,Credit Card,Web,2299.69,refunded
+T408,C1537,2024-09-02,Savings,Web,341.77,completed
+T409,C1580,2024-09-30,Checking,Partner,2545.21,completed
+T410,C1879,2024-04-06,Loan,Partner,1724.99,refunded
+T411,C1373,2024-04-21,Loan,API,4955.94,completed
+T412,C1525,2024-07-01,Investment,API,2475.07,pending
+T413,C1236,2024-08-03,Loan,API,3285.47,pending
+T414,C1105,2024-10-16,Investment,Mobile,3811.35,completed
+T415,C1260,2024-12-02,Investment,Branch,1406.09,pending
+T416,C1793,2024-01-17,Checking,Mobile,2622.64,completed
+T417,C1317,2024-06-06,Mortgage,Mobile,3708.1,completed
+T418,C1420,2024-02-05,Savings,Mobile,4202.08,completed
+T419,C1412,2024-02-15,Credit Card,Branch,3446.29,completed
+T420,C1149,2024-08-06,Mortgage,Mobile,3239.83,completed
+T421,C1787,2024-12-07,Savings,Mobile,77.99,pending
+T422,C1560,2024-03-22,Mortgage,Partner,1080.83,completed
+T423,C1629,2024-07-12,Checking,API,3402.12,completed
+T424,C1732,2024-06-14,Loan,Web,4634.48,pending
+T425,C1352,2024-09-08,Savings,API,1227.88,refunded
+T426,C1452,2024-03-14,Credit Card,Mobile,151.77,completed
+T427,C1441,2024-11-09,Savings,Partner,4932.68,refunded
+T428,C1264,2024-07-23,Loan,Partner,1072.59,completed
+T429,C1104,2024-06-14,Credit Card,Branch,4821.0,refunded
+T430,C1378,2024-07-23,Mortgage,Mobile,711.53,refunded
+T431,C1822,2024-12-20,Credit Card,Partner,4574.46,completed
+T432,C1197,2024-01-27,Savings,Mobile,2006.18,pending
+T433,C1543,2024-07-08,Savings,Web,1107.49,pending
+T434,C1461,2024-08-01,Checking,Mobile,3192.87,completed
+T435,C1188,2024-12-02,Savings,API,2190.27,refunded
+T436,C1059,2024-04-14,Mortgage,Mobile,1607.61,refunded
+T437,C1379,2024-01-16,Mortgage,Web,1846.54,completed
+T438,C1421,2024-03-24,Checking,Partner,2170.22,completed
+T439,C1031,2024-03-19,Credit Card,Mobile,1237.78,pending
+T440,C1478,2024-03-05,Checking,Mobile,4625.11,pending
+T441,C1851,2024-08-11,Loan,Partner,1669.54,completed
+T442,C1268,2024-11-22,Savings,Branch,1394.73,completed
+T443,C1853,2024-11-21,Investment,Mobile,4327.13,completed
+T444,C1853,2024-06-08,Credit Card,Mobile,2506.14,pending
+T445,C1546,2024-10-08,Checking,Mobile,2088.94,completed
+T446,C1176,2024-01-29,Loan,Branch,2106.53,completed
+T447,C1500,2024-10-19,Investment,Branch,3463.78,completed
+T448,C1726,2024-12-07,Mortgage,Partner,1364.34,completed
+T449,C1663,2024-07-31,Checking,Branch,3053.15,completed
+T450,C1981,2024-08-26,Mortgage,Web,1532.77,pending
+T451,C1096,2024-10-04,Investment,Web,4929.44,refunded
+T452,C1424,2024-03-16,Investment,API,2484.01,completed
+T453,C1906,2024-06-14,Mortgage,Partner,586.04,pending
+T454,C1952,2024-11-04,Mortgage,Partner,4139.78,pending
+T455,C1312,2024-08-10,Savings,API,2407.99,refunded
+T456,C1915,2024-10-25,Mortgage,Branch,1866.33,completed
+T457,C1579,2024-08-06,Mortgage,API,2077.96,completed
+T458,C1516,2024-01-13,Loan,API,964.2,completed
+T459,C1579,2024-06-16,Savings,Branch,2609.47,completed
+T460,C1904,2024-07-30,Checking,Partner,751.06,pending
+T461,C1771,2024-12-12,Loan,API,905.66,completed
+T462,C1734,2024-01-24,Credit Card,API,3936.25,refunded
+T463,C1604,2024-07-21,Credit Card,Branch,2901.33,pending
+T464,C1581,2024-07-03,Credit Card,Partner,1285.19,completed
+T465,C1031,2024-04-08,Loan,Web,1831.85,completed
+T466,C1094,2024-10-31,Mortgage,Branch,3668.36,completed
+T467,C1671,2024-01-01,Checking,Web,1686.38,completed
+T468,C1888,2024-09-15,Checking,Mobile,3176.15,refunded
+T469,C1852,2024-02-05,Credit Card,Partner,463.37,completed
+T470,C1058,2024-11-04,Investment,Partner,3611.42,completed
+T471,C1359,2024-05-07,Mortgage,Web,1379.11,pending
+T472,C1939,2024-04-19,Loan,Partner,3854.74,pending
+T473,C1350,2024-08-09,Credit Card,Partner,1358.13,completed
+T474,C1280,2024-10-30,Credit Card,Branch,884.06,completed
+T475,C1583,2024-08-09,Credit Card,Branch,17.31,completed
+T476,C1613,2024-08-18,Credit Card,Web,1408.13,refunded
+T477,C1533,2024-07-07,Investment,Branch,4099.69,completed
+T478,C1292,2024-12-28,Checking,Branch,922.7,completed
+T479,C1721,2024-04-08,Mortgage,Partner,1579.9,completed
+T480,C1933,2024-07-07,Mortgage,Web,4024.59,pending
+T481,C1564,2024-01-16,Savings,API,2102.73,completed
+T482,C1480,2024-06-15,Mortgage,Web,2704.29,completed
+T483,C1503,2024-08-22,Savings,Web,4660.6,refunded
+T484,C1376,2024-02-12,Mortgage,Mobile,2074.87,completed
+T485,C1172,2024-12-15,Savings,Branch,2260.77,pending
+T486,C1195,2024-06-20,Credit Card,Web,4851.59,completed
+T487,C1791,2024-09-22,Savings,API,4661.76,completed
+T488,C1335,2024-09-30,Mortgage,Partner,4762.96,pending
+T489,C1425,2024-06-22,Investment,Branch,3654.56,refunded
+T490,C1691,2024-04-07,Loan,Web,3583.44,completed
+T491,C1379,2024-04-29,Mortgage,Web,367.74,completed
+T492,C1174,2024-06-17,Credit Card,Branch,1494.77,completed
+T493,C1545,2024-08-01,Loan,API,4902.91,pending
+T494,C1410,2024-01-06,Mortgage,Partner,4072.37,pending
+T495,C1667,2024-09-19,Mortgage,Branch,487.39,completed
+T496,C1135,2024-02-15,Checking,Branch,174.54,pending
+T497,C1425,2024-02-14,Mortgage,Web,1214.53,pending
+T498,C1462,2024-05-28,Mortgage,Web,2156.77,completed
+T499,C1695,2024-11-14,Checking,API,3879.57,completed
+T500,C1764,2024-07-17,Credit Card,Mobile,1829.08,refunded
+T501,C1121,2024-05-08,Investment,Partner,264.0,refunded
+T502,C1311,2024-08-09,Credit Card,Mobile,4872.72,completed
+T503,C1768,2024-02-13,Savings,Mobile,1643.88,pending
+T504,C1275,2024-11-14,Mortgage,Mobile,4472.21,completed
+T505,C1254,2024-05-17,Credit Card,API,2072.62,pending
+T506,C1073,2024-03-25,Checking,Mobile,4065.09,pending
+T507,C1059,2024-09-14,Mortgage,API,21.73,completed
+T508,C1025,2024-07-30,Mortgage,API,1719.0,refunded
+T509,C1444,2024-04-21,Credit Card,Web,3135.31,refunded
+T510,C1651,2024-10-09,Mortgage,Web,2931.96,completed
+T511,C1493,2024-09-09,Investment,API,1180.4,completed
+T512,C1367,2024-09-10,Investment,Mobile,2775.02,completed
+T513,C1303,2024-04-01,Investment,Partner,4638.3,completed
+T514,C1442,2024-03-05,Credit Card,Partner,2812.42,completed
+T515,C1104,2024-12-03,Investment,Mobile,3827.56,completed
+T516,C1039,2024-03-28,Loan,Web,3378.61,refunded
+T517,C1021,2024-10-28,Checking,API,4721.95,completed
+T518,C1054,2024-09-16,Mortgage,Branch,3533.3,refunded
+T519,C1714,2024-05-12,Credit Card,Mobile,2634.98,pending
+T520,C1402,2024-06-20,Checking,Branch,1392.58,refunded
+T521,C1789,2024-01-03,Loan,Mobile,4437.28,refunded
+T522,C1170,2024-01-13,Checking,Mobile,1951.18,pending
+T523,C1722,2024-04-27,Checking,Partner,1438.96,refunded
+T524,C1912,2024-09-03,Credit Card,Web,223.74,completed
+T525,C1543,2024-07-11,Credit Card,Mobile,167.24,pending
+T526,C1665,2024-10-01,Mortgage,Web,904.67,completed
+T527,C1595,2024-12-26,Loan,API,1093.38,completed
+T528,C1163,2024-06-20,Investment,Branch,1275.66,completed
+T529,C1010,2024-11-18,Checking,Mobile,3605.05,completed
+T530,C1970,2024-06-08,Loan,API,1004.6,refunded
+T531,C1359,2024-08-11,Mortgage,API,2452.19,pending
+T532,C1929,2024-08-08,Checking,Branch,3988.32,completed
+T533,C1522,2024-07-03,Investment,Mobile,1089.65,completed
+T534,C1070,2024-02-24,Investment,Branch,4987.93,completed
+T535,C1516,2024-03-28,Investment,Partner,2478.15,pending
+T536,C1130,2024-07-05,Savings,Branch,672.29,completed
+T537,C1247,2024-03-24,Savings,Partner,4374.1,completed
+T538,C1954,2024-04-02,Mortgage,Mobile,1095.17,completed
+T539,C1825,2024-02-02,Savings,Partner,3656.42,completed
+T540,C1520,2024-05-04,Loan,API,2241.16,pending
+T541,C1189,2024-09-27,Credit Card,Mobile,435.25,refunded
+T542,C1791,2024-06-03,Loan,API,3849.92,refunded
+T543,C1708,2024-06-12,Savings,Web,1017.94,refunded
+T544,C1957,2024-10-19,Investment,Web,4290.45,completed
+T545,C1767,2024-06-17,Credit Card,Mobile,1888.67,completed
+T546,C1758,2024-12-15,Investment,Branch,1499.7,completed
+T547,C1815,2024-09-29,Mortgage,Web,3832.01,pending
+T548,C1288,2024-08-20,Investment,API,2324.74,pending
+T549,C1580,2024-05-26,Savings,Branch,3729.82,pending
+T550,C1837,2024-02-14,Credit Card,API,2529.01,refunded
+T551,C1802,2024-12-27,Investment,Mobile,4716.83,completed
+T552,C1392,2024-11-18,Credit Card,Web,4571.5,completed
+T553,C1438,2024-01-13,Loan,Mobile,273.67,refunded
+T554,C1957,2024-01-10,Credit Card,Web,3719.46,refunded
+T555,C1610,2024-03-23,Savings,Mobile,3375.72,pending
+T556,C1557,2024-09-20,Loan,Branch,1045.73,completed
+T557,C1639,2024-02-15,Credit Card,Web,3252.42,completed
+T558,C1104,2024-04-06,Loan,Mobile,3172.82,completed
+T559,C1781,2024-08-01,Mortgage,Partner,3264.83,pending
+T560,C1216,2024-08-25,Savings,Branch,3455.31,completed
+T561,C1236,2024-02-23,Mortgage,Partner,3426.28,completed
+T562,C1408,2024-07-16,Mortgage,Partner,3300.67,refunded
+T563,C1738,2024-06-22,Loan,Partner,1120.23,completed
+T564,C1473,2024-08-29,Savings,API,538.33,refunded
+T565,C1113,2024-03-29,Mortgage,API,2521.65,completed
+T566,C1681,2024-02-14,Mortgage,Partner,1647.88,pending
+T567,C1080,2024-08-17,Savings,API,1719.14,completed
+T568,C1606,2024-07-27,Loan,Branch,2126.54,pending
+T569,C1337,2024-12-08,Credit Card,Partner,2427.87,refunded
+T570,C1414,2024-10-15,Loan,Web,72.29,refunded
+T571,C1301,2024-10-17,Savings,Web,2626.85,pending
+T572,C1538,2024-09-12,Loan,API,2113.92,completed
+T573,C1231,2024-01-05,Investment,API,4818.18,pending
+T574,C1391,2024-07-03,Loan,Partner,1720.76,completed
+T575,C1067,2024-06-23,Checking,Branch,2005.56,refunded
+T576,C1470,2024-01-05,Savings,API,3670.22,pending
+T577,C1288,2024-06-13,Loan,Branch,1725.81,completed
+T578,C1829,2024-02-14,Checking,API,886.05,completed
+T579,C1055,2024-09-16,Checking,Web,4340.77,pending
+T580,C1215,2024-08-18,Investment,API,1136.17,completed
+T581,C1394,2024-02-15,Loan,API,1571.8,completed
+T582,C1377,2024-06-03,Credit Card,Branch,4655.68,completed
+T583,C1894,2024-05-30,Loan,API,236.75,pending
+T584,C1160,2024-09-23,Mortgage,Partner,1654.33,completed
+T585,C1657,2024-01-16,Checking,Partner,3197.87,completed
+T586,C1557,2024-12-11,Checking,Web,4901.64,completed
+T587,C1344,2024-10-29,Checking,Mobile,448.45,refunded
+T588,C1451,2024-12-05,Checking,Partner,3939.85,completed
+T589,C1051,2024-05-05,Mortgage,API,2037.13,completed
+T590,C1239,2024-05-21,Savings,Branch,1472.67,pending
+T591,C1907,2024-12-04,Loan,Partner,1525.1,pending
+T592,C1028,2024-12-04,Checking,Branch,3644.52,refunded
+T593,C1143,2024-01-22,Mortgage,Mobile,1432.69,completed
+T594,C1087,2024-05-05,Checking,Branch,2850.37,completed
+T595,C1672,2024-05-28,Credit Card,API,1624.41,completed
+T596,C1593,2024-08-05,Checking,API,4671.75,completed
+T597,C1393,2024-10-10,Credit Card,Mobile,2591.33,completed
+T598,C1270,2024-11-24,Savings,Web,4224.12,completed
+T599,C1466,2024-10-08,Loan,Branch,2567.61,pending
+T600,C1423,2024-01-29,Mortgage,Partner,1621.06,pending
+T601,C1457,2024-05-15,Investment,Web,2485.94,completed
+T602,C1246,2024-08-17,Investment,Web,4267.71,completed
+T603,C1929,2024-04-30,Checking,Partner,4649.01,completed
+T604,C1037,2024-10-31,Investment,Mobile,1709.97,refunded
+T605,C1621,2024-10-27,Loan,API,865.36,pending
+T606,C1767,2024-06-11,Investment,API,3405.14,completed
+T607,C1178,2024-07-28,Savings,API,3915.81,completed
+T608,C1784,2024-02-14,Checking,API,497.05,completed
+T609,C1166,2024-12-10,Checking,API,4480.62,pending
+T610,C1733,2024-10-15,Credit Card,Partner,325.76,refunded
+T611,C1106,2024-04-22,Loan,API,2780.97,completed
+T612,C1679,2024-05-17,Savings,API,3607.74,refunded
+T613,C1773,2024-07-10,Checking,Mobile,2347.92,completed
+T614,C1232,2024-05-10,Credit Card,Web,441.36,completed
+T615,C1882,2024-07-04,Checking,Mobile,807.55,completed
+T616,C1298,2024-03-07,Loan,API,1236.32,completed
+T617,C1704,2024-07-31,Savings,Mobile,2141.09,pending
+T618,C1734,2024-11-13,Savings,Mobile,2140.88,completed
+T619,C1380,2024-04-19,Credit Card,API,2636.96,completed
+T620,C1097,2024-10-31,Credit Card,Branch,2420.65,completed
+T621,C1122,2024-11-24,Checking,Mobile,4341.98,pending
+T622,C1138,2024-10-22,Loan,API,4967.83,completed
+T623,C1376,2024-07-08,Investment,Web,4783.1,completed
+T624,C1280,2024-03-08,Mortgage,API,4800.89,completed
+T625,C1500,2024-10-03,Mortgage,Partner,2676.92,refunded
+T626,C1136,2024-04-12,Investment,Partner,3002.88,completed
+T627,C1344,2024-08-25,Loan,Branch,4159.0,pending
+T628,C1866,2024-11-28,Savings,Partner,3217.34,completed
+T629,C1782,2024-07-31,Loan,Mobile,1980.6,completed
+T630,C1140,2024-01-09,Savings,Partner,4829.75,completed
+T631,C1717,2024-08-04,Credit Card,Web,4990.94,pending
+T632,C1152,2024-07-04,Savings,Partner,1382.48,pending
+T633,C1489,2024-02-04,Credit Card,Mobile,2156.73,completed
+T634,C1517,2024-02-21,Investment,API,846.03,refunded
+T635,C1513,2024-06-06,Checking,Branch,1782.31,pending
+T636,C1223,2024-02-13,Checking,API,1885.23,refunded
+T637,C1604,2024-12-19,Savings,API,3160.35,completed
+T638,C1085,2024-03-13,Checking,Branch,2656.89,completed
+T639,C1362,2024-05-22,Investment,Web,4742.63,completed
+T640,C1148,2024-04-21,Investment,Mobile,4033.12,refunded
+T641,C1251,2024-10-25,Checking,Branch,537.45,completed
+T642,C1702,2024-02-09,Checking,Mobile,4448.91,completed
+T643,C1187,2024-09-04,Mortgage,Branch,463.27,completed
+T644,C1461,2024-05-23,Mortgage,API,1964.69,completed
+T645,C1653,2024-04-06,Checking,Partner,4037.53,completed
+T646,C1203,2024-05-15,Investment,API,2543.35,completed
+T647,C1950,2024-03-28,Checking,API,563.63,refunded
+T648,C1518,2024-05-21,Loan,Mobile,3091.15,completed
+T649,C1633,2024-01-16,Investment,Web,4536.28,pending
+T650,C1969,2024-11-26,Checking,Web,209.36,completed
+T651,C1092,2024-10-09,Loan,Web,1060.97,refunded
+T652,C1237,2024-07-09,Credit Card,Mobile,421.7,completed
+T653,C1453,2024-08-18,Credit Card,Web,2063.99,completed
+T654,C1601,2024-07-31,Loan,Mobile,2072.64,pending
+T655,C1023,2024-10-11,Loan,Web,1899.46,completed
+T656,C1913,2024-04-23,Mortgage,Branch,2109.37,completed
+T657,C1878,2024-09-22,Investment,Mobile,2839.72,pending
+T658,C1869,2024-01-07,Mortgage,API,909.11,completed
+T659,C1773,2024-08-14,Savings,Branch,2420.67,pending
+T660,C1590,2024-06-24,Savings,Mobile,4238.61,pending
+T661,C1942,2024-03-14,Credit Card,Mobile,3321.22,completed
+T662,C1905,2024-02-23,Investment,Web,4200.21,pending
+T663,C1808,2024-04-08,Mortgage,Branch,4884.83,completed
+T664,C1043,2024-07-06,Credit Card,Web,1204.88,completed
+T665,C1490,2024-07-23,Savings,Branch,3812.61,completed
+T666,C1128,2024-10-24,Credit Card,Mobile,3782.02,completed
+T667,C1237,2024-12-12,Credit Card,Branch,2763.33,completed
+T668,C1240,2024-10-16,Investment,Branch,4572.08,completed
+T669,C1527,2024-08-15,Loan,Mobile,148.88,completed
+T670,C1357,2024-04-04,Checking,Partner,307.23,completed
+T671,C1290,2024-01-25,Savings,Mobile,3740.85,completed
+T672,C1167,2024-05-09,Credit Card,Branch,3998.23,completed
+T673,C1659,2024-09-10,Mortgage,Branch,708.06,pending
+T674,C1944,2024-10-18,Mortgage,API,944.23,completed
+T675,C1233,2024-05-11,Investment,Web,1592.77,completed
+T676,C1937,2024-09-25,Checking,Branch,1544.54,completed
+T677,C1423,2024-07-20,Investment,Partner,1060.94,completed
+T678,C1656,2024-01-17,Checking,API,928.51,pending
+T679,C1931,2024-11-21,Checking,Web,3575.68,refunded
+T680,C1811,2024-09-09,Checking,Mobile,3278.21,completed
+T681,C1596,2024-03-11,Mortgage,Partner,292.52,pending
+T682,C1995,2024-03-22,Savings,Branch,2409.49,completed
+T683,C1340,2024-02-06,Credit Card,Mobile,1287.58,completed
+T684,C1290,2024-08-04,Mortgage,Web,4142.6,completed
+T685,C1722,2024-03-29,Savings,API,3838.81,pending
+T686,C1734,2024-02-17,Savings,Partner,3718.78,completed
+T687,C1579,2024-11-03,Credit Card,Branch,1069.61,refunded
+T688,C1308,2024-12-16,Checking,Mobile,3082.87,pending
+T689,C1409,2024-01-25,Checking,Mobile,3264.84,completed
+T690,C1696,2024-02-06,Investment,Branch,4192.17,pending
+T691,C1871,2024-09-29,Savings,Branch,1188.59,completed
+T692,C1571,2024-02-26,Mortgage,Partner,2846.15,pending
+T693,C1441,2024-06-06,Credit Card,Branch,968.54,pending
+T694,C1010,2024-04-11,Loan,Web,1385.96,completed
+T695,C1667,2024-01-04,Loan,Web,2911.36,completed
+T696,C1885,2024-11-18,Checking,Web,127.38,completed
+T697,C1383,2024-06-25,Checking,Mobile,2658.07,completed
+T698,C1039,2024-03-17,Credit Card,Web,4945.02,completed
+T699,C1927,2024-01-20,Savings,Mobile,3090.25,completed
+T700,C1272,2024-01-25,Loan,Branch,2514.13,completed
+T701,C1673,2024-02-29,Investment,Partner,913.1,completed
+T702,C1560,2024-10-02,Mortgage,API,3659.57,completed
+T703,C1950,2024-05-25,Mortgage,Branch,1505.9,refunded
+T704,C1527,2024-08-18,Mortgage,Branch,3102.57,pending
+T705,C1867,2024-09-20,Savings,API,1772.52,completed
+T706,C1451,2024-03-31,Savings,Web,3500.16,refunded
+T707,C1568,2024-06-04,Loan,Partner,4761.35,completed
+T708,C1230,2024-12-06,Checking,Partner,2616.3,completed
+T709,C1760,2024-01-15,Loan,Partner,2881.84,pending
+T710,C1435,2024-04-13,Credit Card,Partner,312.64,completed
+T711,C1204,2024-10-31,Credit Card,Mobile,3130.17,completed
+T712,C1125,2024-02-28,Savings,Web,3527.51,pending
+T713,C1848,2024-03-30,Savings,API,80.97,completed
+T714,C1803,2024-10-29,Investment,Mobile,2256.28,completed
+T715,C1866,2024-01-10,Credit Card,Branch,823.43,completed
+T716,C1887,2024-05-06,Checking,Branch,1635.58,pending
+T717,C1125,2024-07-26,Credit Card,Web,522.77,pending
+T718,C1139,2024-09-08,Savings,Web,1821.19,completed
+T719,C1250,2024-04-16,Savings,Branch,1371.85,completed
+T720,C1547,2024-05-09,Credit Card,API,2862.09,completed
+T721,C1479,2024-03-08,Savings,API,4552.38,refunded
+T722,C1939,2024-07-07,Savings,API,622.16,completed
+T723,C1649,2024-12-18,Investment,API,2571.26,completed
+T724,C1127,2024-09-29,Loan,Partner,1313.61,refunded
+T725,C1917,2024-10-12,Loan,Partner,4021.88,completed
+T726,C1729,2024-11-02,Checking,Branch,52.53,refunded
+T727,C1310,2024-01-16,Loan,Partner,2043.02,completed
+T728,C1002,2024-11-19,Loan,API,1979.86,completed
+T729,C1137,2024-11-21,Mortgage,API,449.48,refunded
+T730,C1979,2024-05-05,Investment,Web,1753.68,completed
+T731,C1484,2024-06-14,Checking,Partner,1245.42,completed
+T732,C1146,2024-03-26,Savings,Mobile,1287.12,refunded
+T733,C1427,2024-10-09,Loan,Partner,4734.86,completed
+T734,C1325,2024-09-17,Checking,Web,2212.91,refunded
+T735,C1668,2024-09-02,Loan,API,115.44,completed
+T736,C1697,2024-10-22,Credit Card,Branch,1417.64,refunded
+T737,C1777,2024-12-15,Mortgage,Branch,2345.2,completed
+T738,C1621,2024-10-10,Savings,API,3262.59,completed
+T739,C1923,2024-09-20,Checking,Partner,4156.88,completed
+T740,C1867,2024-07-31,Credit Card,Branch,2211.0,completed
+T741,C1791,2024-08-30,Checking,Mobile,713.46,pending
+T742,C1052,2024-10-16,Loan,Web,2258.92,completed
+T743,C1840,2024-03-11,Mortgage,Branch,4900.76,pending
+T744,C1027,2024-06-23,Investment,Partner,3970.38,completed
+T745,C1151,2024-09-28,Investment,Branch,1027.86,refunded
+T746,C1655,2024-07-03,Savings,Mobile,4984.77,pending
+T747,C1216,2024-04-16,Savings,API,4640.9,completed
+T748,C1980,2024-05-01,Mortgage,Mobile,3173.79,completed
+T749,C1230,2024-08-01,Checking,Mobile,2214.26,completed
+T750,C1245,2024-09-02,Credit Card,Partner,2099.47,completed
+T751,C1356,2024-01-27,Credit Card,Web,2379.56,completed
+T752,C1690,2024-05-11,Checking,Branch,2402.89,pending
+T753,C1759,2024-06-05,Loan,API,2142.25,completed
+T754,C1536,2024-01-28,Credit Card,Mobile,916.02,pending
+T755,C1212,2024-07-30,Credit Card,Partner,522.48,pending
+T756,C1169,2024-04-12,Checking,API,2410.39,refunded
+T757,C1694,2024-10-26,Credit Card,Partner,1612.33,completed
+T758,C1043,2024-03-22,Investment,Branch,1844.5,completed
+T759,C1266,2024-02-12,Savings,Mobile,2996.91,completed
+T760,C1483,2024-04-29,Checking,Partner,1248.21,completed
+T761,C1174,2024-05-01,Checking,API,3980.75,refunded
+T762,C1278,2024-08-05,Checking,Partner,4316.55,completed
+T763,C1229,2024-12-19,Checking,Partner,117.74,pending
+T764,C1555,2024-11-09,Savings,Mobile,3372.63,refunded
+T765,C1280,2024-04-01,Mortgage,Branch,1233.59,completed
+T766,C1848,2024-09-03,Loan,Mobile,4022.12,pending
+T767,C1371,2024-04-28,Investment,API,2729.21,completed
+T768,C1627,2024-08-23,Investment,Mobile,3636.27,completed
+T769,C1939,2024-04-24,Mortgage,Branch,3970.96,completed
+T770,C1453,2024-12-18,Loan,Partner,2203.14,pending
+T771,C1637,2024-12-28,Loan,Branch,1843.4,pending
+T772,C1925,2024-12-19,Savings,Partner,2339.83,completed
+T773,C1209,2024-05-20,Investment,API,41.77,completed
+T774,C1787,2024-03-13,Mortgage,Branch,3878.29,completed
+T775,C1224,2024-02-10,Loan,API,2022.17,completed
+T776,C1440,2024-08-15,Credit Card,Branch,1521.03,refunded
+T777,C1409,2024-12-31,Mortgage,API,4689.36,completed
+T778,C1286,2024-12-09,Checking,Partner,4588.28,completed
+T779,C1775,2024-05-12,Credit Card,Web,734.03,completed
+T780,C1395,2024-09-07,Mortgage,API,736.24,refunded
+T781,C1860,2024-03-14,Credit Card,Web,2877.11,pending
+T782,C1176,2024-12-07,Credit Card,API,1898.49,completed
+T783,C1104,2024-06-20,Checking,Branch,3272.66,completed
+T784,C1049,2024-12-25,Checking,Web,934.15,refunded
+T785,C1605,2024-11-29,Investment,Branch,1446.53,refunded
+T786,C1935,2024-12-08,Loan,Partner,2835.72,pending
+T787,C1894,2024-09-29,Investment,Mobile,3910.0,completed
+T788,C1248,2024-12-10,Checking,Mobile,4791.28,pending
+T789,C1349,2024-04-20,Credit Card,Branch,127.26,completed
+T790,C1101,2024-11-07,Credit Card,Mobile,4118.19,completed
+T791,C1535,2024-01-06,Credit Card,Web,3822.52,completed
+T792,C1247,2024-08-16,Mortgage,Partner,2972.87,completed
+T793,C1347,2024-05-26,Checking,Web,2278.76,pending
+T794,C1954,2024-10-11,Checking,Partner,981.46,completed
+T795,C1178,2024-02-03,Savings,Web,2779.52,completed
+T796,C1729,2024-10-07,Checking,Branch,3516.8,completed
+T797,C1182,2024-04-11,Checking,Mobile,3954.54,completed
+T798,C1564,2024-04-05,Mortgage,Partner,862.85,refunded
+T799,C1527,2024-03-17,Credit Card,Web,841.68,refunded
+T800,C1555,2024-05-31,Mortgage,Web,1496.6,completed
+T801,C1470,2024-10-09,Savings,Mobile,3416.02,refunded
+T802,C1992,2024-11-28,Investment,API,2777.18,completed
+T803,C1993,2024-02-15,Investment,Web,1726.44,completed
+T804,C1036,2024-12-01,Credit Card,API,843.44,completed
+T805,C1110,2024-09-13,Savings,Branch,2538.91,completed
+T806,C1590,2024-08-07,Savings,Mobile,1562.24,completed
+T807,C1602,2024-08-28,Credit Card,API,994.0,completed
+T808,C1196,2024-03-31,Mortgage,API,3652.88,completed
+T809,C1518,2024-02-21,Checking,Mobile,566.22,completed
+T810,C1370,2024-06-12,Loan,Partner,3291.31,refunded
+T811,C1149,2024-10-23,Credit Card,Partner,4292.08,completed
+T812,C1253,2024-01-03,Loan,Branch,3694.0,completed
+T813,C1818,2024-12-17,Investment,Web,2210.54,refunded
+T814,C1760,2024-04-06,Investment,Mobile,2781.67,pending
+T815,C1692,2024-07-25,Loan,API,938.29,refunded
+T816,C1300,2024-08-01,Checking,Partner,2890.4,refunded
+T817,C1295,2024-08-21,Credit Card,Mobile,3033.37,completed
+T818,C1508,2024-09-03,Mortgage,Web,2688.21,refunded
+T819,C1872,2024-01-08,Savings,Mobile,812.52,refunded
+T820,C1670,2024-06-04,Checking,Web,4123.41,completed
+T821,C1356,2024-02-23,Savings,API,644.12,completed
+T822,C1544,2024-05-19,Investment,Web,81.3,refunded
+T823,C1377,2024-11-22,Loan,Mobile,3316.56,completed
+T824,C1634,2024-08-26,Credit Card,Partner,4063.09,completed
+T825,C1827,2024-04-18,Credit Card,API,4340.33,pending
+T826,C1171,2024-09-10,Checking,Web,3172.72,completed
+T827,C1978,2024-10-26,Savings,Partner,2139.63,completed
+T828,C1909,2024-09-16,Credit Card,Branch,2502.7,completed
+T829,C1252,2024-10-28,Investment,Partner,2871.25,pending
+T830,C1690,2024-06-07,Mortgage,Web,3071.84,completed
+T831,C1683,2024-08-25,Checking,Mobile,1618.6,pending
+T832,C1467,2024-10-19,Savings,Branch,3091.34,refunded
+T833,C1920,2024-06-10,Loan,Branch,1755.94,refunded
+T834,C1161,2024-11-22,Investment,Branch,4711.4,refunded
+T835,C1520,2024-11-01,Checking,Mobile,3736.8,completed
+T836,C1372,2024-08-23,Credit Card,Web,115.19,completed
+T837,C1435,2024-11-21,Savings,API,4332.21,completed
+T838,C1587,2024-07-27,Mortgage,Web,1324.05,completed
+T839,C1413,2024-06-15,Credit Card,Web,455.88,completed
+T840,C1507,2024-12-19,Loan,Branch,717.55,completed
+T841,C1936,2024-09-24,Investment,Branch,1276.31,completed
+T842,C1128,2024-06-20,Credit Card,Partner,1985.75,refunded
+T843,C1245,2024-06-23,Investment,Branch,1043.29,completed
+T844,C1773,2024-07-21,Credit Card,Branch,185.03,pending
+T845,C1215,2024-10-23,Loan,Partner,1140.58,completed
+T846,C1958,2024-04-04,Mortgage,Mobile,1651.58,pending
+T847,C1814,2024-07-28,Investment,Branch,3868.09,completed
+T848,C1525,2024-02-08,Checking,Partner,4711.9,completed
+T849,C1590,2024-05-16,Savings,Mobile,2570.2,refunded
+T850,C1521,2024-05-15,Savings,Mobile,2335.16,refunded
+T851,C1746,2024-07-11,Mortgage,Mobile,72.61,completed
+T852,C1555,2024-04-09,Savings,Branch,3644.38,completed
+T853,C1962,2024-04-08,Loan,API,1737.69,completed
+T854,C1530,2024-12-20,Credit Card,Web,587.71,refunded
+T855,C1988,2024-11-11,Credit Card,API,3678.5,completed
+T856,C1664,2024-01-26,Mortgage,Partner,3030.11,pending
+T857,C1439,2024-04-27,Mortgage,Branch,867.75,refunded
+T858,C1410,2024-09-27,Loan,Mobile,2617.08,refunded
+T859,C1490,2024-05-11,Checking,Web,4017.35,completed
+T860,C1964,2024-10-22,Investment,Branch,2339.28,completed
+T861,C1114,2024-12-26,Checking,Partner,2242.67,refunded
+T862,C1119,2024-11-01,Mortgage,Mobile,3555.56,refunded
+T863,C1156,2024-03-02,Savings,API,3189.82,completed
+T864,C1903,2024-08-08,Checking,Branch,1432.42,refunded
+T865,C1784,2024-01-07,Credit Card,Partner,3251.05,pending
+T866,C1225,2024-11-24,Investment,API,4720.09,completed
+T867,C1617,2024-11-29,Investment,Branch,3654.6,pending
+T868,C1435,2024-04-23,Mortgage,Mobile,2194.68,completed
+T869,C1306,2024-04-08,Investment,API,1859.24,completed
+T870,C1612,2024-11-12,Checking,Web,1557.08,completed
+T871,C1537,2024-09-09,Savings,API,1426.59,completed
+T872,C1688,2024-08-15,Checking,Branch,1309.13,completed
+T873,C1546,2024-04-30,Checking,Web,2421.38,completed
+T874,C1548,2024-05-06,Mortgage,Web,1171.0,refunded
+T875,C1021,2024-07-11,Investment,API,3967.94,refunded
+T876,C1969,2024-07-08,Loan,Branch,2315.41,pending
+T877,C1078,2024-07-29,Mortgage,API,1255.98,refunded
+T878,C1543,2024-03-24,Checking,Branch,1580.56,completed
+T879,C1154,2024-11-18,Mortgage,API,677.47,completed
+T880,C1216,2024-03-06,Savings,Branch,4321.79,completed
+T881,C1071,2024-11-23,Investment,Web,194.42,completed
+T882,C1408,2024-02-24,Investment,Branch,4897.43,refunded
+T883,C1807,2024-08-17,Credit Card,Web,4049.69,completed
+T884,C1710,2024-10-05,Loan,API,387.03,pending
+T885,C1428,2024-03-06,Credit Card,Partner,3724.95,completed
+T886,C1572,2024-11-22,Mortgage,Partner,3749.19,completed
+T887,C1717,2024-04-21,Credit Card,Mobile,2640.04,completed
+T888,C1015,2024-02-07,Investment,Web,4154.98,completed
+T889,C1141,2024-12-30,Loan,API,4274.8,completed
+T890,C1782,2024-06-02,Mortgage,Mobile,2625.12,completed
+T891,C1744,2024-08-01,Investment,API,1759.32,refunded
+T892,C1815,2024-10-26,Mortgage,Partner,4587.88,pending
+T893,C1789,2024-01-10,Loan,Partner,3916.19,completed
+T894,C1331,2024-05-05,Loan,API,67.76,refunded
+T895,C1282,2024-02-29,Credit Card,Branch,2991.76,completed
+T896,C1937,2024-09-14,Checking,Mobile,2943.31,refunded
+T897,C1755,2024-01-28,Credit Card,Branch,3789.3,completed
+T898,C1435,2024-10-18,Credit Card,Web,4177.45,refunded
+T899,C1626,2024-04-07,Loan,API,4055.97,refunded
+T900,C1912,2024-02-09,Mortgage,API,2102.84,refunded
+T901,C1123,2024-12-27,Investment,Branch,901.49,pending
+T902,C1953,2024-11-04,Loan,Branch,659.74,completed
+T903,C1456,2024-10-31,Loan,Partner,1404.67,completed
+T904,C1899,2024-04-09,Checking,Branch,2661.71,pending
+T905,C1409,2024-12-14,Checking,Branch,3148.74,completed
+T906,C1644,2024-04-12,Investment,Mobile,3269.31,completed
+T907,C1036,2024-09-21,Savings,API,4427.13,refunded
+T908,C1009,2024-08-20,Loan,Branch,2718.75,completed
+T909,C1770,2024-02-02,Loan,API,1702.9,completed
+T910,C1232,2024-09-06,Mortgage,Mobile,1472.16,completed
+T911,C1865,2024-04-25,Credit Card,Branch,3697.5,refunded
+T912,C1999,2024-03-27,Investment,Branch,986.76,pending
+T913,C1998,2024-01-07,Credit Card,Web,1846.88,pending
+T914,C1188,2024-05-17,Loan,Partner,2324.62,pending
+T915,C1748,2024-05-02,Mortgage,Mobile,1198.88,completed
+T916,C1136,2024-11-08,Investment,API,788.19,completed
+T917,C1269,2024-12-08,Savings,Web,132.38,completed
+T918,C1324,2024-12-31,Checking,Mobile,2515.23,pending
+T919,C1816,2024-03-22,Credit Card,Mobile,2396.21,completed
+T920,C1173,2024-04-12,Credit Card,Web,826.87,completed
+T921,C1577,2024-03-08,Investment,Branch,2743.6,completed
+T922,C1720,2024-07-20,Mortgage,Web,378.89,completed
+T923,C1119,2024-06-16,Loan,Mobile,2565.29,refunded
+T924,C1646,2024-07-23,Loan,Partner,2314.11,completed
+T925,C1603,2024-06-10,Credit Card,Branch,4330.38,completed
+T926,C1093,2024-04-12,Loan,Branch,3676.25,completed
+T927,C1999,2024-10-26,Mortgage,Mobile,4845.32,completed
+T928,C1863,2024-04-02,Savings,Web,2283.32,completed
+T929,C1204,2024-02-09,Savings,API,3305.78,completed
+T930,C1860,2024-12-12,Credit Card,Mobile,1647.52,completed
+T931,C1569,2024-12-26,Credit Card,Web,4747.05,completed
+T932,C1168,2024-11-19,Checking,Mobile,2678.71,completed
+T933,C1157,2024-07-04,Investment,Branch,2563.32,completed
+T934,C1547,2024-08-28,Checking,API,4725.36,refunded
+T935,C1261,2024-06-05,Loan,Web,1838.38,refunded
+T936,C1643,2024-02-14,Investment,API,4576.04,refunded
+T937,C1305,2024-09-18,Checking,Partner,2416.22,completed
+T938,C1787,2024-08-06,Mortgage,API,3871.62,pending
+T939,C1532,2024-06-11,Loan,Branch,4766.08,pending
+T940,C1033,2024-01-25,Savings,API,3761.44,completed
+T941,C1129,2024-10-24,Investment,Mobile,24.69,completed
+T942,C1228,2024-04-09,Investment,API,1599.27,completed
+T943,C1343,2024-03-23,Checking,Branch,300.53,completed
+T944,C1510,2024-12-26,Loan,Web,3820.03,refunded
+T945,C1595,2024-06-21,Loan,Web,94.87,completed
+T946,C1672,2024-09-15,Savings,Mobile,1036.57,refunded
+T947,C1053,2024-08-04,Investment,Mobile,2888.69,completed
+T948,C1064,2024-10-08,Investment,Branch,4856.08,pending
+T949,C1868,2024-07-23,Mortgage,Mobile,729.39,completed
+T950,C1913,2024-07-12,Savings,Web,4342.84,completed
+T951,C1015,2024-06-07,Loan,Web,3977.57,refunded
+T952,C1196,2024-12-12,Mortgage,API,3560.41,refunded
+T953,C1155,2024-01-28,Loan,Mobile,2032.11,pending
+T954,C1960,2024-01-10,Savings,Web,2716.46,completed
+T955,C1486,2024-08-03,Savings,Web,3694.6,pending
+T956,C1300,2024-03-17,Checking,Partner,847.58,completed
+T957,C1432,2024-08-25,Savings,Web,4641.66,completed
+T958,C1376,2024-12-03,Mortgage,API,3698.66,completed
+T959,C1509,2024-10-18,Credit Card,Partner,1260.21,refunded
+T960,C1737,2024-08-29,Investment,Mobile,1718.77,refunded
+T961,C1573,2024-06-20,Credit Card,Mobile,3746.28,completed
+T962,C1104,2024-04-18,Investment,Web,2707.36,completed
+T963,C1103,2024-07-02,Savings,Branch,3823.55,completed
+T964,C1711,2024-07-11,Credit Card,Mobile,4691.09,completed
+T965,C1495,2024-04-26,Savings,Partner,3882.68,pending
+T966,C1753,2024-03-15,Mortgage,API,1624.08,pending
+T967,C1363,2024-06-10,Loan,API,4068.72,completed
+T968,C1156,2024-06-16,Checking,Mobile,4350.24,refunded
+T969,C1826,2024-11-12,Mortgage,Web,2136.75,completed
+T970,C1380,2024-08-30,Savings,Branch,2455.9,completed
+T971,C1331,2024-03-15,Investment,Branch,2969.63,completed
+T972,C1902,2024-09-18,Credit Card,Branch,3241.44,refunded
+T973,C1654,2024-02-28,Checking,API,2131.98,completed
+T974,C1478,2024-05-30,Loan,Branch,3280.59,completed
+T975,C1974,2024-11-10,Savings,Branch,2524.59,refunded
+T976,C1661,2024-01-10,Investment,Mobile,4679.87,completed
+T977,C1076,2024-06-23,Checking,Mobile,4438.86,pending
+T978,C1182,2024-09-28,Savings,API,1575.49,refunded
+T979,C1989,2024-06-29,Loan,Branch,1016.28,pending
+T980,C1596,2024-08-04,Investment,Mobile,4611.44,pending
+T981,C1868,2024-02-11,Savings,API,1464.09,pending
+T982,C1262,2024-12-10,Credit Card,Partner,979.59,refunded
+T983,C1953,2024-11-04,Mortgage,Partner,1346.47,completed
+T984,C1692,2024-09-06,Loan,Web,1992.83,refunded
+T985,C1634,2024-05-20,Investment,Mobile,186.96,completed
+T986,C1530,2024-05-12,Loan,Web,3754.59,pending
+T987,C1309,2024-03-23,Credit Card,Web,2797.46,refunded
+T988,C1763,2024-06-05,Credit Card,Partner,3836.39,pending
+T989,C1956,2024-05-10,Mortgage,Mobile,2734.67,completed
+T990,C1867,2024-09-04,Investment,Web,4116.18,pending
+T991,C1457,2024-05-05,Checking,Branch,4941.46,completed
+T992,C1438,2024-09-04,Mortgage,API,190.11,completed
+T993,C1079,2024-04-12,Savings,API,3928.51,completed
+T994,C1371,2024-03-24,Loan,Mobile,1242.76,pending
+T995,C1501,2024-02-12,Investment,Web,3884.13,pending
+T996,C1732,2024-01-22,Investment,API,1468.79,refunded
+T997,C1782,2024-09-25,Credit Card,API,1598.39,completed
+T998,C1067,2024-04-29,Mortgage,API,501.39,pending
+T999,C1407,2024-04-06,Loan,Branch,3598.87,completed
+T1000,C1165,2024-05-27,Checking,Mobile,936.4,pending
+T1001,C1195,2024-05-06,Checking,Mobile,3294.59,completed
+T1002,C1054,2024-03-12,Mortgage,Web,3642.84,completed
+T1003,C1146,2024-11-26,Checking,Web,2988.09,pending
+T1004,C1748,2024-12-04,Checking,Web,2499.52,completed
+T1005,C1048,2024-07-27,Checking,Branch,4771.22,completed
+T1006,C1835,2024-11-07,Checking,Web,3165.28,completed
+T1007,C1727,2024-11-30,Checking,Mobile,3813.32,pending
+T1008,C1272,2024-08-18,Savings,Web,4994.9,pending
+T1009,C1701,2024-02-29,Investment,Partner,2925.58,refunded
+T1010,C1408,2024-02-02,Credit Card,API,4245.6,completed
+T1011,C1940,2024-12-27,Savings,Web,1921.29,pending
+T1012,C1505,2024-07-13,Savings,Web,3497.04,refunded
+T1013,C1465,2024-08-30,Savings,Mobile,3536.42,completed
+T1014,C1143,2024-03-29,Mortgage,Web,4724.69,pending
+T1015,C1744,2024-05-25,Checking,Web,4036.08,completed
+T1016,C1525,2024-04-27,Savings,Partner,2516.22,completed
+T1017,C1911,2024-10-19,Mortgage,Branch,4568.24,completed
+T1018,C1153,2024-10-25,Checking,Partner,57.12,pending
+T1019,C1414,2024-10-23,Loan,API,4684.84,completed
+T1020,C1025,2024-10-26,Investment,Partner,4361.93,pending
+T1021,C1936,2024-09-15,Loan,Branch,3722.37,completed
+T1022,C1220,2024-09-08,Checking,Mobile,1000.35,completed
+T1023,C1652,2024-07-15,Loan,Mobile,4629.38,completed
+T1024,C1307,2024-11-11,Credit Card,Web,4886.42,completed
+T1025,C1559,2024-02-24,Loan,API,1036.82,refunded
+T1026,C1793,2024-01-23,Loan,Mobile,2926.39,refunded
+T1027,C1816,2024-11-25,Checking,Branch,910.29,pending
+T1028,C1698,2024-12-20,Loan,Branch,3265.42,refunded
+T1029,C1063,2024-10-28,Savings,Web,3671.62,completed
+T1030,C1997,2024-07-14,Mortgage,Partner,1710.67,pending
+T1031,C1911,2024-05-07,Loan,Partner,2086.82,completed
+T1032,C1871,2024-03-30,Savings,Mobile,1500.9,completed
+T1033,C1896,2024-07-04,Mortgage,Partner,2436.51,completed
+T1034,C1134,2024-07-26,Savings,Web,2333.82,refunded
+T1035,C1497,2024-05-12,Loan,Partner,1020.3,completed
+T1036,C1140,2024-10-21,Loan,API,1831.29,completed
+T1037,C1855,2024-01-11,Investment,Web,2150.98,completed
+T1038,C1486,2024-08-28,Loan,Branch,3225.51,completed
+T1039,C1611,2024-04-25,Investment,API,4966.71,completed
+T1040,C1807,2024-12-06,Savings,API,3471.89,completed
+T1041,C1165,2024-09-07,Credit Card,Partner,672.34,completed
+T1042,C1303,2024-11-13,Savings,Web,4978.79,refunded
+T1043,C1195,2024-12-01,Mortgage,Branch,3034.22,pending
+T1044,C1162,2024-11-01,Credit Card,Partner,1540.56,completed
+T1045,C1698,2024-11-03,Investment,Branch,1352.24,completed
+T1046,C1627,2024-09-18,Mortgage,Mobile,3916.78,completed
+T1047,C1260,2024-08-20,Mortgage,API,4185.78,completed
+T1048,C1466,2024-07-05,Savings,Partner,1015.39,refunded
+T1049,C1307,2024-01-27,Savings,Partner,522.18,refunded
+T1050,C1306,2024-03-26,Mortgage,Mobile,997.76,completed
+T1051,C1594,2024-06-29,Loan,API,717.3,refunded
+T1052,C1161,2024-01-18,Mortgage,Web,1367.87,completed
+T1053,C1118,2024-09-09,Mortgage,Mobile,93.71,completed
+T1054,C1098,2024-02-06,Credit Card,Web,3356.86,completed
+T1055,C1308,2024-03-29,Loan,Mobile,3009.15,completed
+T1056,C1813,2024-01-25,Investment,Mobile,1570.84,refunded
+T1057,C1920,2024-04-23,Credit Card,Web,1290.14,completed
+T1058,C1915,2024-02-13,Investment,Partner,4161.08,refunded
+T1059,C1736,2024-10-11,Checking,Branch,3475.75,refunded
+T1060,C1615,2024-08-19,Investment,Web,2930.73,pending
+T1061,C1772,2024-01-05,Savings,Branch,2420.69,refunded
+T1062,C1938,2024-11-17,Checking,Mobile,77.18,completed
+T1063,C1595,2024-04-07,Mortgage,Partner,1453.7,completed
+T1064,C1342,2024-11-26,Credit Card,Mobile,2029.81,pending
+T1065,C1554,2024-02-26,Savings,Web,2216.23,completed
+T1066,C1583,2024-04-02,Credit Card,Web,137.85,completed
+T1067,C1387,2024-08-04,Investment,API,2211.41,refunded
+T1068,C1697,2024-09-04,Credit Card,Mobile,2676.03,pending
+T1069,C1471,2024-01-25,Mortgage,Mobile,1103.44,completed
+T1070,C1935,2024-09-25,Investment,Partner,1833.11,completed
+T1071,C1768,2024-10-10,Checking,API,1096.5,pending
+T1072,C1170,2024-04-29,Investment,Mobile,4164.52,pending
+T1073,C1240,2024-04-29,Savings,Partner,1281.11,pending
+T1074,C1831,2024-07-20,Checking,Branch,3835.34,completed
+T1075,C1672,2024-01-04,Investment,Mobile,4481.99,refunded
+T1076,C1311,2024-07-10,Savings,Partner,4578.87,completed
+T1077,C1865,2024-08-29,Checking,Partner,1182.25,completed
+T1078,C1052,2024-02-29,Loan,Mobile,865.1,completed
+T1079,C1788,2024-05-31,Loan,Mobile,3163.06,completed
+T1080,C1871,2024-12-02,Checking,API,3638.45,pending
+T1081,C1375,2024-01-16,Loan,Mobile,3978.8,completed
+T1082,C1188,2024-11-27,Mortgage,Partner,3178.98,completed
+T1083,C1298,2024-01-16,Credit Card,Mobile,3999.08,refunded
+T1084,C1588,2024-12-30,Credit Card,Web,1729.64,refunded
+T1085,C1579,2024-12-18,Checking,API,3498.0,pending
+T1086,C1581,2024-02-03,Savings,Partner,3719.32,completed
+T1087,C1057,2024-06-13,Credit Card,Web,1507.31,refunded
+T1088,C1757,2024-09-18,Mortgage,Web,4915.82,completed
+T1089,C1055,2024-07-24,Credit Card,Mobile,2930.09,completed
+T1090,C1430,2024-06-17,Investment,API,3660.37,refunded
+T1091,C1716,2024-03-26,Checking,Web,172.51,completed
+T1092,C1560,2024-09-30,Investment,Mobile,1021.67,completed
+T1093,C1623,2024-09-06,Loan,Mobile,1494.62,completed
+T1094,C1329,2024-07-10,Investment,Web,2983.76,completed
+T1095,C1904,2024-09-21,Investment,API,3677.38,completed
+T1096,C1192,2024-02-28,Loan,API,2023.56,pending
+T1097,C1717,2024-03-31,Investment,Branch,4127.72,pending
+T1098,C1760,2024-09-13,Savings,Mobile,3438.1,refunded
+T1099,C1047,2024-03-05,Checking,Partner,2218.43,pending
+T1100,C1773,2024-06-11,Credit Card,API,458.5,completed
+T1101,C1929,2024-02-11,Loan,Mobile,922.16,completed
+T1102,C1540,2024-05-26,Mortgage,Partner,3488.63,completed
+T1103,C1316,2024-06-23,Loan,Web,2144.58,completed
+T1104,C1386,2024-06-06,Credit Card,Mobile,3005.26,pending
+T1105,C1153,2024-05-21,Credit Card,Branch,535.02,completed
+T1106,C1540,2024-06-12,Credit Card,Web,545.33,completed
+T1107,C1195,2024-07-30,Investment,Branch,1163.62,completed
+T1108,C1854,2024-08-13,Loan,Mobile,1303.27,refunded
+T1109,C1327,2024-02-01,Investment,Web,2232.65,completed
+T1110,C1367,2024-11-03,Savings,Partner,4255.32,completed
+T1111,C1618,2024-09-02,Investment,Web,409.43,pending
+T1112,C1246,2024-12-09,Savings,API,4755.38,completed
+T1113,C1125,2024-06-03,Savings,API,3515.03,refunded
+T1114,C1527,2024-05-14,Mortgage,Branch,2623.24,refunded
+T1115,C1417,2024-12-30,Checking,Partner,703.54,completed
+T1116,C1306,2024-03-19,Savings,Mobile,4961.9,completed
+T1117,C1604,2024-12-09,Checking,Mobile,358.76,pending
+T1118,C1530,2024-06-24,Loan,Web,4107.08,completed
+T1119,C1955,2024-03-30,Credit Card,Partner,788.67,pending
+T1120,C1701,2024-12-14,Investment,Branch,4103.6,completed
+T1121,C1769,2024-11-01,Credit Card,API,3486.25,refunded
+T1122,C1778,2024-12-23,Loan,Mobile,2201.68,completed
+T1123,C1989,2024-11-29,Checking,Branch,608.77,completed
+T1124,C1609,2024-05-22,Mortgage,Web,3593.4,completed
+T1125,C1407,2024-02-13,Checking,Mobile,2953.35,pending
+T1126,C1732,2024-09-09,Savings,Branch,1816.92,completed
+T1127,C1891,2024-08-18,Checking,Branch,739.84,refunded
+T1128,C1917,2024-05-18,Savings,API,4998.87,completed
+T1129,C1394,2024-07-08,Savings,Web,3675.51,completed
+T1130,C1648,2024-11-18,Checking,Web,1704.42,refunded
+T1131,C1880,2024-02-15,Checking,Mobile,2333.45,completed
+T1132,C1316,2024-11-11,Investment,API,2152.49,completed
+T1133,C1292,2024-05-13,Checking,Branch,4577.42,pending
+T1134,C1474,2024-12-08,Loan,Partner,4453.85,pending
+T1135,C1445,2024-01-14,Loan,Partner,3003.13,completed
+T1136,C1945,2024-06-01,Credit Card,API,763.36,refunded
+T1137,C1615,2024-09-30,Savings,Web,4837.76,refunded
+T1138,C1228,2024-03-26,Credit Card,Web,1842.89,completed
+T1139,C1223,2024-05-28,Credit Card,API,265.4,completed
+T1140,C1005,2024-10-31,Loan,Web,4142.18,completed
+T1141,C1792,2024-12-23,Savings,Branch,2190.05,pending
+T1142,C1963,2024-03-18,Investment,Mobile,2173.78,refunded
+T1143,C1177,2024-03-18,Mortgage,Mobile,2978.78,completed
+T1144,C1114,2024-02-02,Mortgage,Mobile,2061.63,completed
+T1145,C1937,2024-05-08,Savings,Web,335.7,refunded
+T1146,C1292,2024-06-06,Credit Card,Mobile,3109.45,refunded
+T1147,C1378,2024-06-09,Credit Card,Mobile,2917.47,completed
+T1148,C1424,2024-01-23,Savings,Branch,1627.23,pending
+T1149,C1442,2024-02-25,Checking,API,1255.76,completed
+T1150,C1131,2024-06-28,Mortgage,Branch,794.08,completed
+T1151,C1736,2024-01-24,Checking,Web,736.47,completed
+T1152,C1181,2024-12-11,Investment,Web,3244.71,completed
+T1153,C1226,2024-06-13,Loan,Web,3630.61,refunded
+T1154,C1914,2024-12-18,Investment,API,995.34,completed
+T1155,C1699,2024-06-26,Savings,API,2295.34,completed
+T1156,C1084,2024-02-17,Investment,Partner,2143.05,completed
+T1157,C1971,2024-10-30,Credit Card,Partner,2701.82,refunded
+T1158,C1542,2024-04-04,Mortgage,Branch,1504.69,completed
+T1159,C1931,2024-05-24,Mortgage,Mobile,1485.75,completed
+T1160,C1085,2024-06-12,Checking,Web,1278.55,completed
+T1161,C1378,2024-02-04,Checking,Mobile,3606.18,completed
+T1162,C1303,2024-03-31,Loan,Mobile,3706.82,completed
+T1163,C1241,2024-11-24,Savings,Partner,2172.36,completed
+T1164,C1571,2024-07-20,Mortgage,Partner,4125.95,refunded
+T1165,C1083,2024-12-06,Checking,Branch,4845.75,completed
+T1166,C1010,2024-03-29,Loan,Partner,2030.57,pending
+T1167,C1251,2024-10-30,Credit Card,Web,4400.77,refunded
+T1168,C1822,2024-06-03,Investment,Partner,2580.16,pending
+T1169,C1190,2024-03-13,Savings,Web,224.29,completed
+T1170,C1710,2024-06-01,Investment,Branch,4003.26,completed
+T1171,C1064,2024-06-16,Investment,Mobile,4722.78,pending
+T1172,C1619,2024-12-04,Checking,Branch,835.86,pending
+T1173,C1569,2024-12-07,Savings,Partner,1272.23,completed
+T1174,C1907,2024-02-06,Mortgage,Branch,1172.63,refunded
+T1175,C1607,2024-07-17,Savings,Branch,2041.22,completed
+T1176,C1545,2024-05-27,Credit Card,API,2723.64,completed
+T1177,C1342,2024-03-02,Investment,Branch,1315.6,completed
+T1178,C1414,2024-05-14,Loan,Partner,1857.66,refunded
+T1179,C1339,2024-02-17,Credit Card,Web,192.86,completed
+T1180,C1751,2024-10-04,Checking,API,1233.23,refunded
+T1181,C1081,2024-07-28,Credit Card,Web,955.2,pending
+T1182,C1662,2024-12-07,Loan,Web,3059.16,pending
+T1183,C1265,2024-11-03,Loan,Mobile,1096.49,completed
+T1184,C1415,2024-08-02,Mortgage,API,2045.4,pending
+T1185,C1318,2024-02-14,Savings,Branch,2134.01,completed
+T1186,C1177,2024-02-03,Credit Card,Branch,2126.5,completed
+T1187,C1383,2024-10-21,Investment,Branch,1300.63,completed
+T1188,C1032,2024-08-28,Loan,Partner,3352.62,completed
+T1189,C1132,2024-08-26,Mortgage,Mobile,391.4,pending
+T1190,C1817,2024-04-22,Mortgage,API,4838.76,refunded
+T1191,C1347,2024-01-25,Loan,Branch,97.27,refunded
+T1192,C1158,2024-06-29,Loan,API,2620.42,refunded
+T1193,C1166,2024-07-15,Mortgage,Web,112.49,completed
+T1194,C1728,2024-06-14,Checking,Branch,1118.76,refunded
+T1195,C1752,2024-03-21,Savings,Web,705.79,completed
+T1196,C1713,2024-02-24,Savings,Branch,4640.75,refunded
+T1197,C1559,2024-06-04,Investment,Web,1763.44,pending
+T1198,C1363,2024-06-20,Investment,Branch,1559.18,pending
+T1199,C1830,2024-09-20,Savings,Web,3866.37,completed
+T1200,C1023,2024-03-12,Mortgage,Branch,843.47,completed
+T1201,C1326,2024-04-16,Mortgage,Partner,1318.5,completed
+T1202,C1915,2024-06-04,Mortgage,Mobile,4438.11,completed
+T1203,C1380,2024-01-27,Credit Card,Mobile,953.67,completed
+T1204,C1948,2024-03-18,Savings,API,4460.07,completed
+T1205,C1218,2024-02-28,Savings,Branch,2612.23,refunded
+T1206,C1836,2024-09-03,Loan,Mobile,1968.07,pending
+T1207,C1066,2024-12-25,Savings,Mobile,3504.12,refunded
+T1208,C1315,2024-03-12,Loan,Partner,3574.23,completed
+T1209,C1939,2024-01-22,Savings,API,3211.68,refunded
+T1210,C1728,2024-11-30,Checking,Mobile,4801.26,completed
+T1211,C1091,2024-02-12,Loan,Partner,735.52,pending
+T1212,C1879,2024-09-15,Credit Card,Web,2218.47,completed
+T1213,C1476,2024-10-02,Mortgage,Branch,2036.13,refunded
+T1214,C1407,2024-11-20,Mortgage,Mobile,2081.11,completed
+T1215,C1831,2024-09-01,Checking,Partner,1036.71,completed
+T1216,C1082,2024-10-31,Investment,API,2425.46,pending
+T1217,C1908,2024-10-21,Savings,Branch,378.81,completed
+T1218,C1315,2024-07-16,Mortgage,Web,1019.62,completed
+T1219,C1632,2024-09-20,Mortgage,Web,1021.71,completed
+T1220,C1976,2024-02-20,Mortgage,Web,307.82,refunded
+T1221,C1042,2024-08-02,Checking,Branch,1825.02,refunded
+T1222,C1256,2024-06-07,Investment,Web,4607.73,refunded
+T1223,C1752,2024-12-09,Mortgage,Branch,4801.24,completed
+T1224,C1382,2024-05-21,Investment,API,2213.85,refunded
+T1225,C1596,2024-07-13,Checking,API,4093.43,completed
+T1226,C1934,2024-12-25,Savings,Web,4739.72,completed
+T1227,C1321,2024-03-15,Checking,Web,4350.81,pending
+T1228,C1411,2024-04-26,Savings,Partner,2350.04,completed
+T1229,C1457,2024-01-07,Loan,Branch,2865.85,completed
+T1230,C1290,2024-07-20,Loan,Web,3275.57,completed
+T1231,C1972,2024-02-11,Credit Card,Mobile,4471.44,pending
+T1232,C1974,2024-04-19,Loan,Partner,3598.17,completed
+T1233,C1471,2024-10-08,Loan,Web,3882.66,pending
+T1234,C1908,2024-05-18,Savings,Partner,3304.48,completed
+T1235,C1577,2024-07-05,Savings,Web,4845.84,refunded
+T1236,C1499,2024-01-06,Savings,API,3901.24,completed
+T1237,C1854,2024-06-28,Loan,Partner,3256.68,pending
+T1238,C1902,2024-06-17,Investment,Mobile,1925.09,pending
+T1239,C1688,2024-07-18,Checking,Branch,4972.11,refunded
+T1240,C1250,2024-04-17,Credit Card,Branch,4049.96,completed
+T1241,C1067,2024-08-03,Mortgage,Mobile,639.91,completed
+T1242,C1059,2024-02-02,Credit Card,Branch,1793.97,completed
+T1243,C1032,2024-12-18,Mortgage,API,2865.02,completed
+T1244,C1596,2024-05-01,Investment,API,4334.72,completed
+T1245,C1237,2024-06-25,Mortgage,API,1523.28,completed
+T1246,C1714,2024-04-08,Checking,Mobile,3167.9,refunded
+T1247,C1745,2024-08-28,Checking,Mobile,3731.38,completed
+T1248,C1016,2024-05-20,Investment,Web,1481.89,completed
+T1249,C1748,2024-03-02,Investment,API,4984.8,pending
+T1250,C1089,2024-11-21,Credit Card,Mobile,4103.12,completed
+T1251,C1228,2024-10-18,Loan,API,3695.93,refunded
+T1252,C1575,2024-06-12,Mortgage,Web,3482.05,completed
+T1253,C1612,2024-12-31,Investment,Branch,511.68,completed
+T1254,C1104,2024-06-25,Loan,Partner,1006.12,completed
+T1255,C1472,2024-06-29,Loan,Branch,3884.56,completed
+T1256,C1921,2024-06-25,Savings,Branch,3177.43,refunded
+T1257,C1089,2024-08-07,Investment,API,2011.96,completed
+T1258,C1589,2024-02-16,Loan,Mobile,3843.0,completed
+T1259,C1661,2024-08-12,Credit Card,Web,793.0,refunded
+T1260,C1566,2024-10-01,Investment,Mobile,1608.76,completed
+T1261,C1422,2024-02-01,Investment,Mobile,1650.13,completed
+T1262,C1001,2024-01-24,Checking,Web,2687.69,refunded
+T1263,C1784,2024-09-12,Loan,Web,443.7,completed
+T1264,C1980,2024-12-24,Investment,Branch,3749.27,completed
+T1265,C1496,2024-06-25,Loan,Partner,1611.51,refunded
+T1266,C1158,2024-01-14,Loan,Mobile,1906.58,pending
+T1267,C1211,2024-10-05,Checking,API,22.52,completed
+T1268,C1187,2024-09-27,Savings,Mobile,3281.2,pending
+T1269,C1200,2024-03-02,Loan,API,4646.27,refunded
+T1270,C1655,2024-06-04,Investment,Mobile,651.64,refunded
+T1271,C1572,2024-04-06,Investment,Mobile,1390.76,completed
+T1272,C1431,2024-07-30,Loan,API,2993.95,pending
+T1273,C1103,2024-11-12,Investment,Branch,3015.93,completed
+T1274,C1411,2024-04-18,Mortgage,Mobile,4647.31,completed
+T1275,C1500,2024-01-09,Credit Card,Branch,2941.32,completed
+T1276,C1487,2024-09-11,Credit Card,Branch,464.23,completed
+T1277,C1391,2024-09-02,Loan,API,1561.5,completed
+T1278,C1234,2024-03-06,Loan,Web,388.85,completed
+T1279,C1430,2024-05-08,Savings,Mobile,365.03,refunded
+T1280,C1522,2024-10-02,Savings,Partner,2014.93,completed
+T1281,C1615,2024-01-12,Checking,Branch,3885.43,refunded
+T1282,C1205,2024-09-29,Savings,Branch,4188.27,completed
+T1283,C1221,2024-06-13,Savings,Web,3665.75,completed
+T1284,C1849,2024-09-03,Checking,Mobile,1784.79,completed
+T1285,C1029,2024-08-18,Loan,API,2989.16,completed
+T1286,C1371,2024-06-11,Credit Card,API,2588.8,pending
+T1287,C1127,2024-06-20,Loan,API,2653.52,refunded
+T1288,C1396,2024-09-11,Investment,Web,1017.1,pending
+T1289,C1942,2024-09-13,Loan,Branch,45.83,completed
+T1290,C1182,2024-11-25,Savings,Web,4895.83,pending
+T1291,C1056,2024-06-02,Mortgage,Branch,493.89,completed
+T1292,C1018,2024-06-02,Investment,Mobile,1650.34,completed
+T1293,C1347,2024-12-08,Credit Card,Mobile,3308.81,completed
+T1294,C1489,2024-01-24,Credit Card,Web,2959.12,completed
+T1295,C1998,2024-05-15,Checking,Mobile,3855.94,completed
+T1296,C1162,2024-08-01,Credit Card,Partner,2728.56,completed
+T1297,C1564,2024-05-04,Investment,Mobile,3072.53,refunded
+T1298,C1959,2024-05-10,Savings,API,1381.48,completed
+T1299,C1388,2024-08-10,Loan,Partner,1498.15,completed
+T1300,C1575,2024-03-05,Investment,Branch,3432.91,refunded
+T1301,C1838,2024-08-27,Checking,Branch,2952.04,completed
+T1302,C1393,2024-07-30,Loan,Partner,3243.23,completed
+T1303,C1918,2024-09-11,Credit Card,Web,4027.01,completed
+T1304,C1938,2024-11-27,Checking,Branch,683.03,completed
+T1305,C1373,2024-08-20,Mortgage,Branch,1350.09,refunded
+T1306,C1155,2024-07-08,Loan,Web,76.23,refunded
+T1307,C1427,2024-08-17,Credit Card,Branch,1263.92,completed
+T1308,C1968,2024-11-02,Checking,API,2156.3,refunded
+T1309,C1586,2024-07-14,Investment,Partner,3827.81,completed
+T1310,C1414,2024-06-28,Checking,API,4152.36,completed
+T1311,C1626,2024-10-15,Credit Card,Web,770.13,completed
+T1312,C1494,2024-07-05,Loan,API,2580.96,completed
+T1313,C1635,2024-08-11,Loan,Web,2486.35,completed
+T1314,C1844,2024-01-17,Mortgage,Web,3485.65,pending
+T1315,C1908,2024-09-07,Loan,Partner,4426.58,refunded
+T1316,C1319,2024-09-27,Credit Card,Web,804.58,pending
+T1317,C1985,2024-12-08,Mortgage,API,1297.03,completed
+T1318,C1298,2024-09-29,Credit Card,Mobile,3612.85,completed
+T1319,C1734,2024-09-18,Mortgage,Web,692.26,pending
+T1320,C1691,2024-10-19,Credit Card,Partner,4612.59,refunded
+T1321,C1701,2024-12-16,Checking,Branch,1542.8,completed
+T1322,C1700,2024-12-25,Mortgage,Web,147.65,completed
+T1323,C1656,2024-05-04,Credit Card,Mobile,2503.66,completed
+T1324,C1559,2024-08-07,Mortgage,Mobile,3575.32,completed
+T1325,C1923,2024-02-28,Checking,Web,4348.68,pending
+T1326,C1914,2024-08-29,Loan,Branch,4729.15,completed
+T1327,C1589,2024-09-22,Credit Card,API,4815.13,pending
+T1328,C1363,2024-07-24,Mortgage,Partner,2540.2,completed
+T1329,C1565,2024-01-28,Checking,Mobile,2998.19,refunded
+T1330,C1519,2024-07-25,Checking,API,792.77,refunded
+T1331,C1644,2024-04-12,Checking,Mobile,3930.3,refunded
+T1332,C1433,2024-11-24,Mortgage,Mobile,3276.0,completed
+T1333,C1059,2024-03-09,Investment,Branch,4984.22,completed
+T1334,C1691,2024-07-24,Savings,Branch,2629.63,completed
+T1335,C1170,2024-05-16,Investment,Branch,1459.26,completed
+T1336,C1446,2024-06-29,Checking,Mobile,3194.29,refunded
+T1337,C1211,2024-12-15,Mortgage,Partner,988.86,completed
+T1338,C1533,2024-06-19,Investment,Mobile,4303.64,completed
+T1339,C1721,2024-08-27,Checking,Web,1224.96,completed
+T1340,C1554,2024-10-04,Loan,Web,2528.1,completed
+T1341,C1929,2024-05-24,Mortgage,Web,3496.75,completed
+T1342,C1132,2024-05-29,Loan,Web,851.3,refunded
+T1343,C1216,2024-03-11,Credit Card,Web,1054.73,refunded
+T1344,C1069,2024-11-05,Mortgage,Mobile,1883.0,completed
+T1345,C1244,2024-02-12,Investment,Partner,3735.32,completed
+T1346,C1369,2024-12-22,Investment,API,1563.45,completed
+T1347,C1963,2024-08-02,Loan,API,4829.46,completed
+T1348,C1098,2024-10-28,Loan,Web,1181.49,completed
+T1349,C1428,2024-05-30,Checking,Partner,302.76,completed
+T1350,C1596,2024-03-16,Loan,API,3980.4,completed
+T1351,C1038,2024-03-04,Checking,Mobile,3204.03,completed
+T1352,C1344,2024-06-02,Loan,Branch,691.35,refunded
+T1353,C1253,2024-04-24,Loan,API,2520.12,completed
+T1354,C1362,2024-10-20,Mortgage,Mobile,1694.51,completed
+T1355,C1113,2024-05-13,Credit Card,API,3451.01,completed
+T1356,C1658,2024-03-19,Savings,Mobile,3212.63,completed
+T1357,C1627,2024-11-05,Savings,API,1089.07,completed
+T1358,C1546,2024-07-09,Savings,Web,4968.82,refunded
+T1359,C1240,2024-10-10,Savings,Mobile,361.77,completed
+T1360,C1561,2024-02-18,Savings,Branch,3680.54,pending
+T1361,C1799,2024-09-18,Checking,API,1405.23,completed
+T1362,C1164,2024-06-13,Savings,Branch,1531.4,completed
+T1363,C1453,2024-10-29,Mortgage,API,3647.52,completed
+T1364,C1365,2024-01-14,Mortgage,Branch,2635.05,completed
+T1365,C1418,2024-11-02,Mortgage,API,229.04,pending
+T1366,C1345,2024-12-24,Credit Card,Partner,3805.25,completed
+T1367,C1736,2024-01-09,Checking,Web,2359.94,pending
+T1368,C1969,2024-07-13,Investment,Web,311.21,completed
+T1369,C1005,2024-08-05,Savings,Mobile,2483.35,completed
+T1370,C1827,2024-10-03,Loan,Web,1619.28,pending
+T1371,C1796,2024-01-31,Credit Card,Web,2900.68,completed
+T1372,C1651,2024-06-27,Investment,Mobile,3808.08,refunded
+T1373,C1951,2024-05-13,Credit Card,Mobile,4631.19,completed
+T1374,C1875,2024-04-26,Investment,Partner,530.39,completed
+T1375,C1393,2024-05-22,Savings,API,1583.3,completed
+T1376,C1571,2024-01-18,Savings,API,4264.76,pending
+T1377,C1685,2024-04-30,Mortgage,API,2155.83,completed
+T1378,C1193,2024-04-19,Savings,Partner,3619.0,completed
+T1379,C1024,2024-10-09,Loan,Web,3973.28,completed
+T1380,C1794,2024-08-13,Checking,Mobile,3453.71,completed
+T1381,C1217,2024-03-13,Loan,API,2589.12,completed
+T1382,C1290,2024-07-05,Credit Card,API,194.17,completed
+T1383,C1427,2024-07-07,Investment,API,1033.54,completed
+T1384,C1926,2024-04-14,Savings,Web,2249.63,completed
+T1385,C1876,2024-05-20,Savings,Branch,2065.35,completed
+T1386,C1163,2024-07-14,Loan,Branch,622.82,refunded
+T1387,C1764,2024-04-27,Credit Card,Branch,3021.27,pending
+T1388,C1643,2024-11-14,Loan,Branch,1008.48,completed
+T1389,C1588,2024-06-12,Investment,Web,616.14,completed
+T1390,C1495,2024-04-20,Investment,Branch,1193.6,completed
+T1391,C1405,2024-07-08,Credit Card,Mobile,3151.88,pending
+T1392,C1363,2024-11-20,Investment,Partner,3243.41,completed
+T1393,C1466,2024-08-27,Checking,Web,47.38,refunded
+T1394,C1695,2024-01-18,Credit Card,API,1005.03,pending
+T1395,C1906,2024-01-11,Checking,Mobile,379.44,completed
+T1396,C1783,2024-08-13,Savings,Branch,3440.82,completed
+T1397,C1559,2024-08-30,Mortgage,API,1593.8,pending
+T1398,C1956,2024-03-11,Savings,Web,1799.42,completed
+T1399,C1224,2024-11-03,Checking,Partner,4012.22,completed
+T1400,C1118,2024-05-21,Loan,Branch,3722.31,refunded
+T1401,C1601,2024-09-03,Loan,Partner,3249.58,completed
+T1402,C1194,2024-07-31,Mortgage,Branch,1355.43,completed
+T1403,C1916,2024-04-21,Checking,Web,2168.62,completed
+T1404,C1267,2024-03-31,Loan,Branch,3039.49,pending
+T1405,C1905,2024-09-26,Credit Card,Partner,2027.64,completed
+T1406,C1701,2024-07-08,Savings,Partner,3193.96,completed
+T1407,C1313,2024-12-31,Mortgage,API,2169.02,completed
+T1408,C1349,2024-10-19,Savings,Mobile,2154.63,completed
+T1409,C1986,2024-07-08,Investment,Web,1598.99,completed
+T1410,C1643,2024-04-22,Checking,Branch,3387.91,completed
+T1411,C1448,2024-01-13,Mortgage,API,936.47,completed
+T1412,C1518,2024-01-12,Investment,Partner,3950.71,refunded
+T1413,C1239,2024-03-16,Checking,Mobile,2089.42,completed
+T1414,C1592,2024-01-31,Checking,Mobile,2734.94,completed
+T1415,C1199,2024-11-19,Savings,API,2807.42,completed
+T1416,C1510,2024-09-18,Checking,Partner,1659.36,refunded
+T1417,C1767,2024-08-13,Loan,Mobile,739.48,completed
+T1418,C1782,2024-05-31,Loan,API,4415.57,completed
+T1419,C1253,2024-03-16,Mortgage,Mobile,4578.54,refunded
+T1420,C1064,2024-09-18,Credit Card,API,3737.63,completed
+T1421,C1401,2024-08-11,Investment,API,2817.16,completed
+T1422,C1290,2024-04-08,Checking,Web,4494.16,completed
+T1423,C1234,2024-08-04,Savings,Web,3083.0,refunded
+T1424,C1725,2024-01-29,Credit Card,Mobile,4809.9,completed
+T1425,C1397,2024-12-02,Mortgage,Web,1314.22,pending
+T1426,C1614,2024-11-26,Savings,Mobile,3680.94,pending
+T1427,C1332,2024-02-28,Investment,Mobile,2212.09,refunded
+T1428,C1232,2024-06-14,Checking,API,4178.24,completed
+T1429,C1559,2024-03-31,Loan,Partner,2489.51,completed
+T1430,C1132,2024-03-13,Checking,Web,2145.71,completed
+T1431,C1029,2024-03-07,Checking,Mobile,1730.11,completed
+T1432,C1373,2024-08-02,Checking,Web,3266.61,refunded
+T1433,C1384,2024-06-28,Loan,Web,1778.31,pending
+T1434,C1586,2024-08-01,Investment,API,387.28,completed
+T1435,C1582,2024-05-11,Credit Card,Branch,2602.98,completed
+T1436,C1268,2024-10-26,Loan,Partner,1243.93,pending
+T1437,C1182,2024-12-19,Investment,Mobile,2506.46,pending
+T1438,C1419,2024-07-27,Loan,Branch,2601.24,completed
+T1439,C1175,2024-03-01,Savings,Partner,817.09,completed
+T1440,C1445,2024-03-06,Mortgage,Mobile,1927.22,completed
+T1441,C1917,2024-05-13,Mortgage,Branch,3922.57,pending
+T1442,C1268,2024-01-02,Credit Card,Partner,1561.38,completed
+T1443,C1826,2024-06-08,Checking,Web,3010.96,refunded
+T1444,C1042,2024-08-15,Checking,Partner,3583.35,completed
+T1445,C1889,2024-10-25,Mortgage,API,711.12,refunded
+T1446,C1385,2024-08-15,Savings,Web,3864.66,pending
+T1447,C1139,2024-10-23,Mortgage,API,4242.62,refunded
+T1448,C1679,2024-07-06,Mortgage,Web,2095.68,completed
+T1449,C1914,2024-04-14,Checking,Web,2300.51,completed
+T1450,C1638,2024-05-13,Mortgage,Branch,1999.46,completed
+T1451,C1266,2024-04-03,Investment,Web,481.38,completed
+T1452,C1844,2024-08-20,Loan,Partner,4727.35,completed
+T1453,C1816,2024-02-22,Savings,Web,4464.43,completed
+T1454,C1168,2024-04-28,Investment,API,1923.22,refunded
+T1455,C1004,2024-06-14,Investment,Mobile,971.3,completed
+T1456,C1356,2024-03-05,Investment,API,3359.02,completed
+T1457,C1380,2024-03-18,Mortgage,Partner,1148.05,completed
+T1458,C1246,2024-09-25,Credit Card,Mobile,2104.74,refunded
+T1459,C1187,2024-06-21,Credit Card,Branch,3468.85,pending
+T1460,C1921,2024-04-28,Mortgage,Web,3637.9,completed
+T1461,C1605,2024-07-04,Mortgage,Branch,1615.11,completed
+T1462,C1700,2024-04-04,Savings,API,2849.08,refunded
+T1463,C1339,2024-10-28,Checking,Mobile,2373.19,refunded
+T1464,C1308,2024-11-30,Checking,Mobile,4684.18,completed
+T1465,C1314,2024-04-12,Loan,Partner,3477.2,pending
+T1466,C1499,2024-06-23,Savings,Mobile,3979.12,completed
+T1467,C1052,2024-07-23,Loan,Branch,3644.23,completed
+T1468,C1433,2024-07-19,Credit Card,Branch,2617.57,completed
+T1469,C1675,2024-12-25,Savings,Partner,3824.04,pending
+T1470,C1726,2024-10-14,Loan,API,2312.96,completed
+T1471,C1374,2024-04-16,Credit Card,API,1076.03,completed
+T1472,C1582,2024-02-11,Loan,API,4946.03,pending
+T1473,C1553,2024-09-01,Mortgage,Branch,4050.08,completed
+T1474,C1995,2024-09-17,Loan,API,2571.43,pending
+T1475,C1561,2024-06-11,Mortgage,API,4863.27,completed
+T1476,C1461,2024-08-23,Savings,API,4909.46,completed
+T1477,C1864,2024-09-02,Loan,Branch,1927.52,completed
+T1478,C1968,2024-10-01,Credit Card,Partner,2895.71,refunded
+T1479,C1328,2024-12-04,Investment,API,2927.51,completed
+T1480,C1108,2024-01-14,Investment,Web,560.48,pending
+T1481,C1285,2024-04-09,Investment,Web,1631.26,completed
+T1482,C1688,2024-03-22,Credit Card,Branch,1738.59,completed
+T1483,C1721,2024-08-23,Checking,API,1297.87,pending
+T1484,C1362,2024-03-19,Mortgage,Mobile,2785.01,completed
+T1485,C1249,2024-08-05,Investment,Web,4736.58,completed
+T1486,C1154,2024-09-14,Credit Card,Branch,1796.95,completed
+T1487,C1793,2024-12-01,Investment,Branch,2522.34,pending
+T1488,C1546,2024-06-14,Credit Card,Mobile,3219.17,completed
+T1489,C1919,2024-01-31,Savings,Mobile,1186.89,completed
+T1490,C1708,2024-03-20,Savings,Mobile,3952.92,completed
+T1491,C1834,2024-12-23,Credit Card,API,4097.46,completed
+T1492,C1855,2024-09-11,Savings,Partner,2230.63,refunded
+T1493,C1782,2024-09-29,Loan,API,1163.88,completed
+T1494,C1601,2024-08-26,Checking,Branch,3614.48,completed
+T1495,C1467,2024-09-08,Loan,API,2930.26,refunded
+T1496,C1976,2024-05-23,Savings,Partner,2442.69,completed
+T1497,C1764,2024-12-15,Credit Card,API,618.93,pending
+T1498,C1128,2024-02-29,Investment,Web,643.22,completed
+T1499,C1834,2024-06-01,Mortgage,Branch,4452.54,refunded
+T1500,C1688,2024-11-24,Credit Card,Web,1442.51,completed
