@@ -4,9 +4,12 @@ from app.core.samples import list_samples
 
 
 class TestSamples:
-    def test_list_samples_returns_retail_orders(self):
+    def test_list_samples_returns_real_datasets(self):
         samples = list_samples()
-        assert any(s["id"] == "retail_orders" for s in samples)
+        ids = {s["id"] for s in samples}
+        assert "retail_online" in ids  # real UCI dataset
+        assert "finance_bankruptcy" in ids  # real UCI dataset
+        assert "marketing_shoppers" in ids  # real UCI dataset
 
     def test_sample_has_metadata(self):
         samples = list_samples()

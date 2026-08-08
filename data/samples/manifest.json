@@ -1,4 +1,43 @@
 {
+  "retail_online": {
+    "name": "Online Retail (real)",
+    "domain": "retail",
+    "description": "541,910 real transactions — UCI Online Retail II (2009-2011)",
+    "questions": [
+      "What is the total revenue by country?",
+      "What is the average order value by country?",
+      "Show monthly revenue over time",
+      "Which products are the top 10 best sellers by quantity?",
+      "What is the refund rate by month?",
+      "How many orders are there per country?"
+    ]
+  },
+  "finance_bankruptcy": {
+    "name": "Bankruptcy Risk (real)",
+    "domain": "finance",
+    "description": "6,819 real companies, 96 financial ratios — UCI Taiwanese Bankruptcy",
+    "questions": [
+      "How many companies are bankrupt?",
+      "What is the average debt ratio by bankruptcy status?",
+      "What is the average return on assets by bankruptcy status?",
+      "What is the average current ratio?",
+      "What is the average net income to total assets?",
+      "How many companies have a debt ratio above 50%?"
+    ]
+  },
+  "marketing_shoppers": {
+    "name": "Online Shoppers (real)",
+    "domain": "marketing",
+    "description": "12,330 real browsing sessions — UCI Online Shoppers Intention",
+    "questions": [
+      "What is the conversion rate by visitor type?",
+      "What is the average page value by month?",
+      "Which months have the highest revenue?",
+      "What is the average bounce rate by region?",
+      "How many sessions are there per month?",
+      "What is the conversion rate by traffic type?"
+    ]
+  },
   "retail_orders": {
     "name": "Retail Orders",
     "domain": "retail",
