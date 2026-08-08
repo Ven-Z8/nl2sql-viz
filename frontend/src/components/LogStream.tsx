@@ -13,9 +13,9 @@ interface LogStreamProps {
 }
 
 const ICON: Record<LogEntry["icon"], { char: string; color: string }> = {
-  done: { char: "✓", color: "var(--green)" },
-  run:  { char: "⏳", color: "var(--accent)" },
-  sql:  { char: "⬡", color: "var(--accent)" },
+  done: { char: "✓", color: "var(--color-success)" },
+  run:  { char: "◈", color: "var(--color-accent)" },
+  sql:  { char: "›", color: "var(--color-accent)" },
 };
 
 export default function LogStream({ logs }: LogStreamProps) {
@@ -28,34 +28,48 @@ export default function LogStream({ logs }: LogStreamProps) {
   return (
     <div
       style={{
-        background: "var(--bg-log)",
-        borderRadius: "6px",
-        padding: "8px",
-        height: "110px",
+        background: "var(--color-paper)",
+        borderRadius: "var(--radius-md)",
+        border: "1px solid var(--color-border-subtle)",
+        padding: "10px",
+        height: "120px",
         overflowY: "auto",
-        fontFamily: "'SF Mono', 'Fira Code', 'JetBrains Mono', Menlo, Consolas, monospace",
+        fontFamily: "var(--font-mono)",
         fontSize: "11px",
-        lineHeight: "1.7",
-        color: "var(--text-secondary)",
+        lineHeight: "1.8",
+        color: "var(--color-ink-dim)",
       }}
     >
       {logs.length === 0 && (
-        <span style={{ color: "var(--text-muted)" }}>Waiting for query…</span>
+        <span style={{ color: "var(--color-ink-faint)" }}>Waiting for query…</span>
       )}
       {logs.map((entry, i) => {
         const ic = ICON[entry.icon];
         return (
-          <div key={i} style={{ display: "flex", gap: "6px", alignItems: "flex-start" }}>
-            <span style={{ color: "var(--text-muted)", flexShrink: 0 }}>{entry.time}</span>
+          <div
+            key={i}
+            style={{
+              display: "flex",
+              gap: "8px",
+              alignItems: "flex-start",
+              animation: "fade-up var(--dur-fast) var(--ease-out) both",
+            }}
+          >
+            <span style={{ color: "var(--color-ink-faint)", flexShrink: 0 }}>{entry.time}</span>
             <span style={{ color: ic.color, flexShrink: 0 }}>{ic.char}</span>
-            <span style={{ color: entry.active ? "var(--text-primary)" : undefined }}>
+            <span
+              style={{
+                color: entry.active ? "var(--color-ink)" : "var(--color-ink-dim)",
+                wordBreak: "break-word",
+              }}
+            >
               {entry.text}
               {entry.active && (
                 <span
                   style={{
                     display: "inline-block",
-                    marginLeft: "2px",
-                    color: "var(--accent)",
+                    marginLeft: "3px",
+                    color: "var(--color-accent)",
                     animation: "blink 1s step-end infinite",
                   }}
                 >

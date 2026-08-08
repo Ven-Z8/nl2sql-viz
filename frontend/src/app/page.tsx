@@ -247,6 +247,7 @@ export default function Home() {
           onToggleSql={() => setSqlVisible((v) => !v)}
           queryType={queryType}
           answer={answer}
+          isLoading={isLoading}
         />
       </div>
     </div>

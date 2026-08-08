@@ -22,14 +22,12 @@ interface RightPanelProps {
   onToggleSql: () => void;
   queryType: string | null;
   answer: Answer | null;
+  isLoading: boolean;
 }
 
 function highlightSQL(sql: string): string {
-  // COUNT/SUM/AVG/MIN/MAX omitted from keywords — covered by functions regex
   const keywords = /\b(SELECT|FROM|WHERE|GROUP BY|ORDER BY|HAVING|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AS|AND|OR|NOT|IN|LIKE|LIMIT|OFFSET|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|WITH|UNION|DISTINCT|CASE|WHEN|THEN|ELSE|END|NULL|IS|BY|ASC|DESC)\b/gi;
   const functions = /\b(count|sum|avg|min|max|coalesce|nullif|cast|extract|date_trunc|now|current_date|round|floor|ceil|abs|length|lower|upper|trim|substr|replace)\b/gi;
-  // Identifiers and strings are replaced first as opaque tokens to prevent
-  // subsequent keyword/function passes from matching inside their content.
   const identifiers = /(`[^`]+`|"[^"]+")/g;
   const strings = /('(?:[^']|'')*')/g;
   const numbers = /\b(\d+(?:\.\d+)?)\b/g;
@@ -53,6 +51,12 @@ function titleCase(label: string): string {
   return label.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+const PANEL: React.CSSProperties = {
+  border: "1px solid var(--color-border-subtle)",
+  borderRadius: "var(--radius-lg)",
+  background: "var(--color-paper-2)",
+};
+
 export default function RightPanel({
   title,
   vegaSpec,
@@ -62,6 +66,7 @@ export default function RightPanel({
   onToggleSql,
   queryType,
   answer,
+  isLoading,
 }: RightPanelProps) {
   const rowColumns = rows.length > 0 ? Object.keys(rows[0]).slice(0, 6) : [];
   const isKpi = queryType === "kpi";
@@ -74,14 +79,14 @@ export default function RightPanel({
         display: "flex",
         flexDirection: "column",
         overflow: "hidden",
-        background: "var(--bg)",
+        background: "var(--color-paper)",
       }}
     >
       {/* Header */}
       <div
         style={{
-          padding: "14px 24px",
-          borderBottom: "1px solid var(--border-subtle)",
+          padding: "var(--space-4) var(--space-6)",
+          borderBottom: "1px solid var(--color-border-subtle)",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
@@ -92,30 +97,39 @@ export default function RightPanel({
           style={{
             fontSize: "14px",
             fontWeight: 600,
-            color: title ? "var(--text-primary)" : "var(--text-muted)",
+            letterSpacing: "-0.01em",
+            color: title ? "var(--color-ink)" : "var(--color-ink-faint)",
           }}
         >
           {title || "Results"}
         </span>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
           {queryType && (
             <span
               style={{
-                fontSize: "11px",
+                fontSize: "10.5px",
                 fontWeight: 600,
                 textTransform: "uppercase",
-                letterSpacing: "0.06em",
-                color: "var(--accent)",
-                border: "1px solid var(--accent-dim)",
-                borderRadius: "999px",
-                padding: "2px 10px",
+                letterSpacing: "0.08em",
+                color: "var(--color-accent)",
+                border: "1px solid var(--color-accent-dim)",
+                borderRadius: "var(--radius-pill)",
+                padding: "3px 10px",
+                fontFamily: "var(--font-mono)",
               }}
             >
               {queryType}
             </span>
           )}
           {rows.length > 0 && (
-            <span style={{ color: "var(--text-secondary)", fontSize: "12px" }}>
+            <span
+              style={{
+                color: "var(--color-ink-dim)",
+                fontSize: "12px",
+                fontFamily: "var(--font-mono)",
+                fontVariantNumeric: "tabular-nums",
+              }}
+            >
               {rows.length} rows
             </span>
           )}
@@ -126,11 +140,12 @@ export default function RightPanel({
                 background: "none",
                 border: "none",
                 cursor: "pointer",
-                color: "var(--accent)",
-                fontSize: "13px",
+                color: "var(--color-accent)",
+                fontSize: "12.5px",
                 fontWeight: 500,
                 padding: "4px 8px",
-                borderRadius: "4px",
+                borderRadius: "var(--radius-sm)",
+                fontFamily: "var(--font-mono)",
               }}
             >
               SQL {sqlVisible ? "▴" : "▾"}
@@ -140,33 +155,56 @@ export default function RightPanel({
       </div>
 
       <div
+        className="stagger"
         style={{
           flex: 1,
           display: "flex",
           flexDirection: "column",
           overflow: "auto",
-          padding: "24px",
-          gap: "16px",
+          padding: "var(--space-6)",
+          gap: "var(--space-5)",
         }}
       >
+        {/* Loading skeletons */}
+        {isLoading && (
+          <>
+            <div className="skeleton" style={{ height: "72px", width: "100%" }} />
+            <div className="skeleton" style={{ height: 220, width: "100%" }} />
+            <div className="skeleton" style={{ height: 120, width: "100%" }} />
+          </>
+        )}
+
         {/* Grounded answer banner */}
-        {answer && (
+        {!isLoading && answer && (
           <div
             style={{
-              border: "1px solid var(--border-subtle)",
-              borderRadius: "10px",
-              background: "var(--bg-panel)",
-              padding: "14px 18px",
+              border: "1px solid var(--color-accent-dim)",
+              borderRadius: "var(--radius-lg)",
+              background: "var(--color-paper-2)",
+              padding: "var(--space-5) var(--space-6)",
+              position: "relative",
+              overflow: "hidden",
             }}
           >
             <div
               style={{
-                fontSize: "11px",
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "3px",
+                height: "100%",
+                background: "var(--color-accent)",
+              }}
+            />
+            <div
+              style={{
+                fontSize: "10.5px",
                 fontWeight: 600,
-                color: "var(--text-muted)",
+                color: "var(--color-accent)",
                 textTransform: "uppercase",
-                letterSpacing: "0.06em",
+                letterSpacing: "0.1em",
                 marginBottom: "6px",
+                fontFamily: "var(--font-mono)",
               }}
             >
               Grounded answer
@@ -175,8 +213,9 @@ export default function RightPanel({
               style={{
                 fontSize: "15px",
                 fontWeight: 600,
-                color: "var(--text-primary)",
+                color: "var(--color-ink)",
                 lineHeight: 1.5,
+                letterSpacing: "-0.01em",
               }}
             >
               {answer.text}
@@ -184,7 +223,7 @@ export default function RightPanel({
             {answer.sub_queries.length > 0 && (
               <div
                 style={{
-                  marginTop: "8px",
+                  marginTop: "var(--space-3)",
                   display: "flex",
                   flexWrap: "wrap",
                   gap: "6px",
@@ -195,10 +234,11 @@ export default function RightPanel({
                     key={sq.id}
                     style={{
                       fontSize: "11px",
-                      color: "var(--text-secondary)",
-                      border: "1px solid var(--border-subtle)",
-                      borderRadius: "999px",
-                      padding: "2px 8px",
+                      color: "var(--color-ink-dim)",
+                      border: "1px solid var(--color-border)",
+                      borderRadius: "var(--radius-pill)",
+                      padding: "3px 10px",
+                      fontFamily: "var(--font-mono)",
                     }}
                   >
                     {sq.question}
@@ -210,48 +250,59 @@ export default function RightPanel({
         )}
 
         {/* KPI stat strip — big grounded numbers */}
-        {isKpi && answer && answer.metrics.length > 0 && (
+        {!isLoading && isKpi && answer && answer.metrics.length > 0 && (
           <div
             style={{
               display: "grid",
               gridTemplateColumns: `repeat(${Math.min(answer.metrics.length, 4)}, minmax(0, 1fr))`,
-              gap: "12px",
+              gap: "var(--space-4)",
             }}
           >
-            {answer.metrics.slice(0, 4).map((m) => (
+            {answer.metrics.slice(0, 4).map((m, i) => (
               <div
                 key={m.label}
                 style={{
-                  border: "1px solid var(--border-subtle)",
-                  borderRadius: "10px",
-                  background: "var(--bg-panel)",
-                  padding: "18px 20px",
+                  border: "1px solid var(--color-border-subtle)",
+                  borderRadius: "var(--radius-lg)",
+                  background: "var(--color-paper-2)",
+                  padding: "var(--space-5) var(--space-6)",
+                  animation: "fade-up var(--dur-med) var(--ease-out) both",
+                  animationDelay: `${i * 70}ms`,
                 }}
               >
                 <div
                   style={{
-                    fontSize: "11px",
+                    fontSize: "10.5px",
                     fontWeight: 600,
-                    color: "var(--text-muted)",
+                    color: "var(--color-ink-faint)",
                     textTransform: "uppercase",
-                    letterSpacing: "0.06em",
-                    marginBottom: "8px",
+                    letterSpacing: "0.1em",
+                    marginBottom: "var(--space-2)",
+                    fontFamily: "var(--font-mono)",
                   }}
                 >
                   {titleCase(m.label)}
                 </div>
                 <div
                   style={{
-                    fontSize: "28px",
+                    fontSize: i === 0 ? "34px" : "28px",
                     fontWeight: 700,
-                    color: "var(--text-primary)",
-                    letterSpacing: "-0.02em",
+                    color: "var(--color-ink)",
+                    letterSpacing: "-0.03em",
+                    fontFamily: "var(--font-mono)",
                     fontVariantNumeric: "tabular-nums",
                   }}
                 >
                   {formatValue(m.value)}
                   {m.unit && (
-                    <span style={{ fontSize: "14px", color: "var(--text-secondary)", marginLeft: "4px" }}>
+                    <span
+                      style={{
+                        fontSize: "13px",
+                        color: "var(--color-ink-dim)",
+                        marginLeft: "4px",
+                        fontWeight: 500,
+                      }}
+                    >
                       {m.unit}
                     </span>
                   )}
@@ -262,18 +313,18 @@ export default function RightPanel({
         )}
 
         {/* Chart area */}
-        {!isKpi && (
+        {!isLoading && !isKpi && (
           <div
             style={{
               flex: 1,
-              minHeight: "280px",
+              minHeight: "300px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              border: "1px solid var(--border-subtle)",
-              borderRadius: "10px",
-              background: "var(--bg-panel)",
-              padding: "16px",
+              border: "1px solid var(--color-border-subtle)",
+              borderRadius: "var(--radius-xl)",
+              background: "var(--color-paper-2)",
+              padding: "var(--space-5)",
             }}
           >
             {vegaSpec ? (
@@ -283,7 +334,7 @@ export default function RightPanel({
             ) : hasResult ? (
               <div
                 style={{
-                  color: "var(--text-secondary)",
+                  color: "var(--color-ink-dim)",
                   fontSize: "14px",
                   textAlign: "center",
                 }}
@@ -291,49 +342,69 @@ export default function RightPanel({
                 No rows returned for this question.
               </div>
             ) : (
-              <p style={{ color: "var(--text-muted)", fontSize: "14px", textAlign: "center" }}>
-                Ask a question to see results
-              </p>
+              <div style={{ textAlign: "center", maxWidth: "320px" }}>
+                <div
+                  style={{
+                    fontSize: "13px",
+                    color: "var(--color-ink-faint)",
+                    lineHeight: 1.6,
+                  }}
+                >
+                  Ask a question to see results. Charts adapt to your data — trends,
+                  breakdowns, comparisons, and KPIs.
+                </div>
+              </div>
             )}
           </div>
         )}
 
         {/* Result rows table */}
-        {rows.length > 0 && (
+        {!isLoading && rows.length > 0 && (
           <div
             style={{
-              border: "1px solid var(--border-subtle)",
-              borderRadius: "10px",
-              background: "var(--bg-panel)",
+              border: "1px solid var(--color-border-subtle)",
+              borderRadius: "var(--radius-lg)",
+              background: "var(--color-paper-2)",
               overflow: "hidden",
             }}
           >
             <div
               style={{
-                padding: "8px 10px",
-                borderBottom: "1px solid var(--border-subtle)",
-                color: "var(--text-secondary)",
-                fontSize: "11px",
+                padding: "10px 14px",
+                borderBottom: "1px solid var(--color-border-subtle)",
+                color: "var(--color-ink-faint)",
+                fontSize: "10.5px",
                 fontWeight: 600,
                 textTransform: "uppercase",
-                letterSpacing: "0.06em",
+                letterSpacing: "0.1em",
+                fontFamily: "var(--font-mono)",
               }}
             >
               Result Rows
             </div>
-            <div style={{ overflow: "auto", maxHeight: "220px" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
+            <div style={{ overflow: "auto", maxHeight: "240px" }}>
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  fontSize: "12.5px",
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
                 <thead>
                   <tr>
                     {rowColumns.map((column) => (
                       <th
                         key={column}
                         style={{
-                          padding: "8px 10px",
-                          color: "var(--text-muted)",
+                          padding: "9px 14px",
+                          color: "var(--color-ink-faint)",
                           textAlign: "left",
-                          borderBottom: "1px solid var(--border-subtle)",
+                          borderBottom: "1px solid var(--color-border-subtle)",
                           whiteSpace: "nowrap",
+                          fontWeight: 500,
+                          fontFamily: "var(--font-mono)",
+                          fontSize: "11px",
                         }}
                       >
                         {column}
@@ -348,9 +419,9 @@ export default function RightPanel({
                         <td
                           key={column}
                           style={{
-                            padding: "7px 10px",
-                            color: "var(--text-secondary)",
-                            borderBottom: "1px solid var(--border-subtle)",
+                            padding: "8px 14px",
+                            color: "var(--color-ink-dim)",
+                            borderBottom: "1px solid var(--color-border-subtle)",
                             whiteSpace: "nowrap",
                           }}
                         >
@@ -371,15 +442,15 @@ export default function RightPanel({
         <div
           style={{
             flexShrink: 0,
-            borderTop: "1px solid var(--border-subtle)",
-            background: "var(--bg-panel)",
-            padding: "12px 24px",
-            maxHeight: "160px",
+            borderTop: "1px solid var(--color-border-subtle)",
+            background: "var(--color-paper-2)",
+            padding: "14px var(--space-6)",
+            maxHeight: "180px",
             overflowY: "auto",
-            fontFamily: "'SF Mono', 'Fira Code', Menlo, Consolas, monospace",
+            fontFamily: "var(--font-mono)",
             fontSize: "12px",
-            lineHeight: "1.7",
-            color: "var(--text-secondary)",
+            lineHeight: "1.8",
+            color: "var(--color-ink-dim)",
             whiteSpace: "pre-wrap",
           }}
           dangerouslySetInnerHTML={{ __html: highlightSQL(sql) }}

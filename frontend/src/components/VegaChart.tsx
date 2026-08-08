@@ -53,11 +53,11 @@ export default function VegaChart({ spec }: VegaChartProps) {
       {error && (
         <div
           style={{
-            border: "1px solid var(--border)",
-            borderRadius: "8px",
+            border: "1px solid var(--color-border)",
+            borderRadius: "var(--radius-md)",
             padding: "14px",
-            color: "var(--text-secondary)",
-            background: "var(--bg-panel)",
+            color: "var(--color-ink-dim)",
+            background: "var(--color-paper-3)",
             fontSize: "13px",
           }}
         >

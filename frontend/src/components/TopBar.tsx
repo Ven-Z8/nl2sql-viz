@@ -6,37 +6,45 @@ export default function TopBar({ connected }: TopBarProps) {
   return (
     <header
       style={{
-        background: "var(--bg-panel)",
-        borderBottom: "1px solid var(--border-subtle)",
-        padding: "0 20px",
-        height: "48px",
+        background: "var(--color-paper-2)",
+        borderBottom: "1px solid var(--color-border-subtle)",
+        padding: "0 var(--space-6)",
+        height: "56px",
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
         flexShrink: 0,
       }}
     >
-      {/* Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+      {/* Wordmark */}
+      <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
         <span
           style={{
-            fontSize: "20px",
-            background: "linear-gradient(135deg, var(--accent), var(--accent-deep))",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
+            width: "26px",
+            height: "26px",
+            borderRadius: "8px",
+            background: "var(--color-accent-dim)",
+            border: "1px solid var(--color-accent-dim)",
+            display: "grid",
+            placeItems: "center",
+            color: "var(--color-accent)",
+            fontSize: "13px",
+            fontWeight: 700,
+            fontFamily: "var(--font-mono)",
           }}
         >
-          ⬡
+          ◈
         </span>
         <span
           style={{
             fontWeight: 600,
             fontSize: "15px",
-            color: "var(--text-primary)",
-            letterSpacing: "-0.01em",
+            color: "var(--color-ink)",
+            letterSpacing: "-0.02em",
           }}
         >
-          DataLens AI
+          DataLens
+          <span style={{ color: "var(--color-accent)" }}> AI</span>
         </span>
       </div>
 
@@ -45,22 +53,21 @@ export default function TopBar({ connected }: TopBarProps) {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "6px",
-          padding: "4px 10px",
-          borderRadius: "999px",
-          background: connected ? "var(--green-bg)" : "var(--bg-input)",
-          border: `1px solid ${connected ? "var(--green-border)" : "var(--border)"}`,
+          gap: "8px",
+          padding: "5px 12px",
+          borderRadius: "var(--radius-pill)",
+          background: connected ? "var(--color-success-dim)" : "var(--color-paper-3)",
+          border: `1px solid ${connected ? "var(--color-success-dim)" : "var(--color-border)"}`,
           fontSize: "12px",
-          color: connected ? "var(--green)" : "var(--text-muted)",
+          fontWeight: 500,
+          color: connected ? "var(--color-success)" : "var(--color-ink-faint)",
+          transition: "background var(--dur-fast) var(--ease-out)",
         }}
       >
         <span
+          className="status-dot"
           style={{
-            width: "6px",
-            height: "6px",
-            borderRadius: "50%",
-            background: connected ? "var(--green)" : "var(--text-muted)",
-            flexShrink: 0,
+            background: connected ? "var(--color-success)" : "var(--color-ink-faint)",
           }}
         />
         {connected ? "Connected" : "Disconnected"}
