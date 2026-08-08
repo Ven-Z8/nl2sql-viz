@@ -9,11 +9,14 @@ from __future__ import annotations
 
 import csv
 import io
+import logging
 import re
 from datetime import datetime
 from typing import Any
 
 from app.db.pool import PostgresPool
+
+logger = logging.getLogger(__name__)
 
 _MAX_ROWS = 20_000_000  # safety cap on uploaded rows (5M–20M target)
 _SAMPLE_SIZE = 1000  # rows used for type inference
@@ -118,7 +121,7 @@ def _coerce(value: str, col_type: str) -> Any:
 
 
 def parse_csv(content: bytes) -> tuple[list[str], list[dict[str, str]]]:
-    """Parse CSV bytes into (columns, rows-as-dicts)."""
+    """Parse CSV bytes into (columns, rows-as-dicts). For small in-memory files."""
     try:
         text = content.decode("utf-8-sig")
     except UnicodeDecodeError:
@@ -135,6 +138,29 @@ def parse_csv(content: bytes) -> tuple[list[str], list[dict[str, str]]]:
     return columns, rows
 
 
+def iter_csv(path: str) -> tuple[list[str], Any]:
+    """Stream a CSV from disk: returns (columns, row iterator).
+
+    Memory-safe for large files — rows are yielded one at a time and the
+    file handle is closed when the iterator is exhausted.
+    """
+    f = open(path, encoding="utf-8-sig", errors="replace")
+    reader = csv.DictReader(f)
+    columns = reader.fieldnames or []
+    if not columns:
+        f.close()
+        raise CSVUploadError("CSV has no header row")
+
+    def gen():
+        try:
+            for row in reader:
+                yield dict(row)
+        finally:
+            f.close()
+
+    return columns, gen()
+
+
 def infer_schema(columns: list[str], rows: list[dict[str, str]]) -> dict[str, str]:
     """Infer a Postgres type per column from a sample of rows."""
     types: dict[str, str] = {}
@@ -148,17 +174,36 @@ async def load_csv(
     pool: PostgresPool,
     table_name: str,
     columns: list[str],
-    rows: list[dict[str, str]],
+    rows: Any,
     types: dict[str, str],
 ) -> int:
-    """Create the table and bulk-load all rows via COPY. Returns row count."""
+    """Create the table and bulk-load rows via COPY. Returns row count.
+
+    ``rows`` may be a list (small files) or an iterator (streamed large
+    files) of dicts keyed by column name.
+    """
     col_defs = ", ".join(f'"{c}" {types[c]}' for c in columns)
     await pool.execute_raw(f'DROP TABLE IF EXISTS "{table_name}"')
     await pool.execute_raw(f'CREATE TABLE "{table_name}" ({col_defs})')
 
-    records = (
-        [_coerce(row.get(c, ""), types[c]) for c in columns]
-        for row in rows
-    )
-    await pool.copy_records(table_name, columns, records)
-    return len(rows)
+    count = 0
+    skipped = 0
+
+    def records():
+        nonlocal count, skipped
+        for row in rows:
+            try:
+                values = [_coerce(row.get(c, ""), types[c]) for c in columns]
+            except (ValueError, TypeError):
+                # Dirty row (e.g. trailing summary lines in some datasets) — skip
+                skipped += 1
+                continue
+            count += 1
+            if count > _MAX_ROWS:
+                raise CSVUploadError(f"CSV exceeds the {_MAX_ROWS:,} row limit")
+            yield values
+
+    await pool.copy_records(table_name, columns, records())
+    if skipped:
+        logger.warning("Skipped %d unparseable rows in %s", skipped, table_name)
+    return count

@@ -11,7 +11,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.core.auth import generate_api_key, hash_api_key, verify_api_key
-from app.core.csv_loader import CSVUploadError, infer_schema, load_csv, parse_csv, sanitize_table_name
+from app.core.csv_loader import CSVUploadError, infer_schema, iter_csv, load_csv, sanitize_table_name
 from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questions
 from app.core.samples import list_samples, load_sample
 from app.core.session import SessionStore
@@ -26,7 +26,7 @@ from app.skills import get_domain_skill, list_domains, skill_guidance
 
 load_dotenv()
 
-QUERY_TIMEOUT_SECONDS = 60
+QUERY_TIMEOUT_SECONDS = 180
 RATE_LIMIT_QUERIES = 10       # max queries per window
 RATE_LIMIT_WINDOW_SECONDS = 60  # rolling window in seconds
 UPLOAD_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://testuser:testpass@localhost:5432/testdb")
@@ -126,10 +126,22 @@ async def upload_csv(
     if not file.filename or not file.filename.lower().endswith(".csv"):
         raise HTTPException(status_code=400, detail="Only .csv files are supported")
 
-    content = await file.read()
+    # Stream the upload to a temp file (memory-safe for large CSVs)
+    import tempfile
+
+    with tempfile.NamedTemporaryFile(suffix=".csv", delete=False) as tmp:
+        tmp_path = tmp.name
+        while chunk := await file.read(1024 * 1024):
+            tmp.write(chunk)
+
     try:
-        columns, rows = parse_csv(content)
-        types = infer_schema(columns, rows)
+        columns, rows = iter_csv(tmp_path)
+        sample: list[dict[str, str]] = []
+        for i, row in enumerate(rows):
+            if i >= 1000:
+                break
+            sample.append(row)
+        types = infer_schema(columns, sample)
         table_name = sanitize_table_name(file.filename)
     except CSVUploadError as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -137,20 +149,24 @@ async def upload_csv(
     pool = PostgresPool(dsn=UPLOAD_DATABASE_URL)
     try:
         await pool.connect()
+        _, rows = iter_csv(tmp_path)
         row_count = await load_csv(pool, table_name, columns, rows, types)
+    except CSVUploadError as e:
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to load CSV: {e}")
     finally:
         await pool.disconnect()
+        if os.path.exists(tmp_path):
+            os.unlink(tmp_path)
 
-    preview = rows[:5]
     return {
         "table_name": table_name,
         "row_count": row_count,
         "columns": columns,
         "types": types,
         "domain": domain,
-        "preview": preview,
+        "preview": sample[:5],
         "dsn": UPLOAD_DATABASE_URL,
     }
 
@@ -212,6 +228,7 @@ async def websocket_query(websocket: WebSocket):
             nl_query = data.get("query", "").strip()
             dsn = data.get("dsn", "")
             domain = data.get("domain", "general")
+            focus_table = data.get("focus_table")
             if not nl_query or not dsn:
                 await websocket.send_json({"type": "error", "message": "query and dsn required"})
                 continue
@@ -240,6 +257,7 @@ async def websocket_query(websocket: WebSocket):
                 coordinator.viz_agent = viz_agent
                 coordinator.cache = query_cache
                 coordinator.connection_id = user_id or "default"
+                coordinator.focus_table = focus_table
                 # Activate the domain skill — injects analyst guidance into SQL generation
                 skill = get_domain_skill(domain)
                 sql_agent.domain_guidance = skill_guidance(skill)

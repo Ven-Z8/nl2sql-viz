@@ -249,7 +249,7 @@ export default function Home() {
     // Prepend to history
     setHistory((prev) => [{ query: question, timestamp: now() }, ...prev]);
 
-    wsRef.current?.sendQuery(question, runtimeDsn, activeDomain);
+    wsRef.current?.sendQuery(question, runtimeDsn, activeDomain, uploadedDataset?.table_name);
   };
 
   const handleUpload = async (file: File, domain: string) => {

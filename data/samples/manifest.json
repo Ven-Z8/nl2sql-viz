@@ -1,4 +1,17 @@
 {
+  "finance_lending": {
+    "name": "Lending Club Loans (real, 2.2M)",
+    "domain": "finance",
+    "description": "2,260,701 real loans, 151 columns — Kaggle Lending Club (2007-2018)",
+    "questions": [
+      "What is the average loan amount by grade?",
+      "What is the total loan amount by year?",
+      "What is the average interest rate by loan status?",
+      "How many loans are fully paid vs defaulted?",
+      "What is the average annual income by home ownership?",
+      "What is the average installment by term?"
+    ]
+  },
   "retail_online": {
     "name": "Online Retail (real)",
     "domain": "retail",

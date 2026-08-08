@@ -9,8 +9,7 @@ from __future__ import annotations
 
 
 from nooa import Agent, strategy
-from nooa.config import CodeActConfig
-from nooa.strategies import CodeActStrategy, PredictStrategy
+from nooa.strategies import PredictStrategy
 
 from app.core.math_tool import MathCalculator
 from app.db.cost import estimate_cost
@@ -98,19 +97,17 @@ class SQLAgent(Agent, llm=SONNET):
         - complex: multi-step analysis, cross-table correlations, CTEs with multiple stages"""
         ...
 
-    @strategy(CodeActStrategy(config=CodeActConfig(max_iterations=8)))
-    async def generate(self, question: str, schema: SchemaMap) -> GeneratedSQL:
+    @strategy(PredictStrategy())
+    async def generate(self, question: str, schema: SchemaMap, sample_text: str = "") -> GeneratedSQL:
         """Generate a safe, correct PostgreSQL query that answers the question.
 
-        Steps you should follow in your Python code:
-        1. Write an initial SQL query based on the schema and question
-        2. Call self.validate_sql(sql) to check it's safe
-        3. Call self.estimate_cost(sql) to check it's efficient
-        4. If cost is too high, add WHERE/GROUP BY/LIMIT and retry
-        5. Optionally call self.execute_query(sql) to verify it returns data
-        6. Return a GeneratedSQL with the final SQL
+        Return a GeneratedSQL with the final SQL and a brief explanation.
 
         The schema is: {schema.compact_repr()}
+
+        Sample data (real rows — use these to understand the column names, grain,
+        and value formats. Pick columns that actually exist in the sample):
+        {sample_text}
 
         Domain guidance (follow these analyst conventions):
         {self.domain_guidance}

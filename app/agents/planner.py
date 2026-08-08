@@ -27,7 +27,7 @@ class QueryPlanner(Agent, llm=HAIKU):
     """
 
     @strategy(PredictStrategy())
-    async def decompose(self, question: str, schema_text: str) -> list[SubQuery]:
+    async def decompose(self, question: str, schema_text: str, sample_text: str = "") -> list[SubQuery]:
         """Split ``question`` into verifiable sub-questions.
 
         Return an empty list if a single query can answer it. Each SubQuery must
@@ -35,5 +35,9 @@ class QueryPlanner(Agent, llm=HAIKU):
 
         Schema context:
         {schema_text}
+
+        Sample data (real rows — use these to understand the data shape, grain,
+        and value formats when choosing columns and writing sub-questions):
+        {sample_text}
         """
         ...

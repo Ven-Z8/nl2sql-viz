@@ -45,13 +45,33 @@ class SchemaMap(BaseModel):
         description="Index names per table",
     )
 
-    def compact_repr(self) -> str:
-        """Produce a compact text representation for LLM context."""
+    def focused(self, focus_table: str | None) -> "SchemaMap":
+        """Return a schema focused on one table — its columns in full, other
+        tables listed by name only. Keeps the LLM context small when the
+        database has many tables (e.g. all uploaded samples)."""
+        if not focus_table or focus_table not in self.tables:
+            return self
+        focused_columns = {focus_table: self.columns.get(focus_table, [])}
+        other_tables = [t for t in self.tables if t != focus_table]
+        return SchemaMap(
+            tables=[focus_table] + other_tables,
+            columns=focused_columns,
+            row_estimates={t: self.row_estimates.get(t, 0) for t in [focus_table] + other_tables},
+            indexes={t: self.indexes.get(t, []) for t in [focus_table] + other_tables},
+        )
+
+    def compact_repr(self, max_columns: int = 40) -> str:
+        """Produce a compact text representation for LLM context.
+
+        Wide tables (e.g. 150-column financial datasets) are truncated to
+        ``max_columns`` per table so the prompt stays fast — the LLM can
+        still query any column, it just doesn't see all of them upfront.
+        """
         lines: list[str] = []
         for table in self.tables:
             cols = self.columns.get(table, [])
             col_strs: list[str] = []
-            for c in cols:
+            for c in cols[:max_columns]:
                 if c.foreign_table and c.foreign_column:
                     tag = f" [FK→{c.foreign_table}.{c.foreign_column}]"
                 elif c.constraint == "PRIMARY KEY":
@@ -61,6 +81,8 @@ class SchemaMap(BaseModel):
                 else:
                     tag = ""
                 col_strs.append(f"{c.column}:{c.type}{tag}")
+            if len(cols) > max_columns:
+                col_strs.append(f"...and {len(cols) - max_columns} more columns")
             rows = self.row_estimates.get(table, 0)
             lines.append(f"{table}(~{rows:,} rows)({', '.join(col_strs)})")
         return "\n".join(lines)

@@ -313,7 +313,7 @@ class TestCoordinatorPipeline:
                 return SchemaMap(tables=["accounts"], columns={"accounts": []})
 
         class StubSQL:
-            async def generate(self, question, schema):
+            async def generate(self, question, schema, sample_text=""):
                 return GeneratedSQL(sql="SELECT region, sales FROM accounts")
 
             async def execute_query(self, sql):
@@ -401,7 +401,7 @@ class TestCoordinatorPipeline:
                 return SchemaMap(tables=["accounts"], columns={"accounts": []})
 
         class StubPlanner:
-            async def decompose(self, question, schema_text):
+            async def decompose(self, question, schema_text, sample_text=""):
                 return [
                     SubQuery(id="q1", question="total revenue", purpose="revenue"),
                     SubQuery(id="q2", question="total cost", purpose="cost"),
@@ -411,7 +411,7 @@ class TestCoordinatorPipeline:
             def __init__(self):
                 self.calls = 0
 
-            async def generate(self, question, schema):
+            async def generate(self, question, schema, sample_text=""):
                 self.calls += 1
                 return GeneratedSQL(sql=f"SELECT {self.calls}")
 

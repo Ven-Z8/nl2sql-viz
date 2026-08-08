@@ -136,6 +136,27 @@ class PostgresPool:
     # Schema introspection
     # ------------------------------------------------------------------
 
+    async def explain(self, sql: str) -> dict[str, Any]:
+        """Run EXPLAIN (FORMAT JSON) and return the plan."""
+        if not self._pool:
+            raise RuntimeError("Not connected — call connect() first")
+
+        async with self._pool.acquire() as conn:
+            rows = await conn.fetch(f"EXPLAIN (FORMAT JSON) {sql}")
+        return rows[0]["QUERY PLAN"][0]
+
+    async def get_sample(self, table_name: str, n: int = 5) -> list[dict[str, Any]]:
+        """Return up to ``n`` sample rows from a table — bounded, for LLM context.
+
+        Lets the planner/agent see real data values (grain, ranges, formats)
+        without loading the whole table. Memory-safe for huge tables.
+        """
+        if not self._pool:
+            raise RuntimeError("Not connected — call connect() first")
+        async with self._pool.acquire() as conn:
+            rows = await conn.fetch(f'SELECT * FROM "{table_name}" LIMIT {n}')
+        return [_normalize_row(dict(r)) for r in rows]
+
     async def get_schema(self) -> SchemaMap:
         """Introspect the database schema and return a typed SchemaMap."""
         if not self._pool:
@@ -218,16 +239,3 @@ class PostgresPool:
             row_estimates=row_estimates,
             indexes=indexes,
         )
-
-    # ------------------------------------------------------------------
-    # Cost estimation
-    # ------------------------------------------------------------------
-
-    async def explain(self, sql: str) -> dict[str, Any]:
-        """Run EXPLAIN (FORMAT JSON) and return the plan."""
-        if not self._pool:
-            raise RuntimeError("Not connected — call connect() first")
-
-        async with self._pool.acquire() as conn:
-            rows = await conn.fetch(f"EXPLAIN (FORMAT JSON) {sql}")
-        return rows[0]["QUERY PLAN"][0]

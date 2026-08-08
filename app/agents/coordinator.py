@@ -54,6 +54,18 @@ def _title(label: str) -> str:
     return label.replace("_", " ").title()
 
 
+def _sample_text(table_name: str, sample: list[dict[str, Any]]) -> str:
+    """Render sample rows as a compact table for LLM context."""
+    if not sample:
+        return ""
+    columns = list(sample[0].keys())
+    header = " | ".join(columns)
+    lines = [f"Sample data from {table_name} (first {len(sample)} rows):", header]
+    for row in sample:
+        lines.append(" | ".join(str(row.get(c, ""))[:24] for c in columns))
+    return "\n".join(lines)
+
+
 class CoordinatorAgent(Agent, llm=SONNET):
     """You are the analytics coordinator for NL2SQL Viz.
     You orchestrate the full pipeline: schema → plan → SQL → execute → answer → visualize.
@@ -75,6 +87,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
     viz_agent: VizAgent
     cache: QueryCache
     connection_id: str = "default"
+    focus_table: str | None = None
 
     # ------------------------------------------------------------------
     # Deterministic helpers
@@ -155,9 +168,11 @@ class CoordinatorAgent(Agent, llm=SONNET):
             sub_queries=sub_queries,
         )
 
-    async def _run_single(self, question: str, schema) -> QueryResult:
+    async def _run_single(self, question: str, schema, sample_text: str = "") -> QueryResult:
         """Generate + validate + execute one grounded query."""
-        generated = await self.sql_agent.generate(question=question, schema=schema)
+        generated = await self.sql_agent.generate(
+            question=question, schema=schema, sample_text=sample_text
+        )
         validate_read_only(generated.sql)
         return await self.sql_agent.execute_query(generated.sql)
 
@@ -194,12 +209,31 @@ class CoordinatorAgent(Agent, llm=SONNET):
         # 2. Schema introspection
         yield {"type": "progress", "message": "Analyzing database schema..."}
         schema = await self.schema_agent.fetch_schema()
+        # Focus on the active table so the LLM doesn't wade through every
+        # uploaded sample table in the demo database
+        schema = schema.focused(self.focus_table)
 
-        # 3. Query planning — decompose complex questions into sub-queries
-        sub_queries: list[SubQuery] = []
-        if self.planner is not None:
+        # 2b. Sample real rows so the planner/agent understand the data shape
+        sample_text = ""
+        if schema.tables:
             try:
-                sub_queries = await self.planner.decompose(nl_query, schema.compact_repr())
+                sample = await self.sql_agent.pool.get_sample(schema.tables[0], n=5)
+                sample_text = _sample_text(schema.tables[0], sample)
+            except Exception:
+                sample_text = ""  # sampling is best-effort
+
+        # 3. Query planning — decompose only genuinely complex questions
+        # (deterministic classification first; the LLM planner is slow and
+        # only worth it for multi-part questions)
+        sub_queries: list[SubQuery] = []
+        needs_decomposition = any(
+            h in nl_query.lower() for h in ("compare", "vs ", "versus", "difference between", "and also", "plus ")
+        )
+        if self.planner is not None and needs_decomposition:
+            try:
+                sub_queries = await self.planner.decompose(
+                    nl_query, schema.compact_repr(), sample_text
+                )
             except Exception:
                 sub_queries = []  # fall back to single query on planner failure
 
@@ -214,7 +248,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
             for sq in sub_queries:
                 yield {"type": "progress", "message": f"Sub-query: {sq.question}"}
                 try:
-                    result = await self._run_single(sq.question, schema)
+                    result = await self._run_single(sq.question, schema, sample_text)
                 except Exception as e:
                     yield {"type": "progress", "message": f"Sub-query failed: {e}"}
                     continue
@@ -226,7 +260,9 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 return
         else:
             yield {"type": "progress", "message": "Generating SQL query..."}
-            generated = await self.sql_agent.generate(question=nl_query, schema=schema)
+            generated = await self.sql_agent.generate(
+                question=nl_query, schema=schema, sample_text=sample_text
+            )
             sql = generated.sql
             validate_read_only(sql)
             yield {"type": "sql", "sql": sql}

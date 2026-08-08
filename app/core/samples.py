@@ -10,10 +10,11 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from app.core.csv_loader import infer_schema, load_csv, parse_csv
+from app.core.csv_loader import infer_schema, iter_csv, load_csv
 from app.db.pool import PostgresPool
 
 _SAMPLES_DIR = Path(__file__).resolve().parents[2] / "data" / "samples"
+_SAMPLE_SIZE = 1000
 
 
 def _load_manifest() -> dict[str, dict[str, str]]:
@@ -43,10 +44,18 @@ async def load_sample(pool: PostgresPool, sample_id: str, dsn: str) -> dict:
         raise KeyError(sample_id)
     meta = manifest[sample_id]
     csv_path = _SAMPLES_DIR / f"{sample_id}.csv"
-    content = csv_path.read_bytes()
-    columns, rows = parse_csv(content)
-    types = infer_schema(columns, rows)
+
+    # Stream the CSV — memory-safe for large files (e.g. 2.2M-row Lending Club)
+    columns, rows = iter_csv(str(csv_path))
+    sample: list[dict[str, str]] = []
+    for i, row in enumerate(rows):
+        if i >= _SAMPLE_SIZE:
+            break
+        sample.append(row)
+    types = infer_schema(columns, sample)
+
     table_name = f"upload_{sample_id}"
+    _, rows = iter_csv(str(csv_path))  # fresh iterator for the full load
     row_count = await load_csv(pool, table_name, columns, rows, types)
     return {
         "table_name": table_name,
@@ -54,7 +63,7 @@ async def load_sample(pool: PostgresPool, sample_id: str, dsn: str) -> dict:
         "columns": columns,
         "types": types,
         "domain": meta["domain"],
-        "preview": rows[:5],
+        "preview": sample[:5],
         "dsn": dsn,
         "questions": meta.get("questions", []),
     }
