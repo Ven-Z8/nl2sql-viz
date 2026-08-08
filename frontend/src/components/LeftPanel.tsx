@@ -61,43 +61,13 @@ export default function LeftPanel({
         overflow: "hidden",
       }}
     >
-      {/* Workspace */}
-      <div
-        style={{
-          padding: "var(--space-5) var(--space-5) var(--space-4)",
-          borderBottom: "1px solid var(--color-border-subtle)",
-          flexShrink: 0,
-        }}
-      >
-        <div style={SECTION_LABEL}>Workspace</div>
-        <div
-          style={{
-            fontSize: "14px",
-            fontWeight: 600,
-            color: "var(--color-ink)",
-            letterSpacing: "-0.01em",
-          }}
-        >
-          {datasetName || "Postgres Workspace"}
-        </div>
-        <div
-          style={{
-            fontSize: "12px",
-            color: "var(--color-ink-dim)",
-            marginTop: "4px",
-            fontFamily: "var(--font-mono)",
-          }}
-        >
-          {connectionLabel}
-        </div>
-      </div>
-
-      {/* Query composer — always visible */}
+      {/* Query composer — always pinned at top */}
       <div
         style={{
           padding: "var(--space-5)",
           borderBottom: "1px solid var(--color-border-subtle)",
           flexShrink: 0,
+          background: "var(--color-paper-2)",
         }}
       >
         <textarea
@@ -173,139 +143,177 @@ export default function LeftPanel({
         </div>
       </div>
 
-      {/* Suggested questions */}
+      {/* Scrollable content below the composer */}
       <div
         style={{
-          padding: "var(--space-4) var(--space-5)",
-          borderBottom: "1px solid var(--color-border-subtle)",
-          flexShrink: 0,
+          flex: 1,
+          overflowY: "auto",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        <div style={SECTION_LABEL}>Suggested Analysis</div>
-        {suggestedQuestions.length === 0 && (
-          <p style={{ fontSize: "12.5px", color: "var(--color-ink-faint)", lineHeight: 1.5 }}>
-            Connect a database or configure demo mode to see sample questions.
-          </p>
-        )}
-        {suggestedQuestions.map((item, i) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={() => onSuggestedQuestionClick(item.question)}
-            disabled={isLoading}
+        {/* Workspace */}
+        <div
+          style={{
+            padding: "var(--space-5) var(--space-5) var(--space-4)",
+            borderBottom: "1px solid var(--color-border-subtle)",
+          }}
+        >
+          <div style={SECTION_LABEL}>Workspace</div>
+          <div
             style={{
-              width: "100%",
-              textAlign: "left",
-              padding: "10px 12px",
-              borderRadius: "var(--radius-md)",
-              border: "1px solid var(--color-border-subtle)",
-              background: "var(--color-paper-3)",
+              fontSize: "14px",
+              fontWeight: 600,
               color: "var(--color-ink)",
-              marginBottom: "var(--space-2)",
-              cursor: isLoading ? "not-allowed" : "pointer",
-              opacity: isLoading ? 0.55 : 1,
-              transition:
-                "transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast), opacity var(--dur-fast)",
-            }}
-            onMouseEnter={(e) => {
-              if (!isLoading) {
-                (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
-                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-accent-dim)";
-              }
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
-              (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-border-subtle)";
+              letterSpacing: "-0.01em",
             }}
           >
-            <span
-              style={{
-                display: "block",
-                fontSize: "10px",
-                fontWeight: 600,
-                color: "var(--color-accent)",
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
-                marginBottom: "3px",
-              }}
-            >
-              {item.category}
-            </span>
-            <span style={{ display: "block", fontSize: "12.5px", lineHeight: 1.45 }}>
-              {item.question}
-            </span>
-          </button>
-        ))}
-      </div>
+            {datasetName || "Postgres Workspace"}
+          </div>
+          <div
+            style={{
+              fontSize: "12px",
+              color: "var(--color-ink-dim)",
+              marginTop: "4px",
+              fontFamily: "var(--font-mono)",
+            }}
+          >
+            {connectionLabel}
+          </div>
+        </div>
 
-      {/* Activity */}
-      <div
-        style={{
-          padding: "var(--space-4) var(--space-5)",
-          borderBottom: "1px solid var(--color-border-subtle)",
-          flexShrink: 0,
-        }}
-      >
-        <div style={SECTION_LABEL}>Activity</div>
-        <LogStream logs={logs} />
-      </div>
-
-      {/* History */}
-      <div style={{ flex: 1, overflowY: "auto", padding: "var(--space-4) var(--space-5)" }}>
-        <div style={SECTION_LABEL}>History</div>
-        {history.length === 0 && (
-          <p style={{ fontSize: "12.5px", color: "var(--color-ink-faint)" }}>No queries yet.</p>
-        )}
-        {history.map((item, i) => {
-          const isActive = i === activeHistoryIndex;
-          return (
-            <div
-              key={i}
-              onClick={() => onHistoryClick(item.query)}
+        {/* Suggested questions */}
+        <div
+          style={{
+            padding: "var(--space-4) var(--space-5)",
+            borderBottom: "1px solid var(--color-border-subtle)",
+          }}
+        >
+          <div style={SECTION_LABEL}>Suggested Analysis</div>
+          {suggestedQuestions.length === 0 && (
+            <p style={{ fontSize: "12.5px", color: "var(--color-ink-faint)", lineHeight: 1.5 }}>
+              Connect a database or configure demo mode to see sample questions.
+            </p>
+          )}
+          {suggestedQuestions.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => onSuggestedQuestionClick(item.question)}
+              disabled={isLoading}
               style={{
+                width: "100%",
+                textAlign: "left",
                 padding: "10px 12px",
                 borderRadius: "var(--radius-md)",
-                marginBottom: "4px",
-                cursor: "pointer",
-                background: isActive ? "var(--color-accent-dim)" : "transparent",
-                border: `1px solid ${isActive ? "var(--color-accent-dim)" : "transparent"}`,
-                transition: "background var(--dur-fast) var(--ease-out)",
+                border: "1px solid var(--color-border-subtle)",
+                background: "var(--color-paper-3)",
+                color: "var(--color-ink)",
+                marginBottom: "var(--space-2)",
+                cursor: isLoading ? "not-allowed" : "pointer",
+                opacity: isLoading ? 0.55 : 1,
+                transition:
+                  "transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast), opacity var(--dur-fast)",
               }}
               onMouseEnter={(e) => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLDivElement).style.background = "var(--color-paper-3)";
+                if (!isLoading) {
+                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-accent-dim)";
                 }
               }}
               onMouseLeave={(e) => {
-                if (!isActive) {
-                  (e.currentTarget as HTMLDivElement).style.background = "transparent";
-                }
+                (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
+                (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-border-subtle)";
               }}
             >
-              <div
+              <span
                 style={{
-                  fontSize: "12.5px",
-                  color: "var(--color-ink)",
-                  whiteSpace: "nowrap",
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
+                  display: "block",
+                  fontSize: "10px",
+                  fontWeight: 600,
+                  color: "var(--color-accent)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.08em",
+                  marginBottom: "3px",
                 }}
               >
-                {item.query}
-              </div>
+                {item.category}
+              </span>
+              <span style={{ display: "block", fontSize: "12.5px", lineHeight: 1.45 }}>
+                {item.question}
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* Activity */}
+        <div
+          style={{
+            padding: "var(--space-4) var(--space-5)",
+            borderBottom: "1px solid var(--color-border-subtle)",
+          }}
+        >
+          <div style={SECTION_LABEL}>Activity</div>
+          <LogStream logs={logs} />
+        </div>
+
+        {/* History */}
+        <div style={{ padding: "var(--space-4) var(--space-5)" }}>
+          <div style={SECTION_LABEL}>History</div>
+          {history.length === 0 && (
+            <p style={{ fontSize: "12.5px", color: "var(--color-ink-faint)" }}>No queries yet.</p>
+          )}
+          {history.map((item, i) => {
+            const isActive = i === activeHistoryIndex;
+            return (
               <div
+                key={i}
+                onClick={() => onHistoryClick(item.query)}
                 style={{
-                  fontSize: "11px",
-                  color: "var(--color-ink-faint)",
-                  marginTop: "3px",
-                  fontFamily: "var(--font-mono)",
+                  padding: "10px 12px",
+                  borderRadius: "var(--radius-md)",
+                  marginBottom: "4px",
+                  cursor: "pointer",
+                  background: isActive ? "var(--color-accent-dim)" : "transparent",
+                  border: `1px solid ${isActive ? "var(--color-accent-dim)" : "transparent"}`,
+                  transition: "background var(--dur-fast) var(--ease-out)",
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    (e.currentTarget as HTMLDivElement).style.background = "var(--color-paper-3)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    (e.currentTarget as HTMLDivElement).style.background = "transparent";
+                  }
                 }}
               >
-                {item.timestamp}
+                <div
+                  style={{
+                    fontSize: "12.5px",
+                    color: "var(--color-ink)",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {item.query}
+                </div>
+                <div
+                  style={{
+                    fontSize: "11px",
+                    color: "var(--color-ink-faint)",
+                    marginTop: "3px",
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
+                  {item.timestamp}
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </aside>
   );

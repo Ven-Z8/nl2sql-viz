@@ -451,7 +451,7 @@ export default function RightPanel({
             >
               Result Rows
             </div>
-            <div style={{ overflow: "auto", maxHeight: "240px" }}>
+            <div style={{ overflow: "auto", maxHeight: "320px" }}>
               <table
                 style={{
                   width: "100%",
@@ -460,7 +460,14 @@ export default function RightPanel({
                   fontVariantNumeric: "tabular-nums",
                 }}
               >
-                <thead>
+                <thead
+                  style={{
+                    position: "sticky",
+                    top: 0,
+                    background: "var(--color-paper-2)",
+                    zIndex: 1,
+                  }}
+                >
                   <tr>
                     {rowColumns.map((column) => (
                       <th
@@ -482,7 +489,7 @@ export default function RightPanel({
                   </tr>
                 </thead>
                 <tbody>
-                  {rows.slice(0, 8).map((row, index) => (
+                  {rows.map((row, index) => (
                     <tr key={index}>
                       {rowColumns.map((column) => (
                         <td
