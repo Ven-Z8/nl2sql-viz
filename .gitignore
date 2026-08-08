@@ -41,3 +41,9 @@ docs/harness/
 **/docs/superpowers/
 .scratch/
 tasks/
+
+# Large local dataset files (test fixtures, downloads)
+scripts/*.zip
+scripts/*.xlsx
+scripts/online_retail_ii*/
+scripts/online_retail_ii.csv
