@@ -119,7 +119,10 @@ export default function Home() {
             e.active ? { ...e, active: false, icon: "done" as const } : e
           )
         );
-        setVegaSpec(event.vega_spec as string);
+        const chartSpec = event.chart_spec as
+          | { spec?: Record<string, unknown> }
+          | undefined;
+        setVegaSpec(chartSpec?.spec ? JSON.stringify(chartSpec.spec) : null);
         setRows((event.rows as Record<string, unknown>[] | undefined) ?? []);
         if (event.sql) setSql(event.sql as string);
         setIsLoading(false);
