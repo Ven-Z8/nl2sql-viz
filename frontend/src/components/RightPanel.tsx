@@ -1,5 +1,9 @@
 "use client";
-import VegaChart from "./VegaChart";
+import dynamic from "next/dynamic";
+
+// vega-embed must never be evaluated during SSR — its module-level code
+// (a Set-based expression guard) breaks the RSC serialization boundary.
+const VegaChart = dynamic(() => import("./VegaChart"), { ssr: false });
 
 interface Metric {
   label: string;
@@ -203,23 +207,88 @@ export default function RightPanel({
                 color: "var(--color-accent)",
                 textTransform: "uppercase",
                 letterSpacing: "0.1em",
-                marginBottom: "6px",
+                marginBottom: "var(--space-3)",
                 fontFamily: "var(--font-mono)",
               }}
             >
               Grounded answer
             </div>
-            <div
-              style={{
-                fontSize: "15px",
-                fontWeight: 600,
-                color: "var(--color-ink)",
-                lineHeight: 1.5,
-                letterSpacing: "-0.01em",
-              }}
-            >
-              {answer.text}
-            </div>
+
+            {answer.metrics.length > 0 ? (
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+                  gap: "var(--space-3)",
+                }}
+              >
+                {answer.metrics.map((m) => (
+                  <div
+                    key={m.label}
+                    style={{
+                      display: "flex",
+                      alignItems: "baseline",
+                      justifyContent: "space-between",
+                      gap: "var(--space-3)",
+                      padding: "10px 14px",
+                      borderRadius: "var(--radius-md)",
+                      background: "var(--color-paper-3)",
+                      border: "1px solid var(--color-border-subtle)",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        color: "var(--color-ink-dim)",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {titleCase(m.label)}
+                    </span>
+                    <span
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: 700,
+                        color: "var(--color-ink)",
+                        fontFamily: "var(--font-mono)",
+                        fontVariantNumeric: "tabular-nums",
+                        letterSpacing: "-0.02em",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      {formatValue(m.value)}
+                      {m.unit && (
+                        <span
+                          style={{
+                            fontSize: "11px",
+                            color: "var(--color-ink-faint)",
+                            marginLeft: "3px",
+                            fontWeight: 500,
+                          }}
+                        >
+                          {m.unit}
+                        </span>
+                      )}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div
+                style={{
+                  fontSize: "15px",
+                  fontWeight: 600,
+                  color: "var(--color-ink)",
+                  lineHeight: 1.5,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {answer.text}
+              </div>
+            )}
+
             {answer.sub_queries.length > 0 && (
               <div
                 style={{

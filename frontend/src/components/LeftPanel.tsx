@@ -66,6 +66,7 @@ export default function LeftPanel({
         style={{
           padding: "var(--space-5) var(--space-5) var(--space-4)",
           borderBottom: "1px solid var(--color-border-subtle)",
+          flexShrink: 0,
         }}
       >
         <div style={SECTION_LABEL}>Workspace</div>
@@ -91,11 +92,12 @@ export default function LeftPanel({
         </div>
       </div>
 
-      {/* Query composer */}
+      {/* Query composer — always visible */}
       <div
         style={{
           padding: "var(--space-5)",
           borderBottom: "1px solid var(--color-border-subtle)",
+          flexShrink: 0,
         }}
       >
         <textarea
@@ -176,6 +178,7 @@ export default function LeftPanel({
         style={{
           padding: "var(--space-4) var(--space-5)",
           borderBottom: "1px solid var(--color-border-subtle)",
+          flexShrink: 0,
         }}
       >
         <div style={SECTION_LABEL}>Suggested Analysis</div>
@@ -240,6 +243,7 @@ export default function LeftPanel({
         style={{
           padding: "var(--space-4) var(--space-5)",
           borderBottom: "1px solid var(--color-border-subtle)",
+          flexShrink: 0,
         }}
       >
         <div style={SECTION_LABEL}>Activity</div>

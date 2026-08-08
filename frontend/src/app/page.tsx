@@ -184,8 +184,9 @@ export default function Home() {
     };
   }, []);
 
-  const handleSubmit = () => {
-    if (!query.trim() || isLoading) return;
+  const handleSubmit = (q?: string) => {
+    const question = (q ?? query).trim();
+    if (!question || isLoading) return;
 
     if (!wsRef.current) {
       setLogs((prev) => [
@@ -212,12 +213,12 @@ export default function Home() {
     setQueryType(null);
     setAnswer(null);
     setIsLoading(true);
-    setResultTitle(query);
+    setResultTitle(question);
 
     // Prepend to history
-    setHistory((prev) => [{ query, timestamp: now() }, ...prev]);
+    setHistory((prev) => [{ query: question, timestamp: now() }, ...prev]);
 
-    wsRef.current?.sendQuery(query, runtimeDsn);
+    wsRef.current?.sendQuery(question, runtimeDsn);
   };
 
   return (
@@ -236,7 +237,10 @@ export default function Home() {
           history={history}
           activeHistoryIndex={history.length > 0 ? 0 : null}
           onHistoryClick={(q) => setQuery(q)}
-          onSuggestedQuestionClick={(q) => setQuery(q)}
+          onSuggestedQuestionClick={(q) => {
+            setQuery(q);
+            handleSubmit(q);
+          }}
         />
         <RightPanel
           title={resultTitle}
