@@ -1,0 +1,2001 @@
+order_id,customer_id,order_date,region,category,product,quantity,unit_price,amount,status
+1,C1057,2024-01-13,East,Clothing,Jeans,2,370.86,741.72,pending
+2,C1279,2024-02-14,Central,Sports,Yoga Mat,1,55.9,55.9,completed
+3,C1258,2024-11-04,North,Beauty,Moisturizer,5,215.55,1077.75,completed
+4,C1142,2024-01-04,South,Books,Sci-Fi,3,146.15,438.45,completed
+5,C1172,2024-02-22,North,Sports,Yoga Mat,3,425.26,1275.78,refunded
+6,C1135,2024-01-23,West,Beauty,Serum,4,48.6,194.4,completed
+7,C1185,2024-10-22,South,Books,Novel,1,334.01,334.01,completed
+8,C1040,2024-04-29,North,Sports,Water Bottle,4,321.48,1285.92,completed
+9,C1083,2024-07-08,East,Clothing,Jacket,1,308.46,308.46,completed
+10,C1273,2024-05-05,South,Sports,Resistance Band,3,494.86,1484.58,pending
+11,C1285,2024-04-22,East,Electronics,Smartwatch,1,404.46,404.46,completed
+12,C1137,2024-02-03,South,Beauty,Sunscreen,2,331.15,662.3,completed
+13,C1234,2024-03-14,East,Clothing,Jeans,5,274.09,1370.45,pending
+14,C1299,2024-08-07,Central,Sports,Water Bottle,2,498.68,997.36,completed
+15,C1260,2024-09-09,North,Electronics,Headphones,2,317.44,634.88,pending
+16,C1216,2024-11-01,North,Sports,Resistance Band,5,498.09,2490.45,refunded
+17,C1128,2024-10-10,North,Books,Novel,5,377.92,1889.6,pending
+18,C1174,2024-02-27,East,Sports,Dumbbells,4,11.58,46.32,pending
+19,C1134,2024-09-13,South,Beauty,Serum,3,422.41,1267.23,refunded
+20,C1101,2024-03-19,East,Clothing,Dress,5,460.05,2300.25,refunded
+21,C1165,2024-09-07,North,Electronics,Speaker,3,127.32,381.96,completed
+22,C1290,2024-02-10,North,Books,Sci-Fi,1,489.2,489.2,refunded
+23,C1064,2024-03-06,West,Beauty,Moisturizer,3,268.55,805.65,refunded
+24,C1216,2024-04-18,Central,Books,Cookbook,3,205.5,616.5,pending
+25,C1191,2024-08-12,Central,Sports,Yoga Mat,2,120.09,240.18,completed
+26,C1010,2024-10-28,Central,Clothing,Dress,2,13.51,27.02,pending
+27,C1030,2024-04-27,North,Electronics,Speaker,1,261.93,261.93,completed
+28,C1248,2024-04-19,Central,Clothing,Dress,5,241.6,1208.0,completed
+29,C1208,2024-04-07,North,Electronics,Charger,3,217.54,652.62,completed
+30,C1027,2024-12-10,North,Electronics,Charger,3,402.28,1206.84,completed
+31,C1127,2024-04-08,South,Beauty,Shampoo,2,216.71,433.42,completed
+32,C1236,2024-05-07,North,Sports,Jump Rope,1,34.78,34.78,refunded
+33,C1007,2024-02-17,South,Clothing,Sneakers,4,245.86,983.44,completed
+34,C1030,2024-03-25,West,Electronics,Charger,3,463.98,1391.94,completed
+35,C1146,2024-08-04,Central,Books,Sci-Fi,2,103.04,206.08,completed
+36,C1029,2024-10-23,Central,Electronics,Speaker,1,34.56,34.56,completed
+37,C1257,2024-09-28,South,Electronics,Keyboard,1,427.15,427.15,completed
+38,C1034,2024-12-11,South,Sports,Yoga Mat,5,130.64,653.2,refunded
+39,C1020,2024-11-13,North,Sports,Jump Rope,5,266.15,1330.75,completed
+40,C1104,2024-12-08,East,Clothing,Jacket,4,74.12,296.48,pending
+41,C1153,2024-08-22,East,Electronics,Headphones,4,314.36,1257.44,refunded
+42,C1051,2024-02-07,Central,Clothing,Dress,3,74.89,224.67,completed
+43,C1035,2024-05-05,East,Home,Pillow,4,418.53,1674.12,pending
+44,C1154,2024-11-09,Central,Electronics,Keyboard,3,466.55,1399.65,completed
+45,C1068,2024-05-15,North,Electronics,Keyboard,2,143.44,286.88,refunded
+46,C1107,2024-06-24,South,Books,Biography,5,249.37,1246.85,completed
+47,C1047,2024-11-20,West,Home,Lamp,1,173.43,173.43,completed
+48,C1134,2024-03-23,West,Beauty,Shampoo,5,14.73,73.65,completed
+49,C1076,2024-10-06,North,Home,Candle,5,82.56,412.8,completed
+50,C1021,2024-06-06,East,Electronics,Speaker,2,344.2,688.4,pending
+51,C1052,2024-06-30,Central,Sports,Jump Rope,2,463.61,927.22,completed
+52,C1083,2024-03-31,West,Electronics,Smartwatch,3,393.36,1180.08,completed
+53,C1127,2024-05-16,South,Books,Novel,4,437.35,1749.4,completed
+54,C1113,2024-04-12,West,Home,Mug Set,2,119.22,238.44,pending
+55,C1098,2024-07-23,East,Home,Lamp,3,182.05,546.15,refunded
+56,C1204,2024-12-13,Central,Home,Lamp,1,439.74,439.74,completed
+57,C1091,2024-10-24,East,Electronics,Headphones,5,222.93,1114.65,pending
+58,C1160,2024-08-11,Central,Beauty,Serum,4,450.75,1803.0,completed
+59,C1130,2024-01-23,West,Electronics,Keyboard,5,346.55,1732.75,pending
+60,C1100,2024-07-05,West,Electronics,Speaker,5,163.81,819.05,completed
+61,C1153,2024-09-16,East,Books,Sci-Fi,3,207.17,621.51,completed
+62,C1283,2024-03-06,South,Sports,Resistance Band,2,311.59,623.18,completed
+63,C1207,2024-10-07,North,Home,Mug Set,2,220.64,441.28,refunded
+64,C1164,2024-08-26,West,Sports,Dumbbells,5,241.85,1209.25,pending
+65,C1086,2024-12-03,North,Home,Candle,5,174.23,871.15,completed
+66,C1158,2024-04-25,South,Clothing,T-Shirt,1,129.96,129.96,completed
+67,C1037,2024-08-21,West,Books,History,2,361.98,723.96,completed
+68,C1253,2024-07-23,South,Clothing,T-Shirt,1,391.42,391.42,completed
+69,C1090,2024-12-22,Central,Sports,Yoga Mat,5,132.1,660.5,completed
+70,C1233,2024-03-09,West,Books,History,5,301.76,1508.8,completed
+71,C1258,2024-08-06,Central,Sports,Dumbbells,4,230.52,922.08,completed
+72,C1141,2024-09-23,West,Books,Cookbook,3,225.53,676.59,pending
+73,C1146,2024-04-30,East,Home,Mug Set,5,49.47,247.35,completed
+74,C1118,2024-07-15,South,Books,Cookbook,1,213.28,213.28,completed
+75,C1277,2024-08-26,West,Electronics,Smartwatch,4,200.83,803.32,refunded
+76,C1010,2024-10-21,West,Sports,Yoga Mat,3,156.31,468.93,completed
+77,C1214,2024-10-02,Central,Beauty,Moisturizer,4,117.51,470.04,completed
+78,C1248,2024-01-15,West,Home,Blanket,2,421.84,843.68,completed
+79,C1273,2024-01-14,West,Beauty,Lip Balm,1,51.12,51.12,completed
+80,C1069,2024-08-24,South,Electronics,Speaker,4,170.39,681.56,completed
+81,C1167,2024-06-21,West,Home,Blanket,3,419.1,1257.3,completed
+82,C1009,2024-10-03,North,Home,Pillow,1,392.79,392.79,pending
+83,C1020,2024-01-16,South,Clothing,T-Shirt,5,84.66,423.3,completed
+84,C1242,2024-12-08,North,Beauty,Moisturizer,4,352.73,1410.92,completed
+85,C1085,2024-11-06,Central,Books,Novel,2,482.7,965.4,completed
+86,C1296,2024-01-14,East,Beauty,Shampoo,4,471.31,1885.24,completed
+87,C1038,2024-10-30,South,Electronics,Speaker,5,404.7,2023.5,refunded
+88,C1021,2024-06-26,Central,Sports,Water Bottle,1,257.91,257.91,completed
+89,C1006,2024-08-03,West,Electronics,Charger,3,321.43,964.29,completed
+90,C1078,2024-08-10,South,Books,History,3,311.79,935.37,refunded
+91,C1247,2024-08-26,West,Books,History,3,167.92,503.76,completed
+92,C1044,2024-05-22,West,Clothing,Sneakers,5,309.05,1545.25,completed
+93,C1172,2024-01-15,West,Home,Pillow,4,113.93,455.72,completed
+94,C1174,2024-05-23,Central,Books,Biography,5,14.96,74.8,completed
+95,C1043,2024-05-03,West,Sports,Jump Rope,2,348.39,696.78,pending
+96,C1251,2024-08-17,North,Electronics,Speaker,2,208.15,416.3,completed
+97,C1156,2024-12-05,Central,Home,Blanket,5,270.14,1350.7,completed
+98,C1281,2024-06-18,East,Books,Sci-Fi,3,160.24,480.72,completed
+99,C1061,2024-04-08,East,Electronics,Keyboard,2,103.85,207.7,pending
+100,C1247,2024-05-21,Central,Beauty,Lip Balm,3,490.44,1471.32,completed
+101,C1151,2024-04-26,East,Clothing,Jacket,1,356.92,356.92,completed
+102,C1140,2024-01-24,North,Beauty,Sunscreen,2,322.55,645.1,completed
+103,C1052,2024-01-07,Central,Home,Blanket,4,225.82,903.28,completed
+104,C1026,2024-05-09,West,Electronics,Headphones,4,250.95,1003.8,refunded
+105,C1027,2024-03-18,South,Beauty,Sunscreen,1,497.01,497.01,completed
+106,C1285,2024-08-01,Central,Beauty,Lip Balm,2,390.08,780.16,completed
+107,C1230,2024-08-14,East,Beauty,Shampoo,3,288.62,865.86,completed
+108,C1050,2024-04-16,South,Home,Lamp,2,127.52,255.04,refunded
+109,C1038,2024-03-21,North,Sports,Resistance Band,5,240.25,1201.25,completed
+110,C1118,2024-05-27,East,Books,Sci-Fi,1,346.81,346.81,completed
+111,C1101,2024-08-05,North,Beauty,Moisturizer,2,455.11,910.22,completed
+112,C1036,2024-01-31,South,Home,Candle,5,461.37,2306.85,completed
+113,C1063,2024-08-27,East,Books,Sci-Fi,3,255.22,765.66,completed
+114,C1224,2024-02-11,Central,Electronics,Charger,3,305.81,917.43,completed
+115,C1046,2024-04-27,Central,Beauty,Serum,3,292.35,877.05,completed
+116,C1240,2024-09-22,West,Home,Pillow,5,223.57,1117.85,completed
+117,C1046,2024-08-28,East,Sports,Water Bottle,3,338.36,1015.08,completed
+118,C1168,2024-07-29,West,Home,Blanket,5,27.97,139.85,completed
+119,C1161,2024-05-09,East,Electronics,Charger,5,414.2,2071.0,completed
+120,C1277,2024-08-24,West,Electronics,Smartwatch,5,187.26,936.3,completed
+121,C1226,2024-01-27,South,Home,Candle,2,464.55,929.1,completed
+122,C1248,2024-03-03,North,Books,History,2,357.78,715.56,completed
+123,C1282,2024-01-08,Central,Sports,Yoga Mat,2,496.2,992.4,completed
+124,C1236,2024-03-01,South,Sports,Water Bottle,5,355.64,1778.2,completed
+125,C1247,2024-08-29,South,Sports,Jump Rope,2,197.95,395.9,refunded
+126,C1260,2024-03-10,North,Home,Blanket,3,467.77,1403.31,refunded
+127,C1136,2024-01-02,East,Books,Biography,5,294.15,1470.75,pending
+128,C1250,2024-03-17,West,Beauty,Shampoo,3,172.89,518.67,refunded
+129,C1193,2024-08-21,East,Clothing,Jeans,5,197.65,988.25,completed
+130,C1022,2024-06-11,West,Books,Sci-Fi,4,494.31,1977.24,pending
+131,C1077,2024-09-10,North,Clothing,Dress,5,172.67,863.35,completed
+132,C1225,2024-02-21,Central,Sports,Yoga Mat,2,210.88,421.76,pending
+133,C1079,2024-02-08,West,Home,Mug Set,5,349.42,1747.1,pending
+134,C1041,2024-06-17,Central,Sports,Water Bottle,4,437.46,1749.84,completed
+135,C1035,2024-04-30,East,Clothing,T-Shirt,4,489.38,1957.52,pending
+136,C1051,2024-08-15,South,Books,Biography,1,32.53,32.53,completed
+137,C1150,2024-07-02,East,Sports,Dumbbells,2,270.26,540.52,refunded
+138,C1092,2024-03-28,South,Electronics,Keyboard,4,313.65,1254.6,completed
+139,C1254,2024-10-25,South,Clothing,Sneakers,3,235.18,705.54,pending
+140,C1004,2024-08-26,East,Books,History,2,46.18,92.36,completed
+141,C1153,2024-11-23,West,Books,Biography,4,424.19,1696.76,completed
+142,C1196,2024-09-04,North,Clothing,Sneakers,5,185.88,929.4,completed
+143,C1151,2024-01-12,West,Home,Lamp,5,433.87,2169.35,pending
+144,C1025,2024-11-06,West,Home,Pillow,5,402.94,2014.7,completed
+145,C1097,2024-11-13,East,Books,Cookbook,1,452.66,452.66,pending
+146,C1020,2024-06-07,West,Electronics,Keyboard,3,368.85,1106.55,completed
+147,C1151,2024-06-16,West,Clothing,Jeans,2,395.38,790.76,completed
+148,C1271,2024-09-13,East,Clothing,Jacket,4,484.01,1936.04,completed
+149,C1173,2024-02-28,West,Electronics,Smartwatch,2,431.46,862.92,pending
+150,C1203,2024-10-12,East,Electronics,Charger,1,139.57,139.57,completed
+151,C1232,2024-07-07,East,Beauty,Shampoo,3,63.08,189.24,completed
+152,C1241,2024-01-13,Central,Beauty,Sunscreen,5,118.46,592.3,completed
+153,C1237,2024-12-24,East,Books,Sci-Fi,1,78.48,78.48,completed
+154,C1155,2024-09-09,North,Electronics,Smartwatch,5,76.47,382.35,completed
+155,C1189,2024-12-09,Central,Sports,Jump Rope,2,443.84,887.68,pending
+156,C1050,2024-09-07,Central,Sports,Water Bottle,1,348.23,348.23,completed
+157,C1227,2024-08-15,South,Home,Lamp,3,276.78,830.34,pending
+158,C1183,2024-02-01,West,Home,Pillow,1,475.01,475.01,completed
+159,C1046,2024-12-05,South,Books,History,1,34.77,34.77,completed
+160,C1124,2024-03-05,Central,Clothing,T-Shirt,5,111.5,557.5,completed
+161,C1119,2024-06-17,South,Beauty,Serum,3,430.61,1291.83,completed
+162,C1066,2024-10-03,East,Clothing,T-Shirt,1,74.57,74.57,completed
+163,C1121,2024-10-28,East,Electronics,Smartwatch,3,35.67,107.01,pending
+164,C1215,2024-09-26,North,Books,Novel,4,229.64,918.56,completed
+165,C1262,2024-10-30,North,Sports,Jump Rope,2,473.24,946.48,completed
+166,C1266,2024-06-03,West,Books,Novel,1,499.3,499.3,completed
+167,C1218,2024-12-17,North,Sports,Resistance Band,1,450.63,450.63,completed
+168,C1075,2024-02-03,South,Home,Candle,5,278.68,1393.4,completed
+169,C1195,2024-11-01,Central,Home,Blanket,5,306.65,1533.25,completed
+170,C1058,2024-12-01,Central,Books,Cookbook,4,231.25,925.0,completed
+171,C1211,2024-06-22,West,Sports,Resistance Band,1,163.14,163.14,completed
+172,C1130,2024-07-10,South,Books,Sci-Fi,1,54.69,54.69,completed
+173,C1047,2024-08-09,North,Books,Biography,2,282.61,565.22,refunded
+174,C1287,2024-10-14,East,Books,Novel,4,183.25,733.0,pending
+175,C1216,2024-01-27,East,Beauty,Sunscreen,3,60.75,182.25,refunded
+176,C1108,2024-03-20,West,Clothing,T-Shirt,3,424.22,1272.66,completed
+177,C1058,2024-05-22,Central,Clothing,Sneakers,5,487.52,2437.6,refunded
+178,C1285,2024-01-14,Central,Books,Biography,1,98.39,98.39,pending
+179,C1158,2024-06-22,East,Electronics,Smartwatch,2,287.49,574.98,completed
+180,C1035,2024-03-13,North,Electronics,Keyboard,2,194.33,388.66,completed
+181,C1174,2024-03-21,East,Home,Mug Set,5,302.14,1510.7,completed
+182,C1079,2024-03-21,Central,Electronics,Headphones,3,227.12,681.36,completed
+183,C1248,2024-11-06,West,Sports,Water Bottle,2,379.91,759.82,completed
+184,C1176,2024-08-08,North,Home,Candle,4,268.19,1072.76,completed
+185,C1023,2024-04-22,West,Beauty,Serum,1,110.16,110.16,completed
+186,C1070,2024-05-10,East,Home,Lamp,1,253.71,253.71,completed
+187,C1089,2024-03-07,West,Beauty,Moisturizer,5,283.76,1418.8,pending
+188,C1181,2024-02-06,West,Books,Novel,4,19.17,76.68,completed
+189,C1160,2024-10-21,West,Beauty,Shampoo,4,151.85,607.4,completed
+190,C1010,2024-06-15,South,Beauty,Shampoo,3,53.17,159.51,completed
+191,C1124,2024-08-11,Central,Sports,Jump Rope,1,203.92,203.92,completed
+192,C1173,2024-04-23,East,Clothing,T-Shirt,5,320.27,1601.35,refunded
+193,C1261,2024-04-09,East,Home,Pillow,2,60.36,120.72,completed
+194,C1101,2024-03-29,Central,Clothing,T-Shirt,2,476.12,952.24,pending
+195,C1252,2024-08-25,Central,Beauty,Shampoo,5,325.06,1625.3,refunded
+196,C1165,2024-11-17,East,Clothing,Sneakers,1,239.76,239.76,pending
+197,C1155,2024-05-20,Central,Electronics,Speaker,5,46.34,231.7,completed
+198,C1231,2024-01-20,North,Home,Mug Set,1,325.88,325.88,completed
+199,C1259,2024-07-15,West,Beauty,Lip Balm,1,230.36,230.36,refunded
+200,C1096,2024-06-13,Central,Sports,Jump Rope,2,479.27,958.54,completed
+201,C1052,2024-06-24,North,Beauty,Moisturizer,1,131.38,131.38,completed
+202,C1224,2024-09-25,Central,Beauty,Moisturizer,3,192.69,578.07,completed
+203,C1198,2024-07-28,East,Books,History,1,396.71,396.71,pending
+204,C1171,2024-02-03,East,Electronics,Keyboard,4,149.22,596.88,pending
+205,C1076,2024-06-19,North,Beauty,Moisturizer,3,162.0,486.0,pending
+206,C1200,2024-03-07,Central,Books,Novel,3,283.86,851.58,pending
+207,C1168,2024-03-06,Central,Electronics,Charger,5,187.29,936.45,completed
+208,C1158,2024-04-02,South,Home,Blanket,2,121.0,242.0,completed
+209,C1079,2024-02-09,East,Electronics,Keyboard,5,419.2,2096.0,refunded
+210,C1019,2024-12-04,East,Beauty,Moisturizer,5,194.58,972.9,completed
+211,C1092,2024-12-20,Central,Clothing,Sneakers,1,211.31,211.31,pending
+212,C1121,2024-08-15,Central,Home,Blanket,2,271.66,543.32,completed
+213,C1240,2024-04-09,East,Books,History,4,236.21,944.84,completed
+214,C1195,2024-09-14,Central,Sports,Dumbbells,2,402.61,805.22,completed
+215,C1128,2024-01-27,West,Home,Candle,1,358.58,358.58,refunded
+216,C1063,2024-05-25,North,Clothing,Jacket,4,453.59,1814.36,completed
+217,C1223,2024-02-16,South,Sports,Water Bottle,1,213.29,213.29,completed
+218,C1257,2024-07-10,South,Sports,Yoga Mat,3,120.01,360.03,completed
+219,C1050,2024-12-31,East,Clothing,Jeans,1,150.56,150.56,completed
+220,C1071,2024-12-27,West,Sports,Jump Rope,1,453.86,453.86,completed
+221,C1131,2024-04-20,South,Beauty,Lip Balm,5,217.38,1086.9,completed
+222,C1121,2024-06-03,North,Electronics,Smartwatch,4,323.08,1292.32,refunded
+223,C1234,2024-02-02,North,Sports,Jump Rope,5,18.04,90.2,refunded
+224,C1294,2024-05-03,South,Home,Blanket,1,311.25,311.25,completed
+225,C1292,2024-08-01,South,Books,Novel,5,487.57,2437.85,completed
+226,C1269,2024-10-05,Central,Beauty,Lip Balm,1,201.31,201.31,completed
+227,C1022,2024-11-21,West,Home,Mug Set,1,184.97,184.97,completed
+228,C1176,2024-05-03,North,Beauty,Sunscreen,2,31.71,63.42,refunded
+229,C1173,2024-11-25,South,Books,Sci-Fi,4,319.54,1278.16,completed
+230,C1032,2024-08-22,North,Home,Pillow,1,397.63,397.63,completed
+231,C1161,2024-06-07,Central,Sports,Jump Rope,4,134.11,536.44,pending
+232,C1097,2024-05-26,East,Electronics,Speaker,3,70.98,212.94,completed
+233,C1223,2024-07-23,West,Sports,Water Bottle,2,253.13,506.26,completed
+234,C1188,2024-09-22,East,Electronics,Charger,1,220.99,220.99,completed
+235,C1279,2024-05-30,East,Electronics,Headphones,3,333.84,1001.52,completed
+236,C1228,2024-11-04,West,Clothing,Sneakers,3,229.08,687.24,pending
+237,C1180,2024-11-10,West,Home,Lamp,1,338.87,338.87,completed
+238,C1186,2024-09-19,South,Electronics,Smartwatch,5,342.25,1711.25,completed
+239,C1017,2024-03-05,North,Clothing,Jacket,3,197.59,592.77,refunded
+240,C1016,2024-11-05,South,Books,Sci-Fi,3,192.28,576.84,completed
+241,C1293,2024-03-11,Central,Home,Blanket,3,328.27,984.81,completed
+242,C1058,2024-01-14,South,Sports,Jump Rope,4,457.63,1830.52,completed
+243,C1134,2024-05-13,West,Clothing,Dress,3,350.04,1050.12,completed
+244,C1102,2024-03-03,South,Electronics,Charger,2,450.34,900.68,completed
+245,C1044,2024-12-15,East,Books,Biography,1,279.49,279.49,completed
+246,C1153,2024-03-21,South,Home,Candle,2,69.46,138.92,completed
+247,C1071,2024-05-01,West,Electronics,Speaker,5,290.41,1452.05,completed
+248,C1282,2024-03-07,Central,Electronics,Headphones,3,205.09,615.27,pending
+249,C1245,2024-09-26,West,Sports,Jump Rope,1,71.4,71.4,completed
+250,C1037,2024-08-18,West,Books,History,3,72.87,218.61,refunded
+251,C1093,2024-03-07,West,Beauty,Serum,1,263.86,263.86,completed
+252,C1084,2024-03-23,East,Books,Cookbook,3,474.26,1422.78,refunded
+253,C1145,2024-02-10,East,Clothing,Dress,3,71.32,213.96,completed
+254,C1273,2024-02-17,Central,Books,Cookbook,5,471.38,2356.9,completed
+255,C1087,2024-12-03,Central,Books,History,3,422.83,1268.49,refunded
+256,C1021,2024-01-15,North,Electronics,Keyboard,3,329.04,987.12,refunded
+257,C1213,2024-11-12,North,Sports,Jump Rope,3,324.52,973.56,completed
+258,C1247,2024-05-05,West,Home,Blanket,1,347.41,347.41,completed
+259,C1225,2024-07-31,West,Sports,Dumbbells,3,307.25,921.75,completed
+260,C1163,2024-06-25,West,Clothing,Jacket,5,285.2,1426.0,completed
+261,C1123,2024-08-26,North,Home,Blanket,2,79.02,158.04,completed
+262,C1148,2024-07-15,Central,Sports,Dumbbells,2,408.59,817.18,refunded
+263,C1160,2024-04-07,South,Sports,Jump Rope,4,254.38,1017.52,completed
+264,C1254,2024-01-12,North,Sports,Jump Rope,4,483.67,1934.68,completed
+265,C1298,2024-06-29,North,Electronics,Speaker,4,302.77,1211.08,pending
+266,C1240,2024-05-26,Central,Electronics,Headphones,4,75.62,302.48,completed
+267,C1187,2024-07-25,East,Electronics,Charger,1,289.43,289.43,completed
+268,C1185,2024-10-10,East,Electronics,Charger,5,230.66,1153.3,refunded
+269,C1143,2024-11-15,Central,Electronics,Smartwatch,1,203.0,203.0,completed
+270,C1285,2024-07-06,South,Clothing,Dress,5,206.67,1033.35,completed
+271,C1023,2024-01-20,South,Books,Biography,4,264.46,1057.84,completed
+272,C1263,2024-03-12,East,Beauty,Sunscreen,2,202.54,405.08,refunded
+273,C1153,2024-10-30,East,Beauty,Lip Balm,5,250.01,1250.05,refunded
+274,C1153,2024-08-31,North,Home,Mug Set,1,490.14,490.14,refunded
+275,C1157,2024-12-18,North,Beauty,Shampoo,3,483.85,1451.55,refunded
+276,C1295,2024-04-26,North,Beauty,Shampoo,2,266.86,533.72,pending
+277,C1194,2024-03-16,South,Electronics,Keyboard,1,103.47,103.47,completed
+278,C1160,2024-08-02,South,Sports,Dumbbells,4,255.88,1023.52,refunded
+279,C1241,2024-02-01,South,Beauty,Moisturizer,5,169.26,846.3,pending
+280,C1244,2024-09-26,West,Home,Pillow,4,456.93,1827.72,completed
+281,C1279,2024-06-30,East,Beauty,Shampoo,2,479.09,958.18,completed
+282,C1285,2024-06-01,South,Home,Mug Set,2,348.21,696.42,completed
+283,C1162,2024-09-02,East,Beauty,Sunscreen,3,69.71,209.13,pending
+284,C1278,2024-07-13,West,Home,Pillow,3,30.6,91.8,pending
+285,C1040,2024-06-26,West,Books,Biography,4,114.84,459.36,refunded
+286,C1138,2024-10-14,East,Clothing,T-Shirt,5,373.03,1865.15,completed
+287,C1124,2024-01-26,Central,Clothing,Jeans,1,59.09,59.09,completed
+288,C1241,2024-02-21,South,Electronics,Keyboard,2,209.37,418.74,completed
+289,C1244,2024-11-29,South,Home,Mug Set,3,326.48,979.44,completed
+290,C1293,2024-04-28,Central,Books,Novel,2,214.75,429.5,completed
+291,C1018,2024-07-22,West,Clothing,Jacket,1,14.53,14.53,refunded
+292,C1054,2024-06-20,East,Sports,Jump Rope,5,252.01,1260.05,completed
+293,C1258,2024-08-27,East,Clothing,T-Shirt,3,89.61,268.83,completed
+294,C1131,2024-04-05,North,Books,Biography,3,288.2,864.6,completed
+295,C1089,2024-11-08,West,Sports,Jump Rope,3,52.49,157.47,pending
+296,C1048,2024-04-04,South,Sports,Water Bottle,2,13.34,26.68,completed
+297,C1120,2024-08-16,East,Home,Mug Set,5,364.2,1821.0,completed
+298,C1133,2024-11-30,East,Books,Cookbook,1,337.21,337.21,completed
+299,C1157,2024-03-22,West,Books,History,3,348.23,1044.69,pending
+300,C1151,2024-07-07,Central,Clothing,Jeans,2,244.3,488.6,completed
+301,C1191,2024-07-31,Central,Sports,Jump Rope,2,383.3,766.6,pending
+302,C1041,2024-09-26,West,Beauty,Sunscreen,1,459.44,459.44,completed
+303,C1031,2024-10-07,Central,Clothing,Dress,5,83.42,417.1,completed
+304,C1266,2024-08-14,North,Books,Cookbook,5,249.52,1247.6,refunded
+305,C1228,2024-01-29,West,Clothing,Dress,4,233.82,935.28,completed
+306,C1286,2024-08-24,East,Books,Novel,4,134.67,538.68,completed
+307,C1111,2024-10-23,North,Electronics,Charger,3,353.18,1059.54,refunded
+308,C1030,2024-02-05,West,Electronics,Speaker,4,98.18,392.72,completed
+309,C1215,2024-07-10,West,Sports,Resistance Band,4,49.31,197.24,pending
+310,C1276,2024-03-09,East,Electronics,Smartwatch,5,202.59,1012.95,completed
+311,C1114,2024-01-02,North,Home,Blanket,5,217.81,1089.05,completed
+312,C1117,2024-05-06,West,Home,Pillow,3,102.35,307.05,pending
+313,C1057,2024-01-17,West,Beauty,Serum,2,110.97,221.94,completed
+314,C1017,2024-08-16,Central,Books,Novel,2,372.86,745.72,completed
+315,C1224,2024-04-29,Central,Clothing,T-Shirt,2,256.9,513.8,completed
+316,C1119,2024-10-21,East,Beauty,Lip Balm,3,126.07,378.21,completed
+317,C1266,2024-04-23,West,Home,Mug Set,1,282.78,282.78,refunded
+318,C1089,2024-11-16,West,Beauty,Shampoo,1,486.41,486.41,pending
+319,C1195,2024-09-25,East,Books,Sci-Fi,4,83.11,332.44,completed
+320,C1094,2024-10-02,West,Clothing,Jeans,3,430.19,1290.57,completed
+321,C1237,2024-01-30,Central,Sports,Resistance Band,5,269.69,1348.45,completed
+322,C1124,2024-05-10,South,Home,Lamp,4,425.09,1700.36,completed
+323,C1274,2024-04-07,North,Home,Blanket,5,305.42,1527.1,completed
+324,C1096,2024-10-27,Central,Clothing,Sneakers,2,436.03,872.06,completed
+325,C1155,2024-01-08,South,Clothing,T-Shirt,4,458.07,1832.28,pending
+326,C1104,2024-07-22,South,Beauty,Sunscreen,3,196.51,589.53,refunded
+327,C1183,2024-06-06,East,Home,Candle,4,238.33,953.32,pending
+328,C1240,2024-06-12,South,Home,Mug Set,4,32.39,129.56,completed
+329,C1074,2024-01-09,East,Beauty,Lip Balm,5,362.8,1814.0,completed
+330,C1078,2024-04-10,East,Clothing,Sneakers,5,418.34,2091.7,completed
+331,C1281,2024-12-01,East,Home,Blanket,4,235.8,943.2,pending
+332,C1180,2024-03-27,South,Books,History,4,100.17,400.68,refunded
+333,C1030,2024-09-25,North,Electronics,Headphones,1,212.06,212.06,pending
+334,C1118,2024-02-04,South,Electronics,Smartwatch,5,233.43,1167.15,completed
+335,C1247,2024-12-03,West,Electronics,Headphones,5,280.3,1401.5,completed
+336,C1008,2024-09-28,East,Beauty,Sunscreen,1,256.08,256.08,pending
+337,C1220,2024-04-01,North,Electronics,Keyboard,2,128.06,256.12,refunded
+338,C1269,2024-05-09,East,Home,Blanket,1,192.79,192.79,completed
+339,C1235,2024-10-16,South,Books,Cookbook,3,345.17,1035.51,completed
+340,C1016,2024-02-17,West,Sports,Resistance Band,5,243.23,1216.15,pending
+341,C1004,2024-12-25,South,Electronics,Charger,4,325.99,1303.96,completed
+342,C1289,2024-02-18,Central,Electronics,Smartwatch,2,451.61,903.22,pending
+343,C1290,2024-08-31,East,Electronics,Headphones,3,450.65,1351.95,refunded
+344,C1016,2024-04-01,East,Electronics,Smartwatch,5,80.64,403.2,pending
+345,C1203,2024-02-09,East,Clothing,Dress,2,287.67,575.34,completed
+346,C1276,2024-06-18,West,Books,Cookbook,1,255.38,255.38,completed
+347,C1027,2024-02-20,West,Clothing,T-Shirt,3,306.52,919.56,refunded
+348,C1203,2024-06-16,North,Books,Biography,4,250.39,1001.56,completed
+349,C1283,2024-07-11,West,Clothing,Dress,4,51.98,207.92,refunded
+350,C1151,2024-05-06,North,Electronics,Speaker,2,196.19,392.38,pending
+351,C1078,2024-07-18,East,Home,Lamp,1,12.54,12.54,completed
+352,C1227,2024-07-03,East,Electronics,Smartwatch,1,101.81,101.81,completed
+353,C1285,2024-10-11,Central,Sports,Yoga Mat,1,53.9,53.9,refunded
+354,C1047,2024-11-01,Central,Home,Blanket,1,153.0,153.0,completed
+355,C1043,2024-10-13,South,Beauty,Lip Balm,2,345.79,691.58,completed
+356,C1071,2024-05-17,East,Home,Blanket,2,40.99,81.98,completed
+357,C1141,2024-08-03,East,Sports,Yoga Mat,3,133.32,399.96,completed
+358,C1253,2024-10-31,Central,Clothing,Sneakers,1,76.38,76.38,completed
+359,C1202,2024-06-19,Central,Sports,Water Bottle,4,174.01,696.04,pending
+360,C1069,2024-06-02,East,Beauty,Moisturizer,4,163.94,655.76,completed
+361,C1163,2024-05-29,West,Beauty,Moisturizer,3,194.26,582.78,completed
+362,C1186,2024-02-28,Central,Clothing,Dress,5,98.15,490.75,refunded
+363,C1013,2024-08-24,South,Sports,Water Bottle,1,411.28,411.28,completed
+364,C1255,2024-03-12,East,Clothing,Jacket,2,360.46,720.92,completed
+365,C1037,2024-08-17,Central,Sports,Jump Rope,4,271.83,1087.32,pending
+366,C1214,2024-10-05,North,Home,Candle,5,322.7,1613.5,completed
+367,C1055,2024-05-07,East,Clothing,Dress,1,285.97,285.97,pending
+368,C1204,2024-06-18,West,Electronics,Headphones,1,136.77,136.77,refunded
+369,C1265,2024-10-12,Central,Books,History,2,228.42,456.84,completed
+370,C1237,2024-12-13,Central,Books,History,2,179.02,358.04,completed
+371,C1247,2024-02-23,East,Sports,Yoga Mat,1,417.34,417.34,pending
+372,C1072,2024-06-27,East,Home,Blanket,2,265.34,530.68,completed
+373,C1243,2024-02-19,West,Books,Sci-Fi,3,42.91,128.73,completed
+374,C1058,2024-01-12,East,Books,Novel,2,465.65,931.3,pending
+375,C1124,2024-09-21,South,Beauty,Moisturizer,3,284.32,852.96,completed
+376,C1118,2024-07-26,South,Clothing,Sneakers,4,24.29,97.16,refunded
+377,C1101,2024-08-18,Central,Sports,Resistance Band,1,355.31,355.31,completed
+378,C1142,2024-12-26,North,Beauty,Serum,5,101.6,508.0,completed
+379,C1100,2024-08-22,North,Home,Blanket,5,483.29,2416.45,completed
+380,C1198,2024-11-08,West,Beauty,Serum,3,182.46,547.38,completed
+381,C1088,2024-12-10,East,Beauty,Lip Balm,1,339.32,339.32,completed
+382,C1060,2024-05-02,East,Electronics,Smartwatch,3,349.77,1049.31,refunded
+383,C1198,2024-08-02,Central,Clothing,Dress,4,217.28,869.12,completed
+384,C1275,2024-12-21,South,Beauty,Moisturizer,4,151.52,606.08,completed
+385,C1161,2024-08-18,Central,Electronics,Speaker,1,247.45,247.45,completed
+386,C1196,2024-10-14,Central,Books,Sci-Fi,4,345.49,1381.96,completed
+387,C1227,2024-09-07,South,Electronics,Keyboard,1,399.97,399.97,completed
+388,C1149,2024-01-17,East,Clothing,Dress,3,92.41,277.23,completed
+389,C1289,2024-09-10,Central,Beauty,Serum,5,65.95,329.75,refunded
+390,C1187,2024-10-04,North,Books,Sci-Fi,5,117.08,585.4,completed
+391,C1052,2024-11-30,South,Home,Lamp,4,138.77,555.08,completed
+392,C1224,2024-03-01,South,Clothing,Dress,3,431.9,1295.7,refunded
+393,C1219,2024-03-25,Central,Clothing,Jeans,2,404.66,809.32,refunded
+394,C1179,2024-09-29,East,Beauty,Lip Balm,2,168.58,337.16,pending
+395,C1149,2024-05-28,Central,Home,Candle,1,76.43,76.43,completed
+396,C1030,2024-05-21,South,Books,Cookbook,2,81.65,163.3,completed
+397,C1126,2024-12-12,West,Sports,Dumbbells,5,319.87,1599.35,pending
+398,C1212,2024-07-11,West,Electronics,Headphones,4,262.64,1050.56,completed
+399,C1188,2024-08-20,West,Home,Candle,1,435.75,435.75,pending
+400,C1047,2024-08-22,East,Electronics,Keyboard,4,116.73,466.92,completed
+401,C1108,2024-09-10,East,Home,Mug Set,3,278.17,834.51,completed
+402,C1289,2024-09-05,East,Books,Novel,1,58.78,58.78,completed
+403,C1008,2024-03-04,South,Sports,Resistance Band,1,495.99,495.99,completed
+404,C1103,2024-12-18,South,Books,Biography,2,438.46,876.92,completed
+405,C1047,2024-12-01,East,Home,Lamp,3,335.6,1006.8,pending
+406,C1084,2024-01-27,West,Books,Biography,2,220.31,440.62,completed
+407,C1048,2024-01-01,South,Sports,Yoga Mat,2,300.89,601.78,refunded
+408,C1227,2024-01-05,North,Books,Biography,1,494.19,494.19,completed
+409,C1067,2024-09-01,North,Clothing,Sneakers,1,368.06,368.06,completed
+410,C1052,2024-06-09,East,Home,Pillow,4,388.99,1555.96,completed
+411,C1073,2024-02-05,Central,Beauty,Serum,5,328.5,1642.5,completed
+412,C1179,2024-04-19,South,Sports,Jump Rope,4,431.37,1725.48,completed
+413,C1051,2024-03-12,North,Beauty,Shampoo,3,481.98,1445.94,completed
+414,C1071,2024-05-06,East,Books,Novel,2,281.15,562.3,refunded
+415,C1145,2024-12-19,North,Books,Biography,2,263.69,527.38,refunded
+416,C1096,2024-07-19,East,Books,Novel,2,252.48,504.96,completed
+417,C1123,2024-09-12,Central,Electronics,Keyboard,1,493.56,493.56,completed
+418,C1067,2024-07-17,Central,Sports,Water Bottle,5,344.63,1723.15,completed
+419,C1037,2024-01-09,Central,Electronics,Headphones,3,115.7,347.1,completed
+420,C1203,2024-09-16,East,Books,History,4,217.54,870.16,completed
+421,C1042,2024-11-23,Central,Beauty,Lip Balm,2,145.95,291.9,completed
+422,C1040,2024-09-18,South,Clothing,Dress,3,201.45,604.35,pending
+423,C1033,2024-06-07,West,Books,Cookbook,1,129.79,129.79,completed
+424,C1059,2024-08-20,Central,Beauty,Serum,3,336.37,1009.11,pending
+425,C1089,2024-03-02,North,Books,Cookbook,1,90.27,90.27,completed
+426,C1267,2024-09-21,East,Clothing,Jacket,2,377.38,754.76,completed
+427,C1060,2024-01-16,East,Sports,Water Bottle,5,41.29,206.45,pending
+428,C1295,2024-11-17,North,Sports,Resistance Band,5,186.45,932.25,completed
+429,C1290,2024-03-26,East,Clothing,Jacket,1,448.18,448.18,pending
+430,C1059,2024-04-26,Central,Electronics,Headphones,1,129.82,129.82,completed
+431,C1186,2024-07-15,South,Clothing,T-Shirt,5,403.52,2017.6,pending
+432,C1214,2024-04-24,East,Clothing,Sneakers,3,142.91,428.73,completed
+433,C1292,2024-07-09,North,Beauty,Serum,2,119.35,238.7,refunded
+434,C1023,2024-07-24,North,Sports,Water Bottle,3,170.37,511.11,refunded
+435,C1233,2024-01-05,East,Clothing,Jacket,5,394.4,1972.0,pending
+436,C1124,2024-08-25,East,Beauty,Shampoo,2,368.9,737.8,refunded
+437,C1125,2024-03-18,North,Sports,Yoga Mat,2,275.35,550.7,pending
+438,C1004,2024-06-20,North,Books,Sci-Fi,3,60.93,182.79,refunded
+439,C1121,2024-08-02,West,Electronics,Smartwatch,3,55.57,166.71,completed
+440,C1266,2024-07-30,East,Sports,Yoga Mat,5,56.82,284.1,completed
+441,C1201,2024-02-08,Central,Beauty,Serum,4,334.59,1338.36,completed
+442,C1121,2024-05-29,East,Home,Blanket,3,165.84,497.52,completed
+443,C1119,2024-02-08,South,Clothing,Dress,1,86.14,86.14,completed
+444,C1230,2024-08-26,East,Sports,Yoga Mat,5,185.55,927.75,completed
+445,C1231,2024-06-06,West,Home,Lamp,1,87.22,87.22,pending
+446,C1155,2024-12-26,Central,Electronics,Smartwatch,3,82.67,248.01,pending
+447,C1127,2024-07-01,West,Beauty,Serum,3,137.47,412.41,completed
+448,C1015,2024-07-26,West,Beauty,Lip Balm,2,56.41,112.82,completed
+449,C1071,2024-03-03,North,Electronics,Smartwatch,2,107.08,214.16,completed
+450,C1190,2024-12-17,North,Beauty,Lip Balm,3,459.53,1378.59,completed
+451,C1011,2024-02-03,South,Books,Sci-Fi,2,55.06,110.12,completed
+452,C1062,2024-01-22,West,Electronics,Smartwatch,5,222.24,1111.2,pending
+453,C1202,2024-09-11,North,Sports,Resistance Band,2,183.42,366.84,completed
+454,C1140,2024-05-23,West,Clothing,T-Shirt,5,313.39,1566.95,completed
+455,C1151,2024-09-12,West,Beauty,Shampoo,1,52.97,52.97,completed
+456,C1070,2024-08-02,South,Books,History,2,319.06,638.12,refunded
+457,C1009,2024-07-14,East,Sports,Jump Rope,4,178.57,714.28,refunded
+458,C1257,2024-06-13,West,Home,Pillow,1,166.24,166.24,completed
+459,C1015,2024-05-23,North,Sports,Jump Rope,3,385.74,1157.22,completed
+460,C1081,2024-02-21,South,Books,Cookbook,3,271.5,814.5,pending
+461,C1028,2024-04-22,Central,Sports,Water Bottle,2,96.28,192.56,refunded
+462,C1162,2024-12-23,East,Beauty,Serum,3,474.29,1422.87,refunded
+463,C1072,2024-10-15,South,Sports,Jump Rope,3,96.01,288.03,completed
+464,C1046,2024-01-29,South,Beauty,Moisturizer,1,267.95,267.95,completed
+465,C1169,2024-11-10,South,Clothing,Jacket,2,460.19,920.38,completed
+466,C1030,2024-01-12,South,Beauty,Moisturizer,1,424.77,424.77,completed
+467,C1037,2024-07-10,West,Beauty,Serum,3,157.85,473.55,completed
+468,C1080,2024-08-11,West,Books,Biography,2,356.51,713.02,refunded
+469,C1182,2024-04-24,Central,Clothing,Sneakers,3,369.65,1108.95,completed
+470,C1065,2024-03-31,North,Books,History,4,426.86,1707.44,refunded
+471,C1016,2024-04-03,Central,Home,Candle,2,323.42,646.84,completed
+472,C1254,2024-03-13,East,Books,Novel,2,179.93,359.86,completed
+473,C1085,2024-11-21,North,Books,Biography,4,15.57,62.28,completed
+474,C1127,2024-12-20,North,Home,Mug Set,1,362.99,362.99,completed
+475,C1197,2024-08-12,West,Clothing,Sneakers,4,442.06,1768.24,completed
+476,C1279,2024-07-11,North,Sports,Jump Rope,2,89.69,179.38,completed
+477,C1017,2024-05-30,North,Home,Mug Set,1,46.35,46.35,completed
+478,C1192,2024-03-23,North,Beauty,Serum,3,301.06,903.18,refunded
+479,C1247,2024-12-26,North,Sports,Dumbbells,5,445.97,2229.85,completed
+480,C1027,2024-02-21,East,Clothing,Jeans,4,351.62,1406.48,pending
+481,C1276,2024-05-15,East,Home,Pillow,1,34.31,34.31,refunded
+482,C1281,2024-09-08,South,Electronics,Speaker,1,219.52,219.52,completed
+483,C1245,2024-04-12,North,Electronics,Smartwatch,2,322.7,645.4,completed
+484,C1242,2024-02-29,East,Sports,Resistance Band,4,448.48,1793.92,completed
+485,C1046,2024-11-24,Central,Sports,Dumbbells,3,443.88,1331.64,completed
+486,C1095,2024-08-16,North,Home,Blanket,4,139.06,556.24,completed
+487,C1288,2024-02-01,South,Books,Novel,1,337.38,337.38,refunded
+488,C1211,2024-10-28,South,Beauty,Serum,4,411.01,1644.04,completed
+489,C1274,2024-12-17,West,Beauty,Moisturizer,4,156.43,625.72,completed
+490,C1017,2024-09-14,Central,Beauty,Lip Balm,5,82.24,411.2,completed
+491,C1088,2024-03-26,South,Clothing,Jeans,1,217.44,217.44,pending
+492,C1222,2024-04-13,South,Beauty,Sunscreen,3,456.28,1368.84,completed
+493,C1044,2024-07-17,Central,Sports,Jump Rope,3,429.74,1289.22,refunded
+494,C1234,2024-01-07,Central,Beauty,Lip Balm,4,65.12,260.48,completed
+495,C1075,2024-10-17,Central,Beauty,Serum,1,285.71,285.71,completed
+496,C1146,2024-10-01,East,Sports,Water Bottle,4,330.84,1323.36,refunded
+497,C1242,2024-01-20,South,Home,Blanket,2,312.93,625.86,pending
+498,C1205,2024-01-20,West,Home,Pillow,1,375.41,375.41,completed
+499,C1190,2024-01-11,East,Home,Mug Set,3,422.98,1268.94,pending
+500,C1050,2024-04-26,South,Home,Blanket,3,142.01,426.03,completed
+501,C1045,2024-04-06,West,Clothing,Sneakers,4,382.14,1528.56,completed
+502,C1028,2024-09-20,South,Electronics,Speaker,5,207.65,1038.25,refunded
+503,C1291,2024-01-15,South,Clothing,Jeans,1,132.24,132.24,completed
+504,C1025,2024-07-03,South,Home,Mug Set,4,257.5,1030.0,pending
+505,C1063,2024-12-14,North,Clothing,Jacket,4,301.07,1204.28,completed
+506,C1242,2024-10-27,Central,Home,Mug Set,2,420.44,840.88,completed
+507,C1046,2024-05-25,North,Sports,Yoga Mat,2,428.36,856.72,completed
+508,C1113,2024-11-27,South,Books,Cookbook,3,329.27,987.81,refunded
+509,C1010,2024-12-15,North,Sports,Dumbbells,2,304.55,609.1,completed
+510,C1114,2024-05-09,Central,Home,Mug Set,4,448.78,1795.12,completed
+511,C1235,2024-05-09,South,Sports,Water Bottle,5,413.9,2069.5,completed
+512,C1299,2024-02-22,North,Beauty,Sunscreen,5,327.19,1635.95,refunded
+513,C1144,2024-06-01,North,Sports,Yoga Mat,3,494.29,1482.87,pending
+514,C1166,2024-05-21,East,Books,Biography,2,83.46,166.92,completed
+515,C1029,2024-11-03,West,Books,Biography,2,363.42,726.84,pending
+516,C1254,2024-05-31,East,Sports,Resistance Band,4,370.99,1483.96,refunded
+517,C1292,2024-04-07,East,Books,Cookbook,5,322.76,1613.8,completed
+518,C1183,2024-09-16,East,Clothing,Dress,2,153.94,307.88,completed
+519,C1065,2024-05-12,Central,Clothing,Jacket,1,118.89,118.89,completed
+520,C1157,2024-08-03,East,Home,Mug Set,5,154.08,770.4,completed
+521,C1240,2024-01-28,Central,Beauty,Lip Balm,1,241.38,241.38,completed
+522,C1256,2024-03-02,West,Beauty,Sunscreen,4,36.48,145.92,completed
+523,C1070,2024-04-12,East,Sports,Jump Rope,4,80.17,320.68,pending
+524,C1092,2024-02-11,West,Home,Pillow,3,320.89,962.67,completed
+525,C1231,2024-05-20,South,Clothing,Dress,2,249.88,499.76,completed
+526,C1066,2024-11-10,West,Books,Sci-Fi,4,220.21,880.84,completed
+527,C1196,2024-01-03,North,Beauty,Moisturizer,3,475.52,1426.56,completed
+528,C1271,2024-04-07,North,Books,Novel,2,120.86,241.72,completed
+529,C1159,2024-03-07,North,Sports,Jump Rope,5,159.99,799.95,completed
+530,C1023,2024-06-01,East,Sports,Jump Rope,5,266.81,1334.05,completed
+531,C1068,2024-06-24,West,Home,Pillow,2,474.55,949.1,completed
+532,C1009,2024-04-26,South,Books,Cookbook,2,369.69,739.38,refunded
+533,C1258,2024-03-27,North,Home,Lamp,4,439.5,1758.0,completed
+534,C1273,2024-11-15,North,Beauty,Serum,1,330.24,330.24,completed
+535,C1024,2024-12-19,North,Sports,Resistance Band,4,70.55,282.2,completed
+536,C1242,2024-12-25,South,Clothing,T-Shirt,3,216.22,648.66,completed
+537,C1266,2024-05-18,Central,Beauty,Moisturizer,4,417.01,1668.04,completed
+538,C1261,2024-11-12,North,Home,Lamp,1,253.88,253.88,refunded
+539,C1102,2024-05-14,Central,Clothing,Jacket,4,154.71,618.84,completed
+540,C1280,2024-09-11,South,Books,Sci-Fi,3,124.9,374.7,completed
+541,C1045,2024-02-26,Central,Books,Sci-Fi,2,475.22,950.44,refunded
+542,C1038,2024-02-21,East,Books,Cookbook,4,494.44,1977.76,completed
+543,C1135,2024-08-25,North,Electronics,Smartwatch,1,427.59,427.59,completed
+544,C1160,2024-08-06,North,Electronics,Headphones,1,427.47,427.47,pending
+545,C1087,2024-06-17,East,Sports,Jump Rope,3,440.44,1321.32,completed
+546,C1190,2024-06-24,South,Electronics,Charger,4,481.52,1926.08,completed
+547,C1197,2024-12-19,West,Sports,Dumbbells,1,74.92,74.92,pending
+548,C1030,2024-03-22,North,Sports,Jump Rope,4,403.1,1612.4,pending
+549,C1224,2024-04-02,Central,Sports,Water Bottle,5,24.11,120.55,pending
+550,C1066,2024-09-04,West,Electronics,Charger,4,32.52,130.08,completed
+551,C1160,2024-01-07,Central,Books,History,5,119.74,598.7,pending
+552,C1173,2024-09-22,Central,Books,History,1,222.09,222.09,pending
+553,C1127,2024-09-03,East,Books,Sci-Fi,2,421.12,842.24,refunded
+554,C1027,2024-01-06,South,Beauty,Shampoo,4,436.0,1744.0,completed
+555,C1251,2024-06-13,South,Home,Mug Set,1,258.39,258.39,refunded
+556,C1193,2024-07-25,South,Electronics,Charger,4,402.61,1610.44,completed
+557,C1045,2024-09-12,West,Home,Lamp,4,375.16,1500.64,completed
+558,C1052,2024-07-25,West,Electronics,Keyboard,5,10.07,50.35,completed
+559,C1155,2024-09-17,Central,Clothing,Sneakers,3,188.03,564.09,completed
+560,C1114,2024-08-20,East,Beauty,Lip Balm,5,241.83,1209.15,pending
+561,C1186,2024-08-19,North,Electronics,Smartwatch,1,177.25,177.25,pending
+562,C1149,2024-10-07,Central,Home,Lamp,1,449.46,449.46,completed
+563,C1071,2024-07-28,North,Home,Candle,2,101.89,203.78,completed
+564,C1110,2024-08-22,South,Books,Biography,1,380.99,380.99,completed
+565,C1063,2024-08-18,West,Books,History,5,75.96,379.8,completed
+566,C1002,2024-09-28,North,Beauty,Shampoo,5,246.63,1233.15,refunded
+567,C1090,2024-12-20,Central,Clothing,Jeans,1,199.82,199.82,refunded
+568,C1164,2024-09-15,West,Sports,Jump Rope,2,144.05,288.1,completed
+569,C1150,2024-08-19,South,Clothing,Sneakers,5,353.0,1765.0,pending
+570,C1262,2024-06-02,Central,Home,Candle,2,108.43,216.86,refunded
+571,C1148,2024-12-17,East,Books,Cookbook,2,256.9,513.8,pending
+572,C1165,2024-12-29,North,Home,Candle,4,295.57,1182.28,pending
+573,C1213,2024-12-11,Central,Home,Blanket,1,266.13,266.13,completed
+574,C1195,2024-03-15,North,Books,Novel,2,140.81,281.62,completed
+575,C1146,2024-12-15,East,Clothing,T-Shirt,3,109.95,329.85,refunded
+576,C1016,2024-07-02,West,Electronics,Keyboard,5,433.76,2168.8,pending
+577,C1287,2024-07-18,South,Beauty,Sunscreen,1,463.97,463.97,completed
+578,C1213,2024-12-16,East,Beauty,Serum,1,374.39,374.39,completed
+579,C1226,2024-04-25,East,Beauty,Lip Balm,5,106.26,531.3,pending
+580,C1099,2024-05-30,West,Clothing,T-Shirt,2,481.6,963.2,pending
+581,C1263,2024-03-02,West,Electronics,Charger,3,282.72,848.16,completed
+582,C1082,2024-10-26,East,Electronics,Speaker,4,357.74,1430.96,completed
+583,C1020,2024-03-19,East,Beauty,Serum,5,423.13,2115.65,completed
+584,C1251,2024-10-20,Central,Home,Lamp,3,267.43,802.29,completed
+585,C1266,2024-02-04,Central,Clothing,Sneakers,5,273.14,1365.7,completed
+586,C1178,2024-04-23,South,Books,Biography,3,186.78,560.34,completed
+587,C1271,2024-08-31,Central,Books,Novel,1,337.77,337.77,completed
+588,C1123,2024-11-24,Central,Beauty,Moisturizer,1,344.44,344.44,completed
+589,C1195,2024-02-28,West,Home,Candle,3,22.1,66.3,refunded
+590,C1191,2024-09-20,Central,Sports,Resistance Band,1,155.24,155.24,pending
+591,C1098,2024-06-13,Central,Electronics,Headphones,2,486.09,972.18,refunded
+592,C1273,2024-01-04,North,Clothing,Jeans,4,419.47,1677.88,completed
+593,C1275,2024-12-25,West,Books,Novel,2,21.63,43.26,pending
+594,C1169,2024-01-20,North,Electronics,Headphones,2,399.16,798.32,refunded
+595,C1036,2024-10-21,South,Home,Blanket,4,231.04,924.16,completed
+596,C1221,2024-06-10,North,Sports,Yoga Mat,5,12.88,64.4,pending
+597,C1032,2024-10-26,North,Books,Novel,3,464.73,1394.19,completed
+598,C1148,2024-12-17,East,Beauty,Serum,3,384.97,1154.91,completed
+599,C1195,2024-07-21,North,Sports,Dumbbells,5,117.72,588.6,pending
+600,C1200,2024-10-06,East,Books,Cookbook,3,341.86,1025.58,pending
+601,C1191,2024-01-06,Central,Beauty,Moisturizer,1,30.46,30.46,refunded
+602,C1201,2024-10-02,Central,Electronics,Speaker,2,376.66,753.32,pending
+603,C1176,2024-04-18,West,Books,History,2,88.86,177.72,completed
+604,C1129,2024-04-09,North,Clothing,Dress,1,427.17,427.17,refunded
+605,C1236,2024-11-26,Central,Electronics,Speaker,1,132.83,132.83,completed
+606,C1297,2024-09-06,East,Home,Pillow,2,59.01,118.02,refunded
+607,C1035,2024-04-09,East,Sports,Resistance Band,3,312.0,936.0,completed
+608,C1299,2024-03-19,Central,Beauty,Sunscreen,3,479.73,1439.19,completed
+609,C1002,2024-06-09,South,Clothing,Sneakers,3,421.64,1264.92,completed
+610,C1169,2024-09-02,West,Sports,Water Bottle,3,248.61,745.83,completed
+611,C1089,2024-11-26,Central,Electronics,Speaker,2,446.73,893.46,completed
+612,C1134,2024-11-16,North,Books,Novel,1,426.29,426.29,pending
+613,C1015,2024-10-24,Central,Sports,Jump Rope,2,454.08,908.16,refunded
+614,C1133,2024-10-05,Central,Sports,Dumbbells,3,202.31,606.93,refunded
+615,C1148,2024-03-09,West,Beauty,Lip Balm,1,204.41,204.41,refunded
+616,C1005,2024-12-05,South,Beauty,Moisturizer,5,78.77,393.85,completed
+617,C1091,2024-10-16,Central,Books,Cookbook,4,470.19,1880.76,completed
+618,C1112,2024-09-06,South,Electronics,Speaker,3,124.66,373.98,pending
+619,C1105,2024-09-22,East,Sports,Resistance Band,4,441.95,1767.8,completed
+620,C1165,2024-02-22,Central,Books,Biography,3,293.52,880.56,refunded
+621,C1089,2024-07-11,West,Home,Candle,1,263.15,263.15,completed
+622,C1114,2024-09-21,West,Home,Mug Set,4,398.39,1593.56,refunded
+623,C1003,2024-09-13,South,Sports,Dumbbells,2,47.76,95.52,pending
+624,C1143,2024-04-18,South,Clothing,Jeans,3,304.98,914.94,completed
+625,C1117,2024-07-31,East,Books,Novel,4,340.85,1363.4,completed
+626,C1107,2024-10-29,South,Books,Sci-Fi,1,129.39,129.39,completed
+627,C1293,2024-10-30,South,Clothing,Dress,1,446.48,446.48,completed
+628,C1028,2024-03-26,East,Clothing,Dress,4,303.68,1214.72,refunded
+629,C1009,2024-12-04,East,Electronics,Smartwatch,4,307.19,1228.76,completed
+630,C1246,2024-03-28,South,Sports,Jump Rope,2,399.35,798.7,completed
+631,C1261,2024-05-15,South,Books,Biography,4,302.29,1209.16,completed
+632,C1117,2024-07-12,West,Clothing,T-Shirt,1,109.14,109.14,refunded
+633,C1214,2024-03-17,Central,Electronics,Smartwatch,4,451.78,1807.12,refunded
+634,C1019,2024-09-29,Central,Electronics,Headphones,4,333.09,1332.36,refunded
+635,C1276,2024-01-01,West,Beauty,Shampoo,3,438.65,1315.95,pending
+636,C1271,2024-08-07,South,Sports,Resistance Band,3,298.62,895.86,pending
+637,C1294,2024-02-20,West,Clothing,Jacket,4,385.26,1541.04,completed
+638,C1145,2024-11-02,Central,Sports,Water Bottle,2,12.67,25.34,pending
+639,C1003,2024-10-22,Central,Electronics,Keyboard,1,193.75,193.75,completed
+640,C1161,2024-07-28,East,Electronics,Smartwatch,4,329.26,1317.04,completed
+641,C1133,2024-10-01,West,Beauty,Sunscreen,5,145.01,725.05,pending
+642,C1203,2024-04-14,West,Beauty,Lip Balm,4,97.56,390.24,refunded
+643,C1284,2024-09-04,East,Home,Candle,3,389.35,1168.05,completed
+644,C1070,2024-12-03,North,Books,Cookbook,4,393.71,1574.84,completed
+645,C1051,2024-04-19,Central,Sports,Water Bottle,5,310.86,1554.3,pending
+646,C1026,2024-03-23,West,Books,Novel,1,413.39,413.39,completed
+647,C1222,2024-02-15,North,Home,Pillow,3,49.21,147.63,completed
+648,C1196,2024-07-24,Central,Books,History,3,358.68,1076.04,refunded
+649,C1029,2024-03-30,West,Sports,Yoga Mat,2,426.77,853.54,refunded
+650,C1146,2024-04-09,North,Beauty,Lip Balm,5,352.23,1761.15,refunded
+651,C1086,2024-12-11,North,Home,Pillow,1,488.06,488.06,completed
+652,C1141,2024-07-23,East,Books,Sci-Fi,4,297.17,1188.68,refunded
+653,C1007,2024-12-26,North,Electronics,Keyboard,3,365.8,1097.4,refunded
+654,C1298,2024-06-27,East,Home,Pillow,5,481.89,2409.45,completed
+655,C1206,2024-10-21,North,Home,Pillow,4,258.05,1032.2,refunded
+656,C1037,2024-09-14,East,Home,Lamp,5,478.78,2393.9,refunded
+657,C1294,2024-05-08,West,Sports,Jump Rope,4,387.27,1549.08,completed
+658,C1234,2024-12-14,West,Beauty,Serum,4,66.96,267.84,completed
+659,C1195,2024-11-20,South,Books,Cookbook,3,212.08,636.24,completed
+660,C1264,2024-10-01,North,Books,Biography,2,150.76,301.52,completed
+661,C1175,2024-02-08,Central,Clothing,Sneakers,3,183.22,549.66,refunded
+662,C1137,2024-04-03,South,Sports,Dumbbells,2,370.35,740.7,completed
+663,C1105,2024-04-27,South,Clothing,Dress,3,86.43,259.29,completed
+664,C1061,2024-02-10,West,Beauty,Serum,5,479.41,2397.05,completed
+665,C1190,2024-11-13,East,Sports,Jump Rope,3,250.48,751.44,refunded
+666,C1143,2024-07-22,South,Beauty,Moisturizer,1,267.6,267.6,completed
+667,C1244,2024-10-03,North,Beauty,Sunscreen,4,431.59,1726.36,completed
+668,C1234,2024-03-02,Central,Sports,Water Bottle,1,15.78,15.78,completed
+669,C1194,2024-10-24,North,Home,Mug Set,5,432.29,2161.45,completed
+670,C1280,2024-05-14,South,Home,Blanket,5,178.11,890.55,completed
+671,C1255,2024-08-05,South,Sports,Water Bottle,3,428.61,1285.83,completed
+672,C1230,2024-04-02,Central,Clothing,Dress,2,408.94,817.88,pending
+673,C1138,2024-04-30,Central,Sports,Resistance Band,2,81.45,162.9,pending
+674,C1076,2024-08-30,North,Clothing,Sneakers,4,75.88,303.52,pending
+675,C1264,2024-09-30,East,Sports,Water Bottle,3,285.44,856.32,refunded
+676,C1024,2024-07-22,North,Books,Cookbook,1,115.57,115.57,completed
+677,C1243,2024-11-18,North,Sports,Water Bottle,3,186.86,560.58,refunded
+678,C1285,2024-05-11,East,Electronics,Charger,1,182.02,182.02,pending
+679,C1101,2024-10-22,Central,Books,History,2,489.88,979.76,completed
+680,C1181,2024-06-15,Central,Sports,Resistance Band,1,196.71,196.71,completed
+681,C1237,2024-11-19,South,Clothing,Jacket,4,319.31,1277.24,refunded
+682,C1207,2024-02-06,North,Clothing,Jacket,2,163.6,327.2,pending
+683,C1149,2024-12-29,East,Beauty,Shampoo,3,444.96,1334.88,completed
+684,C1266,2024-08-18,West,Clothing,Jeans,1,71.26,71.26,completed
+685,C1128,2024-12-24,North,Clothing,Jeans,4,60.46,241.84,completed
+686,C1242,2024-10-07,North,Electronics,Charger,5,384.84,1924.2,completed
+687,C1053,2024-05-14,Central,Clothing,T-Shirt,4,161.58,646.32,completed
+688,C1145,2024-08-14,South,Clothing,Dress,2,23.99,47.98,pending
+689,C1182,2024-06-15,West,Sports,Jump Rope,3,278.78,836.34,completed
+690,C1276,2024-03-31,Central,Beauty,Shampoo,5,223.13,1115.65,pending
+691,C1273,2024-06-07,East,Sports,Jump Rope,2,404.3,808.6,completed
+692,C1157,2024-07-06,West,Home,Pillow,3,15.16,45.48,refunded
+693,C1069,2024-06-25,East,Sports,Jump Rope,1,347.0,347.0,completed
+694,C1244,2024-06-02,North,Sports,Water Bottle,5,123.29,616.45,completed
+695,C1280,2024-07-10,South,Sports,Jump Rope,4,203.42,813.68,completed
+696,C1199,2024-07-12,South,Home,Lamp,4,316.4,1265.6,refunded
+697,C1139,2024-05-25,Central,Home,Blanket,2,428.2,856.4,completed
+698,C1069,2024-05-28,North,Books,Sci-Fi,5,231.85,1159.25,pending
+699,C1251,2024-04-06,East,Electronics,Smartwatch,1,485.15,485.15,completed
+700,C1095,2024-02-22,East,Home,Pillow,4,366.27,1465.08,completed
+701,C1046,2024-03-18,North,Sports,Dumbbells,3,215.91,647.73,completed
+702,C1190,2024-08-25,North,Home,Lamp,2,37.45,74.9,completed
+703,C1036,2024-10-05,West,Clothing,Jeans,3,410.44,1231.32,completed
+704,C1062,2024-12-31,South,Sports,Resistance Band,2,371.42,742.84,completed
+705,C1101,2024-08-23,North,Beauty,Moisturizer,4,200.66,802.64,completed
+706,C1165,2024-03-22,North,Books,History,5,69.84,349.2,completed
+707,C1152,2024-04-11,East,Electronics,Smartwatch,1,125.61,125.61,completed
+708,C1166,2024-01-08,South,Home,Candle,1,203.94,203.94,completed
+709,C1004,2024-01-22,Central,Books,Sci-Fi,5,85.94,429.7,completed
+710,C1127,2024-03-21,West,Electronics,Keyboard,3,466.11,1398.33,pending
+711,C1030,2024-01-31,East,Books,Cookbook,5,397.81,1989.05,completed
+712,C1249,2024-04-29,East,Beauty,Sunscreen,4,369.25,1477.0,completed
+713,C1193,2024-07-02,South,Home,Lamp,4,356.24,1424.96,refunded
+714,C1150,2024-10-04,West,Clothing,Dress,2,276.36,552.72,completed
+715,C1239,2024-05-20,Central,Beauty,Moisturizer,1,270.25,270.25,completed
+716,C1151,2024-05-14,Central,Home,Blanket,1,390.19,390.19,refunded
+717,C1194,2024-04-04,North,Beauty,Sunscreen,5,127.0,635.0,pending
+718,C1032,2024-12-03,Central,Sports,Dumbbells,5,344.77,1723.85,refunded
+719,C1078,2024-11-09,East,Home,Blanket,3,64.12,192.36,refunded
+720,C1034,2024-01-23,South,Clothing,T-Shirt,2,62.45,124.9,completed
+721,C1050,2024-01-17,Central,Books,Sci-Fi,4,267.64,1070.56,pending
+722,C1131,2024-01-26,East,Clothing,Dress,1,16.4,16.4,completed
+723,C1251,2024-02-10,West,Books,Novel,3,283.42,850.26,completed
+724,C1188,2024-12-28,North,Beauty,Sunscreen,5,29.91,149.55,completed
+725,C1155,2024-02-09,South,Beauty,Serum,1,365.32,365.32,refunded
+726,C1197,2024-04-07,South,Beauty,Moisturizer,5,316.4,1582.0,completed
+727,C1285,2024-10-12,West,Books,Novel,5,185.39,926.95,completed
+728,C1218,2024-02-23,South,Clothing,Dress,4,257.29,1029.16,pending
+729,C1080,2024-09-30,Central,Sports,Water Bottle,3,279.53,838.59,completed
+730,C1190,2024-07-30,West,Books,Biography,5,127.94,639.7,refunded
+731,C1109,2024-07-11,Central,Books,Biography,3,481.2,1443.6,completed
+732,C1203,2024-01-01,North,Home,Candle,1,263.62,263.62,completed
+733,C1003,2024-06-02,South,Clothing,Jacket,1,388.04,388.04,pending
+734,C1141,2024-10-10,Central,Beauty,Lip Balm,5,85.8,429.0,completed
+735,C1235,2024-07-01,South,Clothing,Jacket,3,445.91,1337.73,completed
+736,C1119,2024-05-11,East,Electronics,Keyboard,4,288.83,1155.32,completed
+737,C1039,2024-06-15,West,Clothing,Sneakers,5,411.55,2057.75,completed
+738,C1153,2024-01-20,Central,Sports,Yoga Mat,1,461.71,461.71,completed
+739,C1178,2024-08-10,West,Electronics,Smartwatch,5,465.03,2325.15,pending
+740,C1195,2024-01-28,East,Beauty,Serum,3,274.56,823.68,completed
+741,C1167,2024-09-14,South,Clothing,T-Shirt,4,485.8,1943.2,refunded
+742,C1294,2024-09-15,North,Clothing,Sneakers,3,395.31,1185.93,completed
+743,C1067,2024-06-21,North,Sports,Jump Rope,1,278.58,278.58,completed
+744,C1043,2024-07-23,Central,Sports,Dumbbells,2,245.64,491.28,completed
+745,C1249,2024-07-21,Central,Clothing,Dress,5,498.56,2492.8,refunded
+746,C1126,2024-05-04,North,Home,Blanket,3,345.51,1036.53,refunded
+747,C1045,2024-02-27,West,Sports,Water Bottle,3,103.33,309.99,completed
+748,C1012,2024-06-05,South,Home,Candle,4,315.35,1261.4,completed
+749,C1022,2024-04-29,South,Books,Biography,2,381.28,762.56,completed
+750,C1057,2024-01-28,South,Beauty,Moisturizer,3,16.72,50.16,pending
+751,C1056,2024-06-05,West,Sports,Yoga Mat,3,112.4,337.2,refunded
+752,C1108,2024-04-14,Central,Beauty,Sunscreen,5,246.67,1233.35,pending
+753,C1072,2024-12-21,North,Sports,Jump Rope,5,31.3,156.5,completed
+754,C1030,2024-05-25,South,Books,History,3,36.0,108.0,pending
+755,C1004,2024-02-04,West,Books,Biography,3,433.49,1300.47,completed
+756,C1149,2024-11-28,West,Clothing,Sneakers,5,488.53,2442.65,completed
+757,C1161,2024-09-05,Central,Beauty,Serum,2,107.44,214.88,completed
+758,C1287,2024-12-30,North,Electronics,Smartwatch,5,159.4,797.0,completed
+759,C1201,2024-03-21,North,Home,Mug Set,3,316.35,949.05,completed
+760,C1256,2024-05-21,North,Books,Biography,4,446.29,1785.16,completed
+761,C1284,2024-05-23,South,Clothing,Jacket,4,331.89,1327.56,completed
+762,C1195,2024-09-23,Central,Books,Cookbook,4,127.77,511.08,completed
+763,C1218,2024-06-08,Central,Home,Blanket,5,74.56,372.8,pending
+764,C1070,2024-10-24,Central,Books,Cookbook,2,161.4,322.8,pending
+765,C1268,2024-03-10,West,Clothing,Dress,2,165.56,331.12,refunded
+766,C1272,2024-03-01,South,Home,Pillow,1,385.05,385.05,completed
+767,C1210,2024-06-04,West,Books,Biography,2,391.75,783.5,completed
+768,C1067,2024-04-04,North,Beauty,Lip Balm,3,306.74,920.22,refunded
+769,C1118,2024-11-01,South,Clothing,T-Shirt,3,48.93,146.79,completed
+770,C1068,2024-09-14,Central,Sports,Water Bottle,2,427.53,855.06,completed
+771,C1242,2024-03-11,South,Clothing,Jeans,1,210.2,210.2,completed
+772,C1138,2024-07-30,South,Books,Cookbook,2,42.4,84.8,completed
+773,C1250,2024-12-18,East,Sports,Dumbbells,4,208.37,833.48,completed
+774,C1194,2024-06-09,West,Beauty,Lip Balm,5,272.71,1363.55,pending
+775,C1019,2024-09-23,North,Sports,Resistance Band,1,440.1,440.1,completed
+776,C1265,2024-10-02,West,Books,Novel,5,199.81,999.05,pending
+777,C1025,2024-04-07,East,Sports,Resistance Band,3,389.09,1167.27,completed
+778,C1236,2024-03-26,West,Home,Candle,1,348.07,348.07,completed
+779,C1237,2024-11-26,West,Electronics,Keyboard,1,98.08,98.08,refunded
+780,C1279,2024-03-10,West,Sports,Water Bottle,4,22.2,88.8,completed
+781,C1103,2024-08-20,North,Home,Mug Set,2,361.99,723.98,completed
+782,C1046,2024-02-28,West,Books,Biography,1,266.66,266.66,completed
+783,C1261,2024-11-09,South,Sports,Jump Rope,4,31.5,126.0,completed
+784,C1171,2024-10-16,South,Clothing,Jeans,2,386.88,773.76,completed
+785,C1214,2024-06-06,East,Books,Sci-Fi,3,316.95,950.85,completed
+786,C1067,2024-04-13,North,Beauty,Sunscreen,1,234.72,234.72,completed
+787,C1278,2024-01-03,Central,Sports,Dumbbells,2,298.53,597.06,completed
+788,C1232,2024-07-28,West,Electronics,Keyboard,5,13.21,66.05,refunded
+789,C1142,2024-11-13,Central,Clothing,T-Shirt,2,82.64,165.28,pending
+790,C1178,2024-01-19,South,Electronics,Keyboard,5,156.23,781.15,completed
+791,C1025,2024-02-25,West,Clothing,Jeans,3,309.42,928.26,pending
+792,C1293,2024-10-14,South,Sports,Jump Rope,3,466.42,1399.26,completed
+793,C1153,2024-06-14,East,Sports,Yoga Mat,4,423.21,1692.84,completed
+794,C1149,2024-08-29,South,Electronics,Speaker,3,268.25,804.75,refunded
+795,C1107,2024-12-22,South,Beauty,Serum,1,289.96,289.96,pending
+796,C1270,2024-02-14,West,Books,History,3,219.25,657.75,completed
+797,C1132,2024-09-26,Central,Beauty,Sunscreen,2,310.99,621.98,completed
+798,C1266,2024-11-19,West,Sports,Dumbbells,5,124.02,620.1,completed
+799,C1099,2024-01-01,North,Electronics,Charger,1,371.35,371.35,completed
+800,C1212,2024-07-30,North,Home,Mug Set,5,404.95,2024.75,completed
+801,C1005,2024-11-23,South,Books,Biography,3,397.19,1191.57,completed
+802,C1153,2024-09-16,Central,Home,Lamp,1,346.05,346.05,completed
+803,C1202,2024-10-18,Central,Electronics,Smartwatch,2,171.94,343.88,completed
+804,C1245,2024-08-30,North,Books,Cookbook,4,86.13,344.52,completed
+805,C1274,2024-06-20,West,Sports,Yoga Mat,5,156.67,783.35,pending
+806,C1161,2024-10-11,Central,Electronics,Smartwatch,5,345.88,1729.4,completed
+807,C1033,2024-03-17,East,Electronics,Speaker,4,316.98,1267.92,completed
+808,C1292,2024-11-06,West,Clothing,Dress,1,433.64,433.64,completed
+809,C1161,2024-12-29,North,Home,Blanket,1,253.55,253.55,completed
+810,C1190,2024-08-19,East,Clothing,Dress,3,95.75,287.25,completed
+811,C1019,2024-04-13,North,Sports,Jump Rope,1,401.51,401.51,refunded
+812,C1078,2024-04-07,East,Sports,Jump Rope,3,390.0,1170.0,completed
+813,C1050,2024-09-21,South,Clothing,T-Shirt,4,199.91,799.64,refunded
+814,C1059,2024-01-03,East,Electronics,Keyboard,1,173.3,173.3,completed
+815,C1052,2024-09-23,East,Electronics,Keyboard,3,323.03,969.09,completed
+816,C1164,2024-04-12,South,Home,Mug Set,5,166.37,831.85,completed
+817,C1060,2024-05-19,South,Clothing,Jacket,1,17.47,17.47,refunded
+818,C1286,2024-09-20,North,Clothing,Dress,3,279.18,837.54,completed
+819,C1072,2024-12-26,East,Beauty,Moisturizer,2,44.9,89.8,refunded
+820,C1173,2024-10-03,West,Electronics,Smartwatch,1,240.65,240.65,pending
+821,C1025,2024-02-24,West,Electronics,Headphones,4,202.03,808.12,pending
+822,C1228,2024-11-11,East,Home,Mug Set,2,359.31,718.62,pending
+823,C1273,2024-02-10,West,Beauty,Moisturizer,1,408.29,408.29,pending
+824,C1239,2024-02-19,West,Home,Blanket,4,123.52,494.08,completed
+825,C1073,2024-11-11,East,Home,Blanket,2,352.8,705.6,pending
+826,C1169,2024-06-15,West,Sports,Yoga Mat,1,242.9,242.9,completed
+827,C1245,2024-08-24,South,Home,Mug Set,5,291.58,1457.9,refunded
+828,C1052,2024-07-26,North,Home,Candle,1,398.28,398.28,refunded
+829,C1236,2024-07-24,Central,Sports,Dumbbells,5,129.4,647.0,completed
+830,C1246,2024-07-15,North,Home,Pillow,5,221.25,1106.25,completed
+831,C1290,2024-06-24,Central,Books,Cookbook,2,334.67,669.34,completed
+832,C1293,2024-09-06,North,Beauty,Lip Balm,4,169.43,677.72,completed
+833,C1227,2024-03-31,East,Sports,Yoga Mat,5,63.27,316.35,refunded
+834,C1194,2024-06-16,West,Books,Novel,1,116.62,116.62,completed
+835,C1297,2024-11-21,North,Clothing,Jeans,4,270.31,1081.24,completed
+836,C1295,2024-08-16,South,Clothing,Jacket,3,289.43,868.29,pending
+837,C1155,2024-08-10,East,Electronics,Keyboard,1,309.62,309.62,refunded
+838,C1206,2024-03-06,East,Electronics,Speaker,5,484.26,2421.3,completed
+839,C1286,2024-07-02,North,Home,Lamp,2,221.53,443.06,refunded
+840,C1201,2024-11-16,East,Books,Sci-Fi,4,196.96,787.84,refunded
+841,C1108,2024-12-05,South,Sports,Dumbbells,2,282.15,564.3,completed
+842,C1213,2024-03-19,East,Books,Cookbook,2,15.68,31.36,pending
+843,C1008,2024-03-14,West,Books,Sci-Fi,2,51.48,102.96,pending
+844,C1212,2024-08-21,Central,Sports,Jump Rope,2,232.64,465.28,completed
+845,C1282,2024-08-18,West,Home,Pillow,2,218.13,436.26,completed
+846,C1295,2024-09-12,South,Books,History,3,211.3,633.9,refunded
+847,C1295,2024-07-06,North,Electronics,Keyboard,4,355.38,1421.52,completed
+848,C1297,2024-09-03,North,Clothing,Dress,3,237.81,713.43,completed
+849,C1267,2024-11-08,North,Clothing,Sneakers,1,345.19,345.19,refunded
+850,C1296,2024-06-08,Central,Electronics,Speaker,5,391.47,1957.35,completed
+851,C1232,2024-09-19,West,Beauty,Sunscreen,4,182.92,731.68,completed
+852,C1148,2024-03-26,North,Books,History,3,366.21,1098.63,refunded
+853,C1133,2024-02-01,West,Beauty,Moisturizer,5,35.28,176.4,completed
+854,C1013,2024-05-26,West,Electronics,Smartwatch,5,47.65,238.25,completed
+855,C1129,2024-03-08,Central,Home,Mug Set,3,16.95,50.85,completed
+856,C1089,2024-10-29,South,Books,Sci-Fi,3,405.83,1217.49,completed
+857,C1120,2024-09-05,South,Beauty,Serum,3,492.19,1476.57,completed
+858,C1078,2024-09-10,West,Sports,Dumbbells,4,365.73,1462.92,completed
+859,C1107,2024-10-22,East,Electronics,Speaker,1,35.73,35.73,completed
+860,C1204,2024-08-31,East,Sports,Jump Rope,2,196.09,392.18,pending
+861,C1199,2024-08-30,East,Clothing,Dress,4,15.8,63.2,completed
+862,C1195,2024-12-13,East,Beauty,Serum,1,459.67,459.67,pending
+863,C1181,2024-08-09,Central,Books,Biography,3,142.45,427.35,completed
+864,C1130,2024-12-01,Central,Sports,Resistance Band,2,369.8,739.6,refunded
+865,C1099,2024-09-23,East,Books,Cookbook,3,278.32,834.96,pending
+866,C1004,2024-02-04,North,Sports,Yoga Mat,5,60.9,304.5,completed
+867,C1179,2024-04-22,East,Home,Pillow,1,21.6,21.6,completed
+868,C1029,2024-10-31,South,Beauty,Serum,1,52.32,52.32,refunded
+869,C1066,2024-07-11,Central,Clothing,T-Shirt,2,134.12,268.24,completed
+870,C1038,2024-11-23,West,Home,Blanket,3,136.08,408.24,completed
+871,C1141,2024-02-01,West,Sports,Water Bottle,1,136.53,136.53,completed
+872,C1091,2024-08-13,North,Sports,Dumbbells,5,202.38,1011.9,pending
+873,C1251,2024-02-25,South,Beauty,Shampoo,2,310.83,621.66,completed
+874,C1226,2024-05-12,North,Electronics,Headphones,1,289.95,289.95,completed
+875,C1228,2024-01-10,West,Clothing,T-Shirt,1,335.65,335.65,completed
+876,C1077,2024-12-24,East,Sports,Jump Rope,1,262.53,262.53,completed
+877,C1244,2024-08-11,West,Books,Novel,5,120.65,603.25,completed
+878,C1246,2024-03-03,Central,Beauty,Sunscreen,3,344.09,1032.27,completed
+879,C1028,2024-11-19,North,Home,Candle,3,49.41,148.23,completed
+880,C1148,2024-11-27,South,Clothing,Dress,1,484.07,484.07,pending
+881,C1097,2024-06-02,West,Electronics,Speaker,4,51.57,206.28,pending
+882,C1224,2024-04-07,South,Electronics,Smartwatch,1,362.66,362.66,refunded
+883,C1122,2024-09-07,West,Electronics,Keyboard,3,254.84,764.52,completed
+884,C1008,2024-01-19,East,Electronics,Speaker,1,208.69,208.69,completed
+885,C1267,2024-08-22,Central,Clothing,Dress,2,463.15,926.3,completed
+886,C1072,2024-09-07,North,Sports,Jump Rope,1,128.9,128.9,pending
+887,C1066,2024-01-08,South,Books,Novel,3,412.15,1236.45,completed
+888,C1233,2024-11-08,South,Beauty,Serum,1,65.94,65.94,refunded
+889,C1112,2024-02-02,South,Sports,Water Bottle,4,168.87,675.48,pending
+890,C1294,2024-10-06,South,Home,Pillow,1,300.6,300.6,completed
+891,C1032,2024-03-02,East,Clothing,Sneakers,2,351.17,702.34,refunded
+892,C1084,2024-08-12,South,Beauty,Serum,2,58.97,117.94,pending
+893,C1192,2024-03-21,North,Sports,Yoga Mat,1,13.53,13.53,completed
+894,C1145,2024-08-01,West,Books,Cookbook,2,80.1,160.2,completed
+895,C1267,2024-08-18,West,Clothing,Jeans,5,348.91,1744.55,refunded
+896,C1092,2024-09-12,Central,Electronics,Speaker,3,215.2,645.6,refunded
+897,C1120,2024-04-08,North,Beauty,Serum,5,187.32,936.6,refunded
+898,C1259,2024-04-22,West,Books,Cookbook,3,35.99,107.97,completed
+899,C1076,2024-12-16,West,Sports,Dumbbells,2,338.36,676.72,completed
+900,C1027,2024-11-26,East,Home,Pillow,4,133.17,532.68,refunded
+901,C1232,2024-01-23,North,Books,Novel,5,96.17,480.85,completed
+902,C1248,2024-09-20,North,Electronics,Smartwatch,4,300.42,1201.68,completed
+903,C1214,2024-04-11,East,Clothing,T-Shirt,3,121.6,364.8,completed
+904,C1211,2024-04-12,West,Clothing,T-Shirt,4,296.69,1186.76,completed
+905,C1223,2024-03-15,South,Beauty,Shampoo,2,199.78,399.56,completed
+906,C1234,2024-04-09,East,Home,Pillow,3,72.32,216.96,pending
+907,C1291,2024-01-31,East,Clothing,T-Shirt,4,234.69,938.76,completed
+908,C1175,2024-04-22,East,Beauty,Moisturizer,5,453.72,2268.6,refunded
+909,C1283,2024-04-27,North,Sports,Jump Rope,4,432.47,1729.88,completed
+910,C1242,2024-08-24,East,Electronics,Charger,2,131.43,262.86,completed
+911,C1296,2024-04-23,Central,Clothing,Dress,1,214.7,214.7,completed
+912,C1020,2024-08-28,Central,Electronics,Charger,5,203.21,1016.05,pending
+913,C1050,2024-08-19,West,Clothing,T-Shirt,5,379.0,1895.0,pending
+914,C1208,2024-04-21,South,Home,Mug Set,2,327.33,654.66,completed
+915,C1008,2024-09-02,East,Clothing,Sneakers,5,376.16,1880.8,completed
+916,C1232,2024-08-25,South,Books,Sci-Fi,2,397.02,794.04,completed
+917,C1237,2024-12-26,North,Books,Novel,4,447.77,1791.08,completed
+918,C1271,2024-01-17,East,Sports,Water Bottle,5,275.78,1378.9,completed
+919,C1041,2024-11-13,East,Books,Novel,5,473.2,2366.0,pending
+920,C1186,2024-01-27,North,Sports,Water Bottle,4,313.37,1253.48,completed
+921,C1187,2024-03-30,Central,Books,Novel,5,357.57,1787.85,completed
+922,C1070,2024-06-20,South,Beauty,Serum,4,371.31,1485.24,refunded
+923,C1107,2024-04-25,East,Home,Mug Set,5,343.3,1716.5,completed
+924,C1027,2024-02-02,East,Home,Blanket,4,255.7,1022.8,completed
+925,C1240,2024-12-29,Central,Books,History,3,231.46,694.38,completed
+926,C1033,2024-04-06,West,Electronics,Headphones,4,449.98,1799.92,completed
+927,C1039,2024-02-25,South,Home,Lamp,2,253.19,506.38,completed
+928,C1266,2024-11-17,North,Home,Blanket,5,466.53,2332.65,completed
+929,C1177,2024-08-03,West,Books,Novel,3,102.63,307.89,completed
+930,C1118,2024-09-23,East,Sports,Jump Rope,3,331.31,993.93,completed
+931,C1248,2024-10-30,Central,Beauty,Shampoo,4,158.99,635.96,completed
+932,C1156,2024-03-28,East,Clothing,Sneakers,3,485.64,1456.92,completed
+933,C1075,2024-06-29,East,Sports,Dumbbells,5,462.81,2314.05,pending
+934,C1274,2024-05-26,South,Clothing,Jeans,2,126.56,253.12,completed
+935,C1162,2024-10-21,South,Sports,Water Bottle,3,100.39,301.17,refunded
+936,C1017,2024-12-06,East,Home,Pillow,3,229.72,689.16,completed
+937,C1273,2024-06-03,North,Electronics,Charger,4,386.56,1546.24,completed
+938,C1163,2024-03-20,North,Books,History,5,172.32,861.6,pending
+939,C1151,2024-08-30,East,Beauty,Moisturizer,5,366.98,1834.9,completed
+940,C1173,2024-12-18,North,Books,Sci-Fi,1,78.31,78.31,refunded
+941,C1059,2024-06-06,North,Sports,Jump Rope,2,228.52,457.04,completed
+942,C1167,2024-01-29,Central,Books,Cookbook,5,267.94,1339.7,completed
+943,C1100,2024-01-12,North,Beauty,Shampoo,1,488.15,488.15,completed
+944,C1099,2024-09-08,East,Beauty,Lip Balm,5,472.26,2361.3,pending
+945,C1184,2024-07-22,South,Books,Sci-Fi,3,199.19,597.57,completed
+946,C1145,2024-06-25,East,Home,Blanket,5,52.91,264.55,pending
+947,C1227,2024-07-31,West,Home,Pillow,4,367.01,1468.04,completed
+948,C1071,2024-10-27,Central,Electronics,Smartwatch,2,158.57,317.14,refunded
+949,C1171,2024-02-03,Central,Sports,Yoga Mat,1,210.63,210.63,completed
+950,C1212,2024-03-30,Central,Sports,Jump Rope,2,107.63,215.26,completed
+951,C1148,2024-10-10,West,Electronics,Speaker,5,158.91,794.55,refunded
+952,C1237,2024-04-24,North,Electronics,Smartwatch,3,157.07,471.21,pending
+953,C1241,2024-03-04,East,Sports,Dumbbells,4,454.32,1817.28,pending
+954,C1125,2024-01-15,North,Home,Blanket,1,303.45,303.45,completed
+955,C1297,2024-09-03,Central,Sports,Water Bottle,4,487.38,1949.52,completed
+956,C1191,2024-09-19,Central,Electronics,Speaker,2,295.0,590.0,completed
+957,C1163,2024-08-24,South,Home,Pillow,1,143.6,143.6,completed
+958,C1182,2024-01-25,East,Home,Candle,1,261.78,261.78,pending
+959,C1093,2024-02-18,Central,Clothing,Dress,3,437.49,1312.47,pending
+960,C1154,2024-05-18,East,Electronics,Keyboard,5,182.29,911.45,completed
+961,C1006,2024-03-11,Central,Home,Mug Set,4,211.87,847.48,completed
+962,C1052,2024-04-21,South,Beauty,Moisturizer,2,399.59,799.18,refunded
+963,C1269,2024-09-29,Central,Books,Novel,4,235.63,942.52,completed
+964,C1059,2024-03-08,North,Sports,Water Bottle,3,348.6,1045.8,completed
+965,C1226,2024-11-01,Central,Home,Pillow,3,24.08,72.24,completed
+966,C1113,2024-03-06,South,Books,Cookbook,3,71.41,214.23,completed
+967,C1040,2024-08-05,North,Electronics,Headphones,4,381.08,1524.32,completed
+968,C1100,2024-02-25,North,Books,History,5,39.03,195.15,completed
+969,C1129,2024-01-23,North,Home,Lamp,1,393.35,393.35,refunded
+970,C1105,2024-10-27,South,Clothing,Jacket,1,54.47,54.47,pending
+971,C1142,2024-10-23,East,Home,Pillow,5,392.58,1962.9,refunded
+972,C1123,2024-09-15,Central,Electronics,Headphones,5,383.98,1919.9,refunded
+973,C1111,2024-04-08,East,Clothing,Dress,1,487.04,487.04,completed
+974,C1109,2024-09-15,West,Home,Candle,2,225.43,450.86,completed
+975,C1092,2024-06-30,West,Sports,Dumbbells,5,121.49,607.45,completed
+976,C1160,2024-03-04,West,Electronics,Keyboard,2,252.94,505.88,completed
+977,C1147,2024-10-12,North,Electronics,Speaker,4,66.69,266.76,completed
+978,C1233,2024-11-03,East,Books,Sci-Fi,2,281.41,562.82,completed
+979,C1219,2024-04-06,North,Sports,Water Bottle,2,16.26,32.52,pending
+980,C1251,2024-12-10,North,Sports,Resistance Band,5,332.68,1663.4,completed
+981,C1061,2024-03-14,West,Sports,Jump Rope,1,373.29,373.29,completed
+982,C1033,2024-07-05,South,Home,Pillow,5,423.56,2117.8,completed
+983,C1062,2024-04-29,West,Books,Sci-Fi,3,384.75,1154.25,refunded
+984,C1139,2024-11-25,West,Home,Blanket,5,475.56,2377.8,completed
+985,C1261,2024-05-22,South,Sports,Yoga Mat,1,132.83,132.83,completed
+986,C1118,2024-11-17,South,Electronics,Headphones,1,416.84,416.84,completed
+987,C1013,2024-04-01,West,Beauty,Sunscreen,2,158.34,316.68,refunded
+988,C1049,2024-02-09,Central,Sports,Resistance Band,2,153.84,307.68,completed
+989,C1251,2024-09-15,East,Beauty,Sunscreen,5,277.83,1389.15,completed
+990,C1220,2024-03-01,West,Sports,Water Bottle,4,226.84,907.36,completed
+991,C1016,2024-03-31,Central,Books,Biography,2,250.82,501.64,completed
+992,C1159,2024-07-18,West,Electronics,Keyboard,4,333.43,1333.72,pending
+993,C1276,2024-10-19,West,Sports,Jump Rope,2,258.27,516.54,completed
+994,C1134,2024-09-10,Central,Sports,Jump Rope,3,385.56,1156.68,completed
+995,C1164,2024-02-01,North,Beauty,Serum,2,420.09,840.18,completed
+996,C1298,2024-01-14,East,Sports,Yoga Mat,4,179.11,716.44,completed
+997,C1210,2024-06-28,North,Books,Cookbook,2,124.95,249.9,completed
+998,C1043,2024-12-18,North,Home,Lamp,3,93.18,279.54,refunded
+999,C1166,2024-01-20,West,Books,Sci-Fi,5,262.22,1311.1,completed
+1000,C1136,2024-01-11,West,Beauty,Serum,3,195.08,585.24,completed
+1001,C1165,2024-10-20,North,Sports,Yoga Mat,2,174.61,349.22,refunded
+1002,C1173,2024-03-26,Central,Home,Mug Set,4,108.85,435.4,pending
+1003,C1038,2024-10-01,South,Home,Mug Set,1,155.68,155.68,refunded
+1004,C1205,2024-04-25,Central,Books,Novel,5,56.41,282.05,completed
+1005,C1139,2024-02-04,Central,Beauty,Shampoo,4,112.76,451.04,completed
+1006,C1154,2024-09-15,East,Sports,Jump Rope,3,108.03,324.09,completed
+1007,C1128,2024-11-15,Central,Sports,Jump Rope,2,441.63,883.26,pending
+1008,C1264,2024-04-05,Central,Sports,Dumbbells,4,141.28,565.12,pending
+1009,C1272,2024-11-10,West,Beauty,Serum,5,108.31,541.55,completed
+1010,C1075,2024-05-03,South,Books,Biography,4,211.02,844.08,completed
+1011,C1104,2024-07-30,East,Home,Pillow,3,346.55,1039.65,completed
+1012,C1207,2024-05-02,North,Clothing,Jeans,1,130.33,130.33,completed
+1013,C1237,2024-09-05,Central,Sports,Resistance Band,1,108.97,108.97,completed
+1014,C1069,2024-01-15,East,Home,Candle,2,325.69,651.38,completed
+1015,C1248,2024-01-11,North,Electronics,Speaker,5,156.0,780.0,completed
+1016,C1208,2024-07-05,North,Sports,Dumbbells,2,64.84,129.68,pending
+1017,C1256,2024-03-02,Central,Books,History,5,133.38,666.9,completed
+1018,C1121,2024-11-03,North,Home,Mug Set,5,371.24,1856.2,pending
+1019,C1120,2024-08-04,South,Clothing,T-Shirt,2,114.9,229.8,completed
+1020,C1225,2024-07-28,East,Beauty,Serum,4,271.39,1085.56,pending
+1021,C1057,2024-06-11,Central,Sports,Resistance Band,2,482.01,964.02,completed
+1022,C1185,2024-08-31,East,Home,Lamp,5,27.05,135.25,pending
+1023,C1027,2024-12-19,South,Home,Candle,4,161.53,646.12,pending
+1024,C1185,2024-12-16,North,Beauty,Moisturizer,4,200.34,801.36,completed
+1025,C1130,2024-06-03,North,Clothing,Jacket,2,431.1,862.2,completed
+1026,C1224,2024-11-19,East,Books,Sci-Fi,1,144.27,144.27,completed
+1027,C1251,2024-08-29,West,Home,Blanket,1,413.95,413.95,pending
+1028,C1133,2024-09-16,North,Home,Blanket,5,367.31,1836.55,refunded
+1029,C1167,2024-08-20,North,Electronics,Smartwatch,4,397.59,1590.36,completed
+1030,C1001,2024-07-24,South,Books,Biography,3,292.14,876.42,completed
+1031,C1080,2024-05-07,Central,Books,Cookbook,5,346.01,1730.05,completed
+1032,C1231,2024-09-01,South,Home,Pillow,5,415.11,2075.55,completed
+1033,C1101,2024-02-13,West,Home,Pillow,4,439.42,1757.68,refunded
+1034,C1114,2024-01-11,North,Beauty,Lip Balm,2,454.34,908.68,completed
+1035,C1101,2024-05-14,South,Electronics,Charger,5,220.15,1100.75,completed
+1036,C1076,2024-02-15,East,Clothing,Dress,1,16.91,16.91,refunded
+1037,C1222,2024-08-20,West,Electronics,Smartwatch,2,103.36,206.72,completed
+1038,C1147,2024-09-10,West,Clothing,Sneakers,2,304.03,608.06,completed
+1039,C1096,2024-08-02,South,Sports,Dumbbells,1,152.18,152.18,completed
+1040,C1120,2024-11-12,West,Clothing,Jacket,5,345.28,1726.4,completed
+1041,C1043,2024-01-06,West,Clothing,Jacket,4,346.55,1386.2,pending
+1042,C1196,2024-12-28,West,Books,History,3,45.79,137.37,refunded
+1043,C1030,2024-01-27,East,Clothing,Sneakers,3,498.39,1495.17,pending
+1044,C1023,2024-01-03,East,Beauty,Lip Balm,4,158.22,632.88,completed
+1045,C1189,2024-03-08,Central,Electronics,Keyboard,2,137.53,275.06,refunded
+1046,C1252,2024-06-22,West,Clothing,T-Shirt,3,358.02,1074.06,completed
+1047,C1072,2024-05-13,North,Home,Lamp,2,254.6,509.2,completed
+1048,C1184,2024-08-08,East,Home,Candle,3,263.31,789.93,completed
+1049,C1084,2024-06-10,West,Clothing,Dress,4,36.07,144.28,completed
+1050,C1027,2024-04-27,South,Electronics,Charger,3,90.13,270.39,completed
+1051,C1223,2024-02-29,West,Electronics,Charger,3,494.51,1483.53,refunded
+1052,C1248,2024-08-22,West,Electronics,Smartwatch,1,181.3,181.3,completed
+1053,C1145,2024-04-02,South,Books,History,3,285.98,857.94,pending
+1054,C1299,2024-04-18,Central,Electronics,Keyboard,5,98.47,492.35,completed
+1055,C1126,2024-09-12,North,Home,Lamp,3,343.83,1031.49,pending
+1056,C1062,2024-07-20,East,Beauty,Serum,3,85.34,256.02,completed
+1057,C1235,2024-12-28,West,Sports,Water Bottle,5,332.41,1662.05,completed
+1058,C1022,2024-12-01,Central,Sports,Water Bottle,5,73.36,366.8,completed
+1059,C1144,2024-06-14,North,Books,Novel,5,476.42,2382.1,completed
+1060,C1047,2024-07-23,East,Clothing,Jeans,4,53.69,214.76,completed
+1061,C1083,2024-07-17,West,Home,Pillow,1,156.28,156.28,completed
+1062,C1158,2024-12-16,Central,Clothing,Jacket,1,417.7,417.7,refunded
+1063,C1102,2024-09-07,West,Sports,Resistance Band,3,285.89,857.67,completed
+1064,C1046,2024-08-04,East,Beauty,Moisturizer,4,319.03,1276.12,completed
+1065,C1020,2024-09-19,East,Sports,Dumbbells,2,466.02,932.04,refunded
+1066,C1268,2024-02-12,East,Sports,Resistance Band,1,454.52,454.52,completed
+1067,C1153,2024-03-17,South,Books,Biography,2,266.31,532.62,completed
+1068,C1291,2024-01-25,Central,Electronics,Headphones,5,62.73,313.65,completed
+1069,C1211,2024-02-18,West,Books,History,3,184.16,552.48,refunded
+1070,C1041,2024-09-14,North,Electronics,Charger,2,395.22,790.44,completed
+1071,C1023,2024-02-12,West,Books,Biography,3,297.72,893.16,completed
+1072,C1230,2024-11-15,East,Home,Pillow,2,100.68,201.36,pending
+1073,C1132,2024-12-10,North,Sports,Jump Rope,1,12.86,12.86,completed
+1074,C1006,2024-03-28,West,Sports,Resistance Band,5,365.69,1828.45,completed
+1075,C1184,2024-12-19,West,Home,Lamp,2,76.2,152.4,completed
+1076,C1057,2024-01-09,South,Electronics,Smartwatch,4,327.82,1311.28,pending
+1077,C1123,2024-08-11,Central,Clothing,T-Shirt,3,387.15,1161.45,completed
+1078,C1242,2024-08-04,North,Electronics,Smartwatch,2,371.99,743.98,completed
+1079,C1248,2024-08-29,North,Sports,Jump Rope,2,108.65,217.3,refunded
+1080,C1200,2024-01-27,East,Electronics,Headphones,4,489.94,1959.76,completed
+1081,C1296,2024-11-01,Central,Home,Lamp,4,205.83,823.32,refunded
+1082,C1249,2024-04-28,North,Beauty,Serum,4,292.43,1169.72,refunded
+1083,C1032,2024-05-17,West,Sports,Yoga Mat,4,315.11,1260.44,pending
+1084,C1177,2024-08-17,West,Electronics,Smartwatch,3,365.83,1097.49,completed
+1085,C1176,2024-08-12,South,Beauty,Moisturizer,5,455.43,2277.15,completed
+1086,C1239,2024-03-08,East,Books,Sci-Fi,4,418.2,1672.8,pending
+1087,C1184,2024-08-29,South,Beauty,Moisturizer,3,348.43,1045.29,completed
+1088,C1247,2024-03-07,South,Clothing,Jeans,5,251.16,1255.8,completed
+1089,C1252,2024-06-04,South,Clothing,Dress,1,499.63,499.63,completed
+1090,C1133,2024-07-01,South,Clothing,Dress,1,405.33,405.33,completed
+1091,C1220,2024-02-28,Central,Clothing,T-Shirt,5,119.8,599.0,completed
+1092,C1174,2024-06-30,North,Beauty,Sunscreen,2,428.16,856.32,refunded
+1093,C1053,2024-12-27,North,Sports,Resistance Band,1,487.57,487.57,refunded
+1094,C1052,2024-10-14,North,Beauty,Serum,2,318.65,637.3,completed
+1095,C1185,2024-03-21,East,Books,Sci-Fi,5,254.2,1271.0,completed
+1096,C1078,2024-11-27,East,Home,Pillow,1,425.8,425.8,completed
+1097,C1212,2024-01-04,South,Sports,Water Bottle,3,257.45,772.35,completed
+1098,C1136,2024-07-09,West,Home,Pillow,2,379.06,758.12,refunded
+1099,C1215,2024-04-26,South,Sports,Resistance Band,4,450.04,1800.16,refunded
+1100,C1185,2024-01-16,West,Clothing,T-Shirt,5,472.37,2361.85,completed
+1101,C1173,2024-06-10,West,Clothing,Sneakers,1,202.69,202.69,completed
+1102,C1077,2024-10-21,North,Books,History,3,215.45,646.35,pending
+1103,C1283,2024-06-04,East,Home,Lamp,3,451.09,1353.27,refunded
+1104,C1075,2024-12-24,West,Sports,Dumbbells,5,315.93,1579.65,refunded
+1105,C1226,2024-12-23,East,Books,Sci-Fi,2,441.67,883.34,completed
+1106,C1018,2024-10-02,East,Sports,Dumbbells,5,496.03,2480.15,completed
+1107,C1109,2024-02-17,Central,Beauty,Sunscreen,5,176.94,884.7,pending
+1108,C1081,2024-01-12,North,Beauty,Lip Balm,3,128.25,384.75,completed
+1109,C1216,2024-09-15,North,Books,Novel,3,137.27,411.81,refunded
+1110,C1181,2024-03-04,North,Books,Novel,4,155.99,623.96,pending
+1111,C1002,2024-08-20,East,Clothing,Dress,5,360.17,1800.85,pending
+1112,C1273,2024-10-31,South,Home,Mug Set,3,336.78,1010.34,pending
+1113,C1293,2024-12-10,South,Books,Sci-Fi,5,371.37,1856.85,completed
+1114,C1167,2024-09-21,Central,Clothing,Jacket,4,58.0,232.0,pending
+1115,C1217,2024-07-29,North,Electronics,Headphones,4,445.36,1781.44,completed
+1116,C1109,2024-08-16,North,Home,Candle,4,298.23,1192.92,refunded
+1117,C1202,2024-05-15,Central,Sports,Resistance Band,4,347.61,1390.44,completed
+1118,C1213,2024-03-24,South,Beauty,Moisturizer,4,358.45,1433.8,completed
+1119,C1262,2024-09-27,North,Books,Cookbook,4,241.93,967.72,pending
+1120,C1080,2024-10-13,East,Electronics,Keyboard,4,64.05,256.2,completed
+1121,C1292,2024-05-28,North,Beauty,Moisturizer,1,192.01,192.01,completed
+1122,C1155,2024-05-30,West,Electronics,Smartwatch,2,394.05,788.1,completed
+1123,C1024,2024-06-05,East,Clothing,Jeans,4,11.01,44.04,refunded
+1124,C1178,2024-02-04,North,Sports,Resistance Band,5,161.74,808.7,completed
+1125,C1172,2024-07-12,West,Books,History,2,383.35,766.7,refunded
+1126,C1235,2024-08-18,West,Clothing,Jacket,1,401.9,401.9,pending
+1127,C1209,2024-07-17,South,Sports,Water Bottle,5,32.44,162.2,pending
+1128,C1226,2024-05-22,North,Clothing,T-Shirt,5,318.74,1593.7,pending
+1129,C1158,2024-10-14,North,Books,History,1,104.28,104.28,refunded
+1130,C1277,2024-10-22,North,Beauty,Lip Balm,2,377.76,755.52,refunded
+1131,C1009,2024-03-02,Central,Clothing,T-Shirt,3,395.5,1186.5,completed
+1132,C1296,2024-08-15,North,Beauty,Lip Balm,3,206.87,620.61,completed
+1133,C1251,2024-01-12,East,Sports,Dumbbells,4,21.78,87.12,refunded
+1134,C1162,2024-07-14,East,Electronics,Headphones,1,275.46,275.46,completed
+1135,C1073,2024-04-03,East,Electronics,Smartwatch,3,476.55,1429.65,pending
+1136,C1086,2024-01-31,Central,Home,Pillow,1,359.51,359.51,completed
+1137,C1199,2024-02-20,East,Clothing,Sneakers,3,136.38,409.14,completed
+1138,C1026,2024-04-13,South,Beauty,Lip Balm,2,251.55,503.1,refunded
+1139,C1197,2024-02-28,East,Electronics,Speaker,4,281.02,1124.08,completed
+1140,C1247,2024-01-15,West,Books,Cookbook,1,141.88,141.88,refunded
+1141,C1051,2024-05-06,Central,Books,Cookbook,3,288.43,865.29,completed
+1142,C1042,2024-11-21,Central,Clothing,Jeans,3,274.81,824.43,completed
+1143,C1125,2024-10-02,West,Beauty,Shampoo,1,10.48,10.48,completed
+1144,C1148,2024-11-30,South,Electronics,Headphones,4,143.91,575.64,completed
+1145,C1194,2024-06-28,South,Beauty,Lip Balm,3,32.28,96.84,pending
+1146,C1273,2024-10-15,North,Home,Lamp,4,352.22,1408.88,completed
+1147,C1284,2024-05-23,West,Clothing,Dress,5,479.12,2395.6,completed
+1148,C1175,2024-11-21,East,Books,Sci-Fi,3,130.49,391.47,completed
+1149,C1174,2024-04-17,West,Beauty,Sunscreen,1,457.86,457.86,completed
+1150,C1001,2024-11-07,West,Electronics,Headphones,2,212.44,424.88,pending
+1151,C1250,2024-07-20,Central,Electronics,Headphones,5,25.15,125.75,pending
+1152,C1227,2024-12-10,North,Home,Blanket,5,185.39,926.95,completed
+1153,C1004,2024-03-04,West,Home,Pillow,4,14.58,58.32,pending
+1154,C1010,2024-05-23,East,Clothing,T-Shirt,5,316.36,1581.8,pending
+1155,C1113,2024-04-29,West,Home,Lamp,3,251.48,754.44,pending
+1156,C1107,2024-01-04,South,Books,Sci-Fi,1,436.25,436.25,refunded
+1157,C1256,2024-09-09,South,Beauty,Moisturizer,5,339.36,1696.8,refunded
+1158,C1289,2024-03-30,North,Beauty,Moisturizer,1,72.43,72.43,refunded
+1159,C1116,2024-09-24,East,Clothing,T-Shirt,5,311.07,1555.35,pending
+1160,C1286,2024-08-20,North,Sports,Yoga Mat,3,221.94,665.82,completed
+1161,C1140,2024-03-03,Central,Sports,Resistance Band,3,263.45,790.35,completed
+1162,C1114,2024-01-25,East,Sports,Jump Rope,4,164.95,659.8,completed
+1163,C1099,2024-06-20,North,Beauty,Serum,2,489.26,978.52,completed
+1164,C1038,2024-05-07,South,Clothing,Jacket,3,40.78,122.34,pending
+1165,C1049,2024-01-15,West,Sports,Yoga Mat,5,400.63,2003.15,completed
+1166,C1128,2024-05-06,North,Sports,Dumbbells,3,417.92,1253.76,completed
+1167,C1266,2024-05-01,North,Beauty,Lip Balm,4,384.4,1537.6,pending
+1168,C1228,2024-10-23,North,Electronics,Headphones,1,194.91,194.91,pending
+1169,C1033,2024-03-06,North,Sports,Yoga Mat,3,309.25,927.75,completed
+1170,C1033,2024-02-22,North,Beauty,Serum,3,426.46,1279.38,completed
+1171,C1049,2024-11-12,West,Clothing,Dress,5,15.19,75.95,completed
+1172,C1237,2024-08-07,Central,Beauty,Serum,3,328.94,986.82,pending
+1173,C1013,2024-08-20,Central,Home,Candle,2,62.91,125.82,completed
+1174,C1034,2024-10-30,South,Beauty,Moisturizer,5,135.57,677.85,completed
+1175,C1246,2024-11-13,West,Clothing,Jeans,2,400.53,801.06,completed
+1176,C1065,2024-06-08,Central,Sports,Jump Rope,3,162.47,487.41,refunded
+1177,C1074,2024-03-16,West,Home,Candle,3,152.61,457.83,completed
+1178,C1265,2024-10-27,South,Electronics,Smartwatch,5,411.39,2056.95,refunded
+1179,C1027,2024-08-04,East,Clothing,Jeans,2,394.77,789.54,completed
+1180,C1096,2024-12-07,West,Books,Sci-Fi,5,349.27,1746.35,refunded
+1181,C1289,2024-06-20,Central,Home,Blanket,3,89.51,268.53,completed
+1182,C1021,2024-09-10,South,Electronics,Smartwatch,2,238.59,477.18,completed
+1183,C1122,2024-09-03,East,Books,Sci-Fi,2,206.14,412.28,completed
+1184,C1185,2024-01-06,North,Home,Lamp,5,66.43,332.15,completed
+1185,C1225,2024-04-09,Central,Home,Lamp,1,107.56,107.56,completed
+1186,C1089,2024-04-22,East,Books,Cookbook,3,425.28,1275.84,completed
+1187,C1091,2024-04-10,North,Clothing,Jacket,1,20.28,20.28,pending
+1188,C1070,2024-07-13,North,Home,Pillow,3,233.53,700.59,completed
+1189,C1190,2024-12-04,South,Beauty,Lip Balm,4,440.4,1761.6,completed
+1190,C1060,2024-03-14,South,Clothing,Jeans,5,195.31,976.55,completed
+1191,C1162,2024-11-02,West,Books,Cookbook,1,383.9,383.9,refunded
+1192,C1096,2024-10-01,East,Clothing,Jacket,2,36.09,72.18,completed
+1193,C1064,2024-09-17,Central,Sports,Dumbbells,1,394.48,394.48,pending
+1194,C1033,2024-03-26,Central,Sports,Jump Rope,3,254.3,762.9,completed
+1195,C1091,2024-06-13,East,Beauty,Shampoo,4,242.13,968.52,refunded
+1196,C1205,2024-11-22,Central,Books,Novel,2,117.56,235.12,completed
+1197,C1231,2024-04-30,West,Clothing,Jacket,4,445.46,1781.84,refunded
+1198,C1080,2024-07-10,East,Beauty,Serum,2,378.29,756.58,completed
+1199,C1227,2024-09-22,East,Clothing,Dress,1,237.96,237.96,refunded
+1200,C1172,2024-08-06,West,Sports,Resistance Band,4,190.07,760.28,completed
+1201,C1162,2024-05-19,West,Electronics,Smartwatch,4,124.55,498.2,pending
+1202,C1038,2024-07-02,North,Home,Candle,5,277.85,1389.25,completed
+1203,C1141,2024-04-26,North,Electronics,Headphones,3,28.75,86.25,completed
+1204,C1170,2024-04-10,East,Home,Mug Set,3,103.4,310.2,refunded
+1205,C1070,2024-10-05,East,Electronics,Speaker,3,412.92,1238.76,completed
+1206,C1207,2024-10-23,North,Sports,Jump Rope,2,434.07,868.14,completed
+1207,C1116,2024-04-17,West,Clothing,Dress,5,395.12,1975.6,completed
+1208,C1236,2024-06-23,North,Home,Pillow,4,387.35,1549.4,pending
+1209,C1213,2024-04-17,West,Sports,Jump Rope,1,193.59,193.59,refunded
+1210,C1065,2024-06-05,North,Sports,Water Bottle,3,120.48,361.44,completed
+1211,C1206,2024-12-19,Central,Home,Mug Set,5,21.38,106.9,completed
+1212,C1071,2024-03-19,East,Beauty,Lip Balm,5,291.19,1455.95,completed
+1213,C1195,2024-04-14,West,Electronics,Keyboard,4,102.28,409.12,completed
+1214,C1168,2024-10-18,West,Books,Biography,1,93.99,93.99,pending
+1215,C1283,2024-03-31,North,Books,History,4,23.14,92.56,completed
+1216,C1035,2024-07-16,East,Clothing,Jeans,3,333.18,999.54,completed
+1217,C1232,2024-01-30,East,Beauty,Serum,2,170.11,340.22,completed
+1218,C1200,2024-03-21,North,Clothing,Dress,4,244.33,977.32,completed
+1219,C1199,2024-04-15,South,Clothing,Jacket,4,410.76,1643.04,pending
+1220,C1243,2024-03-22,Central,Beauty,Sunscreen,5,109.45,547.25,pending
+1221,C1234,2024-05-21,South,Electronics,Smartwatch,4,41.34,165.36,completed
+1222,C1126,2024-09-26,East,Beauty,Shampoo,4,236.71,946.84,completed
+1223,C1046,2024-05-27,West,Home,Mug Set,4,310.37,1241.48,completed
+1224,C1212,2024-05-07,South,Beauty,Shampoo,4,198.48,793.92,pending
+1225,C1093,2024-12-23,Central,Electronics,Charger,1,127.44,127.44,completed
+1226,C1140,2024-11-17,Central,Home,Lamp,2,455.27,910.54,completed
+1227,C1283,2024-03-03,East,Electronics,Headphones,5,385.59,1927.95,completed
+1228,C1209,2024-08-18,South,Home,Pillow,5,31.86,159.3,completed
+1229,C1037,2024-11-23,West,Sports,Water Bottle,4,429.32,1717.28,completed
+1230,C1019,2024-01-06,East,Electronics,Smartwatch,3,338.43,1015.29,completed
+1231,C1248,2024-08-24,North,Electronics,Keyboard,2,359.64,719.28,completed
+1232,C1071,2024-08-29,East,Clothing,Jeans,1,307.41,307.41,completed
+1233,C1150,2024-03-04,Central,Books,Sci-Fi,2,48.01,96.02,completed
+1234,C1139,2024-03-19,West,Home,Pillow,2,360.05,720.1,pending
+1235,C1272,2024-04-20,West,Books,Novel,5,324.09,1620.45,pending
+1236,C1052,2024-07-18,East,Sports,Yoga Mat,5,12.28,61.4,completed
+1237,C1103,2024-05-07,East,Clothing,Jeans,1,17.85,17.85,completed
+1238,C1007,2024-06-21,South,Books,Novel,2,479.78,959.56,completed
+1239,C1085,2024-03-26,North,Sports,Jump Rope,1,409.65,409.65,completed
+1240,C1287,2024-11-16,South,Beauty,Moisturizer,5,203.57,1017.85,completed
+1241,C1061,2024-04-28,South,Electronics,Speaker,3,95.06,285.18,completed
+1242,C1161,2024-01-07,West,Clothing,Sneakers,2,42.34,84.68,completed
+1243,C1188,2024-01-23,North,Clothing,Sneakers,3,386.09,1158.27,completed
+1244,C1052,2024-12-30,Central,Beauty,Moisturizer,3,479.92,1439.76,refunded
+1245,C1166,2024-11-19,West,Books,Cookbook,3,95.9,287.7,pending
+1246,C1162,2024-12-07,West,Electronics,Speaker,1,308.17,308.17,refunded
+1247,C1229,2024-07-14,Central,Books,Cookbook,5,297.85,1489.25,completed
+1248,C1119,2024-01-11,Central,Electronics,Speaker,2,371.57,743.14,completed
+1249,C1040,2024-01-31,South,Home,Blanket,3,108.98,326.94,completed
+1250,C1104,2024-11-24,North,Clothing,Dress,4,372.23,1488.92,completed
+1251,C1068,2024-05-22,East,Books,Novel,5,397.96,1989.8,completed
+1252,C1147,2024-01-13,South,Books,Biography,3,128.69,386.07,refunded
+1253,C1027,2024-12-06,South,Books,Cookbook,5,437.62,2188.1,refunded
+1254,C1164,2024-04-03,West,Books,Novel,1,436.22,436.22,completed
+1255,C1098,2024-01-27,South,Clothing,Jeans,1,95.09,95.09,refunded
+1256,C1104,2024-04-30,Central,Electronics,Charger,4,162.61,650.44,pending
+1257,C1101,2024-05-05,West,Clothing,Dress,2,158.51,317.02,refunded
+1258,C1229,2024-11-21,South,Home,Blanket,1,475.99,475.99,completed
+1259,C1203,2024-07-12,South,Sports,Resistance Band,4,257.58,1030.32,pending
+1260,C1221,2024-03-20,West,Electronics,Charger,4,428.47,1713.88,completed
+1261,C1275,2024-03-19,Central,Books,Cookbook,3,196.41,589.23,completed
+1262,C1232,2024-05-25,West,Beauty,Lip Balm,4,45.24,180.96,completed
+1263,C1240,2024-04-10,South,Clothing,T-Shirt,1,432.2,432.2,pending
+1264,C1191,2024-09-08,West,Sports,Resistance Band,3,198.17,594.51,completed
+1265,C1036,2024-07-28,North,Electronics,Charger,5,89.55,447.75,completed
+1266,C1130,2024-06-27,Central,Books,Sci-Fi,3,351.25,1053.75,pending
+1267,C1197,2024-08-05,South,Clothing,Sneakers,1,461.51,461.51,completed
+1268,C1014,2024-12-23,South,Home,Candle,4,472.68,1890.72,completed
+1269,C1130,2024-05-06,Central,Beauty,Moisturizer,1,67.19,67.19,completed
+1270,C1196,2024-07-22,Central,Electronics,Keyboard,2,439.23,878.46,completed
+1271,C1218,2024-05-09,East,Beauty,Lip Balm,4,297.17,1188.68,pending
+1272,C1210,2024-02-15,North,Books,History,3,408.96,1226.88,completed
+1273,C1107,2024-07-22,East,Electronics,Smartwatch,4,10.76,43.04,completed
+1274,C1213,2024-09-25,West,Books,Biography,4,93.6,374.4,completed
+1275,C1095,2024-12-26,South,Clothing,Sneakers,2,256.27,512.54,completed
+1276,C1230,2024-10-17,South,Clothing,Jeans,1,377.45,377.45,completed
+1277,C1132,2024-07-28,West,Books,History,1,435.49,435.49,completed
+1278,C1040,2024-05-30,North,Sports,Yoga Mat,3,41.48,124.44,completed
+1279,C1299,2024-04-30,West,Sports,Yoga Mat,1,39.91,39.91,completed
+1280,C1298,2024-01-22,North,Clothing,Dress,1,194.07,194.07,refunded
+1281,C1136,2024-09-05,West,Home,Candle,4,174.9,699.6,pending
+1282,C1175,2024-06-10,South,Home,Blanket,4,309.29,1237.16,completed
+1283,C1169,2024-02-21,North,Sports,Resistance Band,2,22.57,45.14,completed
+1284,C1271,2024-05-23,South,Home,Blanket,5,346.22,1731.1,completed
+1285,C1263,2024-07-30,South,Electronics,Speaker,1,320.54,320.54,completed
+1286,C1166,2024-12-13,West,Clothing,Dress,4,206.07,824.28,refunded
+1287,C1041,2024-06-27,West,Sports,Yoga Mat,4,153.98,615.92,completed
+1288,C1073,2024-09-23,Central,Books,History,1,72.64,72.64,completed
+1289,C1154,2024-12-10,Central,Sports,Dumbbells,4,477.97,1911.88,completed
+1290,C1276,2024-05-03,South,Clothing,Jeans,1,61.67,61.67,pending
+1291,C1014,2024-03-23,East,Sports,Water Bottle,2,362.39,724.78,pending
+1292,C1243,2024-12-09,North,Books,Cookbook,5,320.43,1602.15,completed
+1293,C1046,2024-12-20,East,Clothing,Dress,5,41.68,208.4,completed
+1294,C1193,2024-07-14,Central,Sports,Dumbbells,2,136.95,273.9,completed
+1295,C1044,2024-02-27,North,Home,Candle,2,374.85,749.7,completed
+1296,C1293,2024-07-07,South,Home,Blanket,5,371.08,1855.4,completed
+1297,C1031,2024-10-29,Central,Clothing,Sneakers,4,166.62,666.48,completed
+1298,C1064,2024-09-23,Central,Beauty,Moisturizer,1,203.69,203.69,refunded
+1299,C1235,2024-06-10,South,Home,Pillow,4,343.18,1372.72,completed
+1300,C1145,2024-03-15,North,Beauty,Sunscreen,3,256.16,768.48,pending
+1301,C1063,2024-05-20,Central,Sports,Dumbbells,4,152.82,611.28,completed
+1302,C1030,2024-06-19,South,Books,Cookbook,2,353.19,706.38,completed
+1303,C1091,2024-09-06,West,Home,Pillow,1,278.48,278.48,completed
+1304,C1216,2024-12-13,West,Home,Blanket,4,45.18,180.72,pending
+1305,C1144,2024-05-24,South,Books,History,4,57.68,230.72,completed
+1306,C1297,2024-01-28,East,Sports,Dumbbells,5,77.39,386.95,pending
+1307,C1247,2024-05-29,South,Clothing,Jeans,2,370.3,740.6,completed
+1308,C1185,2024-10-21,North,Books,Cookbook,4,475.69,1902.76,completed
+1309,C1086,2024-01-29,North,Home,Blanket,2,473.07,946.14,completed
+1310,C1263,2024-11-28,East,Beauty,Shampoo,2,317.21,634.42,completed
+1311,C1125,2024-01-18,North,Clothing,Sneakers,4,158.31,633.24,refunded
+1312,C1088,2024-11-30,West,Books,Novel,4,433.79,1735.16,pending
+1313,C1195,2024-05-20,West,Home,Lamp,1,67.14,67.14,completed
+1314,C1250,2024-11-24,Central,Clothing,T-Shirt,5,290.75,1453.75,refunded
+1315,C1245,2024-05-20,North,Beauty,Moisturizer,4,247.24,988.96,pending
+1316,C1222,2024-06-01,Central,Clothing,T-Shirt,3,41.1,123.3,refunded
+1317,C1094,2024-07-26,North,Sports,Jump Rope,5,393.89,1969.45,refunded
+1318,C1250,2024-02-02,Central,Beauty,Lip Balm,1,379.21,379.21,completed
+1319,C1060,2024-04-02,Central,Books,Cookbook,1,281.8,281.8,completed
+1320,C1062,2024-01-21,South,Beauty,Moisturizer,2,53.02,106.04,completed
+1321,C1017,2024-02-13,North,Beauty,Sunscreen,3,483.47,1450.41,completed
+1322,C1216,2024-12-02,North,Clothing,Jacket,1,473.64,473.64,refunded
+1323,C1150,2024-12-03,Central,Sports,Dumbbells,5,250.31,1251.55,completed
+1324,C1267,2024-06-29,Central,Beauty,Lip Balm,2,347.08,694.16,pending
+1325,C1022,2024-05-01,North,Clothing,Jeans,3,429.47,1288.41,completed
+1326,C1068,2024-11-04,Central,Clothing,Dress,3,145.91,437.73,pending
+1327,C1216,2024-02-08,Central,Home,Mug Set,4,328.38,1313.52,completed
+1328,C1204,2024-08-21,North,Home,Blanket,2,272.58,545.16,completed
+1329,C1137,2024-11-20,South,Books,Biography,5,332.08,1660.4,refunded
+1330,C1083,2024-08-02,South,Home,Blanket,4,22.69,90.76,refunded
+1331,C1126,2024-02-09,East,Electronics,Keyboard,1,345.14,345.14,completed
+1332,C1033,2024-06-17,North,Home,Mug Set,3,81.69,245.07,completed
+1333,C1140,2024-01-06,North,Sports,Dumbbells,4,476.36,1905.44,completed
+1334,C1089,2024-09-26,East,Beauty,Shampoo,1,269.18,269.18,pending
+1335,C1292,2024-05-24,Central,Home,Candle,1,449.31,449.31,completed
+1336,C1162,2024-07-18,South,Home,Candle,5,301.35,1506.75,completed
+1337,C1244,2024-10-30,South,Home,Lamp,5,359.47,1797.35,pending
+1338,C1064,2024-03-14,West,Beauty,Sunscreen,1,460.03,460.03,pending
+1339,C1189,2024-12-28,South,Books,History,4,356.32,1425.28,completed
+1340,C1224,2024-06-30,West,Beauty,Sunscreen,3,476.77,1430.31,refunded
+1341,C1117,2024-06-05,North,Home,Blanket,3,424.16,1272.48,pending
+1342,C1040,2024-02-09,South,Electronics,Smartwatch,5,38.12,190.6,pending
+1343,C1146,2024-10-10,West,Electronics,Charger,5,466.89,2334.45,completed
+1344,C1245,2024-09-11,Central,Books,History,1,208.67,208.67,refunded
+1345,C1097,2024-01-04,West,Books,History,3,129.66,388.98,pending
+1346,C1270,2024-12-16,Central,Electronics,Keyboard,4,482.67,1930.68,pending
+1347,C1268,2024-04-25,South,Electronics,Speaker,2,261.7,523.4,completed
+1348,C1216,2024-09-10,West,Clothing,Jacket,1,175.59,175.59,pending
+1349,C1127,2024-10-03,North,Home,Mug Set,4,153.83,615.32,completed
+1350,C1001,2024-11-19,Central,Sports,Dumbbells,3,465.25,1395.75,pending
+1351,C1263,2024-01-19,West,Beauty,Shampoo,1,184.3,184.3,refunded
+1352,C1235,2024-06-17,East,Home,Lamp,1,181.35,181.35,pending
+1353,C1095,2024-07-24,East,Electronics,Headphones,4,251.09,1004.36,completed
+1354,C1270,2024-09-20,South,Sports,Yoga Mat,4,13.38,53.52,pending
+1355,C1128,2024-04-25,West,Sports,Water Bottle,3,188.59,565.77,completed
+1356,C1274,2024-05-17,North,Sports,Resistance Band,2,78.53,157.06,pending
+1357,C1222,2024-01-03,East,Books,Cookbook,1,102.88,102.88,completed
+1358,C1068,2024-07-21,West,Books,Biography,1,88.54,88.54,completed
+1359,C1245,2024-12-06,East,Electronics,Charger,4,279.55,1118.2,pending
+1360,C1065,2024-06-15,West,Beauty,Shampoo,2,63.76,127.52,completed
+1361,C1010,2024-03-05,South,Home,Candle,1,386.01,386.01,completed
+1362,C1026,2024-12-13,East,Sports,Jump Rope,1,222.81,222.81,completed
+1363,C1144,2024-09-05,North,Sports,Dumbbells,5,84.71,423.55,refunded
+1364,C1095,2024-05-07,East,Electronics,Speaker,2,336.49,672.98,completed
+1365,C1101,2024-08-30,North,Books,History,5,98.77,493.85,refunded
+1366,C1076,2024-04-27,North,Clothing,Sneakers,1,144.18,144.18,completed
+1367,C1074,2024-08-06,North,Beauty,Moisturizer,1,433.52,433.52,completed
+1368,C1208,2024-09-25,East,Books,Cookbook,2,174.72,349.44,completed
+1369,C1031,2024-09-18,West,Books,Novel,3,63.92,191.76,completed
+1370,C1143,2024-06-28,West,Clothing,Jacket,1,99.05,99.05,completed
+1371,C1026,2024-12-04,East,Clothing,Jacket,4,147.27,589.08,refunded
+1372,C1051,2024-08-08,South,Home,Blanket,3,173.79,521.37,completed
+1373,C1049,2024-12-08,North,Books,History,2,172.28,344.56,pending
+1374,C1185,2024-10-28,Central,Beauty,Sunscreen,2,328.61,657.22,completed
+1375,C1299,2024-07-15,North,Electronics,Smartwatch,5,68.96,344.8,refunded
+1376,C1097,2024-04-08,West,Electronics,Headphones,5,313.31,1566.55,completed
+1377,C1242,2024-04-13,Central,Books,Cookbook,1,72.63,72.63,completed
+1378,C1281,2024-12-30,East,Beauty,Sunscreen,3,229.75,689.25,pending
+1379,C1060,2024-08-11,North,Sports,Resistance Band,5,466.34,2331.7,refunded
+1380,C1011,2024-03-26,Central,Home,Pillow,3,32.26,96.78,refunded
+1381,C1031,2024-12-21,South,Books,Sci-Fi,4,345.49,1381.96,refunded
+1382,C1038,2024-03-25,West,Beauty,Shampoo,5,391.88,1959.4,completed
+1383,C1139,2024-04-15,South,Electronics,Smartwatch,5,116.72,583.6,pending
+1384,C1004,2024-09-19,West,Beauty,Lip Balm,3,158.66,475.98,completed
+1385,C1151,2024-12-28,East,Beauty,Serum,2,119.72,239.44,refunded
+1386,C1121,2024-05-29,North,Books,Cookbook,3,464.34,1393.02,completed
+1387,C1026,2024-11-24,South,Clothing,Dress,1,10.68,10.68,completed
+1388,C1188,2024-06-15,North,Books,History,3,363.81,1091.43,completed
+1389,C1150,2024-06-15,North,Books,Novel,3,117.44,352.32,completed
+1390,C1090,2024-05-11,North,Beauty,Lip Balm,1,364.07,364.07,pending
+1391,C1195,2024-11-30,East,Books,History,5,111.01,555.05,completed
+1392,C1112,2024-06-15,East,Clothing,Dress,4,86.25,345.0,completed
+1393,C1222,2024-07-07,South,Sports,Yoga Mat,4,98.93,395.72,completed
+1394,C1090,2024-04-06,Central,Sports,Dumbbells,3,20.3,60.9,completed
+1395,C1090,2024-07-20,Central,Clothing,T-Shirt,2,45.29,90.58,completed
+1396,C1232,2024-11-26,West,Electronics,Keyboard,2,366.1,732.2,completed
+1397,C1051,2024-07-12,West,Electronics,Headphones,1,384.08,384.08,pending
+1398,C1022,2024-03-08,South,Electronics,Speaker,2,469.9,939.8,refunded
+1399,C1006,2024-01-05,North,Beauty,Sunscreen,1,109.13,109.13,completed
+1400,C1288,2024-08-15,South,Home,Mug Set,4,85.7,342.8,completed
+1401,C1278,2024-12-20,East,Books,History,1,20.38,20.38,completed
+1402,C1052,2024-10-05,East,Electronics,Keyboard,4,79.49,317.96,completed
+1403,C1012,2024-04-26,West,Sports,Dumbbells,3,331.12,993.36,completed
+1404,C1196,2024-12-17,North,Sports,Dumbbells,1,120.01,120.01,completed
+1405,C1182,2024-02-09,Central,Home,Lamp,3,462.42,1387.26,completed
+1406,C1022,2024-11-05,South,Clothing,Sneakers,5,174.06,870.3,completed
+1407,C1217,2024-03-17,East,Beauty,Sunscreen,3,438.94,1316.82,completed
+1408,C1255,2024-12-04,East,Home,Lamp,1,432.23,432.23,completed
+1409,C1075,2024-06-12,South,Sports,Resistance Band,4,409.17,1636.68,completed
+1410,C1295,2024-08-06,East,Clothing,T-Shirt,3,497.43,1492.29,completed
+1411,C1197,2024-06-29,East,Sports,Resistance Band,4,349.77,1399.08,completed
+1412,C1170,2024-03-11,South,Sports,Resistance Band,5,253.57,1267.85,refunded
+1413,C1252,2024-09-29,Central,Clothing,Sneakers,1,294.66,294.66,completed
+1414,C1269,2024-10-22,South,Books,Novel,2,187.23,374.46,completed
+1415,C1008,2024-07-04,Central,Sports,Dumbbells,1,39.18,39.18,completed
+1416,C1184,2024-03-12,East,Sports,Dumbbells,5,486.18,2430.9,completed
+1417,C1124,2024-04-17,South,Electronics,Smartwatch,1,481.4,481.4,pending
+1418,C1073,2024-07-12,North,Books,Sci-Fi,3,36.49,109.47,completed
+1419,C1297,2024-02-07,West,Beauty,Moisturizer,1,81.96,81.96,completed
+1420,C1040,2024-05-05,North,Electronics,Keyboard,4,83.35,333.4,completed
+1421,C1240,2024-03-12,Central,Books,Biography,4,211.64,846.56,completed
+1422,C1227,2024-11-26,North,Home,Lamp,2,39.39,78.78,pending
+1423,C1016,2024-11-05,South,Beauty,Moisturizer,1,204.22,204.22,completed
+1424,C1232,2024-10-10,East,Beauty,Lip Balm,3,357.57,1072.71,completed
+1425,C1080,2024-05-19,North,Beauty,Shampoo,2,374.13,748.26,completed
+1426,C1028,2024-04-22,West,Clothing,Dress,5,422.43,2112.15,pending
+1427,C1239,2024-09-01,East,Books,Sci-Fi,4,90.75,363.0,completed
+1428,C1217,2024-04-09,East,Electronics,Headphones,1,187.71,187.71,completed
+1429,C1014,2024-05-02,East,Clothing,Dress,1,42.0,42.0,refunded
+1430,C1005,2024-06-07,South,Beauty,Moisturizer,1,127.75,127.75,completed
+1431,C1291,2024-10-16,North,Beauty,Shampoo,1,33.53,33.53,completed
+1432,C1158,2024-01-05,East,Home,Blanket,5,105.48,527.4,completed
+1433,C1182,2024-03-07,North,Home,Blanket,5,59.48,297.4,completed
+1434,C1012,2024-10-27,West,Sports,Jump Rope,1,152.15,152.15,completed
+1435,C1237,2024-02-10,North,Books,Cookbook,2,405.65,811.3,pending
+1436,C1072,2024-03-23,Central,Beauty,Lip Balm,5,465.8,2329.0,completed
+1437,C1229,2024-03-08,East,Home,Mug Set,5,429.41,2147.05,completed
+1438,C1020,2024-12-30,West,Clothing,Jeans,5,307.36,1536.8,completed
+1439,C1290,2024-11-17,West,Electronics,Headphones,2,385.49,770.98,completed
+1440,C1280,2024-02-14,West,Electronics,Charger,3,93.15,279.45,completed
+1441,C1082,2024-02-04,East,Beauty,Sunscreen,3,53.71,161.13,completed
+1442,C1235,2024-05-12,West,Home,Blanket,2,470.51,941.02,refunded
+1443,C1249,2024-01-21,East,Home,Blanket,4,429.92,1719.68,pending
+1444,C1066,2024-08-13,East,Beauty,Lip Balm,3,193.09,579.27,pending
+1445,C1211,2024-09-16,West,Home,Lamp,5,488.93,2444.65,completed
+1446,C1125,2024-12-24,Central,Electronics,Smartwatch,1,152.41,152.41,completed
+1447,C1291,2024-07-23,North,Clothing,Sneakers,4,337.87,1351.48,completed
+1448,C1238,2024-08-27,Central,Sports,Yoga Mat,1,98.32,98.32,completed
+1449,C1203,2024-08-09,South,Sports,Water Bottle,1,165.46,165.46,refunded
+1450,C1248,2024-04-18,West,Electronics,Speaker,4,28.75,115.0,completed
+1451,C1240,2024-03-15,South,Home,Candle,1,494.02,494.02,completed
+1452,C1031,2024-07-04,West,Sports,Dumbbells,1,113.62,113.62,completed
+1453,C1216,2024-05-18,East,Books,Cookbook,1,79.44,79.44,completed
+1454,C1207,2024-02-11,East,Books,Sci-Fi,4,267.13,1068.52,pending
+1455,C1132,2024-04-04,North,Electronics,Charger,3,482.04,1446.12,completed
+1456,C1084,2024-04-11,East,Sports,Resistance Band,4,272.39,1089.56,completed
+1457,C1223,2024-06-30,Central,Sports,Yoga Mat,5,393.7,1968.5,refunded
+1458,C1101,2024-02-09,Central,Beauty,Moisturizer,3,335.38,1006.14,pending
+1459,C1162,2024-01-08,South,Sports,Dumbbells,4,433.5,1734.0,completed
+1460,C1208,2024-05-14,Central,Books,Novel,4,472.22,1888.88,completed
+1461,C1230,2024-11-23,Central,Electronics,Headphones,2,375.39,750.78,completed
+1462,C1215,2024-12-22,Central,Clothing,Dress,4,115.9,463.6,completed
+1463,C1097,2024-12-13,Central,Electronics,Speaker,3,17.92,53.76,completed
+1464,C1257,2024-03-04,West,Books,Sci-Fi,4,211.08,844.32,completed
+1465,C1277,2024-08-06,Central,Home,Lamp,2,234.81,469.62,completed
+1466,C1090,2024-10-10,Central,Clothing,Dress,4,196.96,787.84,pending
+1467,C1223,2024-11-20,East,Books,History,1,497.72,497.72,completed
+1468,C1045,2024-11-28,North,Beauty,Shampoo,1,253.23,253.23,refunded
+1469,C1278,2024-02-21,West,Beauty,Lip Balm,1,337.17,337.17,completed
+1470,C1108,2024-04-24,West,Beauty,Shampoo,1,105.81,105.81,completed
+1471,C1063,2024-06-28,West,Sports,Resistance Band,1,470.4,470.4,completed
+1472,C1259,2024-05-25,East,Books,Biography,3,420.85,1262.55,completed
+1473,C1123,2024-01-03,West,Electronics,Headphones,1,85.14,85.14,completed
+1474,C1265,2024-11-03,East,Home,Pillow,5,496.48,2482.4,completed
+1475,C1284,2024-07-19,South,Beauty,Shampoo,1,402.64,402.64,refunded
+1476,C1219,2024-03-06,West,Books,Cookbook,4,453.03,1812.12,refunded
+1477,C1081,2024-08-11,South,Electronics,Smartwatch,5,67.99,339.95,refunded
+1478,C1200,2024-11-17,East,Beauty,Moisturizer,3,109.83,329.49,completed
+1479,C1013,2024-08-11,North,Books,History,2,23.62,47.24,pending
+1480,C1278,2024-02-10,Central,Sports,Yoga Mat,2,491.86,983.72,pending
+1481,C1183,2024-04-05,South,Books,Cookbook,3,104.97,314.91,completed
+1482,C1193,2024-05-13,North,Home,Lamp,2,317.43,634.86,pending
+1483,C1296,2024-02-22,North,Sports,Jump Rope,1,62.46,62.46,completed
+1484,C1134,2024-04-02,North,Electronics,Charger,3,457.22,1371.66,completed
+1485,C1200,2024-02-21,West,Electronics,Charger,1,248.38,248.38,pending
+1486,C1039,2024-04-17,West,Sports,Water Bottle,4,406.18,1624.72,completed
+1487,C1152,2024-01-06,South,Books,History,5,428.85,2144.25,completed
+1488,C1175,2024-06-26,West,Beauty,Lip Balm,5,12.45,62.25,refunded
+1489,C1130,2024-03-03,South,Beauty,Serum,5,21.28,106.4,refunded
+1490,C1078,2024-04-20,East,Electronics,Smartwatch,1,170.48,170.48,completed
+1491,C1042,2024-12-20,South,Home,Mug Set,4,107.62,430.48,completed
+1492,C1178,2024-12-28,Central,Books,Biography,4,375.14,1500.56,completed
+1493,C1223,2024-09-19,West,Clothing,Jacket,2,106.95,213.9,pending
+1494,C1143,2024-07-20,North,Beauty,Lip Balm,3,91.16,273.48,completed
+1495,C1249,2024-08-09,West,Sports,Jump Rope,3,409.78,1229.34,refunded
+1496,C1055,2024-11-06,West,Sports,Dumbbells,5,182.92,914.6,pending
+1497,C1032,2024-08-18,South,Electronics,Keyboard,3,297.56,892.68,completed
+1498,C1271,2024-06-29,West,Electronics,Headphones,2,406.42,812.84,completed
+1499,C1095,2024-07-02,South,Electronics,Smartwatch,3,192.25,576.75,completed
+1500,C1062,2024-01-05,East,Books,Novel,3,114.74,344.22,refunded
+1501,C1164,2024-04-29,Central,Electronics,Charger,3,304.87,914.61,refunded
+1502,C1111,2024-02-22,Central,Home,Candle,1,291.22,291.22,pending
+1503,C1215,2024-12-15,West,Home,Mug Set,2,106.58,213.16,completed
+1504,C1255,2024-01-24,East,Sports,Yoga Mat,1,231.85,231.85,refunded
+1505,C1167,2024-10-29,West,Clothing,Dress,1,149.66,149.66,pending
+1506,C1294,2024-01-03,West,Home,Pillow,4,28.12,112.48,refunded
+1507,C1270,2024-01-21,East,Books,Novel,1,240.24,240.24,completed
+1508,C1154,2024-05-20,East,Home,Blanket,1,282.65,282.65,completed
+1509,C1252,2024-11-09,North,Sports,Water Bottle,4,251.72,1006.88,pending
+1510,C1062,2024-07-10,Central,Electronics,Headphones,2,33.43,66.86,completed
+1511,C1071,2024-02-23,East,Books,Sci-Fi,2,93.38,186.76,completed
+1512,C1188,2024-10-02,North,Books,Novel,3,442.82,1328.46,completed
+1513,C1056,2024-01-25,East,Electronics,Speaker,3,347.07,1041.21,completed
+1514,C1138,2024-12-23,South,Clothing,Dress,4,68.74,274.96,completed
+1515,C1075,2024-10-26,West,Books,Sci-Fi,1,265.65,265.65,completed
+1516,C1295,2024-09-01,West,Home,Mug Set,4,120.65,482.6,completed
+1517,C1151,2024-12-30,North,Home,Candle,2,333.14,666.28,pending
+1518,C1105,2024-12-21,North,Electronics,Charger,1,114.1,114.1,pending
+1519,C1110,2024-08-27,West,Clothing,Sneakers,1,176.81,176.81,refunded
+1520,C1270,2024-09-20,East,Home,Blanket,2,425.42,850.84,completed
+1521,C1066,2024-04-22,East,Sports,Resistance Band,5,261.59,1307.95,completed
+1522,C1096,2024-02-05,East,Sports,Dumbbells,3,476.22,1428.66,refunded
+1523,C1052,2024-03-16,West,Electronics,Headphones,2,18.12,36.24,completed
+1524,C1095,2024-05-16,North,Sports,Jump Rope,4,182.45,729.8,completed
+1525,C1281,2024-02-13,East,Sports,Dumbbells,2,204.48,408.96,completed
+1526,C1260,2024-06-19,North,Sports,Water Bottle,3,57.92,173.76,pending
+1527,C1195,2024-08-04,South,Home,Pillow,4,96.55,386.2,completed
+1528,C1271,2024-11-07,West,Beauty,Shampoo,1,343.76,343.76,pending
+1529,C1127,2024-02-26,South,Electronics,Headphones,1,291.85,291.85,completed
+1530,C1033,2024-09-29,North,Home,Pillow,5,352.75,1763.75,completed
+1531,C1200,2024-07-20,North,Clothing,Jacket,4,110.79,443.16,completed
+1532,C1177,2024-11-22,East,Books,History,3,369.59,1108.77,completed
+1533,C1094,2024-09-14,Central,Sports,Water Bottle,2,93.4,186.8,pending
+1534,C1035,2024-03-26,South,Home,Blanket,2,481.49,962.98,pending
+1535,C1242,2024-08-07,East,Electronics,Smartwatch,3,441.81,1325.43,completed
+1536,C1004,2024-10-31,East,Sports,Jump Rope,1,249.26,249.26,completed
+1537,C1241,2024-02-26,North,Electronics,Keyboard,3,419.32,1257.96,refunded
+1538,C1257,2024-03-26,South,Electronics,Headphones,3,403.9,1211.7,completed
+1539,C1231,2024-09-08,East,Beauty,Sunscreen,4,134.22,536.88,completed
+1540,C1006,2024-06-29,East,Books,Biography,5,389.51,1947.55,refunded
+1541,C1247,2024-02-27,East,Books,History,1,82.46,82.46,completed
+1542,C1112,2024-12-03,South,Home,Blanket,1,129.73,129.73,pending
+1543,C1220,2024-07-03,South,Books,Novel,2,461.11,922.22,completed
+1544,C1055,2024-05-20,Central,Sports,Jump Rope,2,139.99,279.98,pending
+1545,C1178,2024-06-18,West,Beauty,Shampoo,3,161.56,484.68,completed
+1546,C1296,2024-09-23,East,Beauty,Serum,4,399.7,1598.8,refunded
+1547,C1177,2024-05-27,North,Electronics,Charger,2,238.49,476.98,completed
+1548,C1267,2024-05-28,Central,Beauty,Moisturizer,3,248.53,745.59,completed
+1549,C1150,2024-01-08,West,Electronics,Smartwatch,3,414.47,1243.41,completed
+1550,C1027,2024-09-07,East,Electronics,Charger,3,333.51,1000.53,completed
+1551,C1025,2024-05-08,South,Home,Mug Set,5,336.0,1680.0,refunded
+1552,C1079,2024-02-14,East,Clothing,Jeans,4,296.75,1187.0,completed
+1553,C1148,2024-04-22,North,Sports,Water Bottle,2,407.73,815.46,pending
+1554,C1197,2024-08-04,West,Electronics,Speaker,3,302.54,907.62,completed
+1555,C1288,2024-08-11,East,Beauty,Moisturizer,2,132.5,265.0,completed
+1556,C1283,2024-04-12,East,Home,Lamp,3,287.66,862.98,pending
+1557,C1236,2024-10-06,South,Sports,Resistance Band,1,77.91,77.91,completed
+1558,C1160,2024-09-14,East,Sports,Water Bottle,4,238.6,954.4,completed
+1559,C1236,2024-01-15,Central,Electronics,Charger,1,380.36,380.36,refunded
+1560,C1154,2024-05-04,Central,Beauty,Sunscreen,2,314.23,628.46,refunded
+1561,C1150,2024-01-28,West,Clothing,Sneakers,1,236.77,236.77,refunded
+1562,C1235,2024-01-28,North,Electronics,Speaker,1,173.4,173.4,completed
+1563,C1148,2024-10-16,West,Books,Biography,1,69.5,69.5,refunded
+1564,C1261,2024-01-28,South,Beauty,Moisturizer,5,372.8,1864.0,completed
+1565,C1069,2024-04-24,South,Home,Mug Set,1,404.74,404.74,refunded
+1566,C1102,2024-02-28,North,Electronics,Smartwatch,5,441.14,2205.7,refunded
+1567,C1049,2024-05-06,South,Electronics,Charger,1,418.03,418.03,completed
+1568,C1200,2024-01-29,North,Home,Blanket,4,491.51,1966.04,completed
+1569,C1279,2024-05-13,Central,Books,Sci-Fi,5,70.36,351.8,completed
+1570,C1011,2024-04-04,South,Books,Cookbook,2,260.63,521.26,pending
+1571,C1279,2024-04-12,West,Sports,Water Bottle,3,337.08,1011.24,refunded
+1572,C1252,2024-07-07,East,Sports,Resistance Band,1,237.33,237.33,completed
+1573,C1075,2024-01-15,East,Sports,Yoga Mat,5,200.81,1004.05,refunded
+1574,C1155,2024-01-18,Central,Sports,Yoga Mat,3,481.76,1445.28,completed
+1575,C1234,2024-05-21,North,Clothing,Jacket,5,429.35,2146.75,refunded
+1576,C1107,2024-06-27,Central,Sports,Jump Rope,1,95.49,95.49,completed
+1577,C1180,2024-12-01,Central,Home,Blanket,2,146.38,292.76,pending
+1578,C1155,2024-07-20,North,Books,Sci-Fi,4,481.64,1926.56,refunded
+1579,C1092,2024-10-21,Central,Books,History,3,73.41,220.23,completed
+1580,C1297,2024-06-27,Central,Beauty,Shampoo,1,32.01,32.01,pending
+1581,C1081,2024-04-28,North,Books,Novel,4,467.76,1871.04,completed
+1582,C1165,2024-04-28,South,Electronics,Smartwatch,4,380.34,1521.36,completed
+1583,C1032,2024-02-01,Central,Home,Lamp,1,424.92,424.92,completed
+1584,C1226,2024-07-10,Central,Books,Novel,2,167.36,334.72,pending
+1585,C1230,2024-07-12,South,Books,History,5,107.86,539.3,completed
+1586,C1251,2024-08-12,East,Clothing,Jeans,2,222.68,445.36,refunded
+1587,C1098,2024-02-14,Central,Electronics,Headphones,2,26.28,52.56,completed
+1588,C1002,2024-07-03,West,Beauty,Lip Balm,1,176.94,176.94,pending
+1589,C1270,2024-09-11,South,Clothing,Dress,4,255.41,1021.64,completed
+1590,C1286,2024-03-11,North,Sports,Resistance Band,4,438.24,1752.96,refunded
+1591,C1040,2024-03-06,Central,Home,Lamp,1,254.36,254.36,completed
+1592,C1276,2024-06-18,North,Clothing,Jacket,3,201.3,603.9,completed
+1593,C1034,2024-03-21,East,Electronics,Keyboard,5,128.28,641.4,refunded
+1594,C1256,2024-06-08,West,Beauty,Serum,5,351.77,1758.85,completed
+1595,C1298,2024-08-29,East,Books,Novel,1,175.63,175.63,completed
+1596,C1102,2024-06-20,North,Clothing,Jeans,5,410.2,2051.0,completed
+1597,C1031,2024-04-30,West,Electronics,Keyboard,5,354.5,1772.5,completed
+1598,C1177,2024-02-06,West,Beauty,Lip Balm,1,444.87,444.87,completed
+1599,C1066,2024-05-18,North,Electronics,Headphones,4,258.72,1034.88,pending
+1600,C1179,2024-08-08,West,Home,Pillow,1,466.3,466.3,completed
+1601,C1100,2024-09-30,Central,Sports,Yoga Mat,5,246.25,1231.25,completed
+1602,C1193,2024-12-22,South,Sports,Resistance Band,5,77.5,387.5,completed
+1603,C1060,2024-11-11,East,Home,Pillow,3,223.89,671.67,completed
+1604,C1121,2024-04-28,North,Beauty,Serum,2,212.39,424.78,refunded
+1605,C1290,2024-01-24,North,Books,Cookbook,1,47.53,47.53,completed
+1606,C1224,2024-04-02,East,Electronics,Speaker,3,305.17,915.51,completed
+1607,C1149,2024-03-07,Central,Sports,Resistance Band,1,331.72,331.72,completed
+1608,C1128,2024-10-05,South,Sports,Water Bottle,2,227.33,454.66,completed
+1609,C1187,2024-10-09,East,Books,Cookbook,5,447.55,2237.75,completed
+1610,C1277,2024-09-14,North,Electronics,Speaker,4,355.69,1422.76,refunded
+1611,C1248,2024-05-23,North,Clothing,Jeans,5,122.95,614.75,pending
+1612,C1283,2024-04-17,North,Home,Pillow,1,489.17,489.17,pending
+1613,C1225,2024-11-28,West,Electronics,Headphones,4,419.79,1679.16,completed
+1614,C1142,2024-10-28,West,Home,Lamp,1,146.75,146.75,refunded
+1615,C1196,2024-09-10,North,Sports,Resistance Band,4,31.75,127.0,completed
+1616,C1194,2024-04-04,West,Beauty,Serum,3,25.33,75.99,completed
+1617,C1013,2024-11-07,East,Home,Candle,2,381.04,762.08,completed
+1618,C1222,2024-08-06,North,Electronics,Keyboard,4,476.7,1906.8,pending
+1619,C1147,2024-09-30,West,Sports,Jump Rope,5,386.81,1934.05,completed
+1620,C1083,2024-07-14,West,Books,Cookbook,2,454.77,909.54,completed
+1621,C1140,2024-02-13,South,Beauty,Sunscreen,3,289.82,869.46,completed
+1622,C1140,2024-07-04,East,Books,Biography,5,16.04,80.2,completed
+1623,C1291,2024-12-04,East,Home,Pillow,4,236.72,946.88,completed
+1624,C1004,2024-08-26,North,Home,Blanket,5,116.73,583.65,completed
+1625,C1296,2024-02-10,East,Beauty,Lip Balm,3,477.1,1431.3,completed
+1626,C1092,2024-05-12,East,Home,Blanket,2,121.43,242.86,completed
+1627,C1075,2024-11-12,North,Clothing,T-Shirt,1,100.28,100.28,refunded
+1628,C1225,2024-10-23,East,Electronics,Keyboard,2,39.79,79.58,pending
+1629,C1132,2024-05-11,North,Books,Biography,5,361.97,1809.85,refunded
+1630,C1120,2024-06-28,North,Electronics,Keyboard,4,65.45,261.8,completed
+1631,C1121,2024-04-14,East,Beauty,Sunscreen,4,44.97,179.88,completed
+1632,C1144,2024-03-14,North,Home,Candle,3,174.13,522.39,completed
+1633,C1191,2024-08-28,East,Beauty,Serum,2,190.46,380.92,completed
+1634,C1076,2024-10-29,North,Electronics,Keyboard,2,405.93,811.86,refunded
+1635,C1260,2024-10-24,East,Clothing,Sneakers,5,25.96,129.8,pending
+1636,C1076,2024-07-14,North,Electronics,Smartwatch,5,256.7,1283.5,refunded
+1637,C1280,2024-08-02,Central,Books,Novel,5,401.11,2005.55,refunded
+1638,C1241,2024-12-03,Central,Beauty,Shampoo,3,141.89,425.67,refunded
+1639,C1150,2024-05-04,East,Clothing,Jacket,2,233.34,466.68,pending
+1640,C1059,2024-12-20,South,Sports,Resistance Band,3,49.04,147.12,refunded
+1641,C1258,2024-02-09,East,Books,Sci-Fi,5,122.86,614.3,completed
+1642,C1117,2024-10-18,South,Beauty,Moisturizer,4,340.3,1361.2,pending
+1643,C1070,2024-11-06,East,Home,Mug Set,3,67.79,203.37,completed
+1644,C1215,2024-09-15,South,Beauty,Shampoo,2,450.93,901.86,completed
+1645,C1007,2024-03-26,North,Sports,Water Bottle,5,358.57,1792.85,completed
+1646,C1051,2024-03-05,North,Sports,Yoga Mat,2,495.06,990.12,completed
+1647,C1263,2024-09-28,West,Sports,Water Bottle,2,207.13,414.26,refunded
+1648,C1123,2024-12-30,East,Electronics,Speaker,3,299.81,899.43,refunded
+1649,C1055,2024-01-24,North,Books,Biography,4,456.22,1824.88,pending
+1650,C1230,2024-08-11,East,Sports,Dumbbells,2,364.61,729.22,refunded
+1651,C1260,2024-02-12,South,Electronics,Keyboard,5,191.23,956.15,pending
+1652,C1232,2024-07-13,East,Sports,Dumbbells,5,364.03,1820.15,completed
+1653,C1049,2024-04-28,East,Sports,Water Bottle,1,286.41,286.41,refunded
+1654,C1296,2024-09-17,West,Home,Mug Set,4,166.09,664.36,completed
+1655,C1073,2024-01-22,South,Sports,Jump Rope,3,291.81,875.43,refunded
+1656,C1160,2024-02-20,East,Home,Pillow,1,151.03,151.03,completed
+1657,C1224,2024-04-24,South,Home,Mug Set,5,379.19,1895.95,completed
+1658,C1142,2024-03-13,North,Clothing,Dress,5,379.87,1899.35,completed
+1659,C1020,2024-10-03,Central,Clothing,T-Shirt,4,417.92,1671.68,completed
+1660,C1189,2024-04-14,East,Beauty,Shampoo,4,265.23,1060.92,completed
+1661,C1151,2024-02-26,North,Sports,Resistance Band,4,138.89,555.56,completed
+1662,C1142,2024-12-08,North,Home,Lamp,2,366.4,732.8,completed
+1663,C1080,2024-09-16,East,Home,Blanket,5,339.31,1696.55,completed
+1664,C1161,2024-01-20,West,Electronics,Keyboard,3,103.29,309.87,refunded
+1665,C1018,2024-11-20,North,Clothing,Jeans,5,194.33,971.65,completed
+1666,C1100,2024-05-15,West,Clothing,Sneakers,2,369.43,738.86,completed
+1667,C1067,2024-04-11,North,Beauty,Moisturizer,1,222.81,222.81,completed
+1668,C1285,2024-11-08,South,Books,Cookbook,1,214.89,214.89,completed
+1669,C1194,2024-11-19,Central,Clothing,Jacket,4,269.92,1079.68,completed
+1670,C1153,2024-04-28,East,Books,Sci-Fi,4,400.4,1601.6,completed
+1671,C1182,2024-10-05,West,Home,Lamp,2,65.05,130.1,completed
+1672,C1214,2024-08-16,East,Clothing,Sneakers,1,96.33,96.33,completed
+1673,C1058,2024-06-26,West,Books,Cookbook,4,421.65,1686.6,completed
+1674,C1210,2024-12-17,South,Electronics,Speaker,3,258.66,775.98,completed
+1675,C1031,2024-10-14,East,Home,Mug Set,4,201.77,807.08,completed
+1676,C1217,2024-07-23,East,Electronics,Speaker,4,366.8,1467.2,completed
+1677,C1023,2024-06-06,West,Sports,Dumbbells,5,439.04,2195.2,refunded
+1678,C1105,2024-11-16,North,Beauty,Lip Balm,3,73.31,219.93,refunded
+1679,C1010,2024-01-11,West,Electronics,Speaker,3,385.74,1157.22,refunded
+1680,C1032,2024-12-01,North,Beauty,Moisturizer,3,272.37,817.11,completed
+1681,C1274,2024-07-21,South,Home,Pillow,3,172.43,517.29,completed
+1682,C1283,2024-05-07,North,Electronics,Headphones,5,60.23,301.15,completed
+1683,C1248,2024-01-22,South,Home,Mug Set,1,122.69,122.69,pending
+1684,C1126,2024-01-18,East,Books,Novel,4,331.08,1324.32,completed
+1685,C1138,2024-02-13,North,Electronics,Keyboard,4,19.87,79.48,pending
+1686,C1277,2024-11-05,South,Electronics,Keyboard,4,105.19,420.76,refunded
+1687,C1159,2024-06-14,West,Beauty,Serum,3,144.27,432.81,completed
+1688,C1051,2024-05-15,Central,Sports,Resistance Band,3,220.46,661.38,completed
+1689,C1208,2024-10-14,East,Sports,Water Bottle,5,258.22,1291.1,completed
+1690,C1008,2024-09-11,West,Home,Candle,1,231.6,231.6,refunded
+1691,C1012,2024-07-22,South,Sports,Water Bottle,4,285.94,1143.76,pending
+1692,C1159,2024-06-19,South,Books,Novel,1,284.82,284.82,completed
+1693,C1250,2024-10-30,South,Electronics,Smartwatch,4,312.07,1248.28,completed
+1694,C1267,2024-10-17,South,Electronics,Charger,3,211.8,635.4,pending
+1695,C1172,2024-03-18,North,Home,Candle,5,209.19,1045.95,completed
+1696,C1137,2024-12-19,South,Beauty,Shampoo,5,254.9,1274.5,pending
+1697,C1120,2024-06-13,West,Books,Sci-Fi,5,281.85,1409.25,pending
+1698,C1041,2024-02-23,West,Books,Novel,4,72.36,289.44,completed
+1699,C1082,2024-09-23,North,Clothing,Jeans,4,436.17,1744.68,completed
+1700,C1019,2024-08-05,West,Clothing,Dress,4,78.52,314.08,refunded
+1701,C1214,2024-07-23,North,Home,Lamp,4,497.9,1991.6,pending
+1702,C1138,2024-09-24,East,Beauty,Sunscreen,5,328.6,1643.0,completed
+1703,C1148,2024-09-24,South,Beauty,Sunscreen,5,306.2,1531.0,completed
+1704,C1236,2024-04-17,East,Books,Cookbook,2,266.94,533.88,completed
+1705,C1005,2024-06-11,West,Clothing,Jeans,4,42.84,171.36,completed
+1706,C1159,2024-12-25,South,Clothing,T-Shirt,5,234.7,1173.5,completed
+1707,C1031,2024-11-15,West,Beauty,Moisturizer,1,181.71,181.71,refunded
+1708,C1115,2024-06-25,North,Clothing,Jacket,3,412.16,1236.48,completed
+1709,C1299,2024-06-05,East,Beauty,Shampoo,3,284.94,854.82,pending
+1710,C1103,2024-02-09,Central,Clothing,T-Shirt,2,147.18,294.36,completed
+1711,C1288,2024-02-22,South,Beauty,Lip Balm,4,171.77,687.08,refunded
+1712,C1141,2024-11-11,West,Clothing,Jeans,1,393.84,393.84,completed
+1713,C1046,2024-11-10,South,Clothing,Jeans,4,438.55,1754.2,completed
+1714,C1039,2024-01-27,South,Beauty,Shampoo,4,335.76,1343.04,completed
+1715,C1154,2024-09-13,North,Clothing,Dress,4,194.87,779.48,completed
+1716,C1242,2024-06-30,East,Beauty,Sunscreen,5,48.31,241.55,refunded
+1717,C1109,2024-03-26,East,Books,Cookbook,4,284.63,1138.52,completed
+1718,C1128,2024-12-16,North,Beauty,Shampoo,3,97.22,291.66,completed
+1719,C1238,2024-12-09,East,Books,Sci-Fi,2,312.31,624.62,completed
+1720,C1195,2024-07-10,South,Books,Novel,2,226.61,453.22,refunded
+1721,C1099,2024-01-03,Central,Home,Mug Set,1,456.4,456.4,completed
+1722,C1257,2024-01-07,Central,Home,Lamp,3,324.41,973.23,completed
+1723,C1022,2024-12-22,East,Home,Lamp,5,413.42,2067.1,pending
+1724,C1241,2024-11-07,West,Sports,Dumbbells,4,377.46,1509.84,pending
+1725,C1279,2024-02-23,North,Home,Lamp,5,448.18,2240.9,completed
+1726,C1090,2024-03-08,North,Sports,Yoga Mat,1,227.25,227.25,pending
+1727,C1031,2024-06-09,North,Beauty,Sunscreen,2,330.99,661.98,pending
+1728,C1008,2024-06-19,East,Books,Cookbook,5,363.84,1819.2,completed
+1729,C1264,2024-01-08,West,Sports,Yoga Mat,1,104.53,104.53,refunded
+1730,C1075,2024-05-16,North,Clothing,Sneakers,1,145.0,145.0,completed
+1731,C1258,2024-07-28,South,Books,Novel,3,144.13,432.39,completed
+1732,C1060,2024-06-23,West,Beauty,Serum,5,465.82,2329.1,completed
+1733,C1059,2024-02-16,South,Books,Novel,2,165.57,331.14,pending
+1734,C1010,2024-03-27,North,Clothing,Jacket,4,49.81,199.24,pending
+1735,C1126,2024-06-06,South,Books,Cookbook,3,36.12,108.36,pending
+1736,C1146,2024-04-01,East,Clothing,Dress,3,212.84,638.52,completed
+1737,C1139,2024-04-12,South,Home,Mug Set,4,139.62,558.48,completed
+1738,C1181,2024-10-23,East,Home,Candle,4,416.45,1665.8,pending
+1739,C1087,2024-01-19,Central,Sports,Dumbbells,5,288.66,1443.3,pending
+1740,C1222,2024-06-26,East,Clothing,Jacket,5,280.28,1401.4,pending
+1741,C1137,2024-02-16,Central,Clothing,Jacket,2,239.16,478.32,completed
+1742,C1059,2024-09-21,South,Sports,Dumbbells,4,297.53,1190.12,completed
+1743,C1288,2024-07-12,Central,Electronics,Speaker,1,318.43,318.43,completed
+1744,C1081,2024-08-03,West,Home,Mug Set,1,101.67,101.67,completed
+1745,C1156,2024-03-24,West,Beauty,Moisturizer,1,225.1,225.1,refunded
+1746,C1233,2024-10-30,Central,Books,Sci-Fi,4,242.04,968.16,completed
+1747,C1129,2024-07-10,Central,Home,Blanket,4,157.07,628.28,completed
+1748,C1259,2024-02-25,West,Sports,Water Bottle,5,206.36,1031.8,completed
+1749,C1083,2024-09-19,South,Home,Candle,5,107.24,536.2,refunded
+1750,C1071,2024-03-07,East,Electronics,Headphones,3,398.49,1195.47,completed
+1751,C1177,2024-08-22,West,Clothing,Sneakers,1,332.71,332.71,completed
+1752,C1088,2024-06-03,East,Electronics,Smartwatch,2,430.29,860.58,completed
+1753,C1046,2024-05-05,South,Books,History,3,12.41,37.23,completed
+1754,C1176,2024-02-21,West,Beauty,Shampoo,2,457.28,914.56,pending
+1755,C1192,2024-08-25,South,Electronics,Charger,2,165.98,331.96,completed
+1756,C1204,2024-06-16,East,Books,Sci-Fi,5,202.98,1014.9,completed
+1757,C1177,2024-09-07,Central,Electronics,Smartwatch,5,97.29,486.45,completed
+1758,C1188,2024-07-04,East,Beauty,Serum,5,303.58,1517.9,completed
+1759,C1039,2024-11-26,South,Clothing,Sneakers,2,31.67,63.34,completed
+1760,C1222,2024-02-17,East,Sports,Dumbbells,4,83.86,335.44,completed
+1761,C1198,2024-12-11,West,Electronics,Speaker,4,97.95,391.8,completed
+1762,C1264,2024-02-24,West,Electronics,Speaker,1,331.37,331.37,completed
+1763,C1006,2024-03-23,East,Clothing,Dress,5,198.15,990.75,completed
+1764,C1005,2024-09-05,West,Sports,Yoga Mat,3,218.23,654.69,pending
+1765,C1059,2024-11-05,West,Beauty,Sunscreen,4,358.88,1435.52,refunded
+1766,C1186,2024-02-27,South,Sports,Jump Rope,4,436.44,1745.76,completed
+1767,C1076,2024-01-04,East,Books,History,3,106.82,320.46,refunded
+1768,C1232,2024-08-10,North,Sports,Water Bottle,1,69.55,69.55,completed
+1769,C1235,2024-07-06,North,Beauty,Sunscreen,3,218.58,655.74,pending
+1770,C1151,2024-01-13,Central,Home,Pillow,3,184.86,554.58,completed
+1771,C1228,2024-06-15,East,Books,Novel,5,64.71,323.55,pending
+1772,C1018,2024-09-29,West,Clothing,Jeans,1,272.13,272.13,completed
+1773,C1074,2024-11-20,West,Sports,Water Bottle,3,486.2,1458.6,pending
+1774,C1124,2024-09-25,Central,Sports,Yoga Mat,1,170.02,170.02,completed
+1775,C1075,2024-11-07,North,Sports,Jump Rope,1,175.5,175.5,pending
+1776,C1154,2024-08-04,West,Electronics,Smartwatch,3,363.57,1090.71,pending
+1777,C1040,2024-08-09,North,Clothing,Dress,3,497.5,1492.5,refunded
+1778,C1263,2024-10-03,South,Books,Novel,3,290.92,872.76,completed
+1779,C1223,2024-05-20,South,Home,Candle,1,306.26,306.26,completed
+1780,C1145,2024-05-19,North,Sports,Dumbbells,1,393.19,393.19,pending
+1781,C1066,2024-05-20,East,Sports,Jump Rope,3,57.59,172.77,completed
+1782,C1009,2024-12-29,East,Clothing,T-Shirt,5,151.03,755.15,pending
+1783,C1235,2024-10-28,West,Books,History,3,275.3,825.9,completed
+1784,C1285,2024-01-07,East,Home,Mug Set,3,413.08,1239.24,completed
+1785,C1236,2024-09-12,South,Beauty,Moisturizer,4,135.28,541.12,completed
+1786,C1292,2024-02-10,West,Beauty,Sunscreen,1,111.69,111.69,refunded
+1787,C1189,2024-06-04,East,Home,Blanket,4,24.48,97.92,refunded
+1788,C1299,2024-03-26,Central,Home,Candle,4,213.53,854.12,completed
+1789,C1145,2024-10-11,West,Clothing,Sneakers,5,74.52,372.6,refunded
+1790,C1063,2024-02-19,West,Clothing,Jeans,1,289.66,289.66,completed
+1791,C1081,2024-07-24,Central,Sports,Water Bottle,2,214.9,429.8,refunded
+1792,C1142,2024-06-12,East,Books,Novel,3,256.12,768.36,refunded
+1793,C1200,2024-04-25,West,Sports,Resistance Band,3,414.8,1244.4,completed
+1794,C1080,2024-03-31,West,Home,Lamp,5,416.62,2083.1,completed
+1795,C1088,2024-12-15,North,Sports,Jump Rope,4,487.37,1949.48,completed
+1796,C1096,2024-11-21,North,Beauty,Moisturizer,2,308.75,617.5,refunded
+1797,C1041,2024-11-02,Central,Books,Sci-Fi,1,169.25,169.25,completed
+1798,C1085,2024-10-18,West,Books,Novel,3,21.12,63.36,refunded
+1799,C1199,2024-10-09,Central,Clothing,Jeans,4,190.83,763.32,completed
+1800,C1089,2024-08-29,South,Home,Pillow,3,41.75,125.25,completed
+1801,C1105,2024-10-22,West,Sports,Dumbbells,5,227.38,1136.9,completed
+1802,C1090,2024-08-24,Central,Books,Novel,5,420.55,2102.75,completed
+1803,C1125,2024-08-24,North,Electronics,Headphones,4,434.85,1739.4,completed
+1804,C1197,2024-02-06,West,Home,Candle,1,360.73,360.73,refunded
+1805,C1273,2024-12-31,North,Sports,Resistance Band,1,153.54,153.54,completed
+1806,C1020,2024-07-05,West,Books,History,4,220.0,880.0,completed
+1807,C1053,2024-03-15,East,Beauty,Serum,2,189.56,379.12,pending
+1808,C1173,2024-03-13,South,Sports,Dumbbells,3,57.58,172.74,pending
+1809,C1037,2024-08-22,West,Clothing,Jacket,3,154.68,464.04,completed
+1810,C1169,2024-08-18,East,Beauty,Sunscreen,5,27.5,137.5,completed
+1811,C1075,2024-09-24,East,Electronics,Smartwatch,3,286.12,858.36,pending
+1812,C1149,2024-06-06,South,Beauty,Sunscreen,4,359.4,1437.6,pending
+1813,C1150,2024-03-20,South,Clothing,Dress,3,430.97,1292.91,completed
+1814,C1116,2024-01-15,South,Beauty,Sunscreen,2,296.27,592.54,completed
+1815,C1186,2024-09-17,Central,Sports,Resistance Band,5,450.99,2254.95,completed
+1816,C1079,2024-10-27,Central,Home,Candle,3,195.2,585.6,completed
+1817,C1086,2024-09-25,West,Clothing,Sneakers,4,16.96,67.84,completed
+1818,C1175,2024-04-25,East,Clothing,Jeans,2,146.36,292.72,pending
+1819,C1061,2024-11-28,South,Home,Blanket,4,289.0,1156.0,pending
+1820,C1006,2024-09-25,South,Books,Cookbook,3,335.47,1006.41,completed
+1821,C1050,2024-06-17,Central,Electronics,Speaker,5,481.2,2406.0,pending
+1822,C1275,2024-02-10,North,Sports,Jump Rope,5,131.5,657.5,completed
+1823,C1093,2024-12-19,South,Clothing,Sneakers,2,29.7,59.4,refunded
+1824,C1136,2024-10-09,East,Electronics,Smartwatch,1,454.0,454.0,completed
+1825,C1267,2024-06-04,North,Clothing,Jeans,2,296.97,593.94,refunded
+1826,C1244,2024-08-25,North,Beauty,Serum,3,397.1,1191.3,completed
+1827,C1100,2024-09-01,North,Sports,Yoga Mat,4,106.71,426.84,refunded
+1828,C1110,2024-11-02,West,Home,Candle,1,295.03,295.03,completed
+1829,C1226,2024-11-25,South,Beauty,Lip Balm,4,496.19,1984.76,completed
+1830,C1208,2024-11-03,East,Sports,Dumbbells,3,258.56,775.68,refunded
+1831,C1145,2024-11-26,East,Home,Candle,2,177.15,354.3,pending
+1832,C1287,2024-09-14,East,Books,Sci-Fi,1,488.83,488.83,completed
+1833,C1249,2024-01-04,East,Beauty,Shampoo,4,89.92,359.68,completed
+1834,C1221,2024-12-10,East,Electronics,Charger,3,322.55,967.65,refunded
+1835,C1093,2024-04-09,North,Clothing,Jeans,3,255.86,767.58,completed
+1836,C1271,2024-08-29,North,Books,Biography,5,113.03,565.15,pending
+1837,C1079,2024-06-14,South,Clothing,Sneakers,2,427.65,855.3,refunded
+1838,C1080,2024-06-15,Central,Sports,Jump Rope,4,392.07,1568.28,completed
+1839,C1117,2024-05-14,West,Home,Mug Set,2,160.04,320.08,pending
+1840,C1181,2024-06-10,West,Home,Blanket,5,202.83,1014.15,completed
+1841,C1002,2024-07-25,North,Sports,Water Bottle,2,487.73,975.46,completed
+1842,C1009,2024-12-26,South,Clothing,Jacket,3,417.94,1253.82,completed
+1843,C1164,2024-08-06,West,Home,Candle,5,372.11,1860.55,completed
+1844,C1257,2024-08-13,East,Electronics,Headphones,2,88.59,177.18,pending
+1845,C1245,2024-10-30,West,Electronics,Charger,4,132.41,529.64,refunded
+1846,C1192,2024-01-31,North,Electronics,Speaker,3,273.56,820.68,completed
+1847,C1145,2024-02-26,West,Clothing,T-Shirt,3,488.81,1466.43,pending
+1848,C1211,2024-03-18,South,Beauty,Sunscreen,5,107.99,539.95,completed
+1849,C1224,2024-05-05,East,Beauty,Lip Balm,3,282.76,848.28,completed
+1850,C1011,2024-03-12,North,Books,Biography,3,453.49,1360.47,completed
+1851,C1109,2024-04-04,East,Sports,Dumbbells,4,187.47,749.88,completed
+1852,C1132,2024-05-10,Central,Books,Novel,2,68.39,136.78,completed
+1853,C1218,2024-07-21,West,Electronics,Keyboard,1,457.35,457.35,refunded
+1854,C1191,2024-01-09,Central,Sports,Yoga Mat,5,437.8,2189.0,completed
+1855,C1275,2024-09-08,East,Beauty,Sunscreen,1,369.86,369.86,refunded
+1856,C1047,2024-10-12,North,Beauty,Moisturizer,5,424.68,2123.4,completed
+1857,C1293,2024-08-27,Central,Books,Cookbook,1,385.88,385.88,completed
+1858,C1141,2024-08-26,West,Books,Cookbook,3,45.77,137.31,pending
+1859,C1294,2024-06-22,West,Beauty,Shampoo,1,206.71,206.71,completed
+1860,C1003,2024-11-15,West,Electronics,Headphones,2,167.96,335.92,completed
+1861,C1132,2024-04-24,Central,Books,Biography,5,234.29,1171.45,pending
+1862,C1102,2024-10-21,East,Books,History,2,102.53,205.06,completed
+1863,C1105,2024-06-06,South,Electronics,Headphones,5,304.93,1524.65,completed
+1864,C1065,2024-10-03,East,Electronics,Speaker,3,464.94,1394.82,pending
+1865,C1106,2024-04-13,East,Clothing,Sneakers,3,124.15,372.45,completed
+1866,C1181,2024-01-14,South,Sports,Yoga Mat,4,22.45,89.8,pending
+1867,C1106,2024-07-13,North,Sports,Resistance Band,4,107.32,429.28,completed
+1868,C1063,2024-02-17,South,Beauty,Lip Balm,5,69.62,348.1,completed
+1869,C1061,2024-09-07,Central,Home,Mug Set,4,103.57,414.28,completed
+1870,C1259,2024-07-03,West,Home,Candle,1,472.99,472.99,completed
+1871,C1003,2024-07-13,West,Sports,Yoga Mat,3,186.58,559.74,completed
+1872,C1033,2024-08-10,East,Clothing,T-Shirt,4,439.2,1756.8,completed
+1873,C1140,2024-11-27,East,Electronics,Smartwatch,2,96.9,193.8,completed
+1874,C1065,2024-09-22,South,Clothing,Sneakers,1,39.97,39.97,completed
+1875,C1150,2024-07-09,Central,Sports,Dumbbells,4,94.48,377.92,refunded
+1876,C1077,2024-12-08,South,Home,Lamp,2,24.68,49.36,completed
+1877,C1156,2024-07-25,East,Home,Candle,3,23.94,71.82,completed
+1878,C1169,2024-01-15,West,Electronics,Smartwatch,4,32.77,131.08,completed
+1879,C1268,2024-03-27,South,Electronics,Headphones,3,449.61,1348.83,completed
+1880,C1214,2024-02-03,North,Sports,Resistance Band,4,429.5,1718.0,refunded
+1881,C1225,2024-03-09,Central,Books,Novel,3,243.35,730.05,completed
+1882,C1065,2024-06-14,Central,Home,Candle,1,244.11,244.11,pending
+1883,C1292,2024-04-10,South,Clothing,Dress,2,404.66,809.32,completed
+1884,C1115,2024-12-03,North,Books,Novel,4,148.32,593.28,refunded
+1885,C1053,2024-05-07,South,Home,Pillow,3,171.02,513.06,completed
+1886,C1266,2024-09-21,Central,Home,Pillow,3,216.78,650.34,pending
+1887,C1074,2024-10-23,North,Books,Sci-Fi,1,399.15,399.15,completed
+1888,C1007,2024-03-14,North,Clothing,Jeans,4,168.03,672.12,refunded
+1889,C1246,2024-09-04,East,Clothing,Dress,4,231.52,926.08,completed
+1890,C1232,2024-11-14,East,Beauty,Shampoo,1,375.02,375.02,pending
+1891,C1263,2024-06-21,East,Clothing,Jacket,3,405.41,1216.23,completed
+1892,C1281,2024-08-21,North,Books,Biography,5,138.79,693.95,completed
+1893,C1218,2024-11-24,North,Beauty,Moisturizer,1,121.28,121.28,completed
+1894,C1056,2024-03-02,Central,Books,Biography,2,437.91,875.82,completed
+1895,C1231,2024-08-11,Central,Electronics,Keyboard,2,204.79,409.58,refunded
+1896,C1099,2024-03-13,South,Electronics,Smartwatch,3,267.52,802.56,completed
+1897,C1288,2024-09-28,Central,Electronics,Keyboard,3,274.32,822.96,pending
+1898,C1271,2024-03-26,East,Clothing,T-Shirt,2,321.09,642.18,refunded
+1899,C1115,2024-03-18,Central,Beauty,Shampoo,2,146.42,292.84,completed
+1900,C1151,2024-07-18,Central,Sports,Resistance Band,4,167.73,670.92,pending
+1901,C1153,2024-01-01,North,Home,Candle,3,112.28,336.84,pending
+1902,C1034,2024-01-31,West,Clothing,Jeans,4,412.99,1651.96,completed
+1903,C1200,2024-03-22,West,Sports,Jump Rope,2,131.79,263.58,completed
+1904,C1036,2024-04-25,East,Clothing,Sneakers,1,365.72,365.72,refunded
+1905,C1077,2024-04-15,West,Clothing,Jacket,3,15.27,45.81,completed
+1906,C1266,2024-06-08,Central,Electronics,Keyboard,4,123.76,495.04,completed
+1907,C1152,2024-03-04,Central,Books,History,4,85.29,341.16,pending
+1908,C1174,2024-05-19,North,Sports,Water Bottle,1,317.17,317.17,completed
+1909,C1299,2024-03-27,West,Home,Pillow,5,60.48,302.4,pending
+1910,C1185,2024-05-03,West,Books,Sci-Fi,4,37.75,151.0,completed
+1911,C1143,2024-05-21,East,Books,History,3,215.62,646.86,completed
+1912,C1182,2024-02-12,North,Electronics,Charger,2,297.02,594.04,completed
+1913,C1222,2024-12-06,East,Electronics,Charger,5,307.24,1536.2,refunded
+1914,C1192,2024-11-06,Central,Books,Sci-Fi,1,304.8,304.8,refunded
+1915,C1050,2024-10-21,North,Electronics,Smartwatch,3,294.25,882.75,pending
+1916,C1215,2024-07-20,North,Home,Blanket,4,290.93,1163.72,refunded
+1917,C1019,2024-07-23,West,Books,Novel,2,287.79,575.58,completed
+1918,C1168,2024-02-20,East,Sports,Yoga Mat,4,426.21,1704.84,completed
+1919,C1183,2024-12-15,East,Home,Pillow,3,228.53,685.59,completed
+1920,C1166,2024-08-22,East,Clothing,Jeans,5,387.69,1938.45,refunded
+1921,C1164,2024-07-24,East,Clothing,Sneakers,1,173.53,173.53,refunded
+1922,C1275,2024-04-26,East,Home,Lamp,1,323.32,323.32,completed
+1923,C1254,2024-11-23,South,Sports,Dumbbells,3,429.42,1288.26,completed
+1924,C1179,2024-06-21,West,Home,Pillow,2,168.14,336.28,completed
+1925,C1097,2024-10-24,East,Beauty,Lip Balm,3,380.81,1142.43,refunded
+1926,C1091,2024-07-22,Central,Books,Novel,2,55.74,111.48,pending
+1927,C1207,2024-05-14,South,Books,Biography,5,183.35,916.75,completed
+1928,C1197,2024-02-23,East,Beauty,Lip Balm,1,168.67,168.67,completed
+1929,C1226,2024-01-21,South,Beauty,Moisturizer,3,22.91,68.73,completed
+1930,C1112,2024-05-05,South,Sports,Dumbbells,2,16.07,32.14,completed
+1931,C1010,2024-11-09,West,Sports,Resistance Band,5,280.09,1400.45,refunded
+1932,C1098,2024-07-30,South,Beauty,Lip Balm,4,317.35,1269.4,completed
+1933,C1133,2024-12-27,East,Home,Blanket,3,188.6,565.8,completed
+1934,C1163,2024-10-03,East,Electronics,Smartwatch,3,431.36,1294.08,pending
+1935,C1126,2024-10-02,Central,Clothing,T-Shirt,5,357.08,1785.4,refunded
+1936,C1160,2024-02-23,Central,Clothing,Jacket,5,412.32,2061.6,completed
+1937,C1238,2024-05-17,Central,Electronics,Charger,5,224.55,1122.75,refunded
+1938,C1223,2024-02-03,South,Electronics,Keyboard,4,283.9,1135.6,completed
+1939,C1177,2024-09-01,South,Electronics,Speaker,1,477.81,477.81,completed
+1940,C1291,2024-05-09,North,Books,History,4,221.1,884.4,completed
+1941,C1202,2024-04-20,West,Home,Candle,3,171.95,515.85,refunded
+1942,C1260,2024-07-27,South,Beauty,Lip Balm,3,432.73,1298.19,refunded
+1943,C1027,2024-12-30,East,Beauty,Serum,1,310.78,310.78,refunded
+1944,C1211,2024-03-23,South,Clothing,Dress,2,419.5,839.0,completed
+1945,C1253,2024-03-02,East,Electronics,Headphones,4,291.25,1165.0,pending
+1946,C1198,2024-07-27,West,Books,Sci-Fi,2,425.15,850.3,completed
+1947,C1049,2024-06-08,East,Clothing,Sneakers,3,254.83,764.49,completed
+1948,C1133,2024-07-24,South,Clothing,Jacket,1,176.45,176.45,completed
+1949,C1268,2024-05-11,North,Beauty,Serum,5,38.97,194.85,completed
+1950,C1048,2024-03-27,North,Beauty,Serum,1,170.15,170.15,completed
+1951,C1014,2024-10-17,Central,Home,Lamp,2,102.35,204.7,refunded
+1952,C1255,2024-04-03,Central,Clothing,Jacket,1,437.32,437.32,completed
+1953,C1191,2024-10-20,South,Sports,Dumbbells,5,82.93,414.65,completed
+1954,C1015,2024-11-14,North,Beauty,Serum,3,468.16,1404.48,completed
+1955,C1178,2024-12-15,South,Beauty,Lip Balm,2,451.1,902.2,completed
+1956,C1098,2024-11-04,South,Beauty,Sunscreen,4,465.01,1860.04,refunded
+1957,C1199,2024-08-17,North,Books,History,1,175.78,175.78,completed
+1958,C1072,2024-05-02,West,Clothing,Sneakers,1,185.57,185.57,completed
+1959,C1050,2024-09-23,North,Books,Biography,5,285.86,1429.3,pending
+1960,C1272,2024-09-24,West,Beauty,Moisturizer,3,166.95,500.85,completed
+1961,C1101,2024-05-29,West,Sports,Resistance Band,4,50.36,201.44,completed
+1962,C1251,2024-02-23,East,Beauty,Shampoo,5,200.51,1002.55,completed
+1963,C1147,2024-12-16,North,Beauty,Serum,2,473.91,947.82,completed
+1964,C1292,2024-10-04,South,Books,Biography,1,271.79,271.79,completed
+1965,C1155,2024-07-16,South,Home,Candle,1,413.63,413.63,pending
+1966,C1222,2024-09-17,Central,Clothing,Dress,3,343.75,1031.25,completed
+1967,C1109,2024-02-20,West,Clothing,Jeans,3,45.74,137.22,completed
+1968,C1253,2024-04-15,Central,Books,History,1,32.15,32.15,completed
+1969,C1105,2024-12-18,North,Home,Lamp,2,333.19,666.38,completed
+1970,C1090,2024-07-18,South,Home,Blanket,1,86.4,86.4,refunded
+1971,C1126,2024-11-14,East,Sports,Jump Rope,3,110.38,331.14,pending
+1972,C1139,2024-07-28,North,Sports,Resistance Band,4,146.25,585.0,completed
+1973,C1249,2024-05-09,Central,Electronics,Charger,1,351.03,351.03,completed
+1974,C1065,2024-12-05,South,Electronics,Headphones,1,87.86,87.86,completed
+1975,C1034,2024-04-03,Central,Home,Pillow,3,478.1,1434.3,pending
+1976,C1203,2024-05-25,Central,Home,Mug Set,5,138.12,690.6,completed
+1977,C1202,2024-04-13,North,Beauty,Shampoo,2,72.28,144.56,completed
+1978,C1240,2024-09-02,North,Electronics,Smartwatch,1,418.21,418.21,completed
+1979,C1042,2024-12-21,North,Clothing,Sneakers,5,191.73,958.65,pending
+1980,C1073,2024-08-14,Central,Electronics,Keyboard,2,386.58,773.16,pending
+1981,C1162,2024-01-23,Central,Electronics,Smartwatch,3,431.14,1293.42,completed
+1982,C1089,2024-06-28,West,Clothing,T-Shirt,4,196.21,784.84,completed
+1983,C1258,2024-02-02,South,Clothing,Jeans,3,332.42,997.26,completed
+1984,C1012,2024-08-13,North,Clothing,Dress,5,151.02,755.1,completed
+1985,C1073,2024-10-07,East,Electronics,Headphones,1,210.85,210.85,refunded
+1986,C1008,2024-11-12,South,Books,Biography,3,28.82,86.46,completed
+1987,C1119,2024-01-04,West,Electronics,Keyboard,1,408.71,408.71,refunded
+1988,C1061,2024-04-24,North,Beauty,Lip Balm,1,19.69,19.69,completed
+1989,C1292,2024-11-26,West,Home,Candle,4,230.33,921.32,pending
+1990,C1121,2024-12-15,West,Beauty,Sunscreen,3,490.25,1470.75,pending
+1991,C1232,2024-09-02,South,Sports,Jump Rope,3,119.67,359.01,completed
+1992,C1089,2024-07-17,East,Clothing,Jacket,1,221.54,221.54,completed
+1993,C1073,2024-01-22,West,Sports,Jump Rope,2,493.86,987.72,completed
+1994,C1180,2024-04-16,West,Sports,Resistance Band,4,369.38,1477.52,completed
+1995,C1198,2024-08-25,East,Home,Mug Set,4,75.22,300.88,refunded
+1996,C1105,2024-05-05,South,Books,Cookbook,5,105.34,526.7,pending
+1997,C1186,2024-08-25,Central,Sports,Water Bottle,3,114.61,343.83,completed
+1998,C1240,2024-02-25,Central,Books,Sci-Fi,3,453.28,1359.84,refunded
+1999,C1211,2024-01-27,South,Clothing,Jacket,5,446.05,2230.25,pending
+2000,C1196,2024-09-21,West,Clothing,Sneakers,1,350.04,350.04,completed

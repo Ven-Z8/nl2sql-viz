@@ -30,6 +30,8 @@ interface LeftPanelProps {
   } | null;
   uploadError: string | null;
   onUpload: (file: File, domain: string) => void;
+  samples: { id: string; name: string; domain: string; description: string }[];
+  onLoadSample: (sampleId: string) => void;
 }
 
 const SECTION_LABEL: React.CSSProperties = {
@@ -61,6 +63,8 @@ export default function LeftPanel({
   uploadedDataset,
   uploadError,
   onUpload,
+  samples,
+  onLoadSample,
 }: LeftPanelProps) {
   const [showUpload, setShowUpload] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -278,6 +282,95 @@ export default function LeftPanel({
                 gap: "var(--space-2)",
               }}
             >
+              {/* Sample datasets — one-click demo load */}
+              {samples.length > 0 && (
+                <div
+                  style={{
+                    padding: "10px 12px",
+                    borderRadius: "var(--radius-md)",
+                    background: "var(--color-paper)",
+                    border: "1px solid var(--color-border-subtle)",
+                  }}
+                >
+                  <div
+                    style={{
+                      fontSize: "10.5px",
+                      fontWeight: 600,
+                      color: "var(--color-accent)",
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                      marginBottom: "6px",
+                      fontFamily: "var(--font-mono)",
+                    }}
+                  >
+                    Sample datasets
+                  </div>
+                  {samples.map((s) => (
+                    <button
+                      key={s.id}
+                      onClick={() => onLoadSample(s.id)}
+                      disabled={uploading}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "8px 10px",
+                        borderRadius: "var(--radius-sm)",
+                        border: "1px solid var(--color-border-subtle)",
+                        background: "var(--color-paper-3)",
+                        color: "var(--color-ink)",
+                        marginBottom: "6px",
+                        cursor: uploading ? "not-allowed" : "pointer",
+                        opacity: uploading ? 0.55 : 1,
+                        transition: "border-color var(--dur-fast) var(--ease-out)",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!uploading) {
+                          (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-accent-dim)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-border-subtle)";
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "block",
+                          fontSize: "12.5px",
+                          fontWeight: 600,
+                          marginBottom: "2px",
+                        }}
+                      >
+                        {s.name}
+                      </span>
+                      <span
+                        style={{
+                          display: "block",
+                          fontSize: "11px",
+                          color: "var(--color-ink-dim)",
+                          lineHeight: 1.4,
+                        }}
+                      >
+                        {s.description}
+                      </span>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          marginTop: "4px",
+                          fontSize: "10px",
+                          fontWeight: 600,
+                          color: "var(--color-accent)",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.06em",
+                          fontFamily: "var(--font-mono)",
+                        }}
+                      >
+                        {s.domain} · load →
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
               <input
                 ref={fileInputRef}
                 type="file"

@@ -13,6 +13,7 @@ from pydantic import BaseModel
 from app.core.auth import generate_api_key, hash_api_key, verify_api_key
 from app.core.csv_loader import CSVUploadError, infer_schema, load_csv, parse_csv, sanitize_table_name
 from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questions
+from app.core.samples import list_samples, load_sample
 from app.core.session import SessionStore
 from app.core.user_store import UserStore
 from app.agents.coordinator import CoordinatorAgent
@@ -88,10 +89,31 @@ async def demo_session():
     await user_store.register(session["username"], hash_api_key(session["api_key"]))
     return session
 
-# --- REST: Domains + CSV upload ---
+# --- REST: Domains + CSV upload + samples ---
 @app.get("/api/domains")
 async def domains():
     return {"domains": list_domains()}
+
+
+@app.get("/api/samples")
+async def samples():
+    return {"samples": list_samples()}
+
+
+@app.post("/api/samples/{sample_id}/load")
+async def load_sample_endpoint(sample_id: str, api_key: str = Form(...)):
+    await _verify_api_key_or_raise(api_key)
+    pool = PostgresPool(dsn=UPLOAD_DATABASE_URL)
+    try:
+        await pool.connect()
+        result = await load_sample(pool, sample_id, UPLOAD_DATABASE_URL)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Sample not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to load sample: {e}")
+    finally:
+        await pool.disconnect()
+    return result
 
 
 @app.post("/api/upload")

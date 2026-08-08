@@ -119,7 +119,14 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 if query_type == QueryType.KPI:
                     metrics.append(Metric(label=col, value=values[0], source=source))
                 else:
-                    label = col if col.lower().startswith("total") else f"total {col}"
+                    # Don't prefix "total" onto columns that are already aggregates
+                    lowered = col.lower()
+                    is_aggregate = any(
+                        lowered.startswith(p) for p in
+                        ("avg", "average", "mean", "count", "rate", "ratio",
+                         "pct", "percent", "share", "sum", "total", "median")
+                    )
+                    label = col if is_aggregate else f"total {col}"
                     metrics.append(Metric(label=label, value=sum(values), source=source))
                     if len(values) > 1:
                         metrics.append(Metric(label=f"latest {col}", value=values[-1], source=source))

@@ -40,6 +40,9 @@ export default function Home() {
   const [connectionLabel, setConnectionLabel] = useState("Waiting for connection");
   const [suggestedQuestions, setSuggestedQuestions] = useState<SuggestedQuestion[]>([]);
   const [domains, setDomains] = useState<{ id: string; name: string }[]>([]);
+  const [samples, setSamples] = useState<
+    { id: string; name: string; domain: string; description: string }[]
+  >([]);
   const [activeDomain, setActiveDomain] = useState("general");
   const [uploading, setUploading] = useState(false);
   const [uploadedDataset, setUploadedDataset] = useState<{
@@ -79,6 +82,14 @@ export default function Home() {
             domains: { id: string; name: string }[];
           };
           if (!cancelled) setDomains(body.domains);
+        }
+
+        const samplesResp = await fetch(`${API_URL}/api/samples`);
+        if (samplesResp.ok) {
+          const body = (await samplesResp.json()) as {
+            samples: { id: string; name: string; domain: string; description: string }[];
+          };
+          if (!cancelled) setSamples(body.samples);
         }
 
         if (!apiKey || !dsn) {
@@ -285,6 +296,48 @@ export default function Home() {
     }
   };
 
+  const handleLoadSample = async (sampleId: string) => {
+    if (uploading) return;
+    if (!apiKeyRef.current) {
+      setUploadError("Not connected — register or start a demo session first.");
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const form = new FormData();
+      form.append("api_key", apiKeyRef.current);
+      const resp = await fetch(`${API_URL}/api/samples/${sampleId}/load`, {
+        method: "POST",
+        body: form,
+      });
+      const body = (await resp.json()) as {
+        table_name: string;
+        row_count: number;
+        columns: string[];
+        domain: string;
+        dsn: string;
+        detail?: string;
+      };
+      if (!resp.ok) {
+        throw new Error(body.detail ?? "Failed to load sample");
+      }
+      setUploadedDataset({
+        table_name: body.table_name,
+        row_count: body.row_count,
+        columns: body.columns,
+        domain: body.domain,
+      });
+      setActiveDomain(body.domain);
+      setRuntimeDsn(body.dsn);
+      setDatasetName(body.table_name.replace(/^upload_/, ""));
+    } catch (e) {
+      setUploadError(e instanceof Error ? e.message : "Failed to load sample");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <TopBar connected={connected} />
@@ -312,6 +365,8 @@ export default function Home() {
           uploadedDataset={uploadedDataset}
           uploadError={uploadError}
           onUpload={handleUpload}
+          samples={samples}
+          onLoadSample={handleLoadSample}
         />
         <RightPanel
           title={resultTitle}

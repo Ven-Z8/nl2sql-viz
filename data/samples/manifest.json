@@ -1,0 +1,7 @@
+{
+  "retail_orders": {
+    "name": "Retail Orders",
+    "domain": "retail",
+    "description": "2,000 retail orders — customers, products, categories, regions, statuses"
+  }
+}
