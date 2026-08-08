@@ -1,0 +1,11 @@
+order_id,customer_id,order_date,region,amount,status
+1001,501,2024-01-05,North,120.50,completed
+1002,502,2024-01-12,South,89.99,completed
+1003,501,2024-02-03,North,240.00,completed
+1004,503,2024-02-15,East,45.25,refunded
+1005,504,2024-03-01,West,310.75,completed
+1006,502,2024-03-20,South,150.00,completed
+1007,505,2024-04-02,North,99.99,completed
+1008,501,2024-04-18,North,420.00,completed
+1009,506,2024-05-05,East,75.50,completed
+1010,503,2024-05-22,East,180.00,completed

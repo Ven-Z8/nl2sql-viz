@@ -1,4 +1,5 @@
 "use client";
+import { useRef, useState } from "react";
 import LogStream, { LogEntry } from "./LogStream";
 
 export type HistoryItem = { query: string; timestamp: string };
@@ -17,6 +18,18 @@ interface LeftPanelProps {
   activeHistoryIndex: number | null;
   onHistoryClick: (q: string) => void;
   onSuggestedQuestionClick: (q: string) => void;
+  domains: { id: string; name: string }[];
+  activeDomain: string;
+  onDomainChange: (d: string) => void;
+  uploading: boolean;
+  uploadedDataset: {
+    table_name: string;
+    row_count: number;
+    columns: string[];
+    domain: string;
+  } | null;
+  uploadError: string | null;
+  onUpload: (file: File, domain: string) => void;
 }
 
 const SECTION_LABEL: React.CSSProperties = {
@@ -41,12 +54,32 @@ export default function LeftPanel({
   activeHistoryIndex,
   onHistoryClick,
   onSuggestedQuestionClick,
+  domains,
+  activeDomain,
+  onDomainChange,
+  uploading,
+  uploadedDataset,
+  uploadError,
+  onUpload,
 }: LeftPanelProps) {
+  const [showUpload, setShowUpload] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploadDomain, setUploadDomain] = useState("general");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
       e.preventDefault();
       if (query.trim() && !isLoading) onSubmit();
     }
+  };
+
+  const handleUploadClick = () => {
+    if (!selectedFile) {
+      fileInputRef.current?.click();
+      return;
+    }
+    onUpload(selectedFile, uploadDomain);
   };
 
   return (
@@ -180,6 +213,144 @@ export default function LeftPanel({
           >
             {connectionLabel}
           </div>
+
+          {/* Uploaded dataset info */}
+          {uploadedDataset && (
+            <div
+              style={{
+                marginTop: "var(--space-3)",
+                padding: "10px 12px",
+                borderRadius: "var(--radius-md)",
+                background: "var(--color-accent-dim)",
+                border: "1px solid var(--color-accent-dim)",
+                fontSize: "12px",
+                color: "var(--color-ink)",
+              }}
+            >
+              <div style={{ fontWeight: 600, marginBottom: "2px" }}>
+                {uploadedDataset.table_name}
+              </div>
+              <div
+                style={{
+                  fontSize: "11px",
+                  color: "var(--color-ink-dim)",
+                  fontFamily: "var(--font-mono)",
+                }}
+              >
+                {uploadedDataset.row_count.toLocaleString()} rows · {uploadedDataset.columns.length} cols ·{" "}
+                {uploadedDataset.domain}
+              </div>
+            </div>
+          )}
+
+          {/* Upload controls */}
+          <button
+            onClick={() => setShowUpload((v) => !v)}
+            style={{
+              marginTop: "var(--space-3)",
+              width: "100%",
+              padding: "8px",
+              borderRadius: "var(--radius-md)",
+              background: "var(--color-paper-3)",
+              border: "1px dashed var(--color-border)",
+              color: "var(--color-accent)",
+              fontSize: "12.5px",
+              fontWeight: 500,
+              cursor: "pointer",
+              transition: "border-color var(--dur-fast) var(--ease-out)",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-accent-dim)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-border)";
+            }}
+          >
+            {showUpload ? "Hide upload" : "Upload CSV →"}
+          </button>
+
+          {showUpload && (
+            <div
+              style={{
+                marginTop: "var(--space-3)",
+                display: "flex",
+                flexDirection: "column",
+                gap: "var(--space-2)",
+              }}
+            >
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv"
+                style={{ display: "none" }}
+                onChange={(e) => setSelectedFile(e.target.files?.[0] ?? null)}
+              />
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                style={{
+                  padding: "8px 10px",
+                  borderRadius: "var(--radius-md)",
+                  background: "var(--color-paper-3)",
+                  border: "1px solid var(--color-border)",
+                  color: selectedFile ? "var(--color-ink)" : "var(--color-ink-faint)",
+                  fontSize: "12px",
+                  textAlign: "left",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {selectedFile ? selectedFile.name : "Choose a .csv file…"}
+              </button>
+              <select
+                value={uploadDomain}
+                onChange={(e) => setUploadDomain(e.target.value)}
+                style={{
+                  padding: "8px 10px",
+                  borderRadius: "var(--radius-md)",
+                  background: "var(--color-paper-3)",
+                  border: "1px solid var(--color-border)",
+                  color: "var(--color-ink)",
+                  fontSize: "12px",
+                  fontFamily: "inherit",
+                  outline: "none",
+                }}
+              >
+                <option value="" disabled>
+                  Domain (guides analysis)
+                </option>
+                {domains.map((d) => (
+                  <option key={d.id} value={d.id}>
+                    {d.name}
+                  </option>
+                ))}
+              </select>
+              <button
+                onClick={handleUploadClick}
+                disabled={uploading || !selectedFile}
+                style={{
+                  padding: "8px",
+                  borderRadius: "var(--radius-md)",
+                  background: uploading || !selectedFile
+                    ? "var(--color-paper-3)"
+                    : "var(--color-accent)",
+                  border: "none",
+                  color: uploading || !selectedFile ? "var(--color-ink-faint)" : "oklch(18% 0.02 80)",
+                  fontSize: "12.5px",
+                  fontWeight: 600,
+                  cursor: uploading || !selectedFile ? "not-allowed" : "pointer",
+                }}
+              >
+                {uploading ? "Uploading…" : "Upload & analyze"}
+              </button>
+              {uploadError && (
+                <div style={{ fontSize: "11.5px", color: "var(--color-danger)", lineHeight: 1.4 }}>
+                  {uploadError}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Suggested questions */}

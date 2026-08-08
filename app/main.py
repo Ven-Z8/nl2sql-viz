@@ -1,15 +1,17 @@
 # app/main.py
 import asyncio
 import hashlib
+import os
 import time
 from collections import deque
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+from fastapi import FastAPI, File, Form, UploadFile, WebSocket, WebSocketDisconnect, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 from app.core.auth import generate_api_key, hash_api_key, verify_api_key
+from app.core.csv_loader import CSVUploadError, infer_schema, load_csv, parse_csv, sanitize_table_name
 from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questions
 from app.core.session import SessionStore
 from app.core.user_store import UserStore
@@ -19,12 +21,14 @@ from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
 from app.db.pool import PostgresPool
 from app.engine.cache import QueryCache
+from app.skills import get_domain_skill, list_domains
 
 load_dotenv()
 
 QUERY_TIMEOUT_SECONDS = 30
 RATE_LIMIT_QUERIES = 10       # max queries per window
 RATE_LIMIT_WINDOW_SECONDS = 60  # rolling window in seconds
+UPLOAD_DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://testuser:testpass@localhost:5432/testdb")
 
 
 def _check_rate_limit(timestamps: deque) -> None:
@@ -84,6 +88,50 @@ async def demo_session():
     await user_store.register(session["username"], hash_api_key(session["api_key"]))
     return session
 
+# --- REST: Domains + CSV upload ---
+@app.get("/api/domains")
+async def domains():
+    return {"domains": list_domains()}
+
+
+@app.post("/api/upload")
+async def upload_csv(
+    api_key: str = Form(...),
+    domain: str = Form("general"),
+    file: UploadFile = File(...),
+):
+    await _verify_api_key_or_raise(api_key)
+    if not file.filename or not file.filename.lower().endswith(".csv"):
+        raise HTTPException(status_code=400, detail="Only .csv files are supported")
+
+    content = await file.read()
+    try:
+        columns, rows = parse_csv(content)
+        types = infer_schema(columns, rows)
+        table_name = sanitize_table_name(file.filename)
+    except CSVUploadError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    pool = PostgresPool(dsn=UPLOAD_DATABASE_URL)
+    try:
+        await pool.connect()
+        row_count = await load_csv(pool, table_name, columns, rows, types)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to load CSV: {e}")
+    finally:
+        await pool.disconnect()
+
+    preview = rows[:5]
+    return {
+        "table_name": table_name,
+        "row_count": row_count,
+        "columns": columns,
+        "types": types,
+        "domain": domain,
+        "preview": preview,
+        "dsn": UPLOAD_DATABASE_URL,
+    }
+
 # --- REST: Connect a database ---
 class ConnectRequest(BaseModel):
     api_key: str
@@ -141,6 +189,7 @@ async def websocket_query(websocket: WebSocket):
 
             nl_query = data.get("query", "").strip()
             dsn = data.get("dsn", "")
+            domain = data.get("domain", "general")
             if not nl_query or not dsn:
                 await websocket.send_json({"type": "error", "message": "query and dsn required"})
                 continue
@@ -169,6 +218,9 @@ async def websocket_query(websocket: WebSocket):
                 coordinator.viz_agent = viz_agent
                 coordinator.cache = query_cache
                 coordinator.connection_id = user_id or "default"
+                # Activate the domain skill — injects analyst guidance into SQL generation
+                skill = get_domain_skill(domain)
+                sql_agent.domain_guidance = skill.guidance()
 
                 async def _run_query():
                     async for event in coordinator.run(nl_query):

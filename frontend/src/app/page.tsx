@@ -39,8 +39,19 @@ export default function Home() {
   const [datasetName, setDatasetName] = useState("Postgres Workspace");
   const [connectionLabel, setConnectionLabel] = useState("Waiting for connection");
   const [suggestedQuestions, setSuggestedQuestions] = useState<SuggestedQuestion[]>([]);
+  const [domains, setDomains] = useState<{ id: string; name: string }[]>([]);
+  const [activeDomain, setActiveDomain] = useState("general");
+  const [uploading, setUploading] = useState(false);
+  const [uploadedDataset, setUploadedDataset] = useState<{
+    table_name: string;
+    row_count: number;
+    columns: string[];
+    domain: string;
+  } | null>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
 
   const wsRef = useRef<QueryWebSocket | null>(null);
+  const apiKeyRef = useRef<string>(API_KEY);
 
   useEffect(() => {
     let cancelled = false;
@@ -60,6 +71,14 @@ export default function Home() {
             setDatasetName(body.dataset);
             setSuggestedQuestions(body.questions);
           }
+        }
+
+        const domainsResp = await fetch(`${API_URL}/api/domains`);
+        if (domainsResp.ok) {
+          const body = (await domainsResp.json()) as {
+            domains: { id: string; name: string }[];
+          };
+          if (!cancelled) setDomains(body.domains);
         }
 
         if (!apiKey || !dsn) {
@@ -91,6 +110,7 @@ export default function Home() {
       }
 
       if (cancelled) return;
+      apiKeyRef.current = apiKey;
       setRuntimeDsn(dsn);
       setConnectionLabel(new URL(API_URL).host);
 
@@ -218,7 +238,51 @@ export default function Home() {
     // Prepend to history
     setHistory((prev) => [{ query: question, timestamp: now() }, ...prev]);
 
-    wsRef.current?.sendQuery(question, runtimeDsn);
+    wsRef.current?.sendQuery(question, runtimeDsn, activeDomain);
+  };
+
+  const handleUpload = async (file: File, domain: string) => {
+    if (!file || uploading) return;
+    if (!apiKeyRef.current) {
+      setUploadError("Not connected — register or start a demo session first.");
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const form = new FormData();
+      form.append("api_key", apiKeyRef.current);
+      form.append("domain", domain);
+      form.append("file", file);
+      const resp = await fetch(`${API_URL}/api/upload`, {
+        method: "POST",
+        body: form,
+      });
+      const body = (await resp.json()) as {
+        table_name: string;
+        row_count: number;
+        columns: string[];
+        domain: string;
+        dsn: string;
+        detail?: string;
+      };
+      if (!resp.ok) {
+        throw new Error(body.detail ?? "Upload failed");
+      }
+      setUploadedDataset({
+        table_name: body.table_name,
+        row_count: body.row_count,
+        columns: body.columns,
+        domain: body.domain,
+      });
+      setActiveDomain(body.domain);
+      setRuntimeDsn(body.dsn);
+      setDatasetName(body.table_name.replace(/^upload_/, ""));
+    } catch (e) {
+      setUploadError(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -241,6 +305,13 @@ export default function Home() {
             setQuery(q);
             handleSubmit(q);
           }}
+          domains={domains}
+          activeDomain={activeDomain}
+          onDomainChange={setActiveDomain}
+          uploading={uploading}
+          uploadedDataset={uploadedDataset}
+          uploadError={uploadError}
+          onUpload={handleUpload}
         />
         <RightPanel
           title={resultTitle}

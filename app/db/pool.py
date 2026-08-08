@@ -85,6 +85,17 @@ class PostgresPool:
             sql=sql,
         )
 
+    async def execute_raw(self, sql: str, *args: Any) -> None:
+        """Execute arbitrary SQL (DDL/inserts) bypassing the read-only guard.
+
+        Internal use only — CSV ingestion and test seeding. Never call this
+        with user-supplied SQL.
+        """
+        if not self._pool:
+            raise RuntimeError("Not connected — call connect() first")
+        async with self._pool.acquire() as conn:
+            await conn.execute(sql, *args)
+
     async def stream(self, sql: str, batch_size: int = 1000) -> AsyncIterator[list[dict[str, Any]]]:
         """Stream results via server-side cursor for large result sets."""
         if not self._pool:

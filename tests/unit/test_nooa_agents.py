@@ -354,6 +354,10 @@ class TestCoordinatorPipeline:
         assert agent.infer_query_type("Compare Q4 vs Q3 revenue", multi) == QueryType.COMPARISON
         assert agent.infer_query_type("Distribution of order values", multi) == QueryType.DISTRIBUTION
         assert agent.infer_query_type("Sales by region", multi) == QueryType.BREAKDOWN
+        # "total X by region" is a breakdown, not a KPI — the "by" wins
+        assert agent.infer_query_type("Total revenue by region", multi) == QueryType.BREAKDOWN
+        # single-row result with "total" stays KPI
+        assert agent.infer_query_type("Total revenue", single) == QueryType.KPI
 
     def test_grounded_answer_metrics(self):
         """Metrics come only from actual result rows; answer text uses them."""

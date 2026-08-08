@@ -14,6 +14,7 @@ Streams progress events as an async generator for WebSocket delivery.
 
 from __future__ import annotations
 
+import re
 from collections.abc import AsyncIterator
 from typing import Any
 
@@ -88,6 +89,9 @@ class CoordinatorAgent(Agent, llm=SONNET):
             return QueryType.COMPARISON
         if any(h in q for h in _DISTRIBUTION_HINTS):
             return QueryType.DISTRIBUTION
+        # "by <dimension>" with multiple rows → breakdown, even if it says "total"
+        if re.search(r"\bby\s+[a-z_]+", q) and result.row_count > 1:
+            return QueryType.BREAKDOWN
         if any(h in q for h in _KPI_HINTS) or result.row_count == 1:
             return QueryType.KPI
         return QueryType.BREAKDOWN

@@ -51,8 +51,8 @@ export class QueryWebSocket {
     });
   }
 
-  sendQuery(query: string, dsn: string): void {
-    this.ws?.send(JSON.stringify({ type: "query", query, dsn }));
+  sendQuery(query: string, dsn: string, domain = "general"): void {
+    this.ws?.send(JSON.stringify({ type: "query", query, dsn, domain }));
   }
 
   disconnect(): void {

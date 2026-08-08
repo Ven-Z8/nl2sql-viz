@@ -52,6 +52,7 @@ class SQLAgent(Agent, llm=SONNET):
 
     pool: PostgresPool
     math: MathCalculator = MathCalculator()
+    domain_guidance: str = ""
 
     # ------------------------------------------------------------------
     # Deterministic helpers (callable from CodeAct Python)
@@ -110,5 +111,8 @@ class SQLAgent(Agent, llm=SONNET):
         6. Return a GeneratedSQL with the final SQL
 
         The schema is: {schema.compact_repr()}
+
+        Domain guidance (follow these analyst conventions):
+        {self.domain_guidance}
         """
         ...
