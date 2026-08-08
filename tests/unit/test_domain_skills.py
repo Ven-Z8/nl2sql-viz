@@ -12,7 +12,8 @@ class TestDomainSkills:
 
     def test_registry_has_expected_domains(self):
         assert set(DOMAIN_SKILLS.keys()) == {
-            "general", "retail", "healthcare", "finance", "marketing", "saas", "operations",
+            "general", "retail", "healthcare", "finance", "marketing", "saas",
+            "operations", "hr",
         }
 
     def test_get_domain_skill_returns_matching(self):
