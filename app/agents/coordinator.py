@@ -2,11 +2,12 @@
 
 NOOA Agent using CodeActStrategy to coordinate:
 1. Schema introspection (SchemaAgent)
-2. SQL generation (SQLAgent)
-3. Query execution + cost gating
-4. Result size management
-5. Visualization (VizAgent)
-6. Cache lookup/storage
+2. Query planning / decomposition (QueryPlanner)
+3. SQL generation (SQLAgent)
+4. Query execution + cost gating
+5. Grounded answer assembly (deterministic — every number from real data)
+6. Visualization (VizAgent)
+7. Cache lookup/storage
 
 Streams progress events as an async generator for WebSocket delivery.
 """
@@ -20,20 +21,45 @@ from nooa import Agent, strategy
 from nooa.config import CodeActConfig
 from nooa.strategies import CodeActStrategy
 
+from app.agents.planner import QueryPlanner
 from app.agents.schema_agent import SchemaAgent
 from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
 from app.db.guard import validate_read_only
 from app.engine.cache import QueryCache, cache_key
 from app.llm import SONNET
+from app.models import (
+    GroundedAnswer,
+    Metric,
+    QueryResult,
+    QueryType,
+    SubQuery,
+)
+
+_KPI_HINTS = ("how many", "total", "what is", "what's", "count of", "sum of", "average", "avg ")
+_TREND_HINTS = ("over time", "trend", "monthly", "weekly", "daily", "quarterly", "by month", "by date", "by year")
+_COMPARISON_HINTS = ("vs", "versus", "compare", "compared", "difference between")
+_DISTRIBUTION_HINTS = ("distribution", "histogram", "spread of", "range of")
+
+
+def _fmt(value: float) -> str:
+    """Format a number for display: thousands separators, trimmed decimals."""
+    if abs(value) >= 1000:
+        return f"{value:,.2f}".rstrip("0").rstrip(".")
+    return f"{value:.2f}".rstrip("0").rstrip(".")
+
+
+def _title(label: str) -> str:
+    return label.replace("_", " ").title()
 
 
 class CoordinatorAgent(Agent, llm=SONNET):
     """You are the analytics coordinator for NL2SQL Viz.
-    You orchestrate the full pipeline: schema → SQL → execute → visualize.
+    You orchestrate the full pipeline: schema → plan → SQL → execute → answer → visualize.
 
     You have access to:
     - self.schema_agent: SchemaAgent for database introspection
+    - self.planner: QueryPlanner for decomposing complex questions
     - self.sql_agent: SQLAgent for SQL generation
     - self.viz_agent: VizAgent for chart generation
     - self.cache: QueryCache for result caching
@@ -43,6 +69,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
     """
 
     schema_agent: SchemaAgent
+    planner: QueryPlanner | None = None
     sql_agent: SQLAgent
     viz_agent: VizAgent
     cache: QueryCache
@@ -50,6 +77,81 @@ class CoordinatorAgent(Agent, llm=SONNET):
 
     # ------------------------------------------------------------------
     # Deterministic helpers
+    # ------------------------------------------------------------------
+
+    def infer_query_type(self, question: str, result: QueryResult) -> QueryType:
+        """Classify the question deterministically (no LLM) from hints + result shape."""
+        q = question.lower()
+        if any(h in q for h in _TREND_HINTS):
+            return QueryType.TREND
+        if any(h in q for h in _COMPARISON_HINTS):
+            return QueryType.COMPARISON
+        if any(h in q for h in _DISTRIBUTION_HINTS):
+            return QueryType.DISTRIBUTION
+        if any(h in q for h in _KPI_HINTS) or result.row_count == 1:
+            return QueryType.KPI
+        return QueryType.BREAKDOWN
+
+    def extract_metrics(self, query_type: QueryType, results: list[QueryResult]) -> list[Metric]:
+        """Extract grounded metrics from actual result rows. Every value here
+        comes from executed query data — nothing is invented."""
+        metrics: list[Metric] = []
+        for result in results:
+            if not result.rows:
+                continue
+            first = result.rows[0]
+            numeric_cols = [
+                k for k, v in first.items()
+                if isinstance(v, (int, float)) and not isinstance(v, bool)
+            ]
+            for col in numeric_cols:
+                values = [
+                    float(row[col]) for row in result.rows
+                    if isinstance(row.get(col), (int, float))
+                ]
+                if not values:
+                    continue
+                source = result.sql[:80]
+                if query_type == QueryType.KPI:
+                    metrics.append(Metric(label=col, value=values[0], source=source))
+                else:
+                    label = col if col.lower().startswith("total") else f"total {col}"
+                    metrics.append(Metric(label=label, value=sum(values), source=source))
+                    if len(values) > 1:
+                        metrics.append(Metric(label=f"latest {col}", value=values[-1], source=source))
+        return metrics
+
+    def build_answer(
+        self,
+        question: str,
+        query_type: QueryType,
+        metrics: list[Metric],
+        sub_queries: list[SubQuery],
+    ) -> GroundedAnswer:
+        """Assemble the grounded answer text from real metrics only."""
+        if not metrics:
+            text = "The query returned data, but no numeric metrics were computed."
+        elif query_type == QueryType.KPI:
+            m = metrics[0]
+            text = f"{_title(m.label)}: {_fmt(m.value)}"
+        else:
+            parts = [f"{_title(m.label)} {_fmt(m.value)}" for m in metrics]
+            text = " | ".join(parts)
+        return GroundedAnswer(
+            text=text,
+            query_type=query_type,
+            metrics=metrics,
+            sub_queries=sub_queries,
+        )
+
+    async def _run_single(self, question: str, schema) -> QueryResult:
+        """Generate + validate + execute one grounded query."""
+        generated = await self.sql_agent.generate(question=question, schema=schema)
+        validate_read_only(generated.sql)
+        return await self.sql_agent.execute_query(generated.sql)
+
+    # ------------------------------------------------------------------
+    # Main pipeline
     # ------------------------------------------------------------------
 
     async def run(self, nl_query: str) -> AsyncIterator[dict[str, Any]]:
@@ -60,6 +162,9 @@ class CoordinatorAgent(Agent, llm=SONNET):
         cached = self.cache.get(key)
         if cached is not None:
             yield {"type": "progress", "message": "Cache hit — returning stored result"}
+            query_type = self.infer_query_type(nl_query, cached)
+            metrics = self.extract_metrics(query_type, [cached])
+            answer = self.build_answer(nl_query, query_type, metrics, [])
             plan = self.viz_agent.plan_chart(nl_query, cached)
             chart_spec = self.viz_agent.build_vega_lite(plan, cached)
             yield {
@@ -69,6 +174,8 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 "row_count": cached.row_count,
                 "sql": cached.sql,
                 "execution_time_ms": cached.execution_time_ms,
+                "query_type": query_type.value,
+                "answer": answer.model_dump(),
                 "cached": True,
             }
             return
@@ -77,37 +184,73 @@ class CoordinatorAgent(Agent, llm=SONNET):
         yield {"type": "progress", "message": "Analyzing database schema..."}
         schema = await self.schema_agent.fetch_schema()
 
-        # 3. SQL generation via SQLAgent
-        yield {"type": "progress", "message": "Generating SQL query..."}
-        generated = await self.sql_agent.generate(question=nl_query, schema=schema)
+        # 3. Query planning — decompose complex questions into sub-queries
+        sub_queries: list[SubQuery] = []
+        if self.planner is not None:
+            try:
+                sub_queries = await self.planner.decompose(nl_query, schema.compact_repr())
+            except Exception:
+                sub_queries = []  # fall back to single query on planner failure
 
-        # 4. Validate and execute
-        sql = generated.sql
-        validate_read_only(sql)
-        yield {"type": "sql", "sql": sql}
+        results: list[QueryResult] = []
+        sqls: list[str] = []
 
-        yield {"type": "progress", "message": "Executing query..."}
-        result = await self.sql_agent.execute_query(sql)
+        if sub_queries:
+            yield {
+                "type": "progress",
+                "message": f"Decomposed into {len(sub_queries)} sub-queries",
+            }
+            for sq in sub_queries:
+                yield {"type": "progress", "message": f"Sub-query: {sq.question}"}
+                try:
+                    result = await self._run_single(sq.question, schema)
+                except Exception as e:
+                    yield {"type": "progress", "message": f"Sub-query failed: {e}"}
+                    continue
+                if result.row_count > 0:
+                    results.append(result)
+                    sqls.append(result.sql)
+            if not results:
+                yield {"type": "error", "message": "All sub-queries returned zero rows. Try a broader question."}
+                return
+        else:
+            yield {"type": "progress", "message": "Generating SQL query..."}
+            generated = await self.sql_agent.generate(question=nl_query, schema=schema)
+            sql = generated.sql
+            validate_read_only(sql)
+            yield {"type": "sql", "sql": sql}
 
-        if result.row_count == 0:
-            yield {"type": "error", "message": "Query returned zero rows. Try a broader question."}
-            return
+            yield {"type": "progress", "message": "Executing query..."}
+            result = await self.sql_agent.execute_query(sql)
+            if result.row_count == 0:
+                yield {"type": "error", "message": "Query returned zero rows. Try a broader question."}
+                return
+            results.append(result)
+            sqls.append(sql)
 
-        # 5. Visualization
+        # 4. Grounded answer — every number comes from the executed results
+        primary = results[-1]
+        query_type = self.infer_query_type(nl_query, primary)
+        metrics = self.extract_metrics(query_type, results)
+        answer = self.build_answer(nl_query, query_type, metrics, sub_queries)
+
+        # 5. Visualization of the primary result
         yield {"type": "progress", "message": "Building visualization..."}
-        plan = self.viz_agent.plan_chart(nl_query, result)
-        chart_spec = self.viz_agent.build_vega_lite(plan, result)
+        plan = self.viz_agent.plan_chart(nl_query, primary)
+        chart_spec = self.viz_agent.build_vega_lite(plan, primary)
 
-        # 6. Cache the result
-        self.cache.put(key, result)
+        # 6. Cache the primary result
+        self.cache.put(key, primary)
 
         yield {
             "type": "result",
             "chart_spec": chart_spec.model_dump(),
-            "rows": result.rows[:100],  # preview for table
-            "row_count": result.row_count,
-            "sql": sql,
-            "execution_time_ms": result.execution_time_ms,
+            "rows": primary.rows[:100],  # preview for table
+            "row_count": primary.row_count,
+            "sql": primary.sql,
+            "execution_time_ms": primary.execution_time_ms,
+            "query_type": query_type.value,
+            "answer": answer.model_dump(),
             "cached": False,
         }
 

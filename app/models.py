@@ -149,3 +149,39 @@ class ChartSpec(BaseModel):
     spec: dict[str, Any] = Field(description="The chart spec (Vega-Lite JSON or ECharts option)")
     plan: ChartPlan
     row_count: int = 0
+
+
+# ---------------------------------------------------------------------------
+# Grounded answer models
+# ---------------------------------------------------------------------------
+
+class QueryType(str, Enum):
+    """What kind of question is being asked — drives the UI layout."""
+    KPI = "kpi"                # "how many X" / "what is the total Y" — stat strip
+    TREND = "trend"            # "over time" — time series chart
+    COMPARISON = "comparison"  # "vs", "by segment" — grouped bar
+    BREAKDOWN = "breakdown"    # "by category" — bar / pie
+    DISTRIBUTION = "distribution"  # "distribution of" — histogram
+
+
+class SubQuery(BaseModel):
+    """A decomposed sub-question of a complex query."""
+    id: str
+    question: str
+    purpose: str = Field(default="", description="Why this sub-query is needed")
+
+
+class Metric(BaseModel):
+    """A single grounded number — always computed from query results."""
+    label: str
+    value: float
+    unit: str = ""
+    source: str = Field(default="", description="Which sub-query / row produced this value")
+
+
+class GroundedAnswer(BaseModel):
+    """The final answer — every number traces back to executed query results."""
+    text: str
+    query_type: QueryType = QueryType.KPI
+    metrics: list[Metric] = Field(default_factory=list)
+    sub_queries: list[SubQuery] = Field(default_factory=list)

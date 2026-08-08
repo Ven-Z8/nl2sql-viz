@@ -72,6 +72,13 @@ async def main() -> int:
         print("  row_count:", result.get("row_count"))
         print("  chart renderer:", chart_spec.get("renderer"))
         print("  chart type:", chart_spec.get("plan", {}).get("chart_type"))
+        print("  query_type:", result.get("query_type"))
+        answer = result.get("answer")
+        if not answer or not answer.get("text"):
+            print("FAIL: no grounded answer in result")
+            return 1
+        print("  answer:", answer["text"])
+        print("  metrics:", [(m["label"], m["value"]) for m in answer.get("metrics", [])])
         print("  cached:", result.get("cached"))
         print("PASS: live E2E OK")
         return 0

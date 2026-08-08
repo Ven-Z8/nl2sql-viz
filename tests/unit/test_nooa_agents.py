@@ -20,7 +20,9 @@ from app.models import (
     DataStrategy,
     GeneratedSQL,
     QueryResult,
+    QueryType,
     SchemaMap,
+    SubQuery,
 )
 from app.db.guard import validate_read_only
 from app.engine.cache import QueryCache, cache_key
@@ -337,3 +339,103 @@ class TestCoordinatorPipeline:
         assert result_events[0]["cached"] is False
         # Result stored for next call
         assert agent.cache.get(cache_key("test", "sales by region")) is not None
+
+    def test_query_type_inference(self):
+        """Query type is classified deterministically from hints + result shape."""
+        agent = self._make_coordinator()
+        single = QueryResult(columns=["total"], rows=[{"total": 100}], row_count=1)
+        multi = QueryResult(
+            columns=["region", "sales"],
+            rows=[{"region": "N", "sales": 1}, {"region": "S", "sales": 2}],
+            row_count=2,
+        )
+        assert agent.infer_query_type("How many orders?", single) == QueryType.KPI
+        assert agent.infer_query_type("Show monthly revenue over time", multi) == QueryType.TREND
+        assert agent.infer_query_type("Compare Q4 vs Q3 revenue", multi) == QueryType.COMPARISON
+        assert agent.infer_query_type("Distribution of order values", multi) == QueryType.DISTRIBUTION
+        assert agent.infer_query_type("Sales by region", multi) == QueryType.BREAKDOWN
+
+    def test_grounded_answer_metrics(self):
+        """Metrics come only from actual result rows; answer text uses them."""
+        agent = self._make_coordinator()
+        result = QueryResult(
+            columns=["region", "sales"],
+            rows=[{"region": "North", "sales": 100}, {"region": "South", "sales": 200}],
+            row_count=2,
+            sql="SELECT region, sales FROM accounts",
+        )
+        metrics = agent.extract_metrics(QueryType.BREAKDOWN, [result])
+        assert any(m.label == "total sales" and m.value == 300.0 for m in metrics)
+        answer = agent.build_answer("Sales by region", QueryType.BREAKDOWN, metrics, [])
+        assert "300" in answer.text
+        assert answer.query_type == QueryType.BREAKDOWN
+
+    def test_kpi_answer_uses_first_value(self):
+        """KPI answers use the single returned value — never invented."""
+        agent = self._make_coordinator()
+        result = QueryResult(
+            columns=["count"],
+            rows=[{"count": 42}],
+            row_count=1,
+            sql="SELECT count(*) FROM accounts",
+        )
+        metrics = agent.extract_metrics(QueryType.KPI, [result])
+        assert metrics[0].value == 42.0
+        answer = agent.build_answer("How many accounts?", QueryType.KPI, metrics, [])
+        assert "42" in answer.text
+
+    def test_decomposition_runs_sub_queries(self):
+        """When the planner decomposes, each sub-query is executed and results combined."""
+        agent = self._make_coordinator()
+        sub_results = [
+            QueryResult(columns=["total"], rows=[{"total": 100}], row_count=1, sql="SELECT 100"),
+            QueryResult(columns=["total"], rows=[{"total": 50}], row_count=1, sql="SELECT 50"),
+        ]
+
+        class StubSchema:
+            async def fetch_schema(self):
+                return SchemaMap(tables=["accounts"], columns={"accounts": []})
+
+        class StubPlanner:
+            async def decompose(self, question, schema_text):
+                return [
+                    SubQuery(id="q1", question="total revenue", purpose="revenue"),
+                    SubQuery(id="q2", question="total cost", purpose="cost"),
+                ]
+
+        class StubSQL:
+            def __init__(self):
+                self.calls = 0
+
+            async def generate(self, question, schema):
+                self.calls += 1
+                return GeneratedSQL(sql=f"SELECT {self.calls}")
+
+            async def execute_query(self, sql):
+                return sub_results[self.calls - 1]
+
+        class StubViz:
+            def plan_chart(self, question, result):
+                return VizAgent().plan_chart(question, result)
+
+            def build_vega_lite(self, plan, result):
+                return VizAgent().build_vega_lite(plan, result)
+
+        agent.schema_agent = StubSchema()
+        agent.planner = StubPlanner()
+        agent.sql_agent = StubSQL()
+        agent.viz_agent = StubViz()
+
+        async def collect():
+            return [e async for e in agent.run("compare revenue vs cost")]
+
+        events = asyncio.run(collect())
+        result_events = [e for e in events if e["type"] == "result"]
+        assert len(result_events) == 1
+        event = result_events[0]
+        assert event["query_type"] == "comparison"
+        answer = event["answer"]
+        assert len(answer["sub_queries"]) == 2
+        # Both sub-query results contributed metrics
+        assert len(answer["metrics"]) >= 2
+        assert agent.sql_agent.calls == 2

@@ -26,6 +26,12 @@ export default function Home() {
   const [rows, setRows] = useState<Record<string, unknown>[]>([]);
   const [sql, setSql] = useState("");
   const [sqlVisible, setSqlVisible] = useState(false);
+  const [queryType, setQueryType] = useState<string | null>(null);
+  const [answer, setAnswer] = useState<{
+    text: string;
+    metrics: { label: string; value: number; unit: string }[];
+    sub_queries: { id: string; question: string }[];
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [connected, setConnected] = useState(false);
   const [resultTitle, setResultTitle] = useState("");
@@ -125,6 +131,14 @@ export default function Home() {
         setVegaSpec(chartSpec?.spec ? JSON.stringify(chartSpec.spec) : null);
         setRows((event.rows as Record<string, unknown>[] | undefined) ?? []);
         if (event.sql) setSql(event.sql as string);
+        setQueryType((event.query_type as string | undefined) ?? null);
+        setAnswer(
+          (event.answer as {
+            text: string;
+            metrics: { label: string; value: number; unit: string }[];
+            sub_queries: { id: string; question: string }[];
+          } | undefined) ?? null
+        );
         setIsLoading(false);
       }
 
@@ -195,6 +209,8 @@ export default function Home() {
     setRows([]);
     setSql("");
     setSqlVisible(false);
+    setQueryType(null);
+    setAnswer(null);
     setIsLoading(true);
     setResultTitle(query);
 
@@ -229,6 +245,8 @@ export default function Home() {
           sql={sql}
           sqlVisible={sqlVisible}
           onToggleSql={() => setSqlVisible((v) => !v)}
+          queryType={queryType}
+          answer={answer}
         />
       </div>
     </div>

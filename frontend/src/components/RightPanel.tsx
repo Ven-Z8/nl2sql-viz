@@ -1,6 +1,18 @@
 "use client";
 import VegaChart from "./VegaChart";
 
+interface Metric {
+  label: string;
+  value: number;
+  unit: string;
+}
+
+interface Answer {
+  text: string;
+  metrics: Metric[];
+  sub_queries: { id: string; question: string }[];
+}
+
 interface RightPanelProps {
   title: string;
   vegaSpec: string | null;
@@ -8,6 +20,8 @@ interface RightPanelProps {
   sql: string;
   sqlVisible: boolean;
   onToggleSql: () => void;
+  queryType: string | null;
+  answer: Answer | null;
 }
 
 function highlightSQL(sql: string): string {
@@ -28,6 +42,17 @@ function highlightSQL(sql: string): string {
     .replace(keywords, '<span class="kw">$&</span>');
 }
 
+function formatValue(value: number): string {
+  if (Math.abs(value) >= 1000) {
+    return value.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  }
+  return String(Number(value.toFixed(2)));
+}
+
+function titleCase(label: string): string {
+  return label.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 export default function RightPanel({
   title,
   vegaSpec,
@@ -35,8 +60,12 @@ export default function RightPanel({
   sql,
   sqlVisible,
   onToggleSql,
+  queryType,
+  answer,
 }: RightPanelProps) {
   const rowColumns = rows.length > 0 ? Object.keys(rows[0]).slice(0, 6) : [];
+  const isKpi = queryType === "kpi";
+  const hasResult = Boolean(vegaSpec) || rows.length > 0;
 
   return (
     <div
@@ -69,6 +98,22 @@ export default function RightPanel({
           {title || "Results"}
         </span>
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {queryType && (
+            <span
+              style={{
+                fontSize: "11px",
+                fontWeight: 600,
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                color: "var(--accent)",
+                border: "1px solid var(--accent-dim)",
+                borderRadius: "999px",
+                padding: "2px 10px",
+              }}
+            >
+              {queryType}
+            </span>
+          )}
           {rows.length > 0 && (
             <span style={{ color: "var(--text-secondary)", fontSize: "12px" }}>
               {rows.length} rows
@@ -94,63 +139,171 @@ export default function RightPanel({
         </div>
       </div>
 
-      {/* Chart area */}
       <div
         style={{
           flex: 1,
-          display: "grid",
-          gridTemplateRows: rows.length > 0 ? "minmax(0, 1fr) 190px" : "1fr",
+          display: "flex",
+          flexDirection: "column",
+          overflow: "auto",
           padding: "24px",
           gap: "16px",
-          overflow: "hidden",
         }}
       >
-        {vegaSpec && rows.length > 0 ? (
+        {/* Grounded answer banner */}
+        {answer && (
           <div
             style={{
-              width: "100%",
-              height: "100%",
-              minHeight: 0,
+              border: "1px solid var(--border-subtle)",
+              borderRadius: "10px",
+              background: "var(--bg-panel)",
+              padding: "14px 18px",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "11px",
+                fontWeight: 600,
+                color: "var(--text-muted)",
+                textTransform: "uppercase",
+                letterSpacing: "0.06em",
+                marginBottom: "6px",
+              }}
+            >
+              Grounded answer
+            </div>
+            <div
+              style={{
+                fontSize: "15px",
+                fontWeight: 600,
+                color: "var(--text-primary)",
+                lineHeight: 1.5,
+              }}
+            >
+              {answer.text}
+            </div>
+            {answer.sub_queries.length > 0 && (
+              <div
+                style={{
+                  marginTop: "8px",
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "6px",
+                }}
+              >
+                {answer.sub_queries.map((sq) => (
+                  <span
+                    key={sq.id}
+                    style={{
+                      fontSize: "11px",
+                      color: "var(--text-secondary)",
+                      border: "1px solid var(--border-subtle)",
+                      borderRadius: "999px",
+                      padding: "2px 8px",
+                    }}
+                  >
+                    {sq.question}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* KPI stat strip — big grounded numbers */}
+        {isKpi && answer && answer.metrics.length > 0 && (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${Math.min(answer.metrics.length, 4)}, minmax(0, 1fr))`,
+              gap: "12px",
+            }}
+          >
+            {answer.metrics.slice(0, 4).map((m) => (
+              <div
+                key={m.label}
+                style={{
+                  border: "1px solid var(--border-subtle)",
+                  borderRadius: "10px",
+                  background: "var(--bg-panel)",
+                  padding: "18px 20px",
+                }}
+              >
+                <div
+                  style={{
+                    fontSize: "11px",
+                    fontWeight: 600,
+                    color: "var(--text-muted)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    marginBottom: "8px",
+                  }}
+                >
+                  {titleCase(m.label)}
+                </div>
+                <div
+                  style={{
+                    fontSize: "28px",
+                    fontWeight: 700,
+                    color: "var(--text-primary)",
+                    letterSpacing: "-0.02em",
+                    fontVariantNumeric: "tabular-nums",
+                  }}
+                >
+                  {formatValue(m.value)}
+                  {m.unit && (
+                    <span style={{ fontSize: "14px", color: "var(--text-secondary)", marginLeft: "4px" }}>
+                      {m.unit}
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Chart area */}
+        {!isKpi && (
+          <div
+            style={{
+              flex: 1,
+              minHeight: "280px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-            }}
-          >
-            <VegaChart spec={vegaSpec} />
-          </div>
-        ) : vegaSpec && rows.length === 0 ? (
-          <div
-            style={{
-              alignSelf: "center",
-              justifySelf: "center",
-              color: "var(--text-secondary)",
-              fontSize: "14px",
-              textAlign: "center",
               border: "1px solid var(--border-subtle)",
-              borderRadius: "8px",
-              padding: "18px 22px",
+              borderRadius: "10px",
               background: "var(--bg-panel)",
+              padding: "16px",
             }}
           >
-            No rows returned for this question.
+            {vegaSpec ? (
+              <div style={{ width: "100%", height: "100%", minHeight: 0 }}>
+                <VegaChart spec={vegaSpec} />
+              </div>
+            ) : hasResult ? (
+              <div
+                style={{
+                  color: "var(--text-secondary)",
+                  fontSize: "14px",
+                  textAlign: "center",
+                }}
+              >
+                No rows returned for this question.
+              </div>
+            ) : (
+              <p style={{ color: "var(--text-muted)", fontSize: "14px", textAlign: "center" }}>
+                Ask a question to see results
+              </p>
+            )}
           </div>
-        ) : (
-          <p
-            style={{
-              color: "var(--text-muted)",
-              fontSize: "14px",
-              textAlign: "center",
-            }}
-          >
-            Ask a question to see results
-          </p>
         )}
 
+        {/* Result rows table */}
         {rows.length > 0 && (
           <div
             style={{
               border: "1px solid var(--border-subtle)",
-              borderRadius: "8px",
+              borderRadius: "10px",
               background: "var(--bg-panel)",
               overflow: "hidden",
             }}
@@ -168,7 +321,7 @@ export default function RightPanel({
             >
               Result Rows
             </div>
-            <div style={{ overflow: "auto", maxHeight: "150px" }}>
+            <div style={{ overflow: "auto", maxHeight: "220px" }}>
               <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "12px" }}>
                 <thead>
                   <tr>

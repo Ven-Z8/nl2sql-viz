@@ -12,6 +12,7 @@ from nooa import Agent, strategy
 from nooa.config import CodeActConfig
 from nooa.strategies import CodeActStrategy, PredictStrategy
 
+from app.core.math_tool import MathCalculator
 from app.db.cost import estimate_cost
 from app.db.guard import validate_read_only
 from app.db.pool import PostgresPool
@@ -42,11 +43,15 @@ class SQLAgent(Agent, llm=SONNET):
     - self.estimate_cost(sql): deterministic helper that runs EXPLAIN and returns QueryCost
     - self.validate_sql(sql): deterministic helper that checks SQL safety
     - self.execute_query(sql): deterministic helper that executes SQL and returns QueryResult
+    - self.calculate(expr, variables): deterministic calculator for derived metrics —
+      NEVER compute percentages, growth, or ratios in your head; always use this tool
+      on the numbers returned by execute_query()
 
     Use these helpers in your Python code to test and validate your SQL before returning it.
     """
 
     pool: PostgresPool
+    math: MathCalculator = MathCalculator()
 
     # ------------------------------------------------------------------
     # Deterministic helpers (callable from CodeAct Python)
@@ -68,6 +73,14 @@ class SQLAgent(Agent, llm=SONNET):
         """Execute a validated SQL query and return results."""
         validate_read_only(sql)
         return await self.pool.execute(sql)
+
+    def calculate(self, expression: str, variables: dict[str, float] | None = None) -> float:
+        """Compute a derived metric deterministically from query results.
+
+        Example: self.calculate("(revenue - cost) / cost * 100",
+                                {"revenue": rev, "cost": cost})
+        """
+        return self.math.calculate(expression, variables)
 
     # ------------------------------------------------------------------
     # Generation methods
