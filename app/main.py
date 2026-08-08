@@ -21,7 +21,7 @@ from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
 from app.db.pool import PostgresPool
 from app.engine.cache import QueryCache
-from app.skills import get_domain_skill, list_domains
+from app.skills import get_domain_skill, list_domains, skill_guidance
 
 load_dotenv()
 
@@ -220,7 +220,7 @@ async def websocket_query(websocket: WebSocket):
                 coordinator.connection_id = user_id or "default"
                 # Activate the domain skill — injects analyst guidance into SQL generation
                 skill = get_domain_skill(domain)
-                sql_agent.domain_guidance = skill.guidance()
+                sql_agent.domain_guidance = skill_guidance(skill)
 
                 async def _run_query():
                     async for event in coordinator.run(nl_query):
