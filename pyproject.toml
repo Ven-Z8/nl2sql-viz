@@ -5,7 +5,6 @@ description = "Natural-language analytics for Postgres with guarded SQL generati
 requires-python = ">=3.12"
 dependencies = [
     "aiosqlite>=0.22.1",
-    "anthropic>=0.86.0",
     "argon2-cffi>=25.1.0",
     "asyncpg>=0.31.0",
     "cryptography>=46.0.5",

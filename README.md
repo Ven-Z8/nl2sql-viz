@@ -14,7 +14,7 @@ Natural-language analytics for Postgres. Ask a business question, get a guarded 
 
 ## Stack
 
-Python · FastAPI (async, WebSocket) · Anthropic Claude (SQL + chart agents) · PostgreSQL · Vega-Lite · Next.js 16 + TypeScript · Tailwind CSS · Argon2 (API key hashing) · AES-256-GCM (stored DSN encryption) · pytest · Docker Compose.
+Python · FastAPI (async, WebSocket) · Claude via OpenRouter (SQL + chart agents) · PostgreSQL · Vega-Lite · Next.js 16 + TypeScript · Tailwind CSS · Argon2 (API key hashing) · AES-256-GCM (stored DSN encryption) · pytest · Docker Compose.
 
 ## Overview
 
@@ -52,8 +52,9 @@ flowchart TD
 ## Highlights
 
 - Async FastAPI backend with WebSocket progress events
-- Anthropic SDK calls isolated inside service classes
-- Postgres connector with read-only execution guardrails
+- NOOA agent classes (Schema, SQL, Viz, Coordinator) with typed Pydantic contracts
+- LLM calls routed through OpenRouter via litellm
+- Postgres connection pool with read-only execution guardrails
 - Synthetic but realistic SaaS analytics dataset
 - Vega-Lite chart rendering in a Next.js frontend
 - Unit and integration tests around SQL generation, demo loading, chart planning, auth, and security
@@ -62,7 +63,7 @@ flowchart TD
 
 ```bash
 cp .env.example .env
-# Add ANTHROPIC_API_KEY and SECRET_KEY
+# Add OPENROUTER_API_KEY and SECRET_KEY
 
 uv sync
 docker compose up -d
@@ -91,11 +92,12 @@ Open `http://localhost:3000`.
 
 Current validation:
 
-| Check              | Result    |
-| ------------------ | --------- |
-| Unit tests         | 72 passed |
-| Ruff               | Passed    |
-| Frontend typecheck | Passed    |
+| Check              | Result                                               |
+| ------------------ | ---------------------------------------------------- |
+| Unit tests         | 59 passed                                            |
+| Integration tests  | 13 passed (requires local Postgres + OpenRouter key) |
+| Ruff               | Passed                                               |
+| Frontend typecheck | Passed                                               |
 
 ## Safety Boundaries
 

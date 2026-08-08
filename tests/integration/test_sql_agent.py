@@ -1,37 +1,48 @@
 import pytest
+
 from app.agents.sql_agent import SQLAgent
-from app.connectors.postgres import PostgresConnector
+from app.db.pool import PostgresPool
+from app.models import ColumnInfo, SchemaMap
 
-SCHEMA_MAP = "sales(id:integer [PRIMARY KEY], region:text, amount:numeric, sale_date:date)"
-
-
-@pytest.mark.asyncio
-async def test_sql_agent_executes_simple_query(postgres_dsn, seed_test_db):
-    connector = PostgresConnector(dsn=postgres_dsn)
-    await connector.connect()
-    agent = SQLAgent(connector=connector)
-    result = await agent.run(
-        nl_query="What is the total sales amount per region?",
-        schema_map=SCHEMA_MAP,
-    )
-    await connector.disconnect()
-    assert result["status"] == "success"
-    assert isinstance(result["rows"], list)
-    assert len(result["rows"]) > 0
-    assert "sql" in result
+SCHEMA = SchemaMap(
+    tables=["sales"],
+    columns={"sales": [
+        ColumnInfo(column="id", type="integer", constraint="PRIMARY KEY"),
+        ColumnInfo(column="region", type="text"),
+        ColumnInfo(column="amount", type="numeric"),
+        ColumnInfo(column="sale_date", type="date"),
+    ]},
+    row_estimates={"sales": 4},
+)
 
 
 @pytest.mark.asyncio
-async def test_sql_agent_returns_error_after_max_retries(postgres_dsn, seed_test_db):
-    connector = PostgresConnector(dsn=postgres_dsn)
-    await connector.connect()
-    agent = SQLAgent(connector=connector, max_retries=1)
-    result = await agent.run(
-        nl_query="gibberish xyzzy frob nitz",
-        schema_map=SCHEMA_MAP,
+async def test_sql_agent_generates_and_executes_simple_query(postgres_dsn, seed_test_db):
+    """SQLAgent generates SQL via NOOA CodeAct and executes it against Postgres."""
+    pool = PostgresPool(dsn=postgres_dsn)
+    await pool.connect()
+    agent = SQLAgent()
+    agent.pool = pool
+
+    generated = await agent.generate(
+        question="What is the total sales amount per region?",
+        schema=SCHEMA,
     )
-    await connector.disconnect()
-    # Either success (Claude infers something) or structured error
-    assert result["status"] in ("success", "error")
-    if result["status"] == "error":
-        assert "attempts" in result
+    result = await agent.execute_query(generated.sql)
+    await pool.disconnect()
+
+    assert result.row_count > 0
+    assert "region" in result.columns
+
+
+@pytest.mark.asyncio
+async def test_sql_agent_rejects_mutating_generated_sql(postgres_dsn):
+    """validate_sql helper rejects non-read-only SQL."""
+    pool = PostgresPool(dsn=postgres_dsn)
+    await pool.connect()
+    agent = SQLAgent()
+    agent.pool = pool
+    await pool.disconnect()
+
+    assert agent.validate_sql("SELECT region FROM sales") == "OK"
+    assert "read-only" in agent.validate_sql("DROP TABLE sales")

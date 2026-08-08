@@ -13,7 +13,6 @@ from app.core.auth import generate_api_key, hash_api_key, verify_api_key
 from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questions
 from app.core.session import SessionStore
 from app.core.user_store import UserStore
-from app.connectors.postgres import PostgresConnector
 from app.agents.coordinator import CoordinatorAgent
 from app.agents.schema_agent import SchemaAgent
 from app.agents.sql_agent import SQLAgent
@@ -94,10 +93,10 @@ class ConnectRequest(BaseModel):
 async def connect_db(req: ConnectRequest):
     await _verify_api_key_or_raise(req.api_key)
     # Test the connection
-    conn = PostgresConnector(dsn=req.dsn)
+    pool = PostgresPool(dsn=req.dsn)
     try:
-        await conn.connect()
-        await conn.disconnect()
+        await pool.connect()
+        await pool.disconnect()
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Cannot connect to DB: {e}")
     connection_id = hashlib.sha256(req.dsn.encode()).hexdigest()[:16]  # deterministic

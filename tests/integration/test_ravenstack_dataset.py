@@ -1,6 +1,6 @@
 import pytest
 
-from app.connectors.postgres import PostgresConnector
+from app.db.pool import PostgresPool
 from scripts.load_ravenstack import load_ravenstack
 
 
@@ -14,10 +14,10 @@ async def ravenstack_db(postgres_dsn: str):
 async def test_ravenstack_tables_load_expected_counts(
     postgres_dsn: str, ravenstack_db
 ) -> None:
-    connector = PostgresConnector(dsn=postgres_dsn)
-    await connector.connect()
+    pool = PostgresPool(dsn=postgres_dsn)
+    await pool.connect()
     try:
-        rows = await connector.execute_read("""
+        result = await pool.execute("""
             SELECT 'accounts' AS table_name, COUNT(*) AS row_count FROM accounts
             UNION ALL
             SELECT 'subscriptions', COUNT(*) FROM subscriptions
@@ -30,9 +30,9 @@ async def test_ravenstack_tables_load_expected_counts(
             ORDER BY table_name
         """)
     finally:
-        await connector.disconnect()
+        await pool.disconnect()
 
-    counts = {row["table_name"]: row["row_count"] for row in rows}
+    counts = {row["table_name"]: row["row_count"] for row in result.rows}
     assert counts == {
         "accounts": 500,
         "churn_events": 600,
@@ -46,10 +46,10 @@ async def test_ravenstack_tables_load_expected_counts(
 async def test_ravenstack_support_churn_query_returns_real_segments(
     postgres_dsn: str, ravenstack_db
 ) -> None:
-    connector = PostgresConnector(dsn=postgres_dsn)
-    await connector.connect()
+    pool = PostgresPool(dsn=postgres_dsn)
+    await pool.connect()
     try:
-        rows = await connector.execute_read("""
+        result = await pool.execute("""
             SELECT
                 a.industry,
                 COUNT(DISTINCT a.account_id) AS accounts,
@@ -64,8 +64,9 @@ async def test_ravenstack_support_churn_query_returns_real_segments(
             LIMIT 5
         """)
     finally:
-        await connector.disconnect()
+        await pool.disconnect()
 
+    rows = result.rows
     assert len(rows) == 5
     assert all(row["industry"] for row in rows)
     assert all(row["accounts"] >= 10 for row in rows)
@@ -75,10 +76,10 @@ async def test_ravenstack_support_churn_query_returns_real_segments(
 async def test_ravenstack_mrr_trend_query_returns_monthly_series(
     postgres_dsn: str, ravenstack_db
 ) -> None:
-    connector = PostgresConnector(dsn=postgres_dsn)
-    await connector.connect()
+    pool = PostgresPool(dsn=postgres_dsn)
+    await pool.connect()
     try:
-        rows = await connector.execute_read("""
+        result = await pool.execute("""
             SELECT
                 DATE_TRUNC('month', start_date)::date AS month,
                 plan_tier,
@@ -89,7 +90,8 @@ async def test_ravenstack_mrr_trend_query_returns_monthly_series(
             LIMIT 24
         """)
     finally:
-        await connector.disconnect()
+        await pool.disconnect()
 
+    rows = result.rows
     assert len(rows) == 24
     assert {"month", "plan_tier", "mrr"} <= set(rows[0])

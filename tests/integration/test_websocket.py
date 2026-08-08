@@ -2,10 +2,9 @@
 WebSocket integration tests for the /ws/query endpoint.
 
 Tests:
-  1. Full flow: register -> auth handshake -> NL query -> result event with vega_spec
+  1. Full flow: register -> auth handshake -> NL query -> result event with chart_spec
   2. Bad API key: server closes connection with code 4001
 """
-import json
 import uuid
 from starlette.testclient import TestClient
 from starlette.websockets import WebSocketDisconnect
@@ -63,12 +62,14 @@ def test_register_and_query_via_websocket(seed_test_db):
     )
 
     result = next(e for e in events if e["type"] == "result")
-    assert "vega_spec" in result, f"result event missing 'vega_spec': {result}"
+    assert "chart_spec" in result, f"result event missing 'chart_spec': {result}"
     assert "sql" in result, f"result event missing 'sql': {result}"
 
-    # vega_spec must be valid JSON with a $schema field
-    spec = json.loads(result["vega_spec"])
-    assert "$schema" in spec, f"vega_spec missing '$schema': {spec.keys()}"
+    # chart_spec must be a valid Vega-Lite spec with a $schema field
+    chart_spec = result["chart_spec"]
+    assert "$schema" in chart_spec["spec"], (
+        f"chart_spec missing '$schema': {list(chart_spec.get('spec', {}).keys())}"
+    )
 
 
 def test_websocket_rejects_bad_api_key():

@@ -16,6 +16,7 @@ from typing import Any
 
 import asyncpg
 
+from app.db.guard import validate_read_only
 from app.models import ColumnInfo, QueryResult, SchemaMap
 
 logger = logging.getLogger(__name__)
@@ -65,6 +66,7 @@ class PostgresPool:
         """Execute a read-only SQL query and return typed results."""
         if not self._pool:
             raise RuntimeError("Not connected — call connect() first")
+        validate_read_only(sql)
 
         start = time.monotonic()
         async with self._pool.acquire() as conn:
