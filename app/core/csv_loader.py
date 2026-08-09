@@ -176,15 +176,19 @@ async def load_csv(
     columns: list[str],
     rows: Any,
     types: dict[str, str],
+    create: bool = True,
 ) -> int:
-    """Create the table and bulk-load rows via COPY. Returns row count.
+    """Bulk-load rows via COPY. Returns row count.
 
     ``rows`` may be a list (small files) or an iterator (streamed large
-    files) of dicts keyed by column name.
+    files) of dicts keyed by column name. When ``create`` is False the
+    table must already exist (used by the multi-table dataset loader,
+    which creates tables with PK/FK constraints first).
     """
-    col_defs = ", ".join(f'"{c}" {types[c]}' for c in columns)
-    await pool.execute_raw(f'DROP TABLE IF EXISTS "{table_name}"')
-    await pool.execute_raw(f'CREATE TABLE "{table_name}" ({col_defs})')
+    if create:
+        col_defs = ", ".join(f'"{c}" {types[c]}' for c in columns)
+        await pool.execute_raw(f'DROP TABLE IF EXISTS "{table_name}"')
+        await pool.execute_raw(f'CREATE TABLE "{table_name}" ({col_defs})')
 
     count = 0
     skipped = 0

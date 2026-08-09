@@ -1,0 +1,57 @@
+{
+  "name": "Retail Commerce",
+  "domain": "retail",
+  "description": "Complex relational retail database — customers, orders, order items, products, payments (~1.15M rows)",
+  "tables": [
+    {
+      "name": "customers",
+      "columns": [
+        {"name": "customer_id", "type": "TEXT", "pk": true},
+        {"name": "name", "type": "TEXT"},
+        {"name": "segment", "type": "TEXT"},
+        {"name": "region", "type": "TEXT"},
+        {"name": "signup_date", "type": "DATE"}
+      ]
+    },
+    {
+      "name": "products",
+      "columns": [
+        {"name": "product_id", "type": "TEXT", "pk": true},
+        {"name": "name", "type": "TEXT"},
+        {"name": "category", "type": "TEXT"},
+        {"name": "price", "type": "DOUBLE PRECISION"},
+        {"name": "cost", "type": "DOUBLE PRECISION"}
+      ]
+    },
+    {
+      "name": "orders",
+      "columns": [
+        {"name": "order_id", "type": "TEXT", "pk": true},
+        {"name": "customer_id", "type": "TEXT", "fk": "customers.customer_id"},
+        {"name": "order_date", "type": "DATE"},
+        {"name": "status", "type": "TEXT"},
+        {"name": "channel", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "order_items",
+      "columns": [
+        {"name": "order_item_id", "type": "TEXT", "pk": true},
+        {"name": "order_id", "type": "TEXT", "fk": "orders.order_id"},
+        {"name": "product_id", "type": "TEXT", "fk": "products.product_id"},
+        {"name": "quantity", "type": "BIGINT"},
+        {"name": "unit_price", "type": "DOUBLE PRECISION"}
+      ]
+    },
+    {
+      "name": "payments",
+      "columns": [
+        {"name": "payment_id", "type": "TEXT", "pk": true},
+        {"name": "order_id", "type": "TEXT", "fk": "orders.order_id"},
+        {"name": "amount", "type": "DOUBLE PRECISION"},
+        {"name": "method", "type": "TEXT"},
+        {"name": "payment_date", "type": "DATE"}
+      ]
+    }
+  ]
+}

@@ -12,6 +12,7 @@ from pydantic import BaseModel
 
 from app.core.auth import generate_api_key, hash_api_key, verify_api_key
 from app.core.csv_loader import CSVUploadError, infer_schema, iter_csv, load_csv, sanitize_table_name
+from app.core.dataset_loader import list_datasets, load_dataset
 from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questions
 from app.core.samples import list_samples, load_sample
 from app.core.session import SessionStore
@@ -98,6 +99,27 @@ async def domains():
 @app.get("/api/samples")
 async def samples():
     return {"samples": list_samples()}
+
+
+@app.get("/api/datasets")
+async def datasets():
+    return {"datasets": list_datasets()}
+
+
+@app.post("/api/datasets/{dataset_id}/load")
+async def load_dataset_endpoint(dataset_id: str, api_key: str = Form(...)):
+    await _verify_api_key_or_raise(api_key)
+    pool = PostgresPool(dsn=UPLOAD_DATABASE_URL)
+    try:
+        await pool.connect()
+        result = await load_dataset(pool, dataset_id, UPLOAD_DATABASE_URL)
+    except KeyError:
+        raise HTTPException(status_code=404, detail="Dataset not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to load dataset: {e}")
+    finally:
+        await pool.disconnect()
+    return result
 
 
 @app.post("/api/samples/{sample_id}/load")

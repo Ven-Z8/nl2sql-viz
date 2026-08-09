@@ -43,6 +43,9 @@ export default function Home() {
   const [samples, setSamples] = useState<
     { id: string; name: string; domain: string; description: string }[]
   >([]);
+  const [datasets, setDatasets] = useState<
+    { id: string; name: string; domain: string; description: string }[]
+  >([]);
   const [activeDomain, setActiveDomain] = useState("general");
   const [uploading, setUploading] = useState(false);
   const [uploadedDataset, setUploadedDataset] = useState<{
@@ -90,6 +93,14 @@ export default function Home() {
             samples: { id: string; name: string; domain: string; description: string }[];
           };
           if (!cancelled) setSamples(body.samples);
+        }
+
+        const datasetsResp = await fetch(`${API_URL}/api/datasets`);
+        if (datasetsResp.ok) {
+          const body = (await datasetsResp.json()) as {
+            datasets: { id: string; name: string; domain: string; description: string }[];
+          };
+          if (!cancelled) setDatasets(body.datasets);
         }
 
         if (!apiKey || !dsn) {
@@ -349,6 +360,57 @@ export default function Home() {
     }
   };
 
+  const handleLoadDataset = async (datasetId: string) => {
+    if (uploading) return;
+    if (!apiKeyRef.current) {
+      setUploadError("Not connected — register or start a demo session first.");
+      return;
+    }
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const form = new FormData();
+      form.append("api_key", apiKeyRef.current);
+      const resp = await fetch(`${API_URL}/api/datasets/${datasetId}/load`, {
+        method: "POST",
+        body: form,
+      });
+      const body = (await resp.json()) as {
+        name: string;
+        domain: string;
+        tables: string[];
+        questions: Record<string, string[]>;
+        dsn: string;
+        detail?: string;
+      };
+      if (!resp.ok) {
+        throw new Error(body.detail ?? "Failed to load dataset");
+      }
+      setActiveDomain(body.domain);
+      setRuntimeDsn(body.dsn);
+      setDatasetName(body.name);
+      setUploadedDataset(null);
+      // Show the dataset's question ladder
+      const all = [
+        ...(body.questions.easy ?? []),
+        ...(body.questions.medium ?? []),
+        ...(body.questions.hard ?? []),
+        ...(body.questions.very_complex ?? []),
+      ];
+      setSuggestedQuestions(
+        all.map((q, i) => ({
+          id: `ds-q-${i}`,
+          question: q,
+          category: body.domain,
+        }))
+      );
+    } catch (e) {
+      setUploadError(e instanceof Error ? e.message : "Failed to load dataset");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleConnect = async (dsn: string) => {
     if (!apiKeyRef.current) {
       setUploadError("Not connected — register or start a demo session first.");
@@ -406,6 +468,8 @@ export default function Home() {
           onUpload={handleUpload}
           samples={samples}
           onLoadSample={handleLoadSample}
+          datasets={datasets}
+          onLoadDataset={handleLoadDataset}
           onConnect={handleConnect}
         />
         <RightPanel

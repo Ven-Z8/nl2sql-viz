@@ -32,6 +32,8 @@ interface LeftPanelProps {
   onUpload: (file: File, domain: string) => void;
   samples: { id: string; name: string; domain: string; description: string }[];
   onLoadSample: (sampleId: string) => void;
+  datasets: { id: string; name: string; domain: string; description: string }[];
+  onLoadDataset: (datasetId: string) => void;
   onConnect: (dsn: string) => void;
 }
 
@@ -78,6 +80,8 @@ export default function LeftPanel({
   onUpload,
   samples,
   onLoadSample,
+  datasets,
+  onLoadDataset,
   onConnect,
 }: LeftPanelProps) {
   const [activeTab, setActiveTab] = useState<"csv" | "db">("csv");
@@ -455,7 +459,7 @@ export default function LeftPanel({
           </div>
         )}
 
-        {/* Databases tab: connect */}
+        {/* Databases tab: datasets + connect */}
         {activeTab === "db" && (
           <div
             style={{
@@ -463,52 +467,127 @@ export default function LeftPanel({
               borderBottom: "1px solid var(--color-border-subtle)",
             }}
           >
-            <div style={SECTION_LABEL}>Connect a database</div>
+            <div style={SECTION_LABEL}>Relational databases</div>
             <p style={{ fontSize: "12px", color: "var(--color-ink-dim)", lineHeight: 1.5, marginBottom: "var(--space-3)" }}>
-              Connect a Postgres database to query it with natural language.
+              Complex multi-table databases with relationships — ready to query.
             </p>
-            <input
-              value={dsnInput}
-              onChange={(e) => setDsnInput(e.target.value)}
-              placeholder="postgresql://user:pass@host:5432/db"
-              style={{
-                width: "100%",
-                padding: "10px 12px",
-                borderRadius: "var(--radius-md)",
-                background: "var(--color-paper-3)",
-                border: "1px solid var(--color-border)",
-                color: "var(--color-ink)",
-                fontSize: "12px",
-                fontFamily: "var(--font-mono)",
-                outline: "none",
-                boxSizing: "border-box",
-              }}
-            />
-            <button
-              onClick={() => onConnect(dsnInput.trim())}
-              disabled={uploading || !dsnInput.trim()}
-              style={{
-                marginTop: "var(--space-2)",
-                width: "100%",
-                padding: "8px",
-                borderRadius: "var(--radius-md)",
-                background: uploading || !dsnInput.trim()
-                  ? "var(--color-paper-3)"
-                  : "var(--color-accent)",
-                border: "none",
-                color: uploading || !dsnInput.trim() ? "var(--color-ink-faint)" : "var(--color-on-accent)",
-                fontSize: "12.5px",
-                fontWeight: 600,
-                cursor: uploading || !dsnInput.trim() ? "not-allowed" : "pointer",
-              }}
-            >
-              {uploading ? "Connecting…" : "Connect"}
-            </button>
-            {uploadError && (
-              <div style={{ fontSize: "11.5px", color: "var(--color-danger)", lineHeight: 1.4, marginTop: "var(--space-2)" }}>
-                {uploadError}
-              </div>
+            {datasets.length === 0 && (
+              <p style={{ fontSize: "12.5px", color: "var(--color-ink-faint)" }}>
+                No databases available.
+              </p>
             )}
+            {datasets.map((d) => (
+              <button
+                key={d.id}
+                onClick={() => onLoadDataset(d.id)}
+                disabled={uploading}
+                style={{
+                  width: "100%",
+                  textAlign: "left",
+                  padding: "10px 12px",
+                  borderRadius: "var(--radius-md)",
+                  border: "1px solid var(--color-border-subtle)",
+                  background: "var(--color-paper-3)",
+                  color: "var(--color-ink)",
+                  marginBottom: "var(--space-2)",
+                  cursor: uploading ? "not-allowed" : "pointer",
+                  opacity: uploading ? 0.55 : 1,
+                  transition: "border-color var(--dur-fast) var(--ease-out)",
+                }}
+                onMouseEnter={(e) => {
+                  if (!uploading) {
+                    (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-accent-dim)";
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-border-subtle)";
+                }}
+              >
+                <span
+                  style={{
+                    display: "block",
+                    fontSize: "12.5px",
+                    fontWeight: 600,
+                    marginBottom: "2px",
+                  }}
+                >
+                  {d.name}
+                </span>
+                <span
+                  style={{
+                    display: "block",
+                    fontSize: "11px",
+                    color: "var(--color-ink-dim)",
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {d.description}
+                </span>
+                <span
+                  style={{
+                    display: "inline-block",
+                    marginTop: "4px",
+                    fontSize: "10px",
+                    fontWeight: 600,
+                    color: "var(--color-accent)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.06em",
+                    fontFamily: "var(--font-mono)",
+                  }}
+                >
+                  {d.domain} · load →
+                </span>
+              </button>
+            ))}
+
+            <div style={{ marginTop: "var(--space-4)" }}>
+              <div style={SECTION_LABEL}>Connect your own</div>
+              <p style={{ fontSize: "12px", color: "var(--color-ink-dim)", lineHeight: 1.5, marginBottom: "var(--space-3)" }}>
+                Connect a Postgres database to query it with natural language.
+              </p>
+              <input
+                value={dsnInput}
+                onChange={(e) => setDsnInput(e.target.value)}
+                placeholder="postgresql://user:pass@host:5432/db"
+                style={{
+                  width: "100%",
+                  padding: "10px 12px",
+                  borderRadius: "var(--radius-md)",
+                  background: "var(--color-paper-3)",
+                  border: "1px solid var(--color-border)",
+                  color: "var(--color-ink)",
+                  fontSize: "12px",
+                  fontFamily: "var(--font-mono)",
+                  outline: "none",
+                  boxSizing: "border-box",
+                }}
+              />
+              <button
+                onClick={() => onConnect(dsnInput.trim())}
+                disabled={uploading || !dsnInput.trim()}
+                style={{
+                  marginTop: "var(--space-2)",
+                  width: "100%",
+                  padding: "8px",
+                  borderRadius: "var(--radius-md)",
+                  background: uploading || !dsnInput.trim()
+                    ? "var(--color-paper-3)"
+                    : "var(--color-accent)",
+                  border: "none",
+                  color: uploading || !dsnInput.trim() ? "var(--color-ink-faint)" : "var(--color-on-accent)",
+                  fontSize: "12.5px",
+                  fontWeight: 600,
+                  cursor: uploading || !dsnInput.trim() ? "not-allowed" : "pointer",
+                }}
+              >
+                {uploading ? "Connecting…" : "Connect"}
+              </button>
+              {uploadError && (
+                <div style={{ fontSize: "11.5px", color: "var(--color-danger)", lineHeight: 1.4, marginTop: "var(--space-2)" }}>
+                  {uploadError}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
