@@ -1,0 +1,118 @@
+{
+  "name": "Healthcare System",
+  "domain": "healthcare",
+  "description": "Complex relational healthcare database \u2014 patients, encounters, diagnoses, procedures (~1M rows)",
+  "tables": [
+    {
+      "name": "patients",
+      "columns": [
+        {
+          "name": "patient_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": "TEXT"
+        },
+        {
+          "name": "age",
+          "type": "BIGINT"
+        },
+        {
+          "name": "gender",
+          "type": "TEXT"
+        },
+        {
+          "name": "region",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "name": "encounters",
+      "columns": [
+        {
+          "name": "encounter_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "patient_id",
+          "type": "TEXT",
+          "fk": "patients.patient_id"
+        },
+        {
+          "name": "admission_date",
+          "type": "DATE"
+        },
+        {
+          "name": "discharge_date",
+          "type": "DATE"
+        },
+        {
+          "name": "department",
+          "type": "TEXT"
+        },
+        {
+          "name": "payer",
+          "type": "TEXT"
+        },
+        {
+          "name": "length_of_stay_days",
+          "type": "BIGINT"
+        }
+      ]
+    },
+    {
+      "name": "diagnoses",
+      "columns": [
+        {
+          "name": "diagnosis_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "encounter_id",
+          "type": "TEXT",
+          "fk": "encounters.encounter_id"
+        },
+        {
+          "name": "icd_code",
+          "type": "TEXT"
+        },
+        {
+          "name": "diagnosis_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "severity",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "name": "procedures",
+      "columns": [
+        {
+          "name": "procedure_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "encounter_id",
+          "type": "TEXT",
+          "fk": "encounters.encounter_id"
+        },
+        {
+          "name": "procedure_name",
+          "type": "TEXT"
+        },
+        {
+          "name": "cost",
+          "type": "DOUBLE PRECISION"
+        }
+      ]
+    }
+  ]
+}

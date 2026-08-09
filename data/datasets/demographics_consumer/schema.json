@@ -1,0 +1,87 @@
+{
+  "name": "Consumer Demographics",
+  "domain": "general",
+  "description": "Consumer demographics \u2014 consumers, purchases, preferences (~800K rows)",
+  "tables": [
+    {
+      "name": "consumers",
+      "columns": [
+        {
+          "name": "consumer_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "age",
+          "type": "BIGINT"
+        },
+        {
+          "name": "gender",
+          "type": "TEXT"
+        },
+        {
+          "name": "income_bracket",
+          "type": "TEXT"
+        },
+        {
+          "name": "education",
+          "type": "TEXT"
+        },
+        {
+          "name": "region",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "name": "purchases",
+      "columns": [
+        {
+          "name": "purchase_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "consumer_id",
+          "type": "TEXT",
+          "fk": "consumers.consumer_id"
+        },
+        {
+          "name": "purchase_date",
+          "type": "DATE"
+        },
+        {
+          "name": "category",
+          "type": "TEXT"
+        },
+        {
+          "name": "amount",
+          "type": "DOUBLE PRECISION"
+        }
+      ]
+    },
+    {
+      "name": "preferences",
+      "columns": [
+        {
+          "name": "preference_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "consumer_id",
+          "type": "TEXT",
+          "fk": "consumers.consumer_id"
+        },
+        {
+          "name": "category",
+          "type": "TEXT"
+        },
+        {
+          "name": "preference_score",
+          "type": "BIGINT"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "name": "Finance & Banking",
+  "domain": "finance",
+  "description": "Complex relational finance database \u2014 customers, accounts, transactions, loans (~960K rows)",
+  "tables": [
+    {
+      "name": "customers",
+      "columns": [
+        {
+          "name": "customer_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": "TEXT"
+        },
+        {
+          "name": "segment",
+          "type": "TEXT"
+        },
+        {
+          "name": "region",
+          "type": "TEXT"
+        },
+        {
+          "name": "signup_date",
+          "type": "DATE"
+        }
+      ]
+    },
+    {
+      "name": "accounts",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "customer_id",
+          "type": "TEXT",
+          "fk": "customers.customer_id"
+        },
+        {
+          "name": "account_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "balance",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "opened_date",
+          "type": "DATE"
+        }
+      ]
+    },
+    {
+      "name": "transactions",
+      "columns": [
+        {
+          "name": "transaction_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "account_id",
+          "type": "TEXT",
+          "fk": "accounts.account_id"
+        },
+        {
+          "name": "transaction_date",
+          "type": "DATE"
+        },
+        {
+          "name": "amount",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "category",
+          "type": "TEXT"
+        },
+        {
+          "name": "status",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "name": "loans",
+      "columns": [
+        {
+          "name": "loan_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "customer_id",
+          "type": "TEXT",
+          "fk": "customers.customer_id"
+        },
+        {
+          "name": "loan_date",
+          "type": "DATE"
+        },
+        {
+          "name": "amount",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "interest_rate",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "term_months",
+          "type": "BIGINT"
+        },
+        {
+          "name": "status",
+          "type": "TEXT"
+        }
+      ]
+    }
+  ]
+}

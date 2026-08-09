@@ -1,0 +1,87 @@
+{
+  "name": "Census Demographics",
+  "domain": "general",
+  "description": "Census-style demographics \u2014 regions, households, individuals with income/education (~400K rows)",
+  "tables": [
+    {
+      "name": "regions",
+      "columns": [
+        {
+          "name": "region_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "name",
+          "type": "TEXT"
+        },
+        {
+          "name": "state",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "name": "households",
+      "columns": [
+        {
+          "name": "household_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "region_id",
+          "type": "TEXT",
+          "fk": "regions.region_id"
+        },
+        {
+          "name": "size",
+          "type": "BIGINT"
+        },
+        {
+          "name": "home_type",
+          "type": "TEXT"
+        },
+        {
+          "name": "area_type",
+          "type": "TEXT"
+        }
+      ]
+    },
+    {
+      "name": "individuals",
+      "columns": [
+        {
+          "name": "individual_id",
+          "type": "TEXT",
+          "pk": true
+        },
+        {
+          "name": "household_id",
+          "type": "TEXT",
+          "fk": "households.household_id"
+        },
+        {
+          "name": "age",
+          "type": "BIGINT"
+        },
+        {
+          "name": "gender",
+          "type": "TEXT"
+        },
+        {
+          "name": "education",
+          "type": "TEXT"
+        },
+        {
+          "name": "employment",
+          "type": "TEXT"
+        },
+        {
+          "name": "income",
+          "type": "BIGINT"
+        }
+      ]
+    }
+  ]
+}

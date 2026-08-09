@@ -1,0 +1,22 @@
+{
+  "easy": [
+    "How many encounters are there per department?",
+    "What is the average length of stay by payer?",
+    "What is the total procedure cost by department?"
+  ],
+  "medium": [
+    "What is the readmission rate by department?",
+    "What is the average cost per encounter by diagnosis severity?",
+    "Which departments have the highest procedure costs per patient?"
+  ],
+  "hard": [
+    "Show monthly admissions with a 3-month rolling average by department",
+    "What is the average length of stay by age group, and how does it vary by gender?",
+    "Which patients have the highest total healthcare cost, and what is their diagnosis profile?"
+  ],
+  "very_complex": [
+    "Compare Q4 vs Q3 admissions by department, identify the departments with the largest growth, and explain the payer mix behind the change",
+    "Build a report on readmissions: what percentage of patients are readmitted within 30 days, broken down by department and severity, and which department has the worst readmission profile?",
+    "Analyze cost drivers: how do procedure costs vary by department and severity, and which combination drives the highest total cost per encounter?"
+  ]
+}
