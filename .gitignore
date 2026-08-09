@@ -54,3 +54,4 @@ data/samples/retail_online.csv
 data/samples/finance_bankruptcy.csv
 data/samples/finance_lending.csv
 scripts/kaggle/
+data/datasets/*/*.csv
