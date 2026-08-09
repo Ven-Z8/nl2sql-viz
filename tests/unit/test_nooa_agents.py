@@ -19,6 +19,7 @@ from app.models import (
     ColumnInfo,
     DataStrategy,
     GeneratedSQL,
+    QueryComplexity,
     QueryResult,
     QueryType,
     SchemaMap,
@@ -313,7 +314,13 @@ class TestCoordinatorPipeline:
                 return SchemaMap(tables=["accounts"], columns={"accounts": []})
 
         class StubSQL:
-            async def generate(self, question, schema, sample_text=""):
+            async def classify_complexity(self, question, schema_text):
+                return QueryComplexity.SIMPLE
+
+            async def generate_simple(self, question, schema, sample_text=""):
+                return GeneratedSQL(sql="SELECT region, sales FROM accounts")
+
+            async def generate_complex(self, question, schema, sample_text=""):
                 return GeneratedSQL(sql="SELECT region, sales FROM accounts")
 
             async def execute_query(self, sql):
@@ -411,7 +418,14 @@ class TestCoordinatorPipeline:
             def __init__(self):
                 self.calls = 0
 
-            async def generate(self, question, schema, sample_text=""):
+            async def classify_complexity(self, question, schema_text):
+                return QueryComplexity.SIMPLE
+
+            async def generate_simple(self, question, schema, sample_text=""):
+                self.calls += 1
+                return GeneratedSQL(sql=f"SELECT {self.calls}")
+
+            async def generate_complex(self, question, schema, sample_text=""):
                 self.calls += 1
                 return GeneratedSQL(sql=f"SELECT {self.calls}")
 

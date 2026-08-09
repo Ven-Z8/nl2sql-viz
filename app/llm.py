@@ -13,7 +13,7 @@ from nooa.unifiedllm.registry import get_llm_client
 load_dotenv(override=True)
 
 # Primary model: used by SQLAgent, VizAgent, SchemaAgent for complex tasks
-SONNET = get_llm_client(os.getenv("NL2SQL_MODEL", "openrouter/nvidia/nemotron-3-ultra-550b-a55b:free"))
+SONNET = get_llm_client(os.getenv("NL2SQL_MODEL", "openrouter/deepseek/deepseek-v4-flash-0731"))
 
 # Fast model: used by route classification, simple predictions
-HAIKU = get_llm_client(os.getenv("NL2SQL_FAST_MODEL", "openrouter/inclusionai/ling-3.0-tiny:free"))
+HAIKU = get_llm_client(os.getenv("NL2SQL_FAST_MODEL", "openrouter/inclusionai/ling-3.0-flash"))

@@ -30,8 +30,10 @@ from app.db.guard import validate_read_only
 from app.engine.cache import QueryCache, cache_key
 from app.llm import SONNET
 from app.models import (
+    GeneratedSQL,
     GroundedAnswer,
     Metric,
+    QueryComplexity,
     QueryResult,
     QueryType,
     SubQuery,
@@ -168,11 +170,25 @@ class CoordinatorAgent(Agent, llm=SONNET):
             sub_queries=sub_queries,
         )
 
-    async def _run_single(self, question: str, schema, sample_text: str = "") -> QueryResult:
-        """Generate + validate + execute one grounded query."""
-        generated = await self.sql_agent.generate(
+    async def _generate_sql(self, question: str, schema, sample_text: str = "") -> GeneratedSQL:
+        """Classify complexity and route: simple → Predict, complex → CodeAct."""
+        try:
+            complexity = await self.sql_agent.classify_complexity(
+                question, schema.compact_repr()
+            )
+        except Exception:
+            complexity = QueryComplexity.SIMPLE  # fall back to the fast path
+        if complexity == QueryComplexity.COMPLEX:
+            return await self.sql_agent.generate_complex(
+                question=question, schema=schema, sample_text=sample_text
+            )
+        return await self.sql_agent.generate_simple(
             question=question, schema=schema, sample_text=sample_text
         )
+
+    async def _run_single(self, question: str, schema, sample_text: str = "") -> QueryResult:
+        """Generate + validate + execute one grounded query."""
+        generated = await self._generate_sql(question, schema, sample_text)
         validate_read_only(generated.sql)
         return await self.sql_agent.execute_query(generated.sql)
 
@@ -260,9 +276,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 return
         else:
             yield {"type": "progress", "message": "Generating SQL query..."}
-            generated = await self.sql_agent.generate(
-                question=nl_query, schema=schema, sample_text=sample_text
-            )
+            generated = await self._generate_sql(nl_query, schema, sample_text)
             sql = generated.sql
             validate_read_only(sql)
             yield {"type": "sql", "sql": sql}

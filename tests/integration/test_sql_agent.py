@@ -24,7 +24,7 @@ async def test_sql_agent_generates_and_executes_simple_query(postgres_dsn, seed_
     agent = SQLAgent()
     agent.pool = pool
 
-    generated = await agent.generate(
+    generated = await agent.generate_simple(
         question="What is the total sales amount per region?",
         schema=SCHEMA,
     )

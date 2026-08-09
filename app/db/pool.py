@@ -62,7 +62,7 @@ class PostgresPool:
     # Query execution
     # ------------------------------------------------------------------
 
-    async def execute(self, sql: str, timeout: float = 30.0) -> QueryResult:
+    async def execute(self, sql: str, timeout: float = 120.0) -> QueryResult:
         """Execute a read-only SQL query and return typed results."""
         if not self._pool:
             raise RuntimeError("Not connected — call connect() first")
