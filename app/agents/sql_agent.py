@@ -17,7 +17,14 @@ from app.db.cost import estimate_cost
 from app.db.guard import validate_read_only
 from app.db.pool import PostgresPool
 from app.llm import SONNET
-from app.models import GeneratedSQL, QueryComplexity, QueryCost, QueryResult, SchemaMap
+from app.models import (
+    GeneratedSQL,
+    QueryComplexity,
+    QueryCost,
+    QueryPlan,
+    QueryResult,
+    SchemaMap,
+)
 
 _SQL_SYSTEM_HINT = """\
 You are a senior PostgreSQL analytics engineer. Given a natural language business \
@@ -103,6 +110,26 @@ class SQLAgent(Agent, llm=SONNET):
         """Generate a safe, correct PostgreSQL query that answers the question.
 
         Return a GeneratedSQL with the final SQL and a brief explanation.
+
+        The schema is: {schema.compact_repr()}
+
+        Sample data (real rows — use these to understand the column names, grain,
+        and value formats. Pick columns that actually exist in the sample):
+        {sample_text}
+
+        Domain guidance (follow these analyst conventions):
+        {self.domain_guidance}
+        """
+        ...
+
+    @strategy(PredictStrategy())
+    async def plan_queries(self, question: str, schema: SchemaMap, sample_text: str = "") -> QueryPlan:
+        """Plan 3-5 SQL queries that together answer a COMPLEX question.
+
+        Break the question into verifiable parts. Each query must be a single
+        read-only SELECT/WITH that computes one piece of the answer. The queries
+        should be designed so their results can be compared or joined to build
+        the final report.
 
         The schema is: {schema.compact_repr()}
 

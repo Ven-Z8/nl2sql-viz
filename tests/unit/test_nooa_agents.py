@@ -19,11 +19,12 @@ from app.models import (
     ColumnInfo,
     DataStrategy,
     GeneratedSQL,
+    PlannedQuery,
     QueryComplexity,
+    QueryPlan,
     QueryResult,
     QueryType,
     SchemaMap,
-    SubQuery,
 )
 from app.db.guard import validate_read_only
 from app.engine.cache import QueryCache, cache_key
@@ -395,42 +396,26 @@ class TestCoordinatorPipeline:
         answer = agent.build_answer("How many accounts?", QueryType.KPI, metrics, [])
         assert "42" in answer.text
 
-    def test_decomposition_runs_sub_queries(self):
-        """When the planner decomposes, each sub-query is executed and results combined."""
+    def test_complex_question_uses_query_plan(self):
+        """Complex questions plan multiple queries, execute each, and build a report."""
         agent = self._make_coordinator()
-        sub_results = [
-            QueryResult(columns=["total"], rows=[{"total": 100}], row_count=1, sql="SELECT 100"),
-            QueryResult(columns=["total"], rows=[{"total": 50}], row_count=1, sql="SELECT 50"),
-        ]
 
         class StubSchema:
             async def fetch_schema(self):
                 return SchemaMap(tables=["accounts"], columns={"accounts": []})
 
-        class StubPlanner:
-            async def decompose(self, question, schema_text, sample_text=""):
-                return [
-                    SubQuery(id="q1", question="total revenue", purpose="revenue"),
-                    SubQuery(id="q2", question="total cost", purpose="cost"),
-                ]
-
         class StubSQL:
-            def __init__(self):
-                self.calls = 0
-
             async def classify_complexity(self, question, schema_text):
-                return QueryComplexity.SIMPLE
+                return QueryComplexity.COMPLEX
 
-            async def generate_simple(self, question, schema, sample_text=""):
-                self.calls += 1
-                return GeneratedSQL(sql=f"SELECT {self.calls}")
-
-            async def generate_complex(self, question, schema, sample_text=""):
-                self.calls += 1
-                return GeneratedSQL(sql=f"SELECT {self.calls}")
+            async def plan_queries(self, question, schema, sample_text=""):
+                return QueryPlan(queries=[
+                    PlannedQuery(id="q1", sql="SELECT 1", purpose="revenue"),
+                    PlannedQuery(id="q2", sql="SELECT 2", purpose="cost"),
+                ])
 
             async def execute_query(self, sql):
-                return sub_results[self.calls - 1]
+                return QueryResult(columns=["total"], rows=[{"total": 100}], row_count=1, sql=sql)
 
         class StubViz:
             def plan_chart(self, question, result):
@@ -440,7 +425,6 @@ class TestCoordinatorPipeline:
                 return VizAgent().build_vega_lite(plan, result)
 
         agent.schema_agent = StubSchema()
-        agent.planner = StubPlanner()
         agent.sql_agent = StubSQL()
         agent.viz_agent = StubViz()
 
@@ -451,9 +435,8 @@ class TestCoordinatorPipeline:
         result_events = [e for e in events if e["type"] == "result"]
         assert len(result_events) == 1
         event = result_events[0]
-        assert event["query_type"] == "comparison"
         answer = event["answer"]
-        assert len(answer["sub_queries"]) == 2
-        # Both sub-query results contributed metrics
-        assert len(answer["metrics"]) >= 2
-        assert agent.sql_agent.calls == 2
+        # Both planned queries executed → two report sections
+        assert len(answer["sections"]) == 2
+        assert answer["sections"][0]["title"] == "revenue"
+        assert answer["sections"][1]["title"] == "cost"

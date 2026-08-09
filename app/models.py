@@ -193,6 +193,26 @@ class SubQuery(BaseModel):
     purpose: str = Field(default="", description="Why this sub-query is needed")
 
 
+class PlannedQuery(BaseModel):
+    """A single SQL query in a multi-query plan for a complex question."""
+    id: str
+    sql: str
+    purpose: str = Field(default="", description="What this query computes")
+
+
+class QueryPlan(BaseModel):
+    """A plan of 3-5 SQL queries that together answer a complex question."""
+    queries: list[PlannedQuery]
+    summary: str = Field(default="", description="How the queries combine into the answer")
+
+
+class ReportSection(BaseModel):
+    """One section of a synthesized report."""
+    title: str
+    text: str
+    metrics: list[Metric] = Field(default_factory=list)
+
+
 class Metric(BaseModel):
     """A single grounded number — always computed from query results."""
     label: str
@@ -207,3 +227,4 @@ class GroundedAnswer(BaseModel):
     query_type: QueryType = QueryType.KPI
     metrics: list[Metric] = Field(default_factory=list)
     sub_queries: list[SubQuery] = Field(default_factory=list)
+    sections: list[ReportSection] = Field(default_factory=list)

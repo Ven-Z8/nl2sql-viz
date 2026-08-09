@@ -36,6 +36,7 @@ from app.models import (
     QueryComplexity,
     QueryResult,
     QueryType,
+    ReportSection,
     SubQuery,
 )
 
@@ -170,6 +171,21 @@ class CoordinatorAgent(Agent, llm=SONNET):
             sub_queries=sub_queries,
         )
 
+    def _section_from_result(self, title: str, result: QueryResult) -> ReportSection:
+        """Build a report section from one query's grounded result."""
+        metrics: list[Metric] = []
+        if result.rows:
+            first = result.rows[0]
+            for col, val in first.items():
+                if isinstance(val, (int, float)) and not isinstance(val, bool):
+                    metrics.append(Metric(label=col, value=float(val), source=result.sql[:80]))
+        text = f"{title}: {result.row_count} rows"
+        if result.rows:
+            text = f"{title}: " + "; ".join(
+                f"{k}={v}" for k, v in list(result.rows[0].items())[:4]
+            )
+        return ReportSection(title=title, text=text, metrics=metrics)
+
     async def _generate_sql(self, question: str, schema, sample_text: str = "") -> GeneratedSQL:
         """Classify complexity and route: simple → Predict, complex → CodeAct."""
         try:
@@ -238,41 +254,37 @@ class CoordinatorAgent(Agent, llm=SONNET):
             except Exception:
                 sample_text = ""  # sampling is best-effort
 
-        # 3. Query planning — decompose only genuinely complex questions
-        # (deterministic classification first; the LLM planner is slow and
-        # only worth it for multi-part questions)
-        sub_queries: list[SubQuery] = []
-        needs_decomposition = any(
-            h in nl_query.lower() for h in ("compare", "vs ", "versus", "difference between", "and also", "plus ")
-        )
-        if self.planner is not None and needs_decomposition:
-            try:
-                sub_queries = await self.planner.decompose(
-                    nl_query, schema.compact_repr(), sample_text
-                )
-            except Exception:
-                sub_queries = []  # fall back to single query on planner failure
+        # 3. Complexity routing — simple → single query, complex → multi-query plan + report
+        complexity = QueryComplexity.SIMPLE
+        try:
+            complexity = await self.sql_agent.classify_complexity(
+                nl_query, schema.compact_repr()
+            )
+        except Exception:
+            complexity = QueryComplexity.SIMPLE
 
         results: list[QueryResult] = []
         sqls: list[str] = []
+        report_sections: list[ReportSection] = []
 
-        if sub_queries:
-            yield {
-                "type": "progress",
-                "message": f"Decomposed into {len(sub_queries)} sub-queries",
-            }
-            for sq in sub_queries:
-                yield {"type": "progress", "message": f"Sub-query: {sq.question}"}
+        if complexity == QueryComplexity.COMPLEX:
+            yield {"type": "progress", "message": "Planning multi-query analysis..."}
+            plan = await self.sql_agent.plan_queries(nl_query, schema, sample_text)
+            for pq in plan.queries:
+                yield {"type": "progress", "message": f"Running query: {pq.purpose}"}
                 try:
-                    result = await self._run_single(sq.question, schema, sample_text)
+                    validate_read_only(pq.sql)
+                    yield {"type": "sql", "sql": pq.sql}
+                    result = await self.sql_agent.execute_query(pq.sql)
                 except Exception as e:
-                    yield {"type": "progress", "message": f"Sub-query failed: {e}"}
+                    yield {"type": "progress", "message": f"Query failed: {e}"}
                     continue
                 if result.row_count > 0:
                     results.append(result)
                     sqls.append(result.sql)
+                    report_sections.append(self._section_from_result(pq.purpose, result))
             if not results:
-                yield {"type": "error", "message": "All sub-queries returned zero rows. Try a broader question."}
+                yield {"type": "error", "message": "All planned queries returned zero rows. Try a broader question."}
                 return
         else:
             yield {"type": "progress", "message": "Generating SQL query..."}
@@ -293,7 +305,10 @@ class CoordinatorAgent(Agent, llm=SONNET):
         primary = results[-1]
         query_type = self.infer_query_type(nl_query, primary)
         metrics = self.extract_metrics(query_type, results)
-        answer = self.build_answer(nl_query, query_type, metrics, sub_queries)
+        answer = self.build_answer(nl_query, query_type, metrics, [])
+        if report_sections:
+            answer.sections = report_sections
+            answer.text = f"Report: {nl_query}"
 
         # 5. Visualization of the primary result
         yield {"type": "progress", "message": "Building visualization..."}
