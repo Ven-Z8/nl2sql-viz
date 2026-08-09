@@ -26,6 +26,7 @@ from app.agents.planner import QueryPlanner
 from app.agents.schema_agent import SchemaAgent
 from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
+from app.core.schema_validator import SchemaValidator
 from app.db.guard import validate_read_only
 from app.engine.cache import QueryCache, cache_key
 from app.llm import SONNET
@@ -186,7 +187,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
             )
         return ReportSection(title=title, text=text, metrics=metrics)
 
-    async def _generate_sql(self, question: str, schema, sample_text: str = "") -> GeneratedSQL:
+    async def _generate_sql(self, question: str, schema, sample_text: str = "", feedback: str = "") -> GeneratedSQL:
         """Classify complexity and route: simple → Predict, complex → CodeAct."""
         try:
             complexity = await self.sql_agent.classify_complexity(
@@ -199,7 +200,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 question=question, schema=schema, sample_text=sample_text
             )
         return await self.sql_agent.generate_simple(
-            question=question, schema=schema, sample_text=sample_text
+            question=question, schema=schema, sample_text=sample_text, feedback=feedback
         )
 
     async def _run_single(self, question: str, schema, sample_text: str = "") -> QueryResult:
@@ -240,10 +241,12 @@ class CoordinatorAgent(Agent, llm=SONNET):
 
         # 2. Schema introspection
         yield {"type": "progress", "message": "Analyzing database schema..."}
-        schema = await self.schema_agent.fetch_schema()
+        full_schema = await self.schema_agent.fetch_schema()
         # Focus on the active table so the LLM doesn't wade through every
         # uploaded sample table in the demo database
-        schema = schema.focused(self.focus_table)
+        schema = full_schema.focused(self.focus_table)
+        # The validator uses the FULL schema — joins need all tables' columns
+        validator = SchemaValidator(full_schema)
 
         # 2b. Sample real rows so the planner/agent understand the data shape
         sample_text = ""
@@ -272,10 +275,24 @@ class CoordinatorAgent(Agent, llm=SONNET):
             plan = await self.sql_agent.plan_queries(nl_query, schema, sample_text)
             for pq in plan.queries:
                 yield {"type": "progress", "message": f"Running query: {pq.purpose}"}
+                sql = pq.sql
+                # Validate against the real schema — no guessing. Retry with
+                # feedback if the model used a wrong column.
+                for attempt in range(2):
+                    ok, fixed, errors = validator.validate_and_fix(sql)
+                    if ok:
+                        sql = fixed
+                        break
+                    feedback = "; ".join(errors)
+                    yield {"type": "progress", "message": f"Fixing query: {errors[0][:60]}"}
+                    plan = await self.sql_agent.plan_queries(
+                        nl_query, schema, sample_text, feedback=feedback
+                    )
+                    sql = plan.queries[0].sql if plan.queries else sql
                 try:
-                    validate_read_only(pq.sql)
-                    yield {"type": "sql", "sql": pq.sql}
-                    result = await self.sql_agent.execute_query(pq.sql)
+                    validate_read_only(sql)
+                    yield {"type": "sql", "sql": sql}
+                    result = await self.sql_agent.execute_query(sql)
                 except Exception as e:
                     yield {"type": "progress", "message": f"Query failed: {e}"}
                     continue
@@ -290,6 +307,19 @@ class CoordinatorAgent(Agent, llm=SONNET):
             yield {"type": "progress", "message": "Generating SQL query..."}
             generated = await self._generate_sql(nl_query, schema, sample_text)
             sql = generated.sql
+            # Validate against the real schema — no guessing. Retry with
+            # feedback if the model used a wrong column.
+            for attempt in range(2):
+                ok, fixed, errors = validator.validate_and_fix(sql)
+                if ok:
+                    sql = fixed
+                    break
+                feedback = "; ".join(errors)
+                yield {"type": "progress", "message": f"Fixing query: {errors[0][:60]}"}
+                generated = await self._generate_sql(
+                    nl_query, schema, sample_text, feedback=feedback
+                )
+                sql = generated.sql
             validate_read_only(sql)
             yield {"type": "sql", "sql": sql}
 

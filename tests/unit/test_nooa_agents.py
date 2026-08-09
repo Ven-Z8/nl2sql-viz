@@ -318,7 +318,7 @@ class TestCoordinatorPipeline:
             async def classify_complexity(self, question, schema_text):
                 return QueryComplexity.SIMPLE
 
-            async def generate_simple(self, question, schema, sample_text=""):
+            async def generate_simple(self, question, schema, sample_text="", feedback=""):
                 return GeneratedSQL(sql="SELECT region, sales FROM accounts")
 
             async def generate_complex(self, question, schema, sample_text=""):

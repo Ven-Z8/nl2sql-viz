@@ -106,7 +106,7 @@ class SQLAgent(Agent, llm=SONNET):
         ...
 
     @strategy(PredictStrategy())
-    async def generate_simple(self, question: str, schema: SchemaMap, sample_text: str = "") -> GeneratedSQL:
+    async def generate_simple(self, question: str, schema: SchemaMap, sample_text: str = "", feedback: str = "") -> GeneratedSQL:
         """Generate a safe, correct PostgreSQL query that answers the question.
 
         Return a GeneratedSQL with the final SQL and a brief explanation.
@@ -119,11 +119,14 @@ class SQLAgent(Agent, llm=SONNET):
 
         Domain guidance (follow these analyst conventions):
         {self.domain_guidance}
+
+        Previous attempt feedback (fix these errors — use ONLY the listed columns):
+        {feedback}
         """
         ...
 
     @strategy(PredictStrategy())
-    async def plan_queries(self, question: str, schema: SchemaMap, sample_text: str = "") -> QueryPlan:
+    async def plan_queries(self, question: str, schema: SchemaMap, sample_text: str = "", feedback: str = "") -> QueryPlan:
         """Plan 3-5 SQL queries that together answer a COMPLEX question.
 
         Break the question into verifiable parts. Each query must be a single
@@ -139,6 +142,9 @@ class SQLAgent(Agent, llm=SONNET):
 
         Domain guidance (follow these analyst conventions):
         {self.domain_guidance}
+
+        Previous attempt feedback (fix these errors — use ONLY the listed columns):
+        {feedback}
         """
         ...
 
