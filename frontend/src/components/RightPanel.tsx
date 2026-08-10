@@ -222,9 +222,9 @@ export default function RightPanel({
                   gap: "var(--space-3)",
                 }}
               >
-                {answer.metrics.map((m) => (
+                {answer.metrics.map((m, i) => (
                   <div
-                    key={m.label}
+                    key={`${m.label}-${i}`}
                     style={{
                       display: "flex",
                       alignItems: "baseline",
@@ -329,7 +329,7 @@ export default function RightPanel({
           >
             {answer.metrics.slice(0, 4).map((m, i) => (
               <div
-                key={m.label}
+                key={`${m.label}-${i}`}
                 style={{
                   border: "1px solid var(--color-border-subtle)",
                   borderRadius: "var(--radius-lg)",

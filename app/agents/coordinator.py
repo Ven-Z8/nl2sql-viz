@@ -120,6 +120,18 @@ class CoordinatorAgent(Agent, llm=SONNET):
         """Extract grounded metrics from actual result rows. Every value here
         comes from executed query data — nothing is invented."""
         metrics: list[Metric] = []
+        seen: set[str] = set()
+
+        def _append(label: str, value: float, source: str) -> None:
+            """Append a metric, qualifying duplicate labels with a counter."""
+            if label in seen:
+                n = 2
+                while f"{label} ({n})" in seen:
+                    n += 1
+                label = f"{label} ({n})"
+            seen.add(label)
+            metrics.append(Metric(label=label, value=value, source=source))
+
         for result in results:
             if not result.rows:
                 continue
@@ -137,7 +149,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                     continue
                 source = result.sql[:80]
                 if query_type == QueryType.KPI:
-                    metrics.append(Metric(label=col, value=values[0], source=source))
+                    _append(col, values[0], source)
                 else:
                     # Don't prefix "total" onto columns that are already aggregates
                     lowered = col.lower()
@@ -147,9 +159,9 @@ class CoordinatorAgent(Agent, llm=SONNET):
                          "pct", "percent", "share", "sum", "total", "median")
                     )
                     label = col if is_aggregate else f"total {col}"
-                    metrics.append(Metric(label=label, value=sum(values), source=source))
+                    _append(label, sum(values), source)
                     if len(values) > 1:
-                        metrics.append(Metric(label=f"latest {col}", value=values[-1], source=source))
+                        _append(f"latest {col}", values[-1], source)
         return metrics
 
     def build_answer(

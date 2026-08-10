@@ -473,6 +473,28 @@ class TestCoordinatorPipeline:
         answer = agent.build_answer("How many accounts?", QueryType.KPI, metrics, [])
         assert "42" in answer.text
 
+    def test_duplicate_metric_labels_are_qualified(self):
+        """Multi-query reports can return the same column from several
+        sub-queries — labels must stay unique so the UI keys don't collide."""
+        agent = self._make_coordinator()
+        r1 = QueryResult(
+            columns=["claim_count"],
+            rows=[{"claim_count": 10}],
+            row_count=1,
+            sql="SELECT count(*) AS claim_count FROM claims WHERE year = 2008",
+        )
+        r2 = QueryResult(
+            columns=["claim_count"],
+            rows=[{"claim_count": 20}],
+            row_count=1,
+            sql="SELECT count(*) AS claim_count FROM claims WHERE year = 2010",
+        )
+        metrics = agent.extract_metrics(QueryType.BREAKDOWN, [r1, r2])
+        labels = [m.label for m in metrics]
+        assert len(labels) == len(set(labels)), labels
+        assert "total claim_count" in labels
+        assert "total claim_count (2)" in labels
+
     def test_complex_question_uses_query_plan(self):
         """Complex questions plan sub-questions, generate SQL in parallel, and build a report."""
         agent = self._make_coordinator()
