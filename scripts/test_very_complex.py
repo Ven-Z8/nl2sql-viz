@@ -4,6 +4,7 @@ import time
 
 from app.agents.coordinator import CoordinatorAgent
 from app.agents.schema_agent import SchemaAgent
+from app.agents.schema_linker import SchemaLinker
 from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
 from app.db.pool import PostgresPool
@@ -25,10 +26,12 @@ async def main() -> None:
     sql_agent = SQLAgent()
     sql_agent.pool = pool
     viz_agent = VizAgent()
+    linker = SchemaLinker()
     coordinator = CoordinatorAgent()
     coordinator.schema_agent = schema_agent
     coordinator.sql_agent = sql_agent
     coordinator.viz_agent = viz_agent
+    coordinator.linker = linker
     coordinator.cache = QueryCache()
     coordinator.connection_id = "direct"
     coordinator.focus_table = "ds_retail_orders"

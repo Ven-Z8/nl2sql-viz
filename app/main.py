@@ -18,6 +18,7 @@ from app.core.samples import list_samples, load_sample
 from app.core.session import SessionStore
 from app.core.user_store import UserStore
 from app.agents.coordinator import CoordinatorAgent
+from app.agents.schema_linker import SchemaLinker
 from app.agents.schema_agent import SchemaAgent
 from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
@@ -273,10 +274,12 @@ async def websocket_query(websocket: WebSocket):
                 sql_agent = SQLAgent()
                 sql_agent.pool = pool
                 viz_agent = VizAgent()
+                linker = SchemaLinker()
                 coordinator = CoordinatorAgent()
                 coordinator.schema_agent = schema_agent
                 coordinator.sql_agent = sql_agent
                 coordinator.viz_agent = viz_agent
+                coordinator.linker = linker
                 coordinator.cache = query_cache
                 coordinator.connection_id = user_id or "default"
                 coordinator.focus_table = focus_table

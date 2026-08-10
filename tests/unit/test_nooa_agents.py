@@ -60,6 +60,84 @@ class TestModels:
         assert "FK→users.id" in text
         assert "[PK]" in text
 
+    def test_schema_map_filter_to(self):
+        schema = SchemaMap(
+            tables=["users", "orders", "products"],
+            columns={
+                "users": [
+                    ColumnInfo(column="id", type="integer", constraint="PRIMARY KEY"),
+                    ColumnInfo(column="name", type="text"),
+                    ColumnInfo(column="email", type="text"),
+                ],
+                "orders": [
+                    ColumnInfo(column="id", type="integer", constraint="PRIMARY KEY"),
+                    ColumnInfo(column="user_id", type="integer", foreign_table="users", foreign_column="id"),
+                    ColumnInfo(column="total", type="numeric"),
+                    ColumnInfo(column="status", type="text"),
+                ],
+                "products": [
+                    ColumnInfo(column="id", type="integer", constraint="PRIMARY KEY"),
+                    ColumnInfo(column="title", type="text"),
+                ],
+            },
+            row_estimates={"users": 500, "orders": 5000, "products": 100},
+        )
+        from app.models import LinkedTable
+
+        linked = [
+            LinkedTable(table="orders", columns=["total", "status"]),
+            LinkedTable(table="users", columns=["name"]),
+        ]
+        filtered = schema.filter_to(linked)
+        assert filtered.tables == ["orders", "users"]
+        # Requested columns kept, PK + FK join keys auto-included
+        assert [c.column for c in filtered.columns["orders"]] == ["total", "status", "id", "user_id"]
+        assert [c.column for c in filtered.columns["users"]] == ["name", "id"]
+        # Unlinked table dropped entirely
+        assert "products" not in filtered.tables
+        # Row estimates preserved for kept tables
+        assert filtered.row_estimates == {"orders": 5000, "users": 500}
+
+    def test_schema_map_filter_to_empty(self):
+        schema = SchemaMap(tables=["a"], columns={"a": [ColumnInfo(column="x", type="text")]})
+        assert schema.filter_to([]) is schema
+
+    def test_schema_map_connected(self):
+        schema = SchemaMap(
+            tables=["orders", "customers", "products", "upload_orders"],
+            columns={
+                "orders": [
+                    ColumnInfo(column="id", type="integer", constraint="PRIMARY KEY"),
+                    ColumnInfo(column="customer_id", type="integer", foreign_table="customers", foreign_column="id"),
+                    ColumnInfo(column="product_id", type="integer", foreign_table="products", foreign_column="id"),
+                ],
+                "customers": [ColumnInfo(column="id", type="integer", constraint="PRIMARY KEY")],
+                "products": [ColumnInfo(column="id", type="integer", constraint="PRIMARY KEY")],
+                "upload_orders": [ColumnInfo(column="id", type="integer")],
+            },
+        )
+        # FK-connected component of orders = orders + customers + products
+        assert set(schema.connected("orders")) == {"orders", "customers", "products"}
+        # Unrelated upload table excluded
+        assert "upload_orders" not in schema.connected("orders")
+        # Unknown root degrades gracefully
+        assert schema.connected("nope") == ["nope"]
+
+    def test_schema_map_subschema(self):
+        schema = SchemaMap(
+            tables=["a", "b", "c"],
+            columns={
+                "a": [ColumnInfo(column="x", type="text")],
+                "b": [ColumnInfo(column="y", type="text")],
+                "c": [ColumnInfo(column="z", type="text")],
+            },
+            row_estimates={"a": 1, "b": 2, "c": 3},
+        )
+        sub = schema.subschema(["b", "a"], first="a")
+        assert sub.tables == ["a", "b"]
+        assert [c.column for c in sub.columns["b"]] == ["y"]
+        assert sub.row_estimates == {"a": 1, "b": 2}
+
     def test_query_result_sample(self):
         rows = [{"id": i, "val": i * 10} for i in range(100)]
         result = QueryResult(columns=["id", "val"], rows=rows, row_count=100)

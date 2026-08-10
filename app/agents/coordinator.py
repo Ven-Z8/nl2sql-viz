@@ -25,6 +25,7 @@ from nooa.strategies import CodeActStrategy
 
 from app.agents.planner import QueryPlanner
 from app.agents.schema_agent import SchemaAgent
+from app.agents.schema_linker import SchemaLinker
 from app.agents.sql_agent import SQLAgent
 from app.agents.viz_agent import VizAgent
 from app.core.schema_validator import SchemaValidator
@@ -88,6 +89,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
 
     schema_agent: SchemaAgent
     planner: QueryPlanner | None = None
+    linker: SchemaLinker | None = None
     sql_agent: SQLAgent
     viz_agent: VizAgent
     cache: QueryCache
@@ -243,13 +245,31 @@ class CoordinatorAgent(Agent, llm=SONNET):
         # 2. Schema introspection
         yield {"type": "progress", "message": "Analyzing database schema..."}
         full_schema = await self.schema_agent.fetch_schema()
-        # Focus on the active table so the LLM doesn't wade through every
-        # uploaded sample table in the demo database
-        schema = full_schema.focused(self.focus_table)
         # The validator uses the FULL schema — joins need all tables' columns
         validator = SchemaValidator(full_schema)
 
-        # 2b. Sample real rows so the planner/agent understand the data shape
+        # 2a. Restrict to the active dataset — the FK-connected graph of the
+        # focus table — so the linker and SQL model never wade through every
+        # uploaded sample table in the demo database.
+        if self.focus_table:
+            scope = full_schema.connected(self.focus_table)
+        else:
+            scope = full_schema.tables
+        schema = full_schema.subschema(scope, first=self.focus_table)
+
+        # 2b. Schema linking — a fast model grounds the question in the real
+        # schema: it picks the relevant tables/columns so the SQL model never
+        # guesses across the whole database.
+        if self.linker is not None:
+            try:
+                yield {"type": "progress", "message": "Linking question to schema..."}
+                linked = await self.linker.link(nl_query, schema.compact_repr())
+                if linked:
+                    schema = schema.filter_to(linked)
+            except Exception:
+                pass  # fall back to the dataset schema on linker failure
+
+        # 2c. Sample real rows so the planner/agent understand the data shape
         sample_text = ""
         if schema.tables:
             try:

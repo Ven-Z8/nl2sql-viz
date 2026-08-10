@@ -45,6 +45,76 @@ class SchemaMap(BaseModel):
         description="Index names per table",
     )
 
+    def filter_to(self, linked: list[LinkedTable]) -> "SchemaMap":
+        """Return a schema containing only the linked tables and columns.
+
+        Used after schema linking — the SQL model generates against a small,
+        correct context instead of the full schema.
+        """
+        if not linked:
+            return self
+        tables: list[str] = []
+        columns: dict[str, list[ColumnInfo]] = {}
+        for lt in linked:
+            if lt.table not in self.columns:
+                continue
+            tables.append(lt.table)
+            all_cols = {c.column: c for c in self.columns[lt.table]}
+            wanted = [c for c in lt.columns if c in all_cols]
+            # Always include join keys (FK columns) and primary keys so joins work
+            for c in self.columns[lt.table]:
+                if c.column in wanted:
+                    continue
+                if c.foreign_table or c.constraint == "PRIMARY KEY":
+                    wanted.append(c.column)
+            columns[lt.table] = [all_cols[c] for c in wanted]
+        return SchemaMap(
+            tables=tables,
+            columns=columns,
+            row_estimates={t: self.row_estimates.get(t, 0) for t in tables},
+            indexes={t: self.indexes.get(t, []) for t in tables},
+        )
+
+    def connected(self, root: str) -> list[str]:
+        """Tables reachable from ``root`` via foreign keys — the dataset graph.
+
+        A relational dataset is exactly the FK-connected component of its
+        tables, so this isolates the selected dataset from unrelated tables
+        (e.g. other datasets or uploaded samples in the same database).
+        """
+        if root not in self.columns:
+            return [root]
+        graph: dict[str, set[str]] = {t: set() for t in self.tables}
+        for t in self.tables:
+            for c in self.columns.get(t, []):
+                if c.foreign_table and c.foreign_table in graph:
+                    graph[t].add(c.foreign_table)
+                    graph[c.foreign_table].add(t)
+        seen: set[str] = set()
+        stack = [root]
+        while stack:
+            t = stack.pop()
+            if t in seen:
+                continue
+            seen.add(t)
+            stack.extend(graph[t] - seen)
+        return [t for t in self.tables if t in seen]
+
+    def subschema(self, tables: list[str], first: str | None = None) -> "SchemaMap":
+        """Return a schema with full columns for exactly ``tables``.
+
+        ``first`` (e.g. the focus table) is moved to the front of the list.
+        """
+        keep = [t for t in tables if t in self.columns]
+        if first and first in keep:
+            keep = [first] + [t for t in keep if t != first]
+        return SchemaMap(
+            tables=keep,
+            columns={t: self.columns[t] for t in keep},
+            row_estimates={t: self.row_estimates.get(t, 0) for t in keep},
+            indexes={t: self.indexes.get(t, []) for t in keep},
+        )
+
     def focused(self, focus_table: str | None) -> "SchemaMap":
         """Return a schema focused on one table — its columns in full, other
         tables listed by name only. Keeps the LLM context small when the
@@ -191,6 +261,12 @@ class SubQuery(BaseModel):
     id: str
     question: str
     purpose: str = Field(default="", description="Why this sub-query is needed")
+
+
+class LinkedTable(BaseModel):
+    """A table and the columns relevant to a question (schema linking)."""
+    table: str
+    columns: list[str]
 
 
 class PlannedQuery(BaseModel):
