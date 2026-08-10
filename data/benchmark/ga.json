@@ -1,0 +1,318 @@
+[
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Total Trip Count 5,595,063 | Latest Trip Count 3,066,058",
+  "metrics": [
+   [
+    "total trip_count",
+    5595063.0
+   ],
+   [
+    "latest trip_count",
+    3066058.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT member_casual, COUNT(*) AS trip_count\nFROM ds_ga_trips\nGROUP BY member_casual\nORDER BY member_casual;",
+  "execution_time_ms": 8219.0,
+  "row_count": 2,
+  "wall_time_s": 62.6,
+  "dataset": "ga",
+  "tier": "easy",
+  "question": "How many trips were taken by members vs casual riders?",
+  "elapsed_s": 66.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Duration Seconds 7,045.53 | Latest Avg Duration Seconds 961.58",
+  "metrics": [
+   [
+    "avg_duration_seconds",
+    7045.53
+   ],
+   [
+    "latest avg_duration_seconds",
+    961.58
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT rideable_type, AVG(EXTRACT(EPOCH FROM (ended_at - started_at))) AS avg_duration_seconds\nFROM ds_ga_trips\nWHERE started_at IS NOT NULL AND ended_at IS NOT NULL\nGROUP BY rideable_type\nORDER BY rideable_type;",
+  "execution_time_ms": 4719.0,
+  "row_count": 3,
+  "wall_time_s": 79.3,
+  "dataset": "ga",
+  "tier": "easy",
+  "question": "What is the average trip duration by rideable type?",
+  "elapsed_s": 79.3
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Trip Count: 82,715",
+  "metrics": [
+   [
+    "trip_count",
+    82715.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT start_station_name, start_station_id, COUNT(*) AS trip_count FROM ds_ga_trips WHERE start_station_name IS NOT NULL GROUP BY start_station_name, start_station_id ORDER BY trip_count DESC;",
+  "execution_time_ms": 14938.0,
+  "row_count": 848,
+  "wall_time_s": 34.6,
+  "dataset": "ga",
+  "tier": "easy",
+  "question": "How many trips started at each station?",
+  "elapsed_s": 34.6
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Duration Minutes 557.02 | Latest Avg Duration Minutes 11",
+  "metrics": [
+   [
+    "avg_duration_minutes",
+    557.02
+   ],
+   [
+    "latest avg_duration_minutes",
+    11.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT member_casual AS member_type, to_char(started_at, 'YYYY-MM') AS month, AVG(EXTRACT(EPOCH FROM (ended_at - started_at)) / 60) AS avg_duration_minutes FROM ds_ga_trips WHERE started_at IS NOT NULL AND ended_at IS NOT NULL GROUP BY member_casual, month ORDER BY month, member_type;",
+  "execution_time_ms": 9047.0,
+  "row_count": 24,
+  "wall_time_s": 185.1,
+  "dataset": "ga",
+  "tier": "medium",
+  "question": "What is the average trip duration by member type and month?",
+  "elapsed_s": 185.2
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Trip Count 428,511 | Latest Trip Count 32,904",
+  "metrics": [
+   [
+    "total trip_count",
+    428511.0
+   ],
+   [
+    "latest trip_count",
+    32904.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT start_station_name, COUNT(*) AS trip_count\nFROM ds_ga_trips\nWHERE start_station_name IS NOT NULL\nGROUP BY start_station_name\nORDER BY trip_count DESC\nLIMIT 10;",
+  "execution_time_ms": 6469.0,
+  "row_count": 10,
+  "wall_time_s": 47.8,
+  "dataset": "ga",
+  "tier": "medium",
+  "question": "Which start stations have the highest number of trips?",
+  "elapsed_s": 47.9
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Day Of Week 21 | Latest Day Of Week 6 | Total Trip Volume 5,595,063 | Latest Trip Volume 991,047",
+  "metrics": [
+   [
+    "total day_of_week",
+    21.0
+   ],
+   [
+    "latest day_of_week",
+    6.0
+   ],
+   [
+    "total trip_volume",
+    5595063.0
+   ],
+   [
+    "latest trip_volume",
+    991047.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT EXTRACT(DOW FROM started_at)::int AS day_of_week, COUNT(*) AS trip_volume FROM ds_ga_trips WHERE started_at IS NOT NULL GROUP BY day_of_week ORDER BY day_of_week;",
+  "execution_time_ms": 10265.0,
+  "row_count": 7,
+  "wall_time_s": 43.0,
+  "dataset": "ga",
+  "tier": "medium",
+  "question": "How does trip volume vary by day of week?",
+  "elapsed_s": 43.0
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Trip Count 5,595,063 | Latest Trip Count 177,802 | Total Rolling 3M Avg 5,399,008.9 | Latest Rolling 3M Avg 268,278.3",
+  "metrics": [
+   [
+    "total trip_count",
+    5595063.0
+   ],
+   [
+    "latest trip_count",
+    177802.0
+   ],
+   [
+    "total rolling_3m_avg",
+    5399008.9
+   ],
+   [
+    "latest rolling_3m_avg",
+    268278.3
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH monthly AS (\n    SELECT \n        date_trunc('month', started_at)::date AS trip_month,\n        member_casual,\n        COUNT(ride_id) AS trip_count\n    FROM ds_ga_trips\n    WHERE member_casual IN ('member', 'casual')\n    GROUP BY 1, 2\n),\nrolling AS (\n    SELECT \n        trip_month,\n        member_casual,\n        trip_count,\n        AVG(trip_count) OVER (\n            PARTITION BY member_casual \n            ORDER BY trip_month \n            ROWS BETWEEN 2 PRECEDING AND CURRENT ROW\n        ) AS rolling_3m_avg\n    FROM monthly\n)\nSELECT \n    trip_month,\n    member_casual,\n    trip_count,\n    ROUND(rolling_3m_avg, 1) AS rolling_3m_avg\nFROM rolling\nORDER BY member_casual, trip_month;",
+  "execution_time_ms": 2266.0,
+  "row_count": 24,
+  "wall_time_s": 65.9,
+  "dataset": "ga",
+  "tier": "hard",
+  "question": "Show monthly trip volume with a 3-month rolling average by member type",
+  "elapsed_s": 65.9
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Total Hour Of Day 552 | Latest Hour Of Day 23 | Avg Trip Duration Minutes 1,108.91 | Latest Avg Trip Duration Minutes 14.15",
+  "metrics": [
+   [
+    "total hour_of_day",
+    552.0
+   ],
+   [
+    "latest hour_of_day",
+    23.0
+   ],
+   [
+    "avg_trip_duration_minutes",
+    1108.91
+   ],
+   [
+    "latest avg_trip_duration_minutes",
+    14.15
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \n  EXTRACT(hour FROM started_at)::int AS hour_of_day,\n  member_casual,\n  AVG(EXTRACT(epoch FROM (ended_at - started_at)) / 60.0) AS avg_trip_duration_minutes\nFROM ds_ga_trips\nWHERE ended_at IS NOT NULL AND started_at IS NOT NULL AND ended_at >= started_at\nGROUP BY hour_of_day, member_casual\nORDER BY hour_of_day, member_casual;",
+  "execution_time_ms": 2984.0,
+  "row_count": 48,
+  "wall_time_s": 62.3,
+  "dataset": "ga",
+  "tier": "hard",
+  "question": "What is the average trip duration by hour of day for members vs casual riders?",
+  "elapsed_s": 62.4
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Trip Count 475,724 | Latest Trip Count 3,685",
+  "metrics": [
+   [
+    "total trip_count",
+    475724.0
+   ],
+   [
+    "latest trip_count",
+    3685.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT start_station_name AS start_station,\n       end_station_name AS end_station,\n       COUNT(*) AS trip_count\nFROM ds_ga_trips\nGROUP BY start_station_name, end_station_name\nORDER BY trip_count DESC\nLIMIT 10;",
+  "execution_time_ms": 11375.0,
+  "row_count": 10,
+  "wall_time_s": 188.9,
+  "dataset": "ga",
+  "tier": "hard",
+  "question": "Which station pairs (start to end) are the most common routes?",
+  "elapsed_s": 188.9
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare member vs casual rider behavior: how do trip duration and peak usage hours differ, and which station areas show the biggest seasonal swings?",
+  "metrics": [
+   [
+    "avg_duration_minutes",
+    45.63
+   ],
+   [
+    "latest avg_duration_minutes",
+    13.63
+   ],
+   [
+    "total hour_of_day",
+    34.0
+   ],
+   [
+    "latest hour_of_day",
+    17.0
+   ],
+   [
+    "total trip_count",
+    556837.0
+   ],
+   [
+    "latest trip_count",
+    320289.0
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT EXTRACT(MONTH FROM started_at)::int AS month,\n       member_casual,\n       COUNT(*) AS trip_count\nFROM ds_ga_trips\nWHERE started_at IS NOT NULL\n  AND member_casual IS NOT NULL\nGROUP BY EXTRACT(MONTH FROM started_at), member_casual\nORDER BY month, member_casual;",
+  "execution_time_ms": 7984.0,
+  "row_count": 24,
+  "wall_time_s": 416.4,
+  "dataset": "ga",
+  "tier": "very_complex",
+  "question": "Compare member vs casual rider behavior: how do trip duration and peak usage hours differ, and which station areas show the biggest seasonal swings?",
+  "elapsed_s": 416.6
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Q1 Trip Count 374,952 | Latest Q1 Trip Count 19,034 | Total Q4 Trip Count 1,238,744 | Latest Q4 Trip Count 35,426 | Total Q1 Avg Duration Min 119.5 | Latest Q1 Avg Duration Min 85.72 | Total Q4 Avg Duration Min 124.07 | Latest Q4 Avg Duration Min 94.57 | Total Trip Growth 863,792 | Latest Trip Growth 16,392 | Total Trip Growth Pct 708.13 | Latest Trip Growth Pct 86.12 | Total Duration Change Min 4.57 | Latest Duration Change Min 8.85",
+  "metrics": [
+   [
+    "total q1_trip_count",
+    374952.0
+   ],
+   [
+    "latest q1_trip_count",
+    19034.0
+   ],
+   [
+    "total q4_trip_count",
+    1238744.0
+   ],
+   [
+    "latest q4_trip_count",
+    35426.0
+   ],
+   [
+    "total q1_avg_duration_min",
+    119.5
+   ],
+   [
+    "latest q1_avg_duration_min",
+    85.72
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH quarterly AS (\n    SELECT \n        rideable_type,\n        EXTRACT(QUARTER FROM started_at)::int AS quarter,\n        COUNT(*) AS trip_count,\n        AVG(EXTRACT(EPOCH FROM (ended_at - started_at))/60.0) AS avg_duration_minutes\n    FROM ds_ga_trips\n    WHERE started_at >= '2021-01-01' AND started_at < '2022-01-01'\n    GROUP BY rideable_type, EXTRACT(QUARTER FROM started_at)\n)\nSELECT \n    q1.rideable_type,\n    q1.trip_count AS q1_trip_count,\n    q4.trip_count AS q4_trip_count,\n    q1.avg_duration_minutes AS q1_avg_duration_min,\n    q4.avg_duration_minutes AS q4_avg_duration_min,\n    (q4.trip_count - q1.trip_count) AS trip_growth,\n    ROUND((q4.trip_count - q1.trip_count) * 100.0 / NULLIF(q1.trip_count,0), 2) AS trip_growth_pct,\n    ROUND(q4.avg_duration_minutes - q1.avg_duration_minutes, 2) AS duration_change_min\nFROM quarterly q1\nJOIN quarterly q4 ON q1.rideable_type = q4.rideable_type AND q4.quarter = 4\nWHERE q1.quarter = 1\nORDER BY trip_growth_pct DESC NULLS LAST;",
+  "execution_time_ms": 16453.0,
+  "row_count": 3,
+  "wall_time_s": 218.3,
+  "dataset": "ga",
+  "tier": "very_complex",
+  "question": "Build a report on usage patterns: how did trip volume and average duration change from Q1 to Q4 2021, broken down by rideable type, and which type drove the growth?",
+  "elapsed_s": 218.4
+ }
+]

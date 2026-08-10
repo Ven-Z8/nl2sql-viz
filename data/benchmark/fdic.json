@@ -1,0 +1,267 @@
+[
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Active Banks 4,254 | Latest Active Banks 1",
+  "metrics": [
+   [
+    "total active_banks",
+    4254.0
+   ],
+   [
+    "latest active_banks",
+    1.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"STNAME\" AS state, COUNT(*) AS active_banks FROM ds_fdic_institutions WHERE \"ACTIVE\" = '1' GROUP BY \"STNAME\" ORDER BY active_banks DESC",
+  "execution_time_ms": 78.0,
+  "row_count": 55,
+  "wall_time_s": 35.2,
+  "dataset": "fdic",
+  "tier": "easy",
+  "question": "How many active banks are there by state?",
+  "elapsed_s": 39.4
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Assets: 26,176,362,198",
+  "metrics": [
+   [
+    "total_assets",
+    26176362198.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT SUM(\"ASSET\") AS total_assets FROM ds_fdic_institutions WHERE \"ACTIVE\" = '1'",
+  "execution_time_ms": 0.0,
+  "row_count": 1,
+  "wall_time_s": 15.5,
+  "dataset": "fdic",
+  "tier": "easy",
+  "question": "What is the total assets of all active banks?",
+  "elapsed_s": 15.5
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Roe 53.35 | Latest Avg Roe 15.65",
+  "metrics": [
+   [
+    "avg_roe",
+    53.35
+   ],
+   [
+    "latest avg_roe",
+    15.65
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT i.\"BKCLASS\", AVG(f.\"ROE\") AS avg_roe FROM ds_fdic_financials AS f JOIN ds_fdic_institutions AS i ON f.\"CERT\" = i.\"CERT\" GROUP BY i.\"BKCLASS\" ORDER BY i.\"BKCLASS\"",
+  "execution_time_ms": 328.0,
+  "row_count": 8,
+  "wall_time_s": 123.1,
+  "dataset": "fdic",
+  "tier": "easy",
+  "question": "What is the average return on equity (ROE) by bank class?",
+  "elapsed_s": 123.1
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Assets: 5,618,796,185",
+  "metrics": [
+   [
+    "total_assets",
+    5618796185.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"STNAME\", SUM(\"ASSET\") AS total_assets FROM ds_fdic_institutions GROUP BY \"STNAME\" ORDER BY total_assets DESC LIMIT 10",
+  "execution_time_ms": 344.0,
+  "row_count": 10,
+  "wall_time_s": 52.8,
+  "dataset": "fdic",
+  "tier": "medium",
+  "question": "Which states have the highest total bank assets?",
+  "elapsed_s": 52.9
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Net Income 117,712.63 | Latest Avg Net Income 19,585.01",
+  "metrics": [
+   [
+    "avg_net_income",
+    117712.63
+   ],
+   [
+    "latest avg_net_income",
+    19585.01
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"BKCLASS\", AVG(\"NETINC\") AS avg_net_income FROM ds_fdic_institutions GROUP BY \"BKCLASS\" ORDER BY \"BKCLASS\"",
+  "execution_time_ms": 31.0,
+  "row_count": 8,
+  "wall_time_s": 31.0,
+  "dataset": "fdic",
+  "tier": "medium",
+  "question": "What is the average net income by bank class?",
+  "elapsed_s": 31.0
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Assets: 18,323,742,227",
+  "metrics": [
+   [
+    "total_assets",
+    18323742227.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH quarterly_assets AS (SELECT DATE_TRUNC('QUARTER', CAST(\"REPDTE\" AS DATE)) AS quarter, SUM(\"ASSET\") AS total_assets FROM ds_fdic_financials WHERE \"ASSET\" IS NOT NULL GROUP BY 1) SELECT CAST(quarter AS DATE) AS quarter, total_assets, LAG(total_assets) OVER (ORDER BY quarter) AS prev_total_assets, total_assets - LAG(total_assets) OVER (ORDER BY quarter) AS change_abs, CASE WHEN LAG(total_assets) OVER (ORDER BY quarter) > 0 THEN (total_assets - LAG(total_assets) OVER (ORDER BY quarter)) * 100.0 / LAG(total_assets) OVER (ORDER BY quarter) ELSE NULL END AS change_pct FROM quarterly_assets ORDER BY quarter",
+  "execution_time_ms": 438.0,
+  "row_count": 20,
+  "wall_time_s": 55.7,
+  "dataset": "fdic",
+  "tier": "medium",
+  "question": "How has total industry assets changed quarter over quarter?",
+  "elapsed_s": 55.7
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Net Income 2,829,139,019 | Latest Net Income 259,667,185 | Total Rolling Avg 4Q 2,546,776,373.17 | Latest Rolling Avg 4Q 162,371,699.5",
+  "metrics": [
+   [
+    "total net_income",
+    2829139019.0
+   ],
+   [
+    "latest net_income",
+    259667185.0
+   ],
+   [
+    "total rolling_avg_4q",
+    2546776373.17
+   ],
+   [
+    "latest rolling_avg_4q",
+    162371699.5
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH quarterly AS (SELECT DATE_TRUNC('QUARTER', TO_DATE(\"REPDTE\", 'YYYYMMDD')) AS quarter, SUM(\"NETINC\") AS net_income FROM ds_fdic_financials WHERE \"REPDTE\" ~ '^[0-9]{8}$' GROUP BY quarter) SELECT quarter, net_income, AVG(net_income) OVER (ORDER BY quarter ROWS BETWEEN 3 PRECEDING AND CURRENT ROW) AS rolling_avg_4q FROM quarterly ORDER BY quarter",
+  "execution_time_ms": 578.0,
+  "row_count": 20,
+  "wall_time_s": 102.3,
+  "dataset": "fdic",
+  "tier": "hard",
+  "question": "Show quarterly industry net income with a 4-quarter rolling average",
+  "elapsed_s": 102.3
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Asset 171,053 | Latest Asset 4,427 | Total Roe 149.48 | Latest Roe 3.14 | Total Roe Per Asset 0.01 | Latest Roe Per Asset 0",
+  "metrics": [
+   [
+    "total ASSET",
+    171053.0
+   ],
+   [
+    "latest ASSET",
+    4427.0
+   ],
+   [
+    "total ROE",
+    149.48
+   ],
+   [
+    "latest ROE",
+    3.14
+   ],
+   [
+    "total roe_per_asset",
+    0.01
+   ],
+   [
+    "latest roe_per_asset",
+    0.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"NAME\", \"ASSET\", \"ROE\", (\"ROE\" / \"ASSET\") AS roe_per_asset FROM ds_fdic_institutions WHERE \"ASSET\" > 0 AND \"ROE\" IS NOT NULL ORDER BY (\"ROE\" / \"ASSET\") DESC LIMIT 10",
+  "execution_time_ms": 78.0,
+  "row_count": 10,
+  "wall_time_s": 99.2,
+  "dataset": "fdic",
+  "tier": "hard",
+  "question": "Which banks have the highest return on equity relative to their asset size?",
+  "elapsed_s": 99.2
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Top10 Share: 0.33",
+  "metrics": [
+   [
+    "top10_share",
+    0.33
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH ranked AS (SELECT \"ASSET\" FROM ds_fdic_institutions ORDER BY \"ASSET\" DESC LIMIT 10) SELECT CAST((SELECT SUM(\"ASSET\") FROM ranked) AS DECIMAL) / NULLIF((SELECT SUM(\"ASSET\") FROM ds_fdic_institutions), 0) AS top10_share",
+  "execution_time_ms": 32.0,
+  "row_count": 1,
+  "wall_time_s": 147.6,
+  "dataset": "fdic",
+  "tier": "hard",
+  "question": "What share of total industry assets do the top 10 banks hold?",
+  "elapsed_s": 151.8
+ },
+ {
+  "success": false,
+  "error": "All planned queries returned zero rows. Try a broader question.",
+  "wall_time_s": 154.2,
+  "dataset": "fdic",
+  "tier": "very_complex",
+  "question": "Compare 2020 vs 2024 bank profitability: how did ROE and net income change by bank class, which classes improved most, and what drove the change?",
+  "elapsed_s": 158.3
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Build a report on bank health: which states have the highest share of banks with negative net income, and how did that change from 2020 to 2024?",
+  "metrics": [
+   [
+    "total num_banks",
+    4203.0
+   ],
+   [
+    "latest num_banks",
+    1.0
+   ],
+   [
+    "total num_banks",
+    4240.0
+   ],
+   [
+    "latest num_banks",
+    1.0
+   ]
+  ],
+  "sections": 2,
+  "sql": "SELECT i.\"STNAME\", COUNT(DISTINCT f.\"CERT\") AS num_banks FROM ds_fdic_financials AS f JOIN ds_fdic_institutions AS i ON f.\"CERT\" = i.\"CERT\" WHERE f.\"REPDTE\" LIKE '2024%' GROUP BY i.\"STNAME\" ORDER BY num_banks DESC",
+  "execution_time_ms": 188.0,
+  "row_count": 55,
+  "wall_time_s": 193.8,
+  "dataset": "fdic",
+  "tier": "very_complex",
+  "question": "Build a report on bank health: which states have the highest share of banks with negative net income, and how did that change from 2020 to 2024?",
+  "elapsed_s": 197.8
+ }
+]

@@ -1,0 +1,334 @@
+[
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Volume -4,832,032.2 | Latest Total Volume -2,209,255.43",
+  "metrics": [
+   [
+    "total_volume",
+    -4832032.2
+   ],
+   [
+    "latest total_volume",
+    -2209255.43
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT category, SUM(amount) AS total_volume FROM ds_finance_transactions GROUP BY category ORDER BY total_volume DESC;",
+  "execution_time_ms": 485.0,
+  "row_count": 8,
+  "wall_time_s": 55.7,
+  "dataset": "finance",
+  "tier": "easy",
+  "question": "What is the total transaction volume by category?",
+  "elapsed_s": 59.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Balance 199,886.45 | Latest Avg Balance 50,090.56",
+  "metrics": [
+   [
+    "avg_balance",
+    199886.45
+   ],
+   [
+    "latest avg_balance",
+    50090.56
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT account_type, AVG(balance) AS avg_balance FROM ds_finance_accounts GROUP BY account_type ORDER BY account_type;",
+  "execution_time_ms": 640.0,
+  "row_count": 4,
+  "wall_time_s": 32.2,
+  "dataset": "finance",
+  "tier": "easy",
+  "question": "What is the average account balance by account type?",
+  "elapsed_s": 32.2
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Loan Count: 18,033",
+  "metrics": [
+   [
+    "loan_count",
+    18033.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT status, COUNT(*) AS loan_count\nFROM ds_finance_loans\nGROUP BY status\nORDER BY status;",
+  "execution_time_ms": 156.0,
+  "row_count": 3,
+  "wall_time_s": 38.3,
+  "dataset": "finance",
+  "tier": "easy",
+  "question": "How many loans are there per status?",
+  "elapsed_s": 38.3
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Amount -96.9 | Latest Avg Amount -8.21",
+  "metrics": [
+   [
+    "avg_amount",
+    -96.9
+   ],
+   [
+    "latest avg_amount",
+    -8.21
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT category, status, AVG(amount) AS avg_amount\nFROM ds_finance_transactions\nGROUP BY category, status\nORDER BY category, status;",
+  "execution_time_ms": 968.0,
+  "row_count": 24,
+  "wall_time_s": 29.9,
+  "dataset": "finance",
+  "tier": "medium",
+  "question": "What is the average transaction amount by category and status?",
+  "elapsed_s": 29.9
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Loan Amount 7,486,587,178.71 | Latest Total Loan Amount 1,850,895,267.3",
+  "metrics": [
+   [
+    "total_loan_amount",
+    7486587178.71
+   ],
+   [
+    "latest total_loan_amount",
+    1850895267.3
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT c.segment, SUM(l.amount) AS total_loan_amount\nFROM ds_finance_loans l\nJOIN ds_finance_customers c ON l.customer_id = c.customer_id\nGROUP BY c.segment\nORDER BY total_loan_amount DESC;",
+  "execution_time_ms": 3531.0,
+  "row_count": 4,
+  "wall_time_s": 36.7,
+  "dataset": "finance",
+  "tier": "medium",
+  "question": "What is the total loan amount by customer segment?",
+  "elapsed_s": 36.7
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Transaction Count 800,000 | Latest Transaction Count 199,039",
+  "metrics": [
+   [
+    "total transaction_count",
+    800000.0
+   ],
+   [
+    "latest transaction_count",
+    199039.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT a.account_type,\n       COUNT(t.transaction_id) AS transaction_count\nFROM ds_finance_accounts a\nJOIN ds_finance_transactions t ON a.account_id = t.account_id\nGROUP BY a.account_type\nORDER BY transaction_count DESC\nLIMIT 10;",
+  "execution_time_ms": 4109.0,
+  "row_count": 4,
+  "wall_time_s": 82.8,
+  "dataset": "finance",
+  "tier": "medium",
+  "question": "Which account types have the highest transaction activity?",
+  "elapsed_s": 82.8
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Net Cash Flow -4,832,032.2 | Latest Net Cash Flow -26,395.95 | Total Rolling 3M Avg -5,256,702.75 | Latest Rolling 3M Avg 29,985.71",
+  "metrics": [
+   [
+    "total net_cash_flow",
+    -4832032.2
+   ],
+   [
+    "latest net_cash_flow",
+    -26395.95
+   ],
+   [
+    "total rolling_3m_avg",
+    -5256702.75
+   ],
+   [
+    "latest rolling_3m_avg",
+    29985.71
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH monthly AS (\n  SELECT \n    date_trunc('month', transaction_date) AS month,\n    category,\n    SUM(amount) AS net_cash_flow\n  FROM ds_finance_transactions\n  GROUP BY date_trunc('month', transaction_date), category\n)\nSELECT \n  month,\n  category,\n  net_cash_flow,\n  AVG(net_cash_flow) OVER (PARTITION BY category ORDER BY month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_3m_avg\nFROM monthly\nORDER BY category, month;",
+  "execution_time_ms": 328.0,
+  "row_count": 192,
+  "wall_time_s": 58.8,
+  "dataset": "finance",
+  "tier": "hard",
+  "question": "Show monthly net cash flow with a 3-month rolling average by category",
+  "elapsed_s": 58.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: What is the loan default rate by segment, and how does it correlate with interest rate?",
+  "metrics": [
+   [
+    "total_loans",
+    30000.0
+   ],
+   [
+    "latest total_loans",
+    7417.0
+   ],
+   [
+    "avg_interest_rate",
+    35.9
+   ],
+   [
+    "latest avg_interest_rate",
+    8.97
+   ]
+  ],
+  "sections": 2,
+  "sql": "SELECT c.segment, AVG(l.interest_rate) AS avg_interest_rate\nFROM ds_finance_loans l\nJOIN ds_finance_customers c ON l.customer_id = c.customer_id\nGROUP BY c.segment",
+  "execution_time_ms": 1516.0,
+  "row_count": 4,
+  "wall_time_s": 164.0,
+  "dataset": "finance",
+  "tier": "hard",
+  "question": "What is the loan default rate by segment, and how does it correlate with interest rate?",
+  "elapsed_s": 164.0
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Transaction Volume: 88,031.96",
+  "metrics": [
+   [
+    "total_transaction_volume",
+    88031.96
+   ],
+   [
+    "num_accounts",
+    8.0
+   ],
+   [
+    "total_balance",
+    454542.61
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH customer_volume AS (\n    SELECT \n        a.customer_id,\n        SUM(t.amount) AS total_transaction_volume\n    FROM ds_finance_transactions t\n    JOIN ds_finance_accounts a ON t.account_id = a.account_id\n    GROUP BY a.customer_id\n),\naccount_profile AS (\n    SELECT \n        customer_id,\n        COUNT(*) AS num_accounts,\n        SUM(balance) AS total_balance,\n        STRING_AGG(DISTINCT account_type, ', ' ORDER BY account_type) AS account_types\n    FROM ds_finance_accounts\n    GROUP BY customer_id\n)\nSELECT \n    c.customer_id,\n    c.name,\n    c.segment,\n    c.region,\n    cv.total_transaction_volume,\n    ap.num_accounts,\n    ap.total_balance,\n    ap.account_types\nFROM customer_volume cv\nJOIN ds_finance_customers c ON cv.customer_id = c.customer_id\nLEFT JOIN account_profile ap ON cv.customer_id = ap.customer_id\nORDER BY cv.total_transaction_volume DESC\nLIMIT 10;",
+  "execution_time_ms": 5891.0,
+  "row_count": 10,
+  "wall_time_s": 90.0,
+  "dataset": "finance",
+  "tier": "hard",
+  "question": "Which customers have the highest total transaction volume, and what is their account profile?",
+  "elapsed_s": 94.2
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare Q4 vs Q3 revenue by region, identify the top 3 growth categories, and explain the driver behind the growth",
+  "metrics": [
+   [
+    "total most_recent_year",
+    2024.0
+   ],
+   [
+    "total_amount",
+    -917853.97
+   ],
+   [
+    "latest total_amount",
+    -53182.3
+   ],
+   [
+    "total_amount",
+    105518.92
+   ],
+   [
+    "latest total_amount",
+    -23677.23
+   ]
+  ],
+  "sections": 3,
+  "sql": "SELECT c.region, t.category, SUM(t.amount) AS total_amount\nFROM ds_finance_transactions t\nJOIN ds_finance_accounts a ON t.account_id = a.account_id\nJOIN ds_finance_customers c ON a.customer_id = c.customer_id\nWHERE EXTRACT(YEAR FROM t.transaction_date) = (\n    SELECT EXTRACT(YEAR FROM MAX(transaction_date))::int FROM ds_finance_transactions\n)\n  AND EXTRACT(MONTH FROM t.transaction_date) BETWEEN 10 AND 12\nGROUP BY c.region, t.category",
+  "execution_time_ms": 938.0,
+  "row_count": 32,
+  "wall_time_s": 299.2,
+  "dataset": "finance",
+  "tier": "very_complex",
+  "question": "Compare Q4 vs Q3 revenue by region, identify the top 3 growth categories, and explain the driver behind the growth",
+  "elapsed_s": 299.2
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Term Months 720 | Latest Term Months 48 | Total Loans 30,000 | Latest Total Loans 1,441 | Total Default Loans 0 | Latest Default Loans 0 | Total Default Rate Pct 0 | Latest Default Rate Pct 0",
+  "metrics": [
+   [
+    "total term_months",
+    720.0
+   ],
+   [
+    "latest term_months",
+    48.0
+   ],
+   [
+    "total_loans",
+    30000.0
+   ],
+   [
+    "latest total_loans",
+    1441.0
+   ],
+   [
+    "total default_loans",
+    0.0
+   ],
+   [
+    "latest default_loans",
+    0.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH loan_segment AS (\n  SELECT l.customer_id, l.term_months, l.status, c.segment\n  FROM ds_finance_loans l\n  JOIN ds_finance_customers c ON l.customer_id = c.customer_id\n)\nSELECT segment,\n       term_months,\n       COUNT(*) AS total_loans,\n       COUNT(*) FILTER (WHERE status = 'default') AS default_loans,\n       ROUND(100.0 * COUNT(*) FILTER (WHERE status = 'default') / COUNT(*), 2) AS default_rate_pct\nFROM loan_segment\nGROUP BY segment, term_months\nORDER BY default_rate_pct DESC, total_loans DESC",
+  "execution_time_ms": 2187.0,
+  "row_count": 20,
+  "wall_time_s": 145.9,
+  "dataset": "finance",
+  "tier": "very_complex",
+  "question": "Build a report on loan risk: what is the default rate by segment and term, and which combination poses the highest risk to the bank?",
+  "elapsed_s": 145.9
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Net Revenue -4,832,032.2 | Latest Net Revenue -1,728,106.64",
+  "metrics": [
+   [
+    "total net_revenue",
+    -4832032.2
+   ],
+   [
+    "latest net_revenue",
+    -1728106.64
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT c.segment, c.region, SUM(t.amount) AS net_revenue FROM ds_finance_customers c JOIN ds_finance_accounts a ON c.customer_id = a.customer_id JOIN ds_finance_transactions t ON a.account_id = t.account_id GROUP BY c.segment, c.region ORDER BY net_revenue DESC;",
+  "execution_time_ms": 969.0,
+  "row_count": 16,
+  "wall_time_s": 1309.4,
+  "dataset": "finance",
+  "tier": "very_complex",
+  "question": "Analyze customer profitability: which segments generate the most net revenue (deposits minus withdrawals), and how does it vary by region?",
+  "elapsed_s": 1309.4
+ }
+]

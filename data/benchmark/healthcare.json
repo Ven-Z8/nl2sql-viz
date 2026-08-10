@@ -1,0 +1,362 @@
+[
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Encounter Count: 28,747",
+  "metrics": [
+   [
+    "encounter_count",
+    28747.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT department, COUNT(*) AS encounter_count FROM ds_healthcare_encounters GROUP BY department ORDER BY encounter_count DESC;",
+  "execution_time_ms": 1329.0,
+  "row_count": 7,
+  "wall_time_s": 18.3,
+  "dataset": "healthcare",
+  "tier": "easy",
+  "question": "How many encounters are there per department?",
+  "elapsed_s": 22.4
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Length Of Stay 52.48 | Latest Avg Length Of Stay 10.44",
+  "metrics": [
+   [
+    "avg_length_of_stay",
+    52.48
+   ],
+   [
+    "latest avg_length_of_stay",
+    10.44
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT payer, AVG(length_of_stay_days) AS avg_length_of_stay\nFROM ds_healthcare_encounters\nGROUP BY payer\nORDER BY payer;",
+  "execution_time_ms": 125.0,
+  "row_count": 5,
+  "wall_time_s": 37.6,
+  "dataset": "healthcare",
+  "tier": "easy",
+  "question": "What is the average length of stay by payer?",
+  "elapsed_s": 37.6
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Cost 5,044,720,653.72 | Latest Total Cost 728,069,580.72",
+  "metrics": [
+   [
+    "total_cost",
+    5044720653.72
+   ],
+   [
+    "latest total_cost",
+    728069580.72
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT e.department, SUM(p.cost) AS total_cost FROM ds_healthcare_procedures p JOIN ds_healthcare_encounters e ON p.encounter_id = e.encounter_id GROUP BY e.department",
+  "execution_time_ms": 2188.0,
+  "row_count": 7,
+  "wall_time_s": 20.3,
+  "dataset": "healthcare",
+  "tier": "easy",
+  "question": "What is the total procedure cost by department?",
+  "elapsed_s": 20.4
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Encounters 200,000 | Latest Total Encounters 28,699 | Total Readmissions 40,632 | Latest Readmissions 5,888 | Total Readmission Rate Pct 142.21 | Latest Readmission Rate Pct 20.52",
+  "metrics": [
+   [
+    "total_encounters",
+    200000.0
+   ],
+   [
+    "latest total_encounters",
+    28699.0
+   ],
+   [
+    "total readmissions",
+    40632.0
+   ],
+   [
+    "latest readmissions",
+    5888.0
+   ],
+   [
+    "total readmission_rate_pct",
+    142.21
+   ],
+   [
+    "latest readmission_rate_pct",
+    20.52
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH encounter_with_next AS (\n  SELECT \n    e.department,\n    e.encounter_id,\n    e.patient_id,\n    e.discharge_date,\n    LEAD(e.admission_date) OVER (PARTITION BY e.patient_id ORDER BY e.admission_date) AS next_admission_date\n  FROM ds_healthcare_encounters e\n),\nreadmission_flags AS (\n  SELECT \n    department,\n    encounter_id,\n    CASE \n      WHEN next_admission_date IS NOT NULL \n           AND next_admission_date <= discharge_date + 30 \n      THEN 1 ELSE 0 \n    END AS is_readmission\n  FROM encounter_with_next\n)\nSELECT \n  department,\n  COUNT(*) AS total_encounters,\n  SUM(is_readmission) AS readmissions,\n  (SUM(is_readmission) * 100.0 / COUNT(*)) AS readmission_rate_pct\nFROM readmission_flags\nGROUP BY department\nORDER BY department;",
+  "execution_time_ms": 1516.0,
+  "row_count": 7,
+  "wall_time_s": 255.0,
+  "dataset": "healthcare",
+  "tier": "medium",
+  "question": "What is the readmission rate by department?",
+  "elapsed_s": 255.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Cost Per Encounter 113,499.62 | Latest Avg Cost Per Encounter 37,795.49",
+  "metrics": [
+   [
+    "avg_cost_per_encounter",
+    113499.62
+   ],
+   [
+    "latest avg_cost_per_encounter",
+    37795.49
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH encounter_cost AS (\n    SELECT encounter_id, SUM(cost) AS total_cost\n    FROM ds_healthcare_procedures\n    GROUP BY encounter_id\n)\nSELECT d.severity, AVG(ec.total_cost) AS avg_cost_per_encounter\nFROM ds_healthcare_diagnoses d\nJOIN encounter_cost ec ON d.encounter_id = ec.encounter_id\nGROUP BY d.severity;",
+  "execution_time_ms": 750.0,
+  "row_count": 3,
+  "wall_time_s": 204.2,
+  "dataset": "healthcare",
+  "tier": "medium",
+  "question": "What is the average cost per encounter by diagnosis severity?",
+  "elapsed_s": 208.3
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Procedure Cost Per Patient 318,214.59 | Latest Avg Procedure Cost Per Patient 45,237.09",
+  "metrics": [
+   [
+    "avg_procedure_cost_per_patient",
+    318214.59
+   ],
+   [
+    "latest avg_procedure_cost_per_patient",
+    45237.09
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT department, AVG(patient_cost) AS avg_procedure_cost_per_patient\nFROM (\n    SELECT e.patient_id, e.department, SUM(p.cost) AS patient_cost\n    FROM ds_healthcare_procedures p\n    JOIN ds_healthcare_encounters e ON p.encounter_id = e.encounter_id\n    GROUP BY e.patient_id, e.department\n) sub\nGROUP BY department\nORDER BY avg_procedure_cost_per_patient DESC;",
+  "execution_time_ms": 1360.0,
+  "row_count": 7,
+  "wall_time_s": 228.0,
+  "dataset": "healthcare",
+  "tier": "medium",
+  "question": "Which departments have the highest procedure costs per patient?",
+  "elapsed_s": 228.0
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Admissions 200,000 | Latest Admissions 37 | Total Rolling 3Mo Avg 205,621.33 | Latest Rolling 3Mo Avg 836.67",
+  "metrics": [
+   [
+    "total admissions",
+    200000.0
+   ],
+   [
+    "latest admissions",
+    37.0
+   ],
+   [
+    "total rolling_3mo_avg",
+    205621.33
+   ],
+   [
+    "latest rolling_3mo_avg",
+    836.67
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH monthly AS (\n  SELECT\n    department,\n    date_trunc('month', admission_date) AS month,\n    COUNT(*) AS admissions\n  FROM ds_healthcare_encounters\n  GROUP BY department, date_trunc('month', admission_date)\n)\nSELECT\n  department,\n  month,\n  admissions,\n  AVG(admissions) OVER (\n    PARTITION BY department\n    ORDER BY month\n    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW\n  ) AS rolling_3mo_avg\nFROM monthly\nORDER BY department, month",
+  "execution_time_ms": 156.0,
+  "row_count": 168,
+  "wall_time_s": 65.2,
+  "dataset": "healthcare",
+  "tier": "hard",
+  "question": "Show monthly admissions with a 3-month rolling average by department",
+  "elapsed_s": 65.3
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Length Of Stay 104.9 | Latest Avg Length Of Stay 10.53",
+  "metrics": [
+   [
+    "avg_length_of_stay",
+    104.9
+   ],
+   [
+    "latest avg_length_of_stay",
+    10.53
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT CASE WHEN p.age BETWEEN 0 AND 18 THEN '0-18' WHEN p.age BETWEEN 19 AND 35 THEN '19-35' WHEN p.age BETWEEN 36 AND 50 THEN '36-50' WHEN p.age BETWEEN 51 AND 65 THEN '51-65' ELSE '66+' END AS age_group, p.gender, ROUND(AVG(e.length_of_stay_days)::numeric, 2) AS avg_length_of_stay FROM ds_healthcare_patients p JOIN ds_healthcare_encounters e ON p.patient_id = e.patient_id GROUP BY age_group, p.gender ORDER BY age_group, p.gender;",
+  "execution_time_ms": 203.0,
+  "row_count": 10,
+  "wall_time_s": 62.5,
+  "dataset": "healthcare",
+  "tier": "hard",
+  "question": "What is the average length of stay by age group, and how does it vary by gender?",
+  "elapsed_s": 62.5
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Report: Which patients have the highest total healthcare cost, and what is their diagnosis profile?",
+  "metrics": [
+   [
+    "total_cost",
+    656555.02
+   ],
+   [
+    "diagnosis_count",
+    1.0
+   ],
+   [
+    "severity_count",
+    1.0
+   ]
+  ],
+  "sections": 3,
+  "sql": "SELECT\n    p.patient_id,\n    p.name,\n    d.severity,\n    COUNT(*) AS severity_count\nFROM ds_healthcare_patients p\nJOIN ds_healthcare_encounters e ON p.patient_id = e.patient_id\nJOIN ds_healthcare_diagnoses d ON e.encounter_id = d.encounter_id\nGROUP BY p.patient_id, p.name, d.severity\nORDER BY p.patient_id, d.severity\nLIMIT 1000;",
+  "execution_time_ms": 1094.0,
+  "row_count": 1000,
+  "wall_time_s": 381.0,
+  "dataset": "healthcare",
+  "tier": "hard",
+  "question": "Which patients have the highest total healthcare cost, and what is their diagnosis profile?",
+  "elapsed_s": 381.1
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare Q4 vs Q3 admissions by department, identify the departments with the largest growth, and explain the payer mix behind the change",
+  "metrics": [
+   [
+    "total admissions_q4",
+    17736.0
+   ],
+   [
+    "latest admissions_q4",
+    2510.0
+   ],
+   [
+    "total admissions_q3",
+    26334.0
+   ],
+   [
+    "latest admissions_q3",
+    3628.0
+   ],
+   [
+    "total admissions_q4",
+    17736.0
+   ],
+   [
+    "latest admissions_q4",
+    3490.0
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT\n  payer,\n  COUNT(*) AS admissions_q3\nFROM ds_healthcare_encounters\nWHERE EXTRACT(YEAR FROM admission_date) = (\n    SELECT MAX(EXTRACT(YEAR FROM admission_date)) FROM ds_healthcare_encounters\n)\n  AND EXTRACT(QUARTER FROM admission_date) = 3\nGROUP BY payer\nORDER BY admissions_q3 DESC;",
+  "execution_time_ms": 188.0,
+  "row_count": 5,
+  "wall_time_s": 70.5,
+  "dataset": "healthcare",
+  "tier": "very_complex",
+  "question": "Compare Q4 vs Q3 admissions by department, identify the departments with the largest growth, and explain the payer mix behind the change",
+  "elapsed_s": 70.5
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Build a report on readmissions: what percentage of patients are readmitted within 30 days, broken down by department and severity, and which department has the worst readmission profile?",
+  "metrics": [
+   [
+    "total_encounters",
+    318230.0
+   ],
+   [
+    "latest total_encounters",
+    15009.0
+   ],
+   [
+    "total readmission_count",
+    48754.0
+   ],
+   [
+    "latest readmission_count",
+    2354.0
+   ],
+   [
+    "total readmission_count",
+    48754.0
+   ],
+   [
+    "latest readmission_count",
+    2354.0
+   ]
+  ],
+  "sections": 3,
+  "sql": "SELECT\n    e.department,\n    d.severity,\n    COUNT(DISTINCT e.encounter_id) AS readmission_count\nFROM ds_healthcare_encounters e\nJOIN ds_healthcare_diagnoses d\n    ON e.encounter_id = d.encounter_id\nWHERE EXISTS (\n    SELECT 1\n    FROM ds_healthcare_encounters prev\n    WHERE prev.patient_id = e.patient_id\n      AND prev.discharge_date < e.admission_date\n      AND prev.discharge_date >= e.admission_date - INTERVAL '30 days'\n)\nGROUP BY e.department, d.severity\nORDER BY e.department, d.severity;",
+  "execution_time_ms": 719.0,
+  "row_count": 21,
+  "wall_time_s": 390.3,
+  "dataset": "healthcare",
+  "tier": "very_complex",
+  "question": "Build a report on readmissions: what percentage of patients are readmitted within 30 days, broken down by department and severity, and which department has the worst readmission profile?",
+  "elapsed_s": 390.3
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Analyze cost drivers: how do procedure costs vary by department and severity, and which combination drives the highest total cost per encounter?",
+  "metrics": [
+   [
+    "avg_cost",
+    176695.4
+   ],
+   [
+    "latest avg_cost",
+    25154.43
+   ],
+   [
+    "avg_cost",
+    75712.49
+   ],
+   [
+    "latest avg_cost",
+    25212.09
+   ],
+   [
+    "avg_cost",
+    529989.92
+   ],
+   [
+    "latest avg_cost",
+    25025.41
+   ]
+  ],
+  "sections": 4,
+  "sql": "WITH encounter_costs AS (     SELECT encounter_id, SUM(cost) AS total_cost     FROM ds_healthcare_procedures     GROUP BY encounter_id ) SELECT e.department, es.severity, AVG(ec.total_cost) AS avg_total_cost_per_encounter FROM encounter_costs ec JOIN ds_healthcare_encounters e ON ec.encounter_id = e.encounter_id JOIN (SELECT DISTINCT encounter_id, severity FROM ds_healthcare_diagnoses) es ON ec.encounter_id = es.encounter_id GROUP BY e.department, es.severity ORDER BY avg_total_cost_per_encounter DESC;",
+  "execution_time_ms": 1500.0,
+  "row_count": 21,
+  "wall_time_s": 160.5,
+  "dataset": "healthcare",
+  "tier": "very_complex",
+  "question": "Analyze cost drivers: how do procedure costs vary by department and severity, and which combination drives the highest total cost per encounter?",
+  "elapsed_s": 160.5
+ }
+]

@@ -1,0 +1,310 @@
+[
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Population: 39,068,979",
+  "metrics": [
+   [
+    "total_population",
+    39068979.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT c.country_name, v.value AS total_population\nFROM ds_worldbank_values v\nJOIN ds_worldbank_countries c ON v.country_code = c.country_code\nJOIN ds_worldbank_indicators i ON v.indicator_code = i.indicator_code\nWHERE v.year = 2020 AND i.indicator_name = 'Population, total'\nORDER BY c.country_name;",
+  "execution_time_ms": 234.0,
+  "row_count": 217,
+  "wall_time_s": 51.2,
+  "dataset": "worldbank",
+  "tier": "easy",
+  "question": "What is the total population of each country in 2020?",
+  "elapsed_s": 55.6
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Gdp Per Capita: 510.79",
+  "metrics": [
+   [
+    "gdp_per_capita",
+    510.79
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT c.country_name,\n       v.value AS gdp_per_capita\nFROM ds_worldbank_values v\nJOIN ds_worldbank_countries c ON c.country_code = v.country_code\nWHERE v.indicator_code = 'NY.GDP.PCAP.CD'\n  AND v.year = 2020\nORDER BY c.country_name;",
+  "execution_time_ms": 62.0,
+  "row_count": 210,
+  "wall_time_s": 31.7,
+  "dataset": "worldbank",
+  "tier": "easy",
+  "question": "What is the GDP per capita of each country in 2020?",
+  "elapsed_s": 31.7
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Country Count: 37",
+  "metrics": [
+   [
+    "country_count",
+    37.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT region, COUNT(*) AS country_count FROM ds_worldbank_countries GROUP BY region ORDER BY region;",
+  "execution_time_ms": 469.0,
+  "row_count": 7,
+  "wall_time_s": 68.6,
+  "dataset": "worldbank",
+  "tier": "easy",
+  "question": "How many countries are there per region?",
+  "elapsed_s": 68.6
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Which countries had the highest GDP growth in 2020?",
+  "metrics": [
+   [
+    "total value",
+    -1109.35
+   ],
+   [
+    "latest value",
+    -7.82
+   ],
+   [
+    "total value",
+    116.7
+   ],
+   [
+    "latest value",
+    4.4
+   ]
+  ],
+  "sections": 3,
+  "sql": "SELECT c.country_name, v.value\nFROM ds_worldbank_values v\nJOIN ds_worldbank_countries c ON v.country_code = c.country_code\nWHERE v.indicator_code = 'NY.GDP.MKTP.KD.ZG' AND v.year = 2020\nORDER BY v.value DESC\nLIMIT 10;",
+  "execution_time_ms": 1157.0,
+  "row_count": 10,
+  "wall_time_s": 175.7,
+  "dataset": "worldbank",
+  "tier": "medium",
+  "question": "Which countries had the highest GDP growth in 2020?",
+  "elapsed_s": 175.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Life Expectancy 515.17 | Latest Avg Life Expectancy 62.98",
+  "metrics": [
+   [
+    "avg_life_expectancy",
+    515.17
+   ],
+   [
+    "latest avg_life_expectancy",
+    62.98
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT c.region, AVG(v.value) AS avg_life_expectancy\nFROM ds_worldbank_values v\nJOIN ds_worldbank_countries c ON v.country_code = c.country_code\nJOIN ds_worldbank_indicators i ON v.indicator_code = i.indicator_code\nWHERE v.year = 2020\n  AND i.indicator_name ILIKE '%life expectancy%'\nGROUP BY c.region\nORDER BY c.region;",
+  "execution_time_ms": 78.0,
+  "row_count": 7,
+  "wall_time_s": 56.9,
+  "dataset": "worldbank",
+  "tier": "medium",
+  "question": "What is the average life expectancy by region in 2020?",
+  "elapsed_s": 57.0
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Year 127,456 | Latest Year 2,023 | Total Global Population 348,104,678,881 | Latest Global Population 8,039,550,134",
+  "metrics": [
+   [
+    "total year",
+    127456.0
+   ],
+   [
+    "latest year",
+    2023.0
+   ],
+   [
+    "total global_population",
+    348104678881.0
+   ],
+   [
+    "latest global_population",
+    8039550134.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT year, SUM(value) AS global_population\nFROM ds_worldbank_values\nWHERE indicator_code = 'SP.POP.TOTL'\nGROUP BY year\nORDER BY year;",
+  "execution_time_ms": 156.0,
+  "row_count": 64,
+  "wall_time_s": 79.1,
+  "dataset": "worldbank",
+  "tier": "medium",
+  "question": "How has the global population changed over time?",
+  "elapsed_s": 79.1
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Year 637,280 | Latest Year 2,023 | Total Gdp Per Capita 5,069,789.21 | Latest Gdp Per Capita 82,586.78 | Total Rolling Avg 3Yr 4,889,615.2 | Latest Rolling Avg 3Yr 77,345.57",
+  "metrics": [
+   [
+    "total year",
+    637280.0
+   ],
+   [
+    "latest year",
+    2023.0
+   ],
+   [
+    "total gdp_per_capita",
+    5069789.21
+   ],
+   [
+    "latest gdp_per_capita",
+    82586.78
+   ],
+   [
+    "total rolling_avg_3yr",
+    4889615.2
+   ],
+   [
+    "latest rolling_avg_3yr",
+    77345.57
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH latest_year AS (\n    SELECT MAX(year) AS max_year\n    FROM ds_worldbank_values\n    WHERE indicator_code = 'NY.GDP.MKTP.CD'\n),\ntop5 AS (\n    SELECT country_code\n    FROM ds_worldbank_values\n    WHERE indicator_code = 'NY.GDP.MKTP.CD'\n      AND year = (SELECT max_year FROM latest_year)\n    ORDER BY value DESC\n    LIMIT 5\n)\nSELECT v.country_code, v.year, v.value AS gdp_per_capita,\n       AVG(v.value) OVER (PARTITION BY v.country_code ORDER BY v.year ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_avg_3yr\nFROM ds_worldbank_values v\nJOIN top5 t ON v.country_code = t.country_code\nWHERE v.indicator_code = 'NY.GDP.PCAP.CD'\nORDER BY v.country_code, v.year;",
+  "execution_time_ms": 406.0,
+  "row_count": 320,
+  "wall_time_s": 517.8,
+  "dataset": "worldbank",
+  "tier": "hard",
+  "question": "Show the GDP per capita trend for the top 5 economies with a 3-year rolling average",
+  "elapsed_s": 522.0
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Report: What is the relationship between internet usage and GDP per capita?",
+  "metrics": [
+   [
+    "avg_internet_usage",
+    58.26
+   ],
+   [
+    "avg_gdp_per_capita",
+    24569.28
+   ]
+  ],
+  "sections": 3,
+  "sql": "SELECT v.country_code, AVG(v.value) AS avg_gdp_per_capita\nFROM ds_worldbank_values v\nJOIN ds_worldbank_indicators i ON v.indicator_code = i.indicator_code\nWHERE i.indicator_name ILIKE '%GDP per capita%'\nGROUP BY v.country_code\nORDER BY v.country_code;",
+  "execution_time_ms": 297.0,
+  "row_count": 214,
+  "wall_time_s": 225.9,
+  "dataset": "worldbank",
+  "tier": "hard",
+  "question": "What is the relationship between internet usage and GDP per capita?",
+  "elapsed_s": 230.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Gini Index 531.5 | Latest Gini Index 49.6 | Total Year 20,195 | Latest Year 2,022",
+  "metrics": [
+   [
+    "total gini_index",
+    531.5
+   ],
+   [
+    "latest gini_index",
+    49.6
+   ],
+   [
+    "total year",
+    20195.0
+   ],
+   [
+    "latest year",
+    2022.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH latest_gini AS (\n    SELECT DISTINCT ON (v.country_code) v.country_code, v.value, v.year\n    FROM ds_worldbank_values v\n    JOIN ds_worldbank_indicators i ON v.indicator_code = i.indicator_code\n    WHERE i.indicator_name ILIKE '%gini%'\n    ORDER BY v.country_code, v.year DESC\n)\nSELECT c.country_name, lg.value AS gini_index, lg.year\nFROM latest_gini lg\nJOIN ds_worldbank_countries c ON lg.country_code = c.country_code\nORDER BY lg.value DESC\nLIMIT 10;",
+  "execution_time_ms": 47.0,
+  "row_count": 10,
+  "wall_time_s": 50.4,
+  "dataset": "worldbank",
+  "tier": "hard",
+  "question": "Which countries have the highest income inequality (Gini index)?",
+  "elapsed_s": 50.4
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare high-income vs low-income countries: how do life expectancy, internet usage, and fossil fuel consumption differ, and which indicators show the biggest gap?",
+  "metrics": [
+   [
+    "avg_fossil_fuel_consumption",
+    75.04
+   ],
+   [
+    "latest avg_fossil_fuel_consumption",
+    18.75
+   ]
+  ],
+  "sections": 1,
+  "sql": "SELECT c.income_level, AVG(v.value) AS avg_fossil_fuel_consumption\nFROM ds_worldbank_countries c\nJOIN ds_worldbank_values v ON c.country_code = v.country_code\nJOIN ds_worldbank_indicators i ON v.indicator_code = i.indicator_code\nWHERE c.income_level IN ('High income', 'Low income')\n  AND i.indicator_name = 'Fossil fuel energy consumption (% of total)'\nGROUP BY c.income_level;",
+  "execution_time_ms": 157.0,
+  "row_count": 2,
+  "wall_time_s": 84.7,
+  "dataset": "worldbank",
+  "tier": "very_complex",
+  "question": "Compare high-income vs low-income countries: how do life expectancy, internet usage, and fossil fuel consumption differ, and which indicators show the biggest gap?",
+  "elapsed_s": 84.7
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Build a report on economic growth: which countries grew fastest from 2000 to 2020, what are their common characteristics, and how did their inflation and unemployment compare?",
+  "metrics": [
+   [
+    "total gdp_percent_change",
+    61234.67
+   ],
+   [
+    "latest gdp_percent_change",
+    -63.43
+   ],
+   [
+    "avg_inflation_rate",
+    1326.1
+   ],
+   [
+    "latest avg_inflation_rate",
+    2.23
+   ],
+   [
+    "avg_unemployment_rate",
+    1524.43
+   ],
+   [
+    "latest avg_unemployment_rate",
+    4.38
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT\n    v.country_code,\n    c.country_name,\n    AVG(v.value) AS avg_unemployment_rate\nFROM ds_worldbank_values v\nJOIN ds_worldbank_countries c ON v.country_code = c.country_code\nWHERE\n    v.indicator_code = 'SL.UEM.TOTL.ZS'\n    AND v.year BETWEEN 2000 AND 2020\nGROUP BY v.country_code, c.country_name;\n",
+  "execution_time_ms": 281.0,
+  "row_count": 187,
+  "wall_time_s": 235.4,
+  "dataset": "worldbank",
+  "tier": "very_complex",
+  "question": "Build a report on economic growth: which countries grew fastest from 2000 to 2020, what are their common characteristics, and how did their inflation and unemployment compare?",
+  "elapsed_s": 239.5
+ }
+]

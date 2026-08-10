@@ -1,0 +1,378 @@
+[
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Average Income 2,001,494.44 | Latest Average Income 250,411.98",
+  "metrics": [
+   [
+    "average_income",
+    2001494.44
+   ],
+   [
+    "latest average_income",
+    250411.98
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT r.state AS state, AVG(i.income) AS average_income\nFROM ds_demographics_census_individuals i\nJOIN ds_demographics_census_households h ON i.household_id = h.household_id\nJOIN ds_demographics_census_regions r ON h.region_id = r.region_id\nGROUP BY r.state\nORDER BY r.state;",
+  "execution_time_ms": 750.0,
+  "row_count": 8,
+  "wall_time_s": 83.9,
+  "dataset": "demographics_census",
+  "tier": "easy",
+  "question": "What is the average income by state?",
+  "elapsed_s": 88.0
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Individual Count: 49,835",
+  "metrics": [
+   [
+    "individual_count",
+    49835.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT education, COUNT(*) AS individual_count\nFROM ds_demographics_census_individuals\nGROUP BY education\nORDER BY education;",
+  "execution_time_ms": 4297.0,
+  "row_count": 6,
+  "wall_time_s": 76.7,
+  "dataset": "demographics_census",
+  "tier": "easy",
+  "question": "How many individuals are there per education level?",
+  "elapsed_s": 76.7
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Household Size 13.53 | Latest Avg Household Size 4.51",
+  "metrics": [
+   [
+    "avg_household_size",
+    13.53
+   ],
+   [
+    "latest avg_household_size",
+    4.51
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT area_type, ROUND(AVG(size)::numeric, 2) AS avg_household_size\nFROM ds_demographics_census_households\nGROUP BY area_type\nORDER BY area_type;",
+  "execution_time_ms": 250.0,
+  "row_count": 3,
+  "wall_time_s": 42.9,
+  "dataset": "demographics_census",
+  "tier": "easy",
+  "question": "What is the average household size by area type?",
+  "elapsed_s": 43.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Average Income 3,001,964.12 | Latest Average Income 249,447.91",
+  "metrics": [
+   [
+    "average_income",
+    3001964.12
+   ],
+   [
+    "latest average_income",
+    249447.91
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT education, gender, AVG(income) AS average_income\nFROM ds_demographics_census_individuals\nGROUP BY education, gender\nORDER BY education, gender;",
+  "execution_time_ms": 297.0,
+  "row_count": 12,
+  "wall_time_s": 42.7,
+  "dataset": "demographics_census",
+  "tier": "medium",
+  "question": "What is the average income by education and gender?",
+  "elapsed_s": 42.7
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Individuals 300,000 | Latest Total Individuals 30,056 | Total Employed Individuals 60,404 | Latest Employed Individuals 5,931 | Total Employment Rate 161.22 | Latest Employment Rate 19.73",
+  "metrics": [
+   [
+    "total_individuals",
+    300000.0
+   ],
+   [
+    "latest total_individuals",
+    30056.0
+   ],
+   [
+    "total employed_individuals",
+    60404.0
+   ],
+   [
+    "latest employed_individuals",
+    5931.0
+   ],
+   [
+    "total employment_rate",
+    161.22
+   ],
+   [
+    "latest employment_rate",
+    19.73
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT r.state,\n       COUNT(*) AS total_individuals,\n       COUNT(*) FILTER (WHERE i.employment = 'Employed') AS employed_individuals,\n       (COUNT(*) FILTER (WHERE i.employment = 'Employed') * 100.0 / NULLIF(COUNT(*), 0)) AS employment_rate\nFROM ds_demographics_census_regions r\nJOIN ds_demographics_census_households h ON r.region_id = h.region_id\nJOIN ds_demographics_census_individuals i ON h.household_id = i.household_id\nGROUP BY r.state\nORDER BY r.state;",
+  "execution_time_ms": 4813.0,
+  "row_count": 8,
+  "wall_time_s": 61.5,
+  "dataset": "demographics_census",
+  "tier": "medium",
+  "question": "What is the employment rate by state?",
+  "elapsed_s": 61.5
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Avg Household Income: 828,778.4",
+  "metrics": [
+   [
+    "avg_household_income",
+    828778.4
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH household_income AS (\n  SELECT i.household_id, SUM(i.income) AS total_income\n  FROM ds_demographics_census_individuals i\n  GROUP BY i.household_id\n)\nSELECT r.name AS region_name, AVG(hi.total_income) AS avg_household_income\nFROM ds_demographics_census_regions r\nJOIN ds_demographics_census_households h ON r.region_id = h.region_id\nJOIN household_income hi ON h.household_id = hi.household_id\nGROUP BY r.name\nORDER BY avg_household_income DESC;",
+  "execution_time_ms": 1125.0,
+  "row_count": 50,
+  "wall_time_s": 149.0,
+  "dataset": "demographics_census",
+  "tier": "medium",
+  "question": "Which regions have the highest average household income?",
+  "elapsed_s": 149.1
+ },
+ {
+  "success": true,
+  "query_type": "distribution",
+  "answer": "Total Individual Count 300,000 | Latest Individual Count 18,088 | Avg Income 10,512,695.11 | Latest Avg Income 250,168.77",
+  "metrics": [
+   [
+    "total individual_count",
+    300000.0
+   ],
+   [
+    "latest individual_count",
+    18088.0
+   ],
+   [
+    "avg_income",
+    10512695.11
+   ],
+   [
+    "latest avg_income",
+    250168.77
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT\n  CASE\n    WHEN age < 18 THEN '0-17'\n    WHEN age BETWEEN 18 AND 24 THEN '18-24'\n    WHEN age BETWEEN 25 AND 34 THEN '25-34'\n    WHEN age BETWEEN 35 AND 44 THEN '35-44'\n    WHEN age BETWEEN 45 AND 54 THEN '45-54'\n    WHEN age BETWEEN 55 AND 64 THEN '55-64'\n    ELSE '65+'\n  END AS age_group,\n  education,\n  COUNT(*) AS individual_count,\n  AVG(income) AS avg_income\nFROM ds_demographics_census_individuals\nGROUP BY age_group, education\nORDER BY age_group, education;",
+  "execution_time_ms": 94.0,
+  "row_count": 42,
+  "wall_time_s": 28.0,
+  "dataset": "demographics_census",
+  "tier": "hard",
+  "question": "Show the income distribution by age group and education level",
+  "elapsed_s": 28.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Urban Household Income 6,340,321.56 | Latest Avg Urban Household Income 791,634 | Avg Rural Household Income 6,315,991.39 | Latest Avg Rural Household Income 816,624.94 | Total Income Gap 24,330.16 | Latest Income Gap -24,990.94",
+  "metrics": [
+   [
+    "avg_urban_household_income",
+    6340321.56
+   ],
+   [
+    "latest avg_urban_household_income",
+    791634.0
+   ],
+   [
+    "avg_rural_household_income",
+    6315991.39
+   ],
+   [
+    "latest avg_rural_household_income",
+    816624.94
+   ],
+   [
+    "total income_gap",
+    24330.16
+   ],
+   [
+    "latest income_gap",
+    -24990.94
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH household_income AS (\n  SELECT\n    r.state,\n    h.area_type,\n    h.household_id,\n    SUM(i.income) AS income\n  FROM ds_demographics_census_households h\n  JOIN ds_demographics_census_individuals i ON i.household_id = h.household_id\n  JOIN ds_demographics_census_regions r ON r.region_id = h.region_id\n  WHERE h.area_type IN ('Urban', 'Rural')\n  GROUP BY r.state, h.area_type, h.household_id\n)\nSELECT\n  state,\n  ROUND(AVG(income) FILTER (WHERE area_type = 'Urban'), 2) AS avg_urban_household_income,\n  ROUND(AVG(income) FILTER (WHERE area_type = 'Rural'), 2) AS avg_rural_household_income,\n  ROUND(\n    AVG(income) FILTER (WHERE area_type = 'Urban') -\n    AVG(income) FILTER (WHERE area_type = 'Rural'), 2\n  ) AS income_gap\nFROM household_income\nWHERE area_type IN ('Urban', 'Rural')\nGROUP BY state\nORDER BY income_gap DESC NULLS LAST;",
+  "execution_time_ms": 813.0,
+  "row_count": 8,
+  "wall_time_s": 184.5,
+  "dataset": "demographics_census",
+  "tier": "hard",
+  "question": "What is the income gap between urban and rural households, by state?",
+  "elapsed_s": 188.6
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Employment Rate Pct 12,062.59 | Latest Employment Rate Pct 42.81 | Total Overall Employment Rate Pct 12,063.04 | Latest Overall Employment Rate Pct 39.97",
+  "metrics": [
+   [
+    "total employment_rate_pct",
+    12062.59
+   ],
+   [
+    "latest employment_rate_pct",
+    42.81
+   ],
+   [
+    "total overall_employment_rate_pct",
+    12063.04
+   ],
+   [
+    "latest overall_employment_rate_pct",
+    39.97
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH education_totals AS (SELECT education, COUNT(*) AS total, COUNT(*) FILTER (WHERE employment IN ('Employed', 'Self-Employed')) AS employed FROM ds_demographics_census_individuals GROUP BY education), education_region AS (SELECT i.education, r.name AS region, COUNT(*) AS total, COUNT(*) FILTER (WHERE i.employment IN ('Employed', 'Self-Employed')) AS employed FROM ds_demographics_census_individuals i JOIN ds_demographics_census_households h ON i.household_id = h.household_id JOIN ds_demographics_census_regions r ON h.region_id = r.region_id GROUP BY i.education, r.name) SELECT er.education, er.region, er.employed * 100.0 / er.total AS employment_rate_pct, et.employed * 100.0 / et.total AS overall_employment_rate_pct FROM education_region er JOIN education_totals et ON er.education = et.education ORDER BY overall_employment_rate_pct DESC, er.region;",
+  "execution_time_ms": 188.0,
+  "row_count": 300,
+  "wall_time_s": 128.8,
+  "dataset": "demographics_census",
+  "tier": "hard",
+  "question": "Which education levels have the highest employment rates, and how does it vary by region?",
+  "elapsed_s": 128.8
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare income by education across states, identify the states with the largest education premium, and explain the demographic drivers",
+  "metrics": [
+   [
+    "total individual_count",
+    300000.0
+   ],
+   [
+    "latest individual_count",
+    5131.0
+   ],
+   [
+    "avg_income",
+    12009312.66
+   ],
+   [
+    "latest avg_income",
+    250070.27
+   ],
+   [
+    "avg_age",
+    2402.83
+   ],
+   [
+    "latest avg_age",
+    50.29
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT r.state, i.education, COUNT(*) AS total_count, COUNT(*) FILTER (WHERE i.employment IN ('Employed', 'Self-Employed')) AS employed_count FROM ds_demographics_census_individuals i JOIN ds_demographics_census_households h ON i.household_id = h.household_id JOIN ds_demographics_census_regions r ON h.region_id = r.region_id WHERE i.education IS NOT NULL AND i.employment IS NOT NULL GROUP BY r.state, i.education ORDER BY r.state, i.education",
+  "execution_time_ms": 609.0,
+  "row_count": 48,
+  "wall_time_s": 183.9,
+  "dataset": "demographics_census",
+  "tier": "very_complex",
+  "question": "Compare income by education across states, identify the states with the largest education premium, and explain the demographic drivers",
+  "elapsed_s": 183.9
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Report: Build a report on the workforce: what is the employment profile (education, age, region) of the top-earning 10% of individuals, and how does it differ from the bottom 10%?",
+  "metrics": [
+   [
+    "p90_income",
+    450137.7
+   ],
+   [
+    "p10_income",
+    50049.8
+   ],
+   [
+    "individual_count",
+    5121.0
+   ],
+   [
+    "individual_count",
+    5114.0
+   ],
+   [
+    "average_age",
+    50.08
+   ],
+   [
+    "individual_count",
+    30000.0
+   ]
+  ],
+  "sections": 5,
+  "sql": "WITH income_bands AS (SELECT percentile_cont(0.9) WITHIN GROUP (ORDER BY income) AS p90, percentile_cont(0.1) WITHIN GROUP (ORDER BY income) AS p10 FROM ds_demographics_census_individuals), classified AS (SELECT i.individual_id, i.income, h.region_id, r.name AS region_name, CASE WHEN i.income >= b.p90 THEN 'Top Decile' WHEN i.income <= b.p10 THEN 'Bottom Decile' ELSE 'Middle 80%' END AS income_group FROM ds_demographics_census_individuals i JOIN ds_demographics_census_households h ON i.household_id = h.household_id JOIN ds_demographics_census_regions r ON h.region_id = r.region_id CROSS JOIN income_bands b) SELECT region_name, income_group, COUNT(*) AS individual_count FROM classified WHERE income_group IN ('Top Decile', 'Bottom Decile') GROUP BY region_name, income_group ORDER BY region_name, income_group;",
+  "execution_time_ms": 2000.0,
+  "row_count": 100,
+  "wall_time_s": 482.8,
+  "dataset": "demographics_census",
+  "tier": "very_complex",
+  "question": "Build a report on the workforce: what is the employment profile (education, age, region) of the top-earning 10% of individuals, and how does it differ from the bottom 10%?",
+  "elapsed_s": 482.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Analyze household economics: how do household size, home type, and area type combine to predict income, and which regions show the strongest relationship?",
+  "metrics": [
+   [
+    "total size",
+    36.0
+   ],
+   [
+    "latest size",
+    8.0
+   ],
+   [
+    "avg_income",
+    2001345.48
+   ],
+   [
+    "latest avg_income",
+    250439.43
+   ],
+   [
+    "avg_income",
+    500318.77
+   ],
+   [
+    "latest avg_income",
+    250682.19
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT h.region_id, AVG(i.income) AS avg_income, AVG(h.size) AS avg_household_size\nFROM ds_demographics_census_households h\nJOIN ds_demographics_census_individuals i ON h.household_id = i.household_id\nGROUP BY h.region_id\nORDER BY h.region_id;",
+  "execution_time_ms": 219.0,
+  "row_count": 50,
+  "wall_time_s": 171.1,
+  "dataset": "demographics_census",
+  "tier": "very_complex",
+  "question": "Analyze household economics: how do household size, home type, and area type combine to predict income, and which regions show the strongest relationship?",
+  "elapsed_s": 171.1
+ }
+]

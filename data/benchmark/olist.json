@@ -1,0 +1,334 @@
+[
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Revenue: 16,008,872.12",
+  "metrics": [
+   [
+    "total_revenue",
+    16008872.12
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT SUM(payment_value) AS total_revenue FROM ds_olist_payments;",
+  "execution_time_ms": 375.0,
+  "row_count": 1,
+  "wall_time_s": 34.1,
+  "dataset": "olist",
+  "tier": "easy",
+  "question": "What is the total revenue from all orders?",
+  "elapsed_s": 38.2
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Order Count 99,441 | Latest Order Count 2",
+  "metrics": [
+   [
+    "total order_count",
+    99441.0
+   ],
+   [
+    "latest order_count",
+    2.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT order_status, COUNT(*) AS order_count\nFROM ds_olist_orders\nGROUP BY order_status\nORDER BY order_count DESC",
+  "execution_time_ms": 3297.0,
+  "row_count": 8,
+  "wall_time_s": 25.5,
+  "dataset": "olist",
+  "tier": "easy",
+  "question": "How many orders are there by order status?",
+  "elapsed_s": 25.5
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Avg Review Score: 4.09",
+  "metrics": [
+   [
+    "avg_review_score",
+    4.09
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT AVG(review_score) AS avg_review_score FROM ds_olist_reviews;",
+  "execution_time_ms": 469.0,
+  "row_count": 1,
+  "wall_time_s": 97.5,
+  "dataset": "olist",
+  "tier": "easy",
+  "question": "What is the average review score across all orders?",
+  "elapsed_s": 97.5
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Revenue 13,591,643.7 | Latest Total Revenue 283.29",
+  "metrics": [
+   [
+    "total_revenue",
+    13591643.7
+   ],
+   [
+    "latest total_revenue",
+    283.29
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT p.product_category_name, SUM(oi.price) AS total_revenue\nFROM ds_olist_order_items oi\nJOIN ds_olist_products p ON oi.product_id = p.product_id\nGROUP BY p.product_category_name\nORDER BY total_revenue DESC;",
+  "execution_time_ms": 3594.0,
+  "row_count": 74,
+  "wall_time_s": 33.9,
+  "dataset": "olist",
+  "tier": "medium",
+  "question": "What is the total revenue by product category?",
+  "elapsed_s": 34.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Order Value 4,430.97 | Latest Avg Order Value 125.75",
+  "metrics": [
+   [
+    "avg_order_value",
+    4430.97
+   ],
+   [
+    "latest avg_order_value",
+    125.75
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT c.customer_state, SUM(oi.price)::numeric / COUNT(DISTINCT o.order_id) AS avg_order_value\nFROM ds_olist_orders o\nJOIN ds_olist_customers c ON o.customer_id = c.customer_id\nJOIN ds_olist_order_items oi ON o.order_id = oi.order_id\nGROUP BY c.customer_state\nORDER BY avg_order_value DESC;",
+  "execution_time_ms": 10110.0,
+  "row_count": 27,
+  "wall_time_s": 45.8,
+  "dataset": "olist",
+  "tier": "medium",
+  "question": "What is the average order value by customer state?",
+  "elapsed_s": 45.8
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Sales: 229,472.63",
+  "metrics": [
+   [
+    "total_sales",
+    229472.63
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT s.seller_id, s.seller_city, s.seller_state, SUM(oi.price) AS total_sales\nFROM ds_olist_order_items oi\nLEFT JOIN ds_olist_sellers s ON oi.seller_id = s.seller_id\nGROUP BY s.seller_id, s.seller_city, s.seller_state\nORDER BY total_sales DESC\nLIMIT 10;",
+  "execution_time_ms": 453.0,
+  "row_count": 10,
+  "wall_time_s": 77.0,
+  "dataset": "olist",
+  "tier": "medium",
+  "question": "Which sellers have the highest total sales?",
+  "elapsed_s": 77.0
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Revenue 16,008,872.12 | Latest Revenue 589.67 | Total Rolling Avg 3M 16,017,057.77 | Latest Rolling Avg 3M 342,484.84",
+  "metrics": [
+   [
+    "total revenue",
+    16008872.12
+   ],
+   [
+    "latest revenue",
+    589.67
+   ],
+   [
+    "total rolling_avg_3m",
+    16017057.77
+   ],
+   [
+    "latest rolling_avg_3m",
+    342484.84
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH monthly_revenue AS (\n    SELECT \n        date_trunc('month', o.order_purchase_timestamp) as month,\n        SUM(p.payment_value) as revenue\n    FROM ds_olist_orders o\n    JOIN ds_olist_payments p ON o.order_id = p.order_id\n    GROUP BY 1\n)\nSELECT \n    month,\n    revenue,\n    AVG(revenue) OVER (ORDER BY month ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) as rolling_avg_3m\nFROM monthly_revenue\nORDER BY month;",
+  "execution_time_ms": 485.0,
+  "row_count": 25,
+  "wall_time_s": 165.1,
+  "dataset": "olist",
+  "tier": "hard",
+  "question": "Show monthly revenue with a 3-month rolling average",
+  "elapsed_s": 165.1
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Delivery Days 507.06 | Latest Avg Delivery Days 8.76",
+  "metrics": [
+   [
+    "avg_delivery_days",
+    507.06
+   ],
+   [
+    "latest avg_delivery_days",
+    8.76
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \n    c.customer_state AS state,\n    AVG(EXTRACT(EPOCH FROM (o.order_delivered_customer_date - o.order_purchase_timestamp)) / 86400.0) AS avg_delivery_days\nFROM ds_olist_orders o\nJOIN ds_olist_customers c ON o.customer_id = c.customer_id\nWHERE o.order_delivered_customer_date IS NOT NULL \n  AND o.order_purchase_timestamp IS NOT NULL\nGROUP BY c.customer_state\nORDER BY avg_delivery_days DESC",
+  "execution_time_ms": 6359.0,
+  "row_count": 27,
+  "wall_time_s": 44.4,
+  "dataset": "olist",
+  "tier": "hard",
+  "question": "What is the average delivery time from purchase to delivery by state, and which states are the slowest?",
+  "elapsed_s": 48.5
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Customer Lifetime Value 5,361.71 | Latest Avg Customer Lifetime Value 142.48",
+  "metrics": [
+   [
+    "avg_customer_lifetime_value",
+    5361.71
+   ],
+   [
+    "latest avg_customer_lifetime_value",
+    142.48
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH customer_ltv AS (\n    SELECT c.customer_id, c.customer_state, SUM(p.payment_value) AS ltv\n    FROM ds_olist_orders o\n    JOIN ds_olist_payments p ON o.order_id = p.order_id\n    JOIN ds_olist_customers c ON o.customer_id = c.customer_id\n    WHERE o.order_status = 'delivered'\n    GROUP BY c.customer_id, c.customer_state\n)\nSELECT customer_state, AVG(ltv) AS avg_customer_lifetime_value\nFROM customer_ltv\nGROUP BY customer_state\nORDER BY avg_customer_lifetime_value DESC;",
+  "execution_time_ms": 672.0,
+  "row_count": 27,
+  "wall_time_s": 28.7,
+  "dataset": "olist",
+  "tier": "hard",
+  "question": "What is the customer lifetime value by state, considering only delivered orders?",
+  "elapsed_s": 28.8
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare 2017 vs 2018 revenue by product category, identify the top 3 categories driving growth, and explain what changed in the payment method mix",
+  "metrics": [
+   [
+    "total_revenue",
+    6155806.98
+   ],
+   [
+    "latest total_revenue",
+    76.0
+   ],
+   [
+    "total_revenue",
+    7386050.8
+   ],
+   [
+    "latest total_revenue",
+    65.0
+   ],
+   [
+    "total_payment_value",
+    7249746.73
+   ],
+   [
+    "latest total_payment_value",
+    43326.47
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT pm.payment_type, SUM(pm.payment_value) AS total_payment_value\nFROM ds_olist_orders AS o\nJOIN ds_olist_payments AS pm ON o.order_id = pm.order_id\nWHERE EXTRACT(YEAR FROM o.order_purchase_timestamp) = 2018\nGROUP BY pm.payment_type\nORDER BY total_payment_value DESC;",
+  "execution_time_ms": 454.0,
+  "row_count": 5,
+  "wall_time_s": 109.7,
+  "dataset": "olist",
+  "tier": "very_complex",
+  "question": "Compare 2017 vs 2018 revenue by product category, identify the top 3 categories driving growth, and explain what changed in the payment method mix",
+  "elapsed_s": 109.7
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Customers 2017 45,101 | Latest Customers 2017 134 | Total Customers Both 0 | Latest Customers Both 0 | Total Retention Rate 0 | Latest Retention Rate 0 | Total Retention Rank 27 | Latest Retention Rank 1",
+  "metrics": [
+   [
+    "total customers_2017",
+    45101.0
+   ],
+   [
+    "latest customers_2017",
+    134.0
+   ],
+   [
+    "total customers_both",
+    0.0
+   ],
+   [
+    "latest customers_both",
+    0.0
+   ],
+   [
+    "total retention_rate",
+    0.0
+   ],
+   [
+    "latest retention_rate",
+    0.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH customer_years AS (SELECT c.customer_id, c.customer_state, EXISTS (SELECT 1 FROM ds_olist_orders o WHERE o.customer_id = c.customer_id AND EXTRACT(YEAR FROM o.order_purchase_timestamp) = 2017) AS ordered_2017, EXISTS (SELECT 1 FROM ds_olist_orders o WHERE o.customer_id = c.customer_id AND EXTRACT(YEAR FROM o.order_purchase_timestamp) = 2018) AS ordered_2018 FROM ds_olist_customers c), state_stats AS (SELECT customer_state, COUNT(*) FILTER (WHERE ordered_2017) AS customers_2017, COUNT(*) FILTER (WHERE ordered_2017 AND ordered_2018) AS customers_both FROM customer_years GROUP BY customer_state) SELECT customer_state, customers_2017, customers_both, ROUND(100.0 * customers_both / NULLIF(customers_2017,0), 2) AS retention_rate, RANK() OVER (ORDER BY ROUND(100.0 * customers_both / NULLIF(customers_2017,0), 2) DESC) AS retention_rank FROM state_stats WHERE customers_2017 > 0 ORDER BY retention_rate DESC, customer_state;",
+  "execution_time_ms": 1500.0,
+  "row_count": 27,
+  "wall_time_s": 100.0,
+  "dataset": "olist",
+  "tier": "very_complex",
+  "question": "Build a report on customer retention: what percentage of customers who ordered in 2017 also ordered in 2018, broken down by state, and which state retained best?",
+  "elapsed_s": 100.1
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Analyze delivery performance: how has the on-time delivery rate (delivered within the estimated date) changed month over month, and which product categories have the worst delivery delays?",
+  "metrics": [
+   [
+    "total_orders",
+    96478.0
+   ],
+   [
+    "latest total_orders",
+    6351.0
+   ],
+   [
+    "total on_time_orders",
+    88644.0
+   ],
+   [
+    "latest on_time_orders",
+    5691.0
+   ],
+   [
+    "avg_delay_days",
+    -849.9
+   ],
+   [
+    "latest avg_delay_days",
+    -16.28
+   ]
+  ],
+  "sections": 3,
+  "sql": "SELECT p.product_category_name, COUNT(DISTINCT o.order_id) AS delivered_orders FROM ds_olist_orders o JOIN ds_olist_order_items oi ON o.order_id = oi.order_id JOIN ds_olist_products p ON oi.product_id = p.product_id WHERE o.order_status = 'delivered' GROUP BY p.product_category_name ORDER BY delivered_orders DESC;",
+  "execution_time_ms": 438.0,
+  "row_count": 74,
+  "wall_time_s": 105.6,
+  "dataset": "olist",
+  "tier": "very_complex",
+  "question": "Analyze delivery performance: how has the on-time delivery rate (delivered within the estimated date) changed month over month, and which product categories have the worst delivery delays?",
+  "elapsed_s": 105.6
+ }
+]

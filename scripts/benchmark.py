@@ -103,13 +103,27 @@ async def main() -> None:
     if limit:
         questions = questions[:limit]
     out_path = OUT_DIR / f"{dataset_id}.json"
-    print(f"[{dataset_id}] {len(questions)} questions, delay {delay}s", flush=True)
+    # Resume: skip questions already recorded (benchmark is idempotent)
+    done_questions = set()
+    if out_path.exists():
+        try:
+            for r in json.loads(out_path.read_text(encoding="utf-8")):
+                done_questions.add(r["question"])
+        except json.JSONDecodeError:
+            pass
+    todo = [(t, q) for t, q in questions if q not in done_questions]
+    print(f"[{dataset_id}] {len(todo)}/{len(questions)} questions to run, delay {delay}s", flush=True)
 
     pool = PostgresPool(dsn=DSN)
     await pool.connect()
     results: list[dict] = []
-    for i, (tier, q) in enumerate(questions, 1):
-        print(f"[{dataset_id}] {i}/{len(questions)} [{tier}] {q[:70]}", flush=True)
+    if out_path.exists():
+        try:
+            results = json.loads(out_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            results = []
+    for i, (tier, q) in enumerate(todo, 1):
+        print(f"[{dataset_id}] {i}/{len(todo)} [{tier}] {q[:70]}", flush=True)
         t0 = time.monotonic()
         rec = await run_question(pool, dataset_id, q)
         rec.update({"dataset": dataset_id, "tier": tier, "question": q, "elapsed_s": round(time.monotonic() - t0, 1)})
@@ -118,7 +132,7 @@ async def main() -> None:
         out_path.write_text(json.dumps(results, indent=1), encoding="utf-8")
         status = "OK" if rec["success"] else "FAIL"
         print(f"[{dataset_id}]   -> {status} ({rec.get('wall_time_s')}s) {rec.get('answer', '')[:80]}", flush=True)
-        if i < len(questions):
+        if i < len(todo):
             await asyncio.sleep(delay)
     await pool.disconnect()
     print(f"[{dataset_id}] done: {sum(1 for r in results if r['success'])}/{len(results)} passed", flush=True)

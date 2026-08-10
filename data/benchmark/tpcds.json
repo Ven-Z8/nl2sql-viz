@@ -1,0 +1,350 @@
+[
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Store Sales Revenue: 47,475,151.75",
+  "metrics": [
+   [
+    "total_store_sales_revenue",
+    47475151.75
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT SUM(ss_net_paid) AS total_store_sales_revenue FROM ds_tpcds_store_sales;",
+  "execution_time_ms": 906.0,
+  "row_count": 1,
+  "wall_time_s": 86.4,
+  "dataset": "tpcds",
+  "tier": "easy",
+  "question": "What is the total store sales revenue?",
+  "elapsed_s": 90.6
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Sales Count: 14,313",
+  "metrics": [
+   [
+    "sales_count",
+    14313.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT 'store' AS channel, COUNT(*) AS sales_count FROM ds_tpcds_store_sales UNION ALL SELECT 'catalog', COUNT(*) FROM ds_tpcds_catalog_sales UNION ALL SELECT 'web', COUNT(*) FROM ds_tpcds_web_sales ORDER BY channel;",
+  "execution_time_ms": 94.0,
+  "row_count": 3,
+  "wall_time_s": 49.7,
+  "dataset": "tpcds",
+  "tier": "easy",
+  "question": "How many sales were made via each channel (store, catalog, web)?",
+  "elapsed_s": 49.7
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg List Price 755.42 | Latest Avg List Price 74.91",
+  "metrics": [
+   [
+    "avg_list_price",
+    755.42
+   ],
+   [
+    "latest avg_list_price",
+    74.91
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT i.i_category,\n       AVG(ss.ss_list_price) AS avg_list_price\nFROM ds_tpcds_store_sales ss\nJOIN ds_tpcds_item i ON ss.ss_item_sk = i.i_item_sk\nGROUP BY i.i_category\nORDER BY i.i_category;",
+  "execution_time_ms": 391.0,
+  "row_count": 10,
+  "wall_time_s": 129.9,
+  "dataset": "tpcds",
+  "tier": "easy",
+  "question": "What is the average item list price by category?",
+  "elapsed_s": 129.9
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Revenue 107,910,562.47 | Latest Total Revenue 36,895,575.62",
+  "metrics": [
+   [
+    "total_revenue",
+    107910562.47
+   ],
+   [
+    "latest total_revenue",
+    36895575.62
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT 'Store' AS channel, SUM(ss_ext_sales_price) AS total_revenue FROM ds_tpcds_store_sales UNION ALL SELECT 'Catalog' AS channel, SUM(cs_ext_sales_price) AS total_revenue FROM ds_tpcds_catalog_sales UNION ALL SELECT 'Web' AS channel, SUM(ws_ext_sales_price) AS total_revenue FROM ds_tpcds_web_sales;",
+  "execution_time_ms": 141.0,
+  "row_count": 3,
+  "wall_time_s": 123.4,
+  "dataset": "tpcds",
+  "tier": "medium",
+  "question": "What is the total revenue by sales channel?",
+  "elapsed_s": 123.4
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Quantity: 30,629",
+  "metrics": [
+   [
+    "total_quantity",
+    30629.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH all_sales AS (\n  SELECT ss_item_sk AS item_sk, ss_quantity AS qty FROM ds_tpcds_store_sales\n  UNION ALL\n  SELECT cs_item_sk AS item_sk, cs_quantity AS qty FROM ds_tpcds_catalog_sales\n  UNION ALL\n  SELECT ws_item_sk AS item_sk, ws_quantity AS qty FROM ds_tpcds_web_sales\n)\nSELECT i.i_item_id, i.i_product_name,\n       SUM(COALESCE(all_sales.qty, 0)) AS total_quantity\nFROM all_sales\nJOIN ds_tpcds_item i ON all_sales.item_sk = i.i_item_sk\nGROUP BY i.i_item_sk, i.i_item_id, i.i_product_name\nORDER BY total_quantity DESC\nLIMIT 10;",
+  "execution_time_ms": 407.0,
+  "row_count": 10,
+  "wall_time_s": 119.5,
+  "dataset": "tpcds",
+  "tier": "medium",
+  "question": "Which items have the highest total sales quantity?",
+  "elapsed_s": 123.5
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Sold Qty 2,484,707 | Latest Sold Qty 364,407 | Total Returned Qty 119,458 | Latest Returned Qty 17,016 | Total Return Rate Pct 14.25 | Latest Return Rate Pct 4.67",
+  "metrics": [
+   [
+    "total sold_qty",
+    2484707.0
+   ],
+   [
+    "latest sold_qty",
+    364407.0
+   ],
+   [
+    "total returned_qty",
+    119458.0
+   ],
+   [
+    "latest returned_qty",
+    17016.0
+   ],
+   [
+    "total return_rate_pct",
+    14.25
+   ],
+   [
+    "latest return_rate_pct",
+    4.67
+   ]
+  ],
+  "sections": 0,
+  "sql": "\nWITH sales AS (\n    SELECT 'store' AS channel, ss_quantity AS qty FROM ds_tpcds_store_sales\n    UNION ALL\n    SELECT 'catalog', cs_quantity FROM ds_tpcds_catalog_sales\n    UNION ALL\n    SELECT 'web', ws_quantity FROM ds_tpcds_web_sales\n),\nreturns AS (\n    SELECT 'store' AS channel, sr_return_quantity AS qty FROM ds_tpcds_store_returns\n    UNION ALL\n    SELECT 'catalog', cr_return_quantity FROM ds_tpcds_catalog_returns\n    UNION ALL\n    SELECT 'web', wr_return_quantity FROM ds_tpcds_web_returns\n)\nSELECT\n    s.channel,\n    s.sold_qty,\n    r.returned_qty,\n    ROUND(r.returned_qty * 100.0 / NULLIF(s.sold_qty, 0), 2) AS return_rate_pct\nFROM (SELECT channel, SUM(qty) AS sold_qty FROM sales GROUP BY channel) s\nLEFT JOIN (SELECT channel, SUM(qty) AS returned_qty FROM returns GROUP BY channel) r\n       ON s.channel = r.channel\nORDER BY s.channel;\n",
+  "execution_time_ms": 31.0,
+  "row_count": 3,
+  "wall_time_s": 186.0,
+  "dataset": "tpcds",
+  "tier": "medium",
+  "question": "What is the return rate by channel?",
+  "elapsed_s": 186.0
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total D Year 122,003 | Latest D Year 2,003 | Total D Moy 391 | Latest D Moy 1 | Total Sales 51,603,959.3 | Latest Total Sales 94,454.87 | Total Rolling 3Mo Avg 51,415,834.75 | Latest Rolling 3Mo Avg 1,221,429.81",
+  "metrics": [
+   [
+    "total d_year",
+    122003.0
+   ],
+   [
+    "latest d_year",
+    2003.0
+   ],
+   [
+    "total d_moy",
+    391.0
+   ],
+   [
+    "latest d_moy",
+    1.0
+   ],
+   [
+    "total_sales",
+    51603959.3
+   ],
+   [
+    "latest total_sales",
+    94454.87
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH monthly_sales AS (\n    SELECT\n        d.d_year,\n        d.d_moy,\n        SUM(ss.ss_ext_sales_price) AS total_sales\n    FROM ds_tpcds_store_sales ss\n    JOIN ds_tpcds_date_dim d ON ss.ss_sold_date_sk = d.d_date_sk\n    GROUP BY d.d_year, d.d_moy\n)\nSELECT\n    d_year,\n    d_moy,\n    total_sales,\n    AVG(total_sales) OVER (\n        ORDER BY d_year, d_moy\n        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW\n    ) AS rolling_3mo_avg\nFROM monthly_sales\nORDER BY d_year, d_moy;",
+  "execution_time_ms": 63.0,
+  "row_count": 61,
+  "wall_time_s": 19.8,
+  "dataset": "tpcds",
+  "tier": "hard",
+  "question": "Show monthly store sales with a 3-month rolling average",
+  "elapsed_s": 19.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Which customers have the highest lifetime value across all channels?",
+  "metrics": [
+   [
+    "total ss_customer_sk",
+    455576.0
+   ],
+   [
+    "latest ss_customer_sk",
+    502.0
+   ],
+   [
+    "total_net_paid",
+    46468852.43
+   ],
+   [
+    "latest total_net_paid",
+    1940.13
+   ],
+   [
+    "total cs_bill_customer_sk",
+    389015.0
+   ],
+   [
+    "latest cs_bill_customer_sk",
+    893.0
+   ]
+  ],
+  "sections": 4,
+  "sql": "WITH all_returns AS (\n    SELECT sr_customer_sk AS customer_sk, sr_return_amt AS return_amt\n    FROM ds_tpcds_store_returns\n    WHERE sr_customer_sk IS NOT NULL AND sr_return_amt IS NOT NULL\n    UNION ALL\n    SELECT cr_returning_customer_sk, cr_return_amount\n    FROM ds_tpcds_catalog_returns\n    WHERE cr_returning_customer_sk IS NOT NULL AND cr_return_amount IS NOT NULL\n    UNION ALL\n    SELECT wr_returning_customer_sk, wr_return_amt\n    FROM ds_tpcds_web_returns\n    WHERE wr_returning_customer_sk IS NOT NULL AND wr_return_amt IS NOT NULL\n)\nSELECT customer_sk, SUM(return_amt) AS total_return_amt\nFROM all_returns\nGROUP BY customer_sk\nORDER BY total_return_amt DESC;",
+  "execution_time_ms": 234.0,
+  "row_count": 980,
+  "wall_time_s": 162.0,
+  "dataset": "tpcds",
+  "tier": "hard",
+  "question": "Which customers have the highest lifetime value across all channels?",
+  "elapsed_s": 166.1
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Report: What is the relationship between item price and quantity sold?",
+  "metrics": [
+   [
+    "ss_item_sk",
+    1.0
+   ],
+   [
+    "avg_list_price",
+    78.27
+   ],
+   [
+    "total_quantity",
+    15262.0
+   ],
+   [
+    "cs_item_sk",
+    1.0
+   ],
+   [
+    "avg_list_price",
+    106.02
+   ],
+   [
+    "total_quantity",
+    9409.0
+   ]
+  ],
+  "sections": 3,
+  "sql": "SELECT ws_item_sk,\n       AVG(ws_list_price) AS avg_list_price,\n       SUM(ws_quantity) AS total_quantity\nFROM ds_tpcds_web_sales\nGROUP BY ws_item_sk\nORDER BY ws_item_sk;",
+  "execution_time_ms": 141.0,
+  "row_count": 180,
+  "wall_time_s": 118.8,
+  "dataset": "tpcds",
+  "tier": "hard",
+  "question": "What is the relationship between item price and quantity sold?",
+  "elapsed_s": 118.8
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Report: Compare store vs web sales performance: how did monthly revenue trends differ across channels in 2001, which items drove the difference, and what was the return impact?",
+  "metrics": [
+   [
+    "total month",
+    78.0
+   ],
+   [
+    "latest month",
+    12.0
+   ],
+   [
+    "total_revenue",
+    10979495.29
+   ],
+   [
+    "latest total_revenue",
+    1737792.32
+   ],
+   [
+    "total month",
+    78.0
+   ],
+   [
+    "latest month",
+    12.0
+   ]
+  ],
+  "sections": 5,
+  "sql": "SELECT 'store' AS channel,\n       SUM(sr_return_amt) AS total_return_amt,\n       SUM(sr_net_loss) AS total_net_loss\nFROM ds_tpcds_store_returns sr\nJOIN ds_tpcds_date_dim d ON sr.sr_returned_date_sk = d.d_date_sk\nWHERE d.d_year = 2001\nUNION ALL\nSELECT 'web' AS channel,\n       SUM(wr_return_amt),\n       SUM(wr_net_loss)\nFROM ds_tpcds_web_returns wr\nJOIN ds_tpcds_date_dim d ON wr.wr_returned_date_sk = d.d_date_sk\nWHERE d.d_year = 2001;",
+  "execution_time_ms": 375.0,
+  "row_count": 2,
+  "wall_time_s": 178.0,
+  "dataset": "tpcds",
+  "tier": "very_complex",
+  "question": "Compare store vs web sales performance: how did monthly revenue trends differ across channels in 2001, which items drove the difference, and what was the return impact?",
+  "elapsed_s": 178.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Build a report on inventory: which items had the highest stockout risk relative to sales, broken down by warehouse, and which items need restocking?",
+  "metrics": [
+   [
+    "total cs_item_sk",
+    18990.0
+   ],
+   [
+    "latest cs_item_sk",
+    94.0
+   ],
+   [
+    "total ws_item_sk",
+    16711.0
+   ],
+   [
+    "latest ws_item_sk",
+    92.0
+   ],
+   [
+    "total inv_item_sk",
+    8130.0
+   ],
+   [
+    "latest inv_item_sk",
+    180.0
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT\n    i.i_item_sk,\n    i.i_item_id,\n    i.i_item_desc,\n    w.w_warehouse_sk,\n    w.w_warehouse_name\nFROM ds_tpcds_item i\nCROSS JOIN ds_tpcds_warehouse w\nORDER BY i.i_item_sk, w.w_warehouse_sk;",
+  "execution_time_ms": 125.0,
+  "row_count": 180,
+  "wall_time_s": 153.0,
+  "dataset": "tpcds",
+  "tier": "very_complex",
+  "question": "Build a report on inventory: which items had the highest stockout risk relative to sales, broken down by warehouse, and which items need restocking?",
+  "elapsed_s": 157.1
+ }
+]

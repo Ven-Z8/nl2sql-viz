@@ -1,0 +1,334 @@
+[
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Revenue 462,422,876.3 | Latest Total Revenue 91,851,281.31",
+  "metrics": [
+   [
+    "total_revenue",
+    462422876.3
+   ],
+   [
+    "latest total_revenue",
+    91851281.31
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT c.region,\n       SUM(oi.quantity * oi.unit_price) AS total_revenue\nFROM ds_retail_customers c\nJOIN ds_retail_orders o ON c.customer_id = o.customer_id\nJOIN ds_retail_order_items oi ON o.order_id = oi.order_id\nGROUP BY c.region\nORDER BY total_revenue DESC;",
+  "execution_time_ms": 2296.0,
+  "row_count": 5,
+  "wall_time_s": 105.5,
+  "dataset": "retail",
+  "tier": "easy",
+  "question": "What is the total revenue by region?",
+  "elapsed_s": 109.7
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Order Count: 50,412",
+  "metrics": [
+   [
+    "order_count",
+    50412.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT channel, COUNT(*) AS order_count\nFROM ds_retail_orders\nGROUP BY channel\nORDER BY order_count DESC",
+  "execution_time_ms": 1375.0,
+  "row_count": 4,
+  "wall_time_s": 117.8,
+  "dataset": "retail",
+  "tier": "easy",
+  "question": "How many orders are there per channel?",
+  "elapsed_s": 117.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Payment Amount 5,019.23 | Latest Avg Payment Amount 1,005.51",
+  "metrics": [
+   [
+    "avg_payment_amount",
+    5019.23
+   ],
+   [
+    "latest avg_payment_amount",
+    1005.51
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT method, AVG(amount) AS avg_payment_amount\nFROM ds_retail_payments\nGROUP BY method\nORDER BY method;",
+  "execution_time_ms": 2328.0,
+  "row_count": 5,
+  "wall_time_s": 33.7,
+  "dataset": "retail",
+  "tier": "easy",
+  "question": "What is the average payment amount by method?",
+  "elapsed_s": 33.9
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Order Value 9,248.26 | Latest Avg Order Value 2,313.51",
+  "metrics": [
+   [
+    "avg_order_value",
+    9248.26
+   ],
+   [
+    "latest avg_order_value",
+    2313.51
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH order_values AS (\n    SELECT oi.order_id, SUM(oi.quantity * oi.unit_price) AS order_total\n    FROM ds_retail_order_items oi\n    GROUP BY oi.order_id\n)\nSELECT c.segment, AVG(ov.order_total) AS avg_order_value\nFROM order_values ov\nJOIN ds_retail_orders o ON ov.order_id = o.order_id\nJOIN ds_retail_customers c ON o.customer_id = c.customer_id\nGROUP BY c.segment\nORDER BY c.segment;",
+  "execution_time_ms": 1391.0,
+  "row_count": 4,
+  "wall_time_s": 112.6,
+  "dataset": "retail",
+  "tier": "medium",
+  "question": "What is the average order value by customer segment?",
+  "elapsed_s": 112.7
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Revenue: 65,773,689.89",
+  "metrics": [
+   [
+    "total_revenue",
+    65773689.89
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT p.category, SUM(oi.quantity * oi.unit_price) AS total_revenue FROM ds_retail_order_items oi JOIN ds_retail_products p ON oi.product_id = p.product_id GROUP BY p.category ORDER BY total_revenue DESC;",
+  "execution_time_ms": 406.0,
+  "row_count": 8,
+  "wall_time_s": 94.4,
+  "dataset": "retail",
+  "tier": "medium",
+  "question": "Which product categories have the highest total revenue?",
+  "elapsed_s": 94.4
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Refund Rate 66.72 | Latest Refund Rate 16.5",
+  "metrics": [
+   [
+    "total refund_rate",
+    66.72
+   ],
+   [
+    "latest refund_rate",
+    16.5
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT channel,\n       COUNT(*) FILTER (WHERE status = 'refunded') * 100.0 / COUNT(*) AS refund_rate\nFROM ds_retail_orders\nGROUP BY channel\nORDER BY channel;",
+  "execution_time_ms": 203.0,
+  "row_count": 4,
+  "wall_time_s": 98.4,
+  "dataset": "retail",
+  "tier": "medium",
+  "question": "What is the refund rate by channel?",
+  "elapsed_s": 98.4
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Monthly Revenue 904,191,018.14 | Latest Monthly Revenue 150,053.23 | Total Rolling Avg 3Mo 929,474,685.12 | Latest Rolling Avg 3Mo 3,269,393.18",
+  "metrics": [
+   [
+    "total monthly_revenue",
+    904191018.14
+   ],
+   [
+    "latest monthly_revenue",
+    150053.23
+   ],
+   [
+    "total rolling_avg_3mo",
+    929474685.12
+   ],
+   [
+    "latest rolling_avg_3mo",
+    3269393.18
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT date_trunc('month', p.payment_date) AS month, pr.category AS category, SUM(p.amount) AS monthly_revenue, AVG(SUM(p.amount)) OVER (PARTITION BY pr.category ORDER BY date_trunc('month', p.payment_date) ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_avg_3mo FROM ds_retail_payments p JOIN ds_retail_order_items oi ON p.order_id = oi.order_id JOIN ds_retail_products pr ON oi.product_id = pr.product_id GROUP BY date_trunc('month', p.payment_date), pr.category ORDER BY pr.category, date_trunc('month', p.payment_date)",
+  "execution_time_ms": 2016.0,
+  "row_count": 192,
+  "wall_time_s": 44.1,
+  "dataset": "retail",
+  "tier": "hard",
+  "question": "Show monthly revenue with a 3-month rolling average by category",
+  "elapsed_s": 44.2
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Customer Lifetime Value 308,383,917.47 | Latest Customer Lifetime Value 11.18",
+  "metrics": [
+   [
+    "total customer_lifetime_value",
+    308383917.47
+   ],
+   [
+    "latest customer_lifetime_value",
+    11.18
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT o.customer_id, SUM(oi.quantity * oi.unit_price) AS customer_lifetime_value FROM ds_retail_orders o JOIN ds_retail_order_items oi ON o.order_id = oi.order_id WHERE o.status = 'completed' GROUP BY o.customer_id ORDER BY customer_lifetime_value DESC;",
+  "execution_time_ms": 1031.0,
+  "row_count": 46407,
+  "wall_time_s": 241.5,
+  "dataset": "retail",
+  "tier": "hard",
+  "question": "What is the customer lifetime value by segment, considering only completed orders?",
+  "elapsed_s": 241.5
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Report: Which customers are in the top 10% by total spend, and what is their average order frequency?",
+  "metrics": [
+   [
+    "total_spend",
+    28950.19
+   ],
+   [
+    "total_customers",
+    50000.0
+   ],
+   [
+    "p90_total_spend",
+    10723.71
+   ],
+   [
+    "order_frequency",
+    14.0
+   ],
+   [
+    "avg_order_frequency_top10",
+    7.3
+   ]
+  ],
+  "sections": 5,
+  "sql": "WITH spend AS (\n    SELECT\n        c.customer_id,\n        COALESCE(SUM(p.amount), 0) AS total_spend\n    FROM ds_retail_customers c\n    LEFT JOIN ds_retail_orders o ON c.customer_id = o.customer_id\n    LEFT JOIN ds_retail_payments p ON o.order_id = p.order_id\n    GROUP BY c.customer_id\n),\nranked AS (\n    SELECT\n        customer_id,\n        total_spend,\n        PERCENT_RANK() OVER (ORDER BY total_spend DESC) AS pct_rank\n    FROM spend\n),\norder_freq AS (\n    SELECT\n        customer_id,\n        COUNT(order_id) AS order_frequency\n    FROM ds_retail_orders\n    GROUP BY customer_id\n)\nSELECT\n    AVG(COALESCE(of.order_frequency, 0)) AS avg_order_frequency_top10\nFROM ranked r\nLEFT JOIN order_freq of ON r.customer_id = of.customer_id\nWHERE r.pct_rank <= 0.1;",
+  "execution_time_ms": 7656.0,
+  "row_count": 1,
+  "wall_time_s": 626.6,
+  "dataset": "retail",
+  "tier": "hard",
+  "question": "Which customers are in the top 10% by total spend, and what is their average order frequency?",
+  "elapsed_s": 626.7
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare Q4 vs Q3 revenue by region, identify the top 3 growth categories, and explain the driver behind the growth",
+  "metrics": [
+   [
+    "total revenue",
+    40885015.94
+   ],
+   [
+    "latest revenue",
+    7955020.14
+   ],
+   [
+    "total revenue",
+    59989085.29
+   ],
+   [
+    "latest revenue",
+    11795432.63
+   ],
+   [
+    "total revenue",
+    40885015.94
+   ],
+   [
+    "latest revenue",
+    4806220.0
+   ]
+  ],
+  "sections": 5,
+  "sql": "WITH max_year AS (\n    SELECT EXTRACT(YEAR FROM MAX(order_date))::int AS yr FROM ds_retail_orders\n)\nSELECT\n    p.category,\n    CASE\n        WHEN o.order_date >= make_date(my.yr, 7, 1)\n             AND o.order_date <  make_date(my.yr, 10, 1) THEN 'Q3'\n        WHEN o.order_date >= make_date(my.yr, 10, 1)\n             AND o.order_date <  make_date(my.yr + 1, 1, 1) THEN 'Q4'\n    END AS quarter,\n    SUM(oi.quantity) AS total_quantity,\n    ROUND(AVG(oi.unit_price)::numeric, 2) AS avg_unit_price\nFROM ds_retail_order_items oi\nJOIN ds_retail_orders o    ON oi.order_id = o.order_id\nJOIN ds_retail_products p  ON oi.product_id = p.product_id\nCROSS JOIN max_year my\nWHERE o.order_date IS NOT NULL\n  AND (\n       (o.order_date >= make_date(my.yr, 7, 1)  AND o.order_date < make_date(my.yr, 10, 1))\n    OR (o.order_date >= make_date(my.yr, 10, 1) AND o.order_date < make_date(my.yr + 1, 1, 1))\n  )\nGROUP BY p.category,\n         CASE\n            WHEN o.order_date >= make_date(my.yr, 7, 1)\n                 AND o.order_date <  make_date(my.yr, 10, 1) THEN 'Q3'\n            WHEN o.order_date >= make_date(my.yr, 10, 1)\n                 AND o.order_date <  make_date(my.yr + 1, 1, 1) THEN 'Q4'\n         END\nORDER BY p.category, quarter;\n",
+  "execution_time_ms": 1329.0,
+  "row_count": 16,
+  "wall_time_s": 397.1,
+  "dataset": "retail",
+  "tier": "very_complex",
+  "question": "Compare Q4 vs Q3 revenue by region, identify the top 3 growth categories, and explain the driver behind the growth",
+  "elapsed_s": 397.1
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Build a report on customer retention: what percentage of customers from Q1 2023 made a purchase in Q4 2023, broken down by segment, and which segment retained best?",
+  "metrics": [
+   [
+    "total q1_customers",
+    14518.0
+   ],
+   [
+    "latest q1_customers",
+    3600.0
+   ]
+  ],
+  "sections": 1,
+  "sql": "SELECT c.segment, COUNT(DISTINCT o.customer_id) AS q1_customers\nFROM ds_retail_orders o\nJOIN ds_retail_customers c ON c.customer_id = o.customer_id\nWHERE o.status = 'completed'\n  AND o.order_date >= DATE '2023-01-01'\n  AND o.order_date < DATE '2023-04-01'\nGROUP BY c.segment;",
+  "execution_time_ms": 328.0,
+  "row_count": 4,
+  "wall_time_s": 238.9,
+  "dataset": "retail",
+  "tier": "very_complex",
+  "question": "Build a report on customer retention: what percentage of customers from Q1 2023 made a purchase in Q4 2023, broken down by segment, and which segment retained best?",
+  "elapsed_s": 238.9
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Report: Analyze payment method trends: how has the share of each payment method changed quarter over quarter, and which method correlates with higher order values?",
+  "metrics": [
+   [
+    "total year",
+    80940.0
+   ],
+   [
+    "latest year",
+    2024.0
+   ],
+   [
+    "total quarter",
+    100.0
+   ],
+   [
+    "latest quarter",
+    4.0
+   ],
+   [
+    "total_amount",
+    301218263.41
+   ],
+   [
+    "latest total_amount",
+    5371234.75
+   ]
+  ],
+  "sections": 3,
+  "sql": "WITH order_values AS (     SELECT oi.order_id, SUM(oi.quantity * oi.unit_price) AS order_value     FROM ds_retail_order_items oi     GROUP BY oi.order_id   ),   order_methods AS (     SELECT DISTINCT p.order_id, p.method     FROM ds_retail_payments p   )   SELECT om.method, AVG(ov.order_value) AS avg_order_value   FROM order_methods om   JOIN order_values ov ON om.order_id = ov.order_id   GROUP BY om.method   ORDER BY avg_order_value DESC",
+  "execution_time_ms": 1406.0,
+  "row_count": 5,
+  "wall_time_s": 103.3,
+  "dataset": "retail",
+  "tier": "very_complex",
+  "question": "Analyze payment method trends: how has the share of each payment method changed quarter over quarter, and which method correlates with higher order values?",
+  "elapsed_s": 103.3
+ }
+]

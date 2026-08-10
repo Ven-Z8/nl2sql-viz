@@ -1,0 +1,374 @@
+[
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Amount 501,244,719.58 | Latest Total Amount 62,361,490.94",
+  "metrics": [
+   [
+    "total_amount",
+    501244719.58
+   ],
+   [
+    "latest total_amount",
+    62361490.94
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT category,\n       SUM(amount) AS total_amount\nFROM ds_demographics_consumer_purchases\nGROUP BY category\nORDER BY total_amount DESC;",
+  "execution_time_ms": 407.0,
+  "row_count": 8,
+  "wall_time_s": 80.2,
+  "dataset": "demographics_consumer",
+  "tier": "easy",
+  "question": "What is the total purchase amount by category?",
+  "elapsed_s": 84.4
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Purchase Amount 5,012.46 | Latest Avg Purchase Amount 1,002.53",
+  "metrics": [
+   [
+    "avg_purchase_amount",
+    5012.46
+   ],
+   [
+    "latest avg_purchase_amount",
+    1002.53
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT\n    c.income_bracket,\n    AVG(p.amount) AS avg_purchase_amount\nFROM ds_demographics_consumer_consumers c\nJOIN ds_demographics_consumer_purchases p ON c.consumer_id = p.consumer_id\nGROUP BY c.income_bracket\nORDER BY c.income_bracket;",
+  "execution_time_ms": 500.0,
+  "row_count": 5,
+  "wall_time_s": 135.2,
+  "dataset": "demographics_consumer",
+  "tier": "easy",
+  "question": "What is the average purchase amount by income bracket?",
+  "elapsed_s": 135.3
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Consumer Count: 25,087",
+  "metrics": [
+   [
+    "consumer_count",
+    25087.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT region, COUNT(consumer_id) AS consumer_count FROM ds_demographics_consumer_consumers GROUP BY region ORDER BY region;",
+  "execution_time_ms": 63.0,
+  "row_count": 4,
+  "wall_time_s": 21.2,
+  "dataset": "demographics_consumer",
+  "tier": "easy",
+  "question": "How many consumers are there per region?",
+  "elapsed_s": 21.2
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Purchase Amount 40,099.53 | Latest Avg Purchase Amount 1,009.52",
+  "metrics": [
+   [
+    "avg_purchase_amount",
+    40099.53
+   ],
+   [
+    "latest avg_purchase_amount",
+    1009.52
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT p.category, c.income_bracket, AVG(p.amount) AS avg_purchase_amount\nFROM ds_demographics_consumer_purchases p\nJOIN ds_demographics_consumer_consumers c ON p.consumer_id = c.consumer_id\nGROUP BY p.category, c.income_bracket\nORDER BY p.category, c.income_bracket;",
+  "execution_time_ms": 875.0,
+  "row_count": 40,
+  "wall_time_s": 46.7,
+  "dataset": "demographics_consumer",
+  "tier": "medium",
+  "question": "What is the average purchase amount by category and income bracket?",
+  "elapsed_s": 46.7
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Preference Score 43.98 | Latest Avg Preference Score 5.49",
+  "metrics": [
+   [
+    "avg_preference_score",
+    43.98
+   ],
+   [
+    "latest avg_preference_score",
+    5.49
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT category, AVG(preference_score) AS avg_preference_score\nFROM ds_demographics_consumer_preferences\nGROUP BY category\nORDER BY category;",
+  "execution_time_ms": 297.0,
+  "row_count": 8,
+  "wall_time_s": 70.9,
+  "dataset": "demographics_consumer",
+  "tier": "medium",
+  "question": "What is the average preference score by category?",
+  "elapsed_s": 70.9
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Spend Per Purchase 6,014.03 | Latest Avg Spend Per Purchase 1,000.1 | Total Purchase Count 500,000 | Latest Purchase Count 69,095 | Total Spend 501,244,719.58 | Latest Total Spend 69,101,662.47",
+  "metrics": [
+   [
+    "avg_spend_per_purchase",
+    6014.03
+   ],
+   [
+    "latest avg_spend_per_purchase",
+    1000.1
+   ],
+   [
+    "total purchase_count",
+    500000.0
+   ],
+   [
+    "latest purchase_count",
+    69095.0
+   ],
+   [
+    "total_spend",
+    501244719.58
+   ],
+   [
+    "latest total_spend",
+    69101662.47
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH age_groups AS (\n    SELECT\n        p.amount,\n        CASE\n            WHEN c.age < 18 THEN 'Under 18'\n            WHEN c.age BETWEEN 18 AND 24 THEN '18-24'\n            WHEN c.age BETWEEN 25 AND 34 THEN '25-34'\n            WHEN c.age BETWEEN 35 AND 44 THEN '35-44'\n            WHEN c.age BETWEEN 45 AND 54 THEN '45-54'\n            WHEN c.age BETWEEN 55 AND 64 THEN '55-64'\n            WHEN c.age >= 65 THEN '65+'\n            ELSE 'Unknown'\n        END AS age_group\n    FROM ds_demographics_consumer_consumers c\n    JOIN ds_demographics_consumer_purchases p ON c.consumer_id = p.consumer_id\n)\nSELECT\n    age_group,\n    AVG(amount) AS avg_spend_per_purchase,\n    COUNT(*) AS purchase_count,\n    SUM(amount) AS total_spend\nFROM age_groups\nGROUP BY age_group\nORDER BY avg_spend_per_purchase DESC;",
+  "execution_time_ms": 359.0,
+  "row_count": 6,
+  "wall_time_s": 64.8,
+  "dataset": "demographics_consumer",
+  "tier": "medium",
+  "question": "Which age groups spend the most per purchase?",
+  "elapsed_s": 64.8
+ },
+ {
+  "success": true,
+  "query_type": "trend",
+  "answer": "Total Purchase Volume 501,244,719.58 | Latest Purchase Volume 86,781.24 | Total Rolling Avg 3M 515,538,027.56 | Latest Rolling Avg 3M 1,861,186.17",
+  "metrics": [
+   [
+    "total purchase_volume",
+    501244719.58
+   ],
+   [
+    "latest purchase_volume",
+    86781.24
+   ],
+   [
+    "total rolling_avg_3m",
+    515538027.56
+   ],
+   [
+    "latest rolling_avg_3m",
+    1861186.17
+   ]
+  ],
+  "sections": 0,
+  "sql": "WITH monthly AS (\n  SELECT \n    date_trunc('month', purchase_date)::date AS month,\n    category,\n    SUM(amount) AS purchase_volume\n  FROM ds_demographics_consumer_purchases\n  GROUP BY date_trunc('month', purchase_date)::date, category\n)\nSELECT \n  month,\n  category,\n  purchase_volume,\n  AVG(purchase_volume) OVER (\n    PARTITION BY category \n    ORDER BY month \n    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW\n  ) AS rolling_avg_3m\nFROM monthly\nORDER BY category, month;",
+  "execution_time_ms": 110.0,
+  "row_count": 192,
+  "wall_time_s": 65.3,
+  "dataset": "demographics_consumer",
+  "tier": "hard",
+  "question": "Show monthly purchase volume with a 3-month rolling average by category",
+  "elapsed_s": 65.3
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: What is the correlation between preference score and purchase amount by category?",
+  "metrics": [
+   [
+    "total_amount",
+    501244719.58
+   ],
+   [
+    "latest total_amount",
+    1396.8
+   ],
+   [
+    "sum_product",
+    687824047.85
+   ],
+   [
+    "latest sum_product",
+    86158679.68
+   ],
+   [
+    "sum_square_preference",
+    3352023.0
+   ],
+   [
+    "latest sum_square_preference",
+    418578.0
+   ]
+  ],
+  "sections": 3,
+  "sql": "WITH purchase_totals AS (\n    SELECT consumer_id, category, SUM(amount) AS total_amount\n    FROM ds_demographics_consumer_purchases\n    GROUP BY consumer_id, category\n),\nconsumer_pairs AS (\n    SELECT p.category, p.consumer_id,\n           MAX(p.preference_score) AS preference_score,\n           pt.total_amount\n    FROM ds_demographics_consumer_preferences p\n    JOIN purchase_totals pt ON p.consumer_id = pt.consumer_id AND p.category = pt.category\n    GROUP BY p.category, p.consumer_id, pt.total_amount\n)\nSELECT category,\n       SUM(preference_score * preference_score) AS sum_square_preference,\n       SUM(total_amount * total_amount) AS sum_square_amount\nFROM consumer_pairs\nGROUP BY category\nORDER BY category;",
+  "execution_time_ms": 6562.0,
+  "row_count": 8,
+  "wall_time_s": 358.5,
+  "dataset": "demographics_consumer",
+  "tier": "hard",
+  "question": "What is the correlation between preference score and purchase amount by category?",
+  "elapsed_s": 358.5
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Age: 43",
+  "metrics": [
+   [
+    "age",
+    43.0
+   ],
+   [
+    "total_spend",
+    1666922.95
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \n    c.age,\n    c.income_bracket,\n    SUM(p.amount) AS total_spend\nFROM ds_demographics_consumer_consumers c\nJOIN ds_demographics_consumer_purchases p ON c.consumer_id = p.consumer_id\nGROUP BY c.age, c.income_bracket\nORDER BY total_spend DESC",
+  "execution_time_ms": 250.0,
+  "row_count": 365,
+  "wall_time_s": 96.9,
+  "dataset": "demographics_consumer",
+  "tier": "hard",
+  "question": "Which consumer segments (age + income) have the highest total spend?",
+  "elapsed_s": 96.9
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare Q4 vs Q3 spending by category, identify the top 3 growth categories, and explain the demographic driver behind the growth",
+  "metrics": [
+   [
+    "total_spent",
+    43968811.2
+   ],
+   [
+    "latest total_spent",
+    5320723.89
+   ],
+   [
+    "total_spent",
+    65418753.76
+   ],
+   [
+    "latest total_spent",
+    8021580.96
+   ],
+   [
+    "total_spent",
+    43968811.2
+   ],
+   [
+    "latest total_spent",
+    993417.99
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT\n    p.category,\n    CASE\n        WHEN c.age < 25 THEN 'under 25'\n        WHEN c.age BETWEEN 25 AND 35 THEN '25-35'\n        WHEN c.age BETWEEN 36 AND 50 THEN '36-50'\n        ELSE 'over 50'\n    END AS age_group,\n    SUM(p.amount) AS total_spent\nFROM ds_demographics_consumer_purchases p\nJOIN ds_demographics_consumer_consumers c\n    ON p.consumer_id = c.consumer_id\nWHERE p.purchase_date BETWEEN '2024-10-01' AND '2024-12-31'\nGROUP BY p.category, age_group\nORDER BY total_spent DESC;",
+  "execution_time_ms": 1453.0,
+  "row_count": 32,
+  "wall_time_s": 438.0,
+  "dataset": "demographics_consumer",
+  "tier": "very_complex",
+  "question": "Compare Q4 vs Q3 spending by category, identify the top 3 growth categories, and explain the demographic driver behind the growth",
+  "elapsed_s": 438.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Build a report on consumer segments: which age-income-education segments spend the most per category, and how do preferences predict spending?",
+  "metrics": [
+   [
+    "total_spend",
+    501244719.58
+   ],
+   [
+    "latest total_spend",
+    2950459.67
+   ],
+   [
+    "total_spend",
+    501244719.58
+   ],
+   [
+    "latest total_spend",
+    6621503.99
+   ],
+   [
+    "avg_preference_score",
+    879.65
+   ],
+   [
+    "latest avg_preference_score",
+    5.31
+   ]
+  ],
+  "sections": 5,
+  "sql": "WITH purchases_agg AS (\n  SELECT consumer_id, category, SUM(amount) AS total_spend\n  FROM ds_demographics_consumer_purchases\n  GROUP BY consumer_id, category\n),\npreferences_agg AS (\n  SELECT consumer_id, category, AVG(preference_score) AS avg_preference_score\n  FROM ds_demographics_consumer_preferences\n  GROUP BY consumer_id, category\n)\nSELECT \n  COALESCE(p.consumer_id, pr.consumer_id) AS consumer_id,\n  COALESCE(p.category, pr.category) AS category,\n  COALESCE(p.total_spend, 0) AS total_spend,\n  pr.avg_preference_score\nFROM purchases_agg p\nFULL OUTER JOIN preferences_agg pr ON p.consumer_id = pr.consumer_id AND p.category = pr.category\nORDER BY consumer_id, category",
+  "execution_time_ms": 3672.0,
+  "row_count": 466305,
+  "wall_time_s": 138.0,
+  "dataset": "demographics_consumer",
+  "tier": "very_complex",
+  "question": "Build a report on consumer segments: which age-income-education segments spend the most per category, and how do preferences predict spending?",
+  "elapsed_s": 138.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: Analyze regional differences: how do purchase patterns and preferences vary by region, and which region shows the strongest preference-to-spend relationship?",
+  "metrics": [
+   [
+    "total_amount",
+    501244719.58
+   ],
+   [
+    "latest total_amount",
+    124514708.34
+   ],
+   [
+    "total num_purchases",
+    500000.0
+   ],
+   [
+    "latest num_purchases",
+    124527.0
+   ],
+   [
+    "avg_preference_score",
+    21.99
+   ],
+   [
+    "latest avg_preference_score",
+    5.49
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT c.region, p.category, AVG(p.preference_score::numeric) AS avg_preference_score\nFROM ds_demographics_consumer_consumers c\nJOIN ds_demographics_consumer_preferences p ON c.consumer_id = p.consumer_id\nGROUP BY c.region, p.category\nORDER BY c.region, avg_preference_score DESC;",
+  "execution_time_ms": 985.0,
+  "row_count": 32,
+  "wall_time_s": 302.7,
+  "dataset": "demographics_consumer",
+  "tier": "very_complex",
+  "question": "Analyze regional differences: how do purchase patterns and preferences vary by region, and which region shows the strongest preference-to-spend relationship?",
+  "elapsed_s": 302.7
+ }
+]

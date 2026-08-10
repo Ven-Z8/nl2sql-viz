@@ -1,0 +1,338 @@
+[
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Total Population: 4,830,620",
+  "metrics": [
+   [
+    "total_population",
+    4830620.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\", SUM(\"TotalPop\") AS total_population FROM ds_census_tracts GROUP BY \"State\" ORDER BY \"State\"",
+  "execution_time_ms": 969.0,
+  "row_count": 52,
+  "wall_time_s": 19.9,
+  "dataset": "census",
+  "tier": "easy",
+  "question": "What is the total population of each state?",
+  "elapsed_s": 24.1
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Income 2,910,813.88 | Latest Avg Income 58,757.85",
+  "metrics": [
+   [
+    "avg_income",
+    2910813.88
+   ],
+   [
+    "latest avg_income",
+    58757.85
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\", ROUND(CAST(AVG(\"Income\") AS DECIMAL), 2) AS avg_income FROM ds_census_tracts GROUP BY \"State\" ORDER BY \"State\"",
+  "execution_time_ms": 94.0,
+  "row_count": 52,
+  "wall_time_s": 21.5,
+  "dataset": "census",
+  "tier": "easy",
+  "question": "What is the average household income by state?",
+  "elapsed_s": 21.5
+ },
+ {
+  "success": true,
+  "query_type": "kpi",
+  "answer": "Tract Count: 1,181",
+  "metrics": [
+   [
+    "tract_count",
+    1181.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\", COUNT(\"CensusTract\") AS tract_count FROM ds_census_tracts GROUP BY \"State\" ORDER BY \"State\"",
+  "execution_time_ms": 391.0,
+  "row_count": 52,
+  "wall_time_s": 33.7,
+  "dataset": "census",
+  "tier": "easy",
+  "question": "How many census tracts are there per state?",
+  "elapsed_s": 33.7
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Avg Income 732,277.17 | Latest Avg Income 67,264.78",
+  "metrics": [
+   [
+    "avg_income",
+    732277.17
+   ],
+   [
+    "latest avg_income",
+    67264.78
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\", AVG(\"Income\") AS avg_income FROM ds_census_tracts WHERE \"Income\" IS NOT NULL AND \"State\" IS NOT NULL GROUP BY \"State\" ORDER BY avg_income DESC LIMIT 10",
+  "execution_time_ms": 1500.0,
+  "row_count": 10,
+  "wall_time_s": 117.8,
+  "dataset": "census",
+  "tier": "medium",
+  "question": "Which states have the highest median income?",
+  "elapsed_s": 117.8
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Poverty Rate 860.93 | Latest Poverty Rate 12.31",
+  "metrics": [
+   [
+    "total poverty_rate",
+    860.93
+   ],
+   [
+    "latest poverty_rate",
+    12.31
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\" AS state, AVG(\"Poverty\") AS poverty_rate FROM ds_census_tracts GROUP BY \"State\" ORDER BY \"State\"",
+  "execution_time_ms": 562.0,
+  "row_count": 52,
+  "wall_time_s": 55.0,
+  "dataset": "census",
+  "tier": "medium",
+  "question": "What is the poverty rate by state?",
+  "elapsed_s": 55.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Population 320,098,094 | Latest Total Population 579,679 | Total Hispanic Pct 670.05 | Latest Hispanic Pct 9.61 | Total White Pct 3,546.84 | Latest White Pct 84.47 | Total Black Pct 556.52 | Latest Black Pct 1.03 | Total Native Pct 72.73 | Latest Native Pct 1.9 | Total Asian Pct 198.42 | Latest Asian Pct 0.89 | Total Pacific Pct 15.29 | Latest Pacific Pct 0.07",
+  "metrics": [
+   [
+    "total_population",
+    320098094.0
+   ],
+   [
+    "latest total_population",
+    579679.0
+   ],
+   [
+    "total hispanic_pct",
+    670.05
+   ],
+   [
+    "latest hispanic_pct",
+    9.61
+   ],
+   [
+    "total white_pct",
+    3546.84
+   ],
+   [
+    "latest white_pct",
+    84.47
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\", SUM(\"TotalPop\") AS total_population, SUM(\"TotalPop\" * \"Hispanic\") / NULLIF(SUM(\"TotalPop\"), 0) AS hispanic_pct, SUM(\"TotalPop\" * \"White\") / NULLIF(SUM(\"TotalPop\"), 0) AS white_pct, SUM(\"TotalPop\" * \"Black\") / NULLIF(SUM(\"TotalPop\"), 0) AS black_pct, SUM(\"TotalPop\" * \"Native\") / NULLIF(SUM(\"TotalPop\"), 0) AS native_pct, SUM(\"TotalPop\" * \"Asian\") / NULLIF(SUM(\"TotalPop\"), 0) AS asian_pct, SUM(\"TotalPop\" * \"Pacific\") / NULLIF(SUM(\"TotalPop\"), 0) AS pacific_pct FROM ds_census_tracts WHERE \"State\" IS NOT NULL GROUP BY \"State\" ORDER BY total_population DESC",
+  "execution_time_ms": 453.0,
+  "row_count": 52,
+  "wall_time_s": 179.9,
+  "dataset": "census",
+  "tier": "medium",
+  "question": "How does the racial composition vary across states?",
+  "elapsed_s": 180.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Median Income 150,422,067.79 | Latest Median Income 57,931.5 | Total Poverty Rate 57,331.88 | Latest Poverty Rate 13.75",
+  "metrics": [
+   [
+    "median_income",
+    150422067.79
+   ],
+   [
+    "latest median_income",
+    57931.5
+   ],
+   [
+    "total poverty_rate",
+    57331.88
+   ],
+   [
+    "latest poverty_rate",
+    13.75
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\", \"County\", AVG(\"Income\") AS median_income, AVG(\"Poverty\") AS poverty_rate FROM ds_census_tracts GROUP BY \"State\", \"County\" ORDER BY \"State\", \"County\"",
+  "execution_time_ms": 234.0,
+  "row_count": 3220,
+  "wall_time_s": 91.5,
+  "dataset": "census",
+  "tier": "hard",
+  "question": "Show the relationship between median income and poverty rate by county",
+  "elapsed_s": 91.5
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Total Income Inequality Cv 6.42 | Latest Income Inequality Cv 0.6 | Total Num Tracts 1,521 | Latest Num Tracts 5",
+  "metrics": [
+   [
+    "total income_inequality_cv",
+    6.42
+   ],
+   [
+    "latest income_inequality_cv",
+    0.6
+   ],
+   [
+    "total num_tracts",
+    1521.0
+   ],
+   [
+    "latest num_tracts",
+    5.0
+   ]
+  ],
+  "sections": 0,
+  "sql": "SELECT \"State\", \"County\", STDDEV(\"Income\") / AVG(\"Income\") AS income_inequality_cv, COUNT(*) AS num_tracts FROM ds_census_tracts WHERE \"Income\" IS NOT NULL GROUP BY \"State\", \"County\" HAVING COUNT(*) >= 5 ORDER BY income_inequality_cv DESC LIMIT 10",
+  "execution_time_ms": 2156.0,
+  "row_count": 10,
+  "wall_time_s": 48.9,
+  "dataset": "census",
+  "tier": "hard",
+  "question": "Which counties have the highest income inequality?",
+  "elapsed_s": 53.0
+ },
+ {
+  "success": true,
+  "query_type": "breakdown",
+  "answer": "Report: What is the average commute time by state, and how does it correlate with transit usage?",
+  "metrics": [
+   [
+    "avg_commute",
+    1247.91
+   ],
+   [
+    "latest avg_commute",
+    24.21
+   ],
+   [
+    "avg_transit",
+    210.9
+   ],
+   [
+    "latest avg_transit",
+    0.6
+   ],
+   [
+    "total_population",
+    320098094.0
+   ],
+   [
+    "latest total_population",
+    4830620.0
+   ]
+  ],
+  "sections": 4,
+  "sql": "SELECT \"State\", COUNT(*) AS num_census_tracts FROM ds_census_tracts GROUP BY \"State\"",
+  "execution_time_ms": 469.0,
+  "row_count": 52,
+  "wall_time_s": 138.3,
+  "dataset": "census",
+  "tier": "hard",
+  "question": "What is the average commute time by state, and how does it correlate with transit usage?",
+  "elapsed_s": 138.3
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Compare the top 10 richest vs poorest counties: how do demographics, employment, and commute patterns differ between them?",
+  "metrics": [
+   [
+    "avg_income",
+    1136669.9
+   ],
+   [
+    "latest avg_income",
+    105066.38
+   ],
+   [
+    "avg_income",
+    127697.07
+   ],
+   [
+    "latest avg_income",
+    13931.29
+   ],
+   [
+    "avg_men",
+    4211.43
+   ],
+   [
+    "latest avg_men",
+    1903.31
+   ]
+  ],
+  "sections": 5,
+  "sql": "WITH county_avg AS (SELECT \"State\", \"County\", AVG(\"Income\") AS avg_income, AVG(\"MeanCommute\") AS avg_mean_commute, AVG(\"Drive\") AS avg_drive, AVG(\"Transit\") AS avg_transit, AVG(\"Walk\") AS avg_walk, AVG(\"WorkAtHome\") AS avg_work_at_home FROM ds_census_tracts WHERE \"Income\" IS NOT NULL GROUP BY \"State\", \"County\"), richest AS (SELECT \"State\", \"County\", avg_income, avg_mean_commute, avg_drive, avg_transit, avg_walk, avg_work_at_home FROM county_avg ORDER BY avg_income DESC LIMIT 10), poorest AS (SELECT \"State\", \"County\", avg_income, avg_mean_commute, avg_drive, avg_transit, avg_walk, avg_work_at_home FROM county_avg ORDER BY avg_income ASC LIMIT 10) SELECT 'richest' AS wealth_group, AVG(avg_mean_commute) AS avg_mean_commute, AVG(avg_drive) AS avg_drive, AVG(avg_transit) AS avg_transit, AVG(avg_walk) AS avg_walk, AVG(avg_work_at_home) AS avg_work_at_home FROM richest UNION ALL SELECT 'poorest', AVG(avg_mean_commute), AVG(avg_drive), AVG(avg_transit), AVG(avg_walk), AVG(avg_work_at_home) FROM poorest",
+  "execution_time_ms": 359.0,
+  "row_count": 2,
+  "wall_time_s": 202.1,
+  "dataset": "census",
+  "tier": "very_complex",
+  "question": "Compare the top 10 richest vs poorest counties: how do demographics, employment, and commute patterns differ between them?",
+  "elapsed_s": 202.1
+ },
+ {
+  "success": true,
+  "query_type": "comparison",
+  "answer": "Report: Build a report on urban vs rural areas: how do income, poverty, and employment patterns differ between high-density and low-density tracts?",
+  "metrics": [
+   [
+    "median_totalpop",
+    4063.0
+   ],
+   [
+    "avg_income",
+    114347.76
+   ],
+   [
+    "latest avg_income",
+    53100.59
+   ],
+   [
+    "avg_income_per_cap",
+    56974.51
+   ],
+   [
+    "latest avg_income_per_cap",
+    28075.84
+   ],
+   [
+    "avg_poverty_pct",
+    33.95
+   ]
+  ],
+  "sections": 5,
+  "sql": "WITH median_cte AS (SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY \"TotalPop\") AS med FROM ds_census_tracts), classified AS (SELECT CASE WHEN t.\"TotalPop\" > m.med THEN 'High' ELSE 'Low' END AS density_group, t.\"Professional\", t.\"Service\", t.\"Construction\", t.\"Transit\", t.\"WorkAtHome\" FROM ds_census_tracts AS t CROSS JOIN median_cte AS m) SELECT density_group, AVG(\"Professional\") AS avg_professional_pct, AVG(\"Service\") AS avg_service_pct, AVG(\"Construction\") AS avg_construction_pct, AVG(\"Transit\") AS avg_transit_pct, AVG(\"WorkAtHome\") AS avg_work_at_home_pct FROM classified GROUP BY density_group ORDER BY density_group",
+  "execution_time_ms": 188.0,
+  "row_count": 2,
+  "wall_time_s": 214.9,
+  "dataset": "census",
+  "tier": "very_complex",
+  "question": "Build a report on urban vs rural areas: how do income, poverty, and employment patterns differ between high-density and low-density tracts?",
+  "elapsed_s": 214.9
+ }
+]
