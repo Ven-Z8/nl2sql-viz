@@ -62,9 +62,14 @@ class SchemaValidator:
                 alias = node.alias or table
                 aliases[alias] = table
 
-        # Collect CTE names — bare columns from CTEs aren't real table columns
+        # Collect CTE names and SELECT aliases — these are computed columns, not
+        # real table columns, so references to them must be skipped.
         cte_names = {
             node.alias for node in parsed.walk() if isinstance(node, exp.CTE)
+        }
+        select_aliases = {
+            node.alias for node in parsed.walk()
+            if isinstance(node, exp.Alias) and node.alias
         }
 
         errors: list[str] = []
@@ -74,6 +79,8 @@ class SchemaValidator:
             if not isinstance(node, exp.Column):
                 continue
             col = node.name
+            if col in select_aliases:
+                continue  # computed column (SELECT alias) — not a table column
             table_ref = node.table or ""
             if table_ref:
                 real_table = aliases.get(table_ref, table_ref)

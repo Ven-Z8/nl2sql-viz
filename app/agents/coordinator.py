@@ -14,6 +14,7 @@ Streams progress events as an async generator for WebSocket delivery.
 
 from __future__ import annotations
 
+import asyncio
 import re
 from collections.abc import AsyncIterator
 from typing import Any
@@ -272,34 +273,51 @@ class CoordinatorAgent(Agent, llm=SONNET):
 
         if complexity == QueryComplexity.COMPLEX:
             yield {"type": "progress", "message": "Planning multi-query analysis..."}
-            plan = await self.sql_agent.plan_queries(nl_query, schema, sample_text)
-            for pq in plan.queries:
-                yield {"type": "progress", "message": f"Running query: {pq.purpose}"}
-                sql = pq.sql
-                # Validate against the real schema — no guessing. Retry with
-                # feedback if the model used a wrong column.
+            sub_questions = await self.sql_agent.plan_analysis(nl_query, schema, sample_text)
+            if not sub_questions:
+                sub_questions = [SubQuery(id="q1", question=nl_query, purpose="main analysis")]
+
+            # Generate each sub-query's SQL IN PARALLEL — the model is the
+            # bottleneck, so concurrent calls cut wall time dramatically.
+            yield {"type": "progress", "message": f"Generating {len(sub_questions)} queries in parallel..."}
+            generated = await asyncio.gather(*[
+                self.sql_agent.generate_simple(
+                    question=sq.question, schema=schema, sample_text=sample_text
+                )
+                for sq in sub_questions
+            ])
+
+            # Validate each query against the real schema — no guessing.
+            # Retry with feedback if the model used a wrong column.
+            sqls = [g.sql for g in generated]
+            for i in range(len(sqls)):
                 for attempt in range(2):
-                    ok, fixed, errors = validator.validate_and_fix(sql)
+                    ok, fixed, errors = validator.validate_and_fix(sqls[i])
                     if ok:
-                        sql = fixed
+                        sqls[i] = fixed
                         break
                     feedback = "; ".join(errors)
-                    yield {"type": "progress", "message": f"Fixing query: {errors[0][:60]}"}
-                    plan = await self.sql_agent.plan_queries(
-                        nl_query, schema, sample_text, feedback=feedback
+                    yield {"type": "progress", "message": f"Fixing query {i+1}: {errors[0][:60]}"}
+                    retry = await self.sql_agent.generate_simple(
+                        question=sub_questions[i].question, schema=schema,
+                        sample_text=sample_text, feedback=feedback,
                     )
-                    sql = plan.queries[0].sql if plan.queries else sql
-                try:
-                    validate_read_only(sql)
-                    yield {"type": "sql", "sql": sql}
-                    result = await self.sql_agent.execute_query(sql)
-                except Exception as e:
-                    yield {"type": "progress", "message": f"Query failed: {e}"}
+                    sqls[i] = retry.sql
+
+            # Execute all queries IN PARALLEL
+            yield {"type": "progress", "message": f"Executing {len(sqls)} queries in parallel..."}
+            executed = await asyncio.gather(*[
+                self.sql_agent.execute_query(sql) for sql in sqls
+            ], return_exceptions=True)
+
+            for i, (sq, sql, result) in enumerate(zip(sub_questions, sqls, executed)):
+                if isinstance(result, Exception):
+                    yield {"type": "progress", "message": f"Query {i+1} failed: {result}"}
                     continue
+                yield {"type": "sql", "sql": sql}
                 if result.row_count > 0:
                     results.append(result)
-                    sqls.append(result.sql)
-                    report_sections.append(self._section_from_result(pq.purpose, result))
+                    report_sections.append(self._section_from_result(sq.purpose or sq.question, result))
             if not results:
                 yield {"type": "error", "message": "All planned queries returned zero rows. Try a broader question."}
                 return

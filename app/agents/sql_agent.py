@@ -24,6 +24,7 @@ from app.models import (
     QueryPlan,
     QueryResult,
     SchemaMap,
+    SubQuery,
 )
 
 _SQL_SYSTEM_HINT = """\
@@ -122,6 +123,26 @@ class SQLAgent(Agent, llm=SONNET):
 
         Previous attempt feedback (fix these errors — use ONLY the listed columns):
         {feedback}
+        """
+        ...
+
+    @strategy(PredictStrategy())
+    async def plan_analysis(self, question: str, schema: SchemaMap, sample_text: str = "") -> list[SubQuery]:
+        """Break a COMPLEX question into 3-5 verifiable sub-questions.
+
+        Each sub-question must be answerable by a single SELECT with basic
+        aggregation. The sub-questions are designed so their results can be
+        compared or joined to build the final report. Keep each sub-question
+        short and specific.
+
+        The schema is: {schema.compact_repr()}
+
+        Sample data (real rows — use these to understand the column names, grain,
+        and value formats. Pick columns that actually exist in the sample):
+        {sample_text}
+
+        Domain guidance (follow these analyst conventions):
+        {self.domain_guidance}
         """
         ...
 

@@ -19,12 +19,11 @@ from app.models import (
     ColumnInfo,
     DataStrategy,
     GeneratedSQL,
-    PlannedQuery,
     QueryComplexity,
-    QueryPlan,
     QueryResult,
     QueryType,
     SchemaMap,
+    SubQuery,
 )
 from app.db.guard import validate_read_only
 from app.engine.cache import QueryCache, cache_key
@@ -397,7 +396,7 @@ class TestCoordinatorPipeline:
         assert "42" in answer.text
 
     def test_complex_question_uses_query_plan(self):
-        """Complex questions plan multiple queries, execute each, and build a report."""
+        """Complex questions plan sub-questions, generate SQL in parallel, and build a report."""
         agent = self._make_coordinator()
 
         class StubSchema:
@@ -408,11 +407,14 @@ class TestCoordinatorPipeline:
             async def classify_complexity(self, question, schema_text):
                 return QueryComplexity.COMPLEX
 
-            async def plan_queries(self, question, schema, sample_text=""):
-                return QueryPlan(queries=[
-                    PlannedQuery(id="q1", sql="SELECT 1", purpose="revenue"),
-                    PlannedQuery(id="q2", sql="SELECT 2", purpose="cost"),
-                ])
+            async def plan_analysis(self, question, schema, sample_text=""):
+                return [
+                    SubQuery(id="q1", question="revenue by region", purpose="revenue"),
+                    SubQuery(id="q2", question="cost by region", purpose="cost"),
+                ]
+
+            async def generate_simple(self, question, schema, sample_text="", feedback=""):
+                return GeneratedSQL(sql=f"SELECT {question}")
 
             async def execute_query(self, sql):
                 return QueryResult(columns=["total"], rows=[{"total": 100}], row_count=1, sql=sql)
@@ -436,7 +438,7 @@ class TestCoordinatorPipeline:
         assert len(result_events) == 1
         event = result_events[0]
         answer = event["answer"]
-        # Both planned queries executed → two report sections
+        # Both sub-questions executed → two report sections
         assert len(answer["sections"]) == 2
         assert answer["sections"][0]["title"] == "revenue"
         assert answer["sections"][1]["title"] == "cost"
