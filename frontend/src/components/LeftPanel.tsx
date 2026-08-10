@@ -3,7 +3,12 @@ import { useRef, useState } from "react";
 import LogStream, { LogEntry } from "./LogStream";
 
 export type HistoryItem = { query: string; timestamp: string };
-export type SuggestedQuestion = { id: string; question: string; category: string };
+export type SuggestedQuestion = {
+  id: string;
+  question: string;
+  category: string;
+  tier?: "easy" | "medium" | "hard" | "very_complex";
+};
 
 interface LeftPanelProps {
   query: string;
@@ -45,6 +50,13 @@ const SECTION_LABEL: React.CSSProperties = {
   letterSpacing: "0.1em",
   marginBottom: "var(--space-3)",
 };
+
+const TIER_GROUPS: { key: "easy" | "medium" | "hard" | "very_complex"; label: string; color: string }[] = [
+  { key: "easy", label: "Easy", color: "#4ade80" },
+  { key: "medium", label: "Medium", color: "#facc15" },
+  { key: "hard", label: "Hard", color: "#fb923c" },
+  { key: "very_complex", label: "Very Complex", color: "#f87171" },
+];
 
 const TAB: React.CSSProperties = {
   flex: 1,
@@ -657,54 +669,120 @@ export default function LeftPanel({
             }}
           >
             <div style={SECTION_LABEL}>Suggested Analysis</div>
-            {suggestedQuestions.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => onSuggestedQuestionClick(item.question)}
-                disabled={isLoading}
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  padding: "10px 12px",
-                  borderRadius: "var(--radius-md)",
-                  border: "1px solid var(--color-border-subtle)",
-                  background: "var(--color-paper-3)",
-                  color: "var(--color-ink)",
-                  marginBottom: "var(--space-2)",
-                  cursor: isLoading ? "not-allowed" : "pointer",
-                  opacity: isLoading ? 0.55 : 1,
-                  transition: "transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast)",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isLoading) {
-                    (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-1px)";
-                    (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-accent-dim)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLButtonElement).style.transform = "translateY(0)";
-                  (e.currentTarget as HTMLButtonElement).style.borderColor = "var(--color-border-subtle)";
-                }}
-              >
-                <span
-                  style={{
-                    display: "block",
-                    fontSize: "10px",
-                    fontWeight: 600,
-                    color: "var(--color-accent)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.08em",
-                    marginBottom: "3px",
-                  }}
-                >
-                  {item.category}
-                </span>
-                <span style={{ display: "block", fontSize: "12.5px", lineHeight: 1.45 }}>
-                  {item.question}
-                </span>
-              </button>
-            ))}
+            {TIER_GROUPS.map((group) => {
+              const items = suggestedQuestions.filter((q) => q.tier === group.key);
+              if (items.length === 0) return null;
+              return (
+                <div key={group.key} style={{ marginBottom: "var(--space-3)" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "6px",
+                      margin: "0 0 6px 2px",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "9.5px",
+                        fontWeight: 700,
+                        letterSpacing: "0.1em",
+                        textTransform: "uppercase",
+                        color: group.color,
+                        background: "color-mix(in srgb, " + group.color + " 12%, transparent)",
+                        padding: "2px 8px",
+                        borderRadius: "var(--radius-sm)",
+                      }}
+                    >
+                      {group.label}
+                    </span>
+                  </div>
+                  {items.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => onSuggestedQuestionClick(item.question)}
+                      disabled={isLoading}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "10px 12px",
+                        borderRadius: "var(--radius-md)",
+                        border: "1px solid var(--color-border-subtle)",
+                        background: "var(--color-paper-3)",
+                        color: "var(--color-ink)",
+                        marginBottom: "var(--space-2)",
+                        cursor: isLoading ? "not-allowed" : "pointer",
+                        opacity: isLoading ? 0.55 : 1,
+                        transition:
+                          "transform var(--dur-fast) var(--ease-out), border-color var(--dur-fast)",
+                      }}
+                      onMouseEnter={(e) => {
+                        if (!isLoading) {
+                          (e.currentTarget as HTMLButtonElement).style.transform =
+                            "translateY(-1px)";
+                          (e.currentTarget as HTMLButtonElement).style.borderColor =
+                            "var(--color-accent-dim)";
+                        }
+                      }}
+                      onMouseLeave={(e) => {
+                        (e.currentTarget as HTMLButtonElement).style.transform =
+                          "translateY(0)";
+                        (e.currentTarget as HTMLButtonElement).style.borderColor =
+                          "var(--color-border-subtle)";
+                      }}
+                    >
+                      <span style={{ display: "block", fontSize: "12.5px", lineHeight: 1.45 }}>
+                        {item.question}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              );
+            })}
+            {suggestedQuestions.some((q) => !q.tier) && (
+              <div>
+                {suggestedQuestions
+                  .filter((q) => !q.tier)
+                  .map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => onSuggestedQuestionClick(item.question)}
+                      disabled={isLoading}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "10px 12px",
+                        borderRadius: "var(--radius-md)",
+                        border: "1px solid var(--color-border-subtle)",
+                        background: "var(--color-paper-3)",
+                        color: "var(--color-ink)",
+                        marginBottom: "var(--space-2)",
+                        cursor: isLoading ? "not-allowed" : "pointer",
+                        opacity: isLoading ? 0.55 : 1,
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "block",
+                          fontSize: "10px",
+                          fontWeight: 600,
+                          color: "var(--color-accent)",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.08em",
+                          marginBottom: "3px",
+                        }}
+                      >
+                        {item.category}
+                      </span>
+                      <span style={{ display: "block", fontSize: "12.5px", lineHeight: 1.45 }}>
+                        {item.question}
+                      </span>
+                    </button>
+                  ))}
+              </div>
+            )}
           </div>
         )}
 

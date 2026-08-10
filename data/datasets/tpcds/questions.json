@@ -1,21 +1,21 @@
 {
   "easy": [
-    "What is the total store sales revenue?",
-    "How many sales were made via each channel (store, catalog, web)?",
-    "What is the average item list price by category?"
+    "Which sales channels (store, catalog, web) generate the most revenue?",
+    "Which item categories sell the most units?",
+    "How does revenue break down across sales channels?"
   ],
   "medium": [
-    "What is the total revenue by sales channel?",
-    "Which items have the highest total sales quantity?",
-    "What is the return rate by channel?"
+    "Compare average item prices across categories",
+    "What is the distribution of item list prices?",
+    "Which channels have the highest return rates?"
   ],
   "hard": [
-    "Show monthly store sales with a 3-month rolling average",
-    "Which customers have the highest lifetime value across all channels?",
+    "Show the monthly store sales trend",
+    "How has web sales revenue evolved quarter over quarter?",
     "What is the relationship between item price and quantity sold?"
   ],
   "very_complex": [
-    "Compare store vs web sales performance: how did monthly revenue trends differ across channels in 2001, which items drove the difference, and what was the return impact?",
-    "Build a report on inventory: which items had the highest stockout risk relative to sales, broken down by warehouse, and which items need restocking?"
+    "Compare store vs web sales: how do the revenue trends differ over time, which categories drive the difference, and what is the return impact?",
+    "Analyze inventory risk: which items have the highest stockout risk relative to sales, how does it vary by warehouse, and which items need restocking?"
   ]
 }

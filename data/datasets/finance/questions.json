@@ -1,22 +1,21 @@
 {
   "easy": [
-    "What is the total transaction volume by category?",
-    "What is the average account balance by account type?",
-    "How many loans are there per status?"
+    "Which account types hold the most balance?",
+    "How does transaction volume break down by category?",
+    "Which loan statuses are most common?"
   ],
   "medium": [
-    "What is the average transaction amount by category and status?",
-    "What is the total loan amount by customer segment?",
-    "Which account types have the highest transaction activity?"
+    "Compare average loan amounts across customer segments",
+    "What does the distribution of account balances look like?",
+    "Which regions generate the most transaction activity?"
   ],
   "hard": [
-    "Show monthly net cash flow with a 3-month rolling average by category",
-    "What is the loan default rate by segment, and how does it correlate with interest rate?",
-    "Which customers have the highest total transaction volume, and what is their account profile?"
+    "Show the monthly transaction volume trend",
+    "How has the average loan size changed quarter over quarter?",
+    "What is the relationship between loan amount and interest rate?"
   ],
   "very_complex": [
-    "Compare Q4 vs Q3 revenue by region, identify the top 3 growth categories, and explain the driver behind the growth",
-    "Build a report on loan risk: what is the default rate by segment and term, and which combination poses the highest risk to the bank?",
-    "Analyze customer profitability: which segments generate the most net revenue (deposits minus withdrawals), and how does it vary by region?"
+    "Compare Q4 vs Q3 spending by category: which categories grew, which customer segments drove the growth, and what was the transaction mix impact?",
+    "Analyze loan risk: how does the default rate vary by segment and region, which segments are riskiest, and how do riskier loans compare on interest rate?"
   ]
 }

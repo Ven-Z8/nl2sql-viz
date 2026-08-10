@@ -1,21 +1,21 @@
 {
   "easy": [
-    "What is the total population of each state?",
-    "What is the average household income by state?",
-    "How many census tracts are there per state?"
+    "Which states have the largest populations?",
+    "How does median income vary across states?",
+    "Which states have the highest poverty rates?"
   ],
   "medium": [
-    "Which states have the highest median income?",
-    "What is the poverty rate by state?",
-    "How does the racial composition vary across states?"
+    "Compare commute mode usage (driving vs transit vs walking) across the largest states",
+    "What does the distribution of median income look like across counties?",
+    "Which counties have the largest populations?"
   ],
   "hard": [
     "Show the relationship between median income and poverty rate by county",
-    "Which counties have the highest income inequality?",
-    "What is the average commute time by state, and how does it correlate with transit usage?"
+    "How does the racial composition vary across the largest states?",
+    "What is the relationship between commute time and transit usage?"
   ],
   "very_complex": [
-    "Compare the top 10 richest vs poorest counties: how do demographics, employment, and commute patterns differ between them?",
-    "Build a report on urban vs rural areas: how do income, poverty, and employment patterns differ between high-density and low-density tracts?"
+    "Compare the wealthiest vs poorest counties: how do employment, education, and commute patterns differ between them, and which states host both?",
+    "Analyze the aging population: which states have the highest share of elderly residents, how does that correlate with income and labor force participation, and what does it imply for the workforce?"
   ]
 }

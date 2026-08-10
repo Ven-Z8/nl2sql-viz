@@ -1,22 +1,21 @@
 {
   "easy": [
-    "What is the total purchase amount by category?",
-    "What is the average purchase amount by income bracket?",
-    "How many consumers are there per region?"
+    "Which product categories drive the most purchases?",
+    "How does spending break down by income bracket?",
+    "Which regions have the most consumers?"
   ],
   "medium": [
-    "What is the average purchase amount by category and income bracket?",
-    "What is the average preference score by category?",
-    "Which age groups spend the most per purchase?"
+    "Compare average purchase amounts across income brackets",
+    "What does the distribution of purchase amounts look like?",
+    "How does category preference vary by gender?"
   ],
   "hard": [
-    "Show monthly purchase volume with a 3-month rolling average by category",
-    "What is the correlation between preference score and purchase amount by category?",
-    "Which consumer segments (age + income) have the highest total spend?"
+    "Show the monthly spending trend",
+    "How has spending changed quarter over quarter by category?",
+    "What is the relationship between age and purchase amount?"
   ],
   "very_complex": [
-    "Compare Q4 vs Q3 spending by category, identify the top 3 growth categories, and explain the demographic driver behind the growth",
-    "Build a report on consumer segments: which age-income-education segments spend the most per category, and how do preferences predict spending?",
-    "Analyze regional differences: how do purchase patterns and preferences vary by region, and which region shows the strongest preference-to-spend relationship?"
+    "Compare Q4 vs Q3 spending by category: which categories grew, which income brackets drove the growth, and what were the preference shifts?",
+    "Analyze consumer segments: which age and income groups spend the most per purchase, how do their category preferences differ, and what drives the difference?"
   ]
 }

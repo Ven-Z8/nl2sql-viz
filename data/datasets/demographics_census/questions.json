@@ -1,22 +1,21 @@
 {
   "easy": [
-    "What is the average income by state?",
-    "How many individuals are there per education level?",
-    "What is the average household size by area type?"
+    "Which states have the most households?",
+    "How does the housing mix break down by home type?",
+    "Which area types (urban vs rural) hold more households?"
   ],
   "medium": [
-    "What is the average income by education and gender?",
-    "What is the employment rate by state?",
-    "Which regions have the highest average household income?"
+    "Compare average household size between urban and rural areas",
+    "What does the distribution of individual income look like?",
+    "How does employment status vary across education levels?"
   ],
   "hard": [
-    "Show the income distribution by age group and education level",
-    "What is the income gap between urban and rural households, by state?",
-    "Which education levels have the highest employment rates, and how does it vary by region?"
+    "Show the income distribution by education level",
+    "What is the relationship between age and individual income?",
+    "How does the employment mix vary across states?"
   ],
   "very_complex": [
-    "Compare income by education across states, identify the states with the largest education premium, and explain the demographic drivers",
-    "Build a report on the workforce: what is the employment profile (education, age, region) of the top-earning 10% of individuals, and how does it differ from the bottom 10%?",
-    "Analyze household economics: how do household size, home type, and area type combine to predict income, and which regions show the strongest relationship?"
+    "Compare urban vs rural households: how do income, education, and employment differ, and which areas show the biggest opportunity gaps?",
+    "Analyze the workforce: what does the employment profile look like by education and region, which groups face the highest unemployment, and how does that correlate with income?"
   ]
 }

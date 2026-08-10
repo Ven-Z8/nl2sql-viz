@@ -390,18 +390,22 @@ export default function Home() {
       setRuntimeDsn(body.dsn);
       setDatasetName(body.name);
       setUploadedDataset(null);
-      // Show the dataset's question ladder
-      const all = [
-        ...(body.questions.easy ?? []),
-        ...(body.questions.medium ?? []),
-        ...(body.questions.hard ?? []),
-        ...(body.questions.very_complex ?? []),
+      // Show the dataset's question ladder, grouped by difficulty tier
+      const tiers: { key: "easy" | "medium" | "hard" | "very_complex"; questions: string[] }[] = [
+        { key: "easy", questions: body.questions.easy ?? [] },
+        { key: "medium", questions: body.questions.medium ?? [] },
+        { key: "hard", questions: body.questions.hard ?? [] },
+        { key: "very_complex", questions: body.questions.very_complex ?? [] },
       ];
+      const all = tiers.flatMap(({ key, questions }) =>
+        questions.map((q) => ({ q, tier: key }))
+      );
       setSuggestedQuestions(
-        all.map((q, i) => ({
+        all.map(({ q, tier }, i) => ({
           id: `ds-q-${i}`,
           question: q,
           category: body.domain,
+          tier,
         }))
       );
     } catch (e) {

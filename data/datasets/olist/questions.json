@@ -1,22 +1,22 @@
 {
   "easy": [
-    "What is the total revenue from all orders?",
-    "How many orders are there by order status?",
-    "What is the average review score across all orders?"
+    "Which payment methods are used most often across orders?",
+    "How does order volume vary by order status?",
+    "Which product categories appear most frequently in orders?"
   ],
   "medium": [
-    "What is the total revenue by product category?",
-    "What is the average order value by customer state?",
-    "Which sellers have the highest total sales?"
+    "What does the average order value look like by customer state?",
+    "Compare total revenue across seller states",
+    "What is the distribution of review scores across all orders?"
   ],
   "hard": [
-    "Show monthly revenue with a 3-month rolling average",
-    "What is the average delivery time from purchase to delivery by state, and which states are the slowest?",
-    "What is the customer lifetime value by state, considering only delivered orders?"
+    "Show the monthly revenue trend with a 3-month rolling average",
+    "How has the share of each payment method changed month over month?",
+    "What is the relationship between review score and order value?"
   ],
   "very_complex": [
-    "Compare 2017 vs 2018 revenue by product category, identify the top 3 categories driving growth, and explain what changed in the payment method mix",
-    "Build a report on customer retention: what percentage of customers who ordered in 2017 also ordered in 2018, broken down by state, and which state retained best?",
-    "Analyze delivery performance: how has the on-time delivery rate (delivered within the estimated date) changed month over month, and which product categories have the worst delivery delays?"
+    "Compare 2017 vs 2018 growth by product category: which categories gained share, which lost it, and what drove the shift?",
+    "Analyze delivery performance: how does delivery time vary by state, which states are fastest, and does faster delivery correlate with higher review scores?",
+    "Which customers drive the most revenue, what do they have in common, and how does their purchasing behavior differ from the average customer?"
   ]
 }

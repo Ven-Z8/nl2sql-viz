@@ -1,21 +1,21 @@
 {
   "easy": [
-    "How many active banks are there by state?",
-    "What is the total assets of all active banks?",
-    "What is the average return on equity (ROE) by bank class?"
+    "Which states host the most active banks?",
+    "How does the banking industry break down by bank class?",
+    "Which states hold the largest banking assets?"
   ],
   "medium": [
-    "Which states have the highest total bank assets?",
-    "What is the average net income by bank class?",
-    "How has total industry assets changed quarter over quarter?"
+    "Compare average return on equity across bank classes",
+    "What does the distribution of bank asset sizes look like?",
+    "Which cities are home to the largest banks by assets?"
   ],
   "hard": [
-    "Show quarterly industry net income with a 4-quarter rolling average",
-    "Which banks have the highest return on equity relative to their asset size?",
-    "What share of total industry assets do the top 10 banks hold?"
+    "Show the quarterly trend in total industry assets",
+    "How has aggregate bank net income evolved quarter over quarter?",
+    "What is the relationship between bank size and return on equity?"
   ],
   "very_complex": [
-    "Compare 2020 vs 2024 bank profitability: how did ROE and net income change by bank class, which classes improved most, and what drove the change?",
-    "Build a report on bank health: which states have the highest share of banks with negative net income, and how did that change from 2020 to 2024?"
+    "Compare 2020 vs 2024 profitability: how did return on equity and net income shift by bank class, which classes improved most, and what drove the change?",
+    "Analyze banking concentration: how much of industry assets do the top 10 banks hold, how has that share changed over time, and which regions are most concentrated?"
   ]
 }
