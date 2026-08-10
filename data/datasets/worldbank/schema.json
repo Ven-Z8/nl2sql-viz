@@ -1,0 +1,33 @@
+{
+  "name": "World Bank WDI",
+  "domain": "demographics",
+  "description": "Real World Bank World Development Indicators — 217 countries, 40 indicators, 404K country-year values (1960-2023), CC BY 4.0",
+  "tables": [
+    {
+      "name": "countries",
+      "columns": [
+        {"name": "country_code", "type": "TEXT", "pk": true},
+        {"name": "country_name", "type": "TEXT"},
+        {"name": "region", "type": "TEXT"},
+        {"name": "income_level", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "indicators",
+      "columns": [
+        {"name": "indicator_code", "type": "TEXT", "pk": true},
+        {"name": "indicator_name", "type": "TEXT"},
+        {"name": "topic", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "values",
+      "columns": [
+        {"name": "country_code", "type": "TEXT", "fk": "countries.country_code"},
+        {"name": "indicator_code", "type": "TEXT", "fk": "indicators.indicator_code"},
+        {"name": "year", "type": "BIGINT"},
+        {"name": "value", "type": "DOUBLE PRECISION"}
+      ]
+    }
+  ]
+}

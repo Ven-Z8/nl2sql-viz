@@ -1,0 +1,25 @@
+{
+  "name": "Google Analytics — Cyclistic Bike Share",
+  "domain": "marketing",
+  "description": "Real Chicago Divvy bike-share trips (Google Data Analytics case study) — 5.6M trips in 2021, member vs casual rider segmentation",
+  "tables": [
+    {
+      "name": "trips",
+      "columns": [
+        {"name": "ride_id", "type": "TEXT", "pk": true},
+        {"name": "rideable_type", "type": "TEXT"},
+        {"name": "started_at", "type": "TIMESTAMP"},
+        {"name": "ended_at", "type": "TIMESTAMP"},
+        {"name": "start_station_name", "type": "TEXT"},
+        {"name": "start_station_id", "type": "TEXT"},
+        {"name": "end_station_name", "type": "TEXT"},
+        {"name": "end_station_id", "type": "TEXT"},
+        {"name": "start_lat", "type": "DOUBLE PRECISION"},
+        {"name": "start_lng", "type": "DOUBLE PRECISION"},
+        {"name": "end_lat", "type": "DOUBLE PRECISION"},
+        {"name": "end_lng", "type": "DOUBLE PRECISION"},
+        {"name": "member_casual", "type": "TEXT"}
+      ]
+    }
+  ]
+}

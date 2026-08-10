@@ -1,0 +1,21 @@
+{
+  "easy": [
+    "What is the total population of each country in 2020?",
+    "What is the GDP per capita of each country in 2020?",
+    "How many countries are there per region?"
+  ],
+  "medium": [
+    "Which countries had the highest GDP growth in 2020?",
+    "What is the average life expectancy by region in 2020?",
+    "How has the global population changed over time?"
+  ],
+  "hard": [
+    "Show the GDP per capita trend for the top 5 economies with a 3-year rolling average",
+    "What is the relationship between internet usage and GDP per capita?",
+    "Which countries have the highest income inequality (Gini index)?"
+  ],
+  "very_complex": [
+    "Compare high-income vs low-income countries: how do life expectancy, internet usage, and fossil fuel consumption differ, and which indicators show the biggest gap?",
+    "Build a report on economic growth: which countries grew fastest from 2000 to 2020, what are their common characteristics, and how did their inflation and unemployment compare?"
+  ]
+}

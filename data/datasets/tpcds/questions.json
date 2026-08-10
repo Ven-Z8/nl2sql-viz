@@ -1,0 +1,21 @@
+{
+  "easy": [
+    "What is the total store sales revenue?",
+    "How many sales were made via each channel (store, catalog, web)?",
+    "What is the average item list price by category?"
+  ],
+  "medium": [
+    "What is the total revenue by sales channel?",
+    "Which items have the highest total sales quantity?",
+    "What is the return rate by channel?"
+  ],
+  "hard": [
+    "Show monthly store sales with a 3-month rolling average",
+    "Which customers have the highest lifetime value across all channels?",
+    "What is the relationship between item price and quantity sold?"
+  ],
+  "very_complex": [
+    "Compare store vs web sales performance: how did monthly revenue trends differ across channels in 2001, which items drove the difference, and what was the return impact?",
+    "Build a report on inventory: which items had the highest stockout risk relative to sales, broken down by warehouse, and which items need restocking?"
+  ]
+}

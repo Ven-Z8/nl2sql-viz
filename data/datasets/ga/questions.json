@@ -1,0 +1,21 @@
+{
+  "easy": [
+    "How many trips were taken by members vs casual riders?",
+    "What is the average trip duration by rideable type?",
+    "How many trips started at each station?"
+  ],
+  "medium": [
+    "What is the average trip duration by member type and month?",
+    "Which start stations have the highest number of trips?",
+    "How does trip volume vary by day of week?"
+  ],
+  "hard": [
+    "Show monthly trip volume with a 3-month rolling average by member type",
+    "What is the average trip duration by hour of day for members vs casual riders?",
+    "Which station pairs (start to end) are the most common routes?"
+  ],
+  "very_complex": [
+    "Compare member vs casual rider behavior: how do trip duration and peak usage hours differ, and which station areas show the biggest seasonal swings?",
+    "Build a report on usage patterns: how did trip volume and average duration change from Q1 to Q4 2021, broken down by rideable type, and which type drove the growth?"
+  ]
+}

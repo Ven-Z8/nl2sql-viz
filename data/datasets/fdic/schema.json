@@ -1,0 +1,44 @@
+{
+  "name": "FDIC Bank Data",
+  "domain": "finance",
+  "description": "Real FDIC-insured banks — 4,254 active institutions + 96,902 quarterly financials (2020-2024), public domain via FDIC API",
+  "tables": [
+    {
+      "name": "institutions",
+      "columns": [
+        {"name": "CERT", "type": "TEXT", "pk": true},
+        {"name": "NAME", "type": "TEXT"},
+        {"name": "CITY", "type": "TEXT"},
+        {"name": "STNAME", "type": "TEXT"},
+        {"name": "STALP", "type": "TEXT"},
+        {"name": "ASSET", "type": "DOUBLE PRECISION"},
+        {"name": "DEP", "type": "DOUBLE PRECISION"},
+        {"name": "NETINC", "type": "DOUBLE PRECISION"},
+        {"name": "ROA", "type": "DOUBLE PRECISION"},
+        {"name": "ROE", "type": "DOUBLE PRECISION"},
+        {"name": "BKCLASS", "type": "TEXT"},
+        {"name": "OFFICES", "type": "BIGINT"},
+        {"name": "ESTYMD", "type": "TEXT"},
+        {"name": "LATITUDE", "type": "DOUBLE PRECISION"},
+        {"name": "LONGITUDE", "type": "DOUBLE PRECISION"},
+        {"name": "ACTIVE", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "financials",
+      "columns": [
+        {"name": "CERT", "type": "TEXT", "fk": "institutions.CERT"},
+        {"name": "REPDTE", "type": "TEXT"},
+        {"name": "ASSET", "type": "DOUBLE PRECISION"},
+        {"name": "DEP", "type": "DOUBLE PRECISION"},
+        {"name": "LIAB", "type": "DOUBLE PRECISION"},
+        {"name": "NETINC", "type": "DOUBLE PRECISION"},
+        {"name": "ROA", "type": "DOUBLE PRECISION"},
+        {"name": "ROE", "type": "DOUBLE PRECISION"},
+        {"name": "INTINC", "type": "DOUBLE PRECISION"},
+        {"name": "EXP", "type": "DOUBLE PRECISION"},
+        {"name": "TAX", "type": "DOUBLE PRECISION"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,336 @@
+{
+  "name": "CMS Medicare Inpatient Claims",
+  "domain": "healthcare",
+  "description": "Real CMS SynPUF synthetic Medicare inpatient claims \u2014 1.33M claims (2008-2010), 81 columns: payments, DRG, ICD-9 diagnoses/procedures (public domain)",
+  "tables": [
+    {
+      "name": "claims",
+      "columns": [
+        {
+          "name": "DESYNPUF_ID",
+          "type": "TEXT"
+        },
+        {
+          "name": "CLM_ID",
+          "type": "TEXT"
+        },
+        {
+          "name": "SEGMENT",
+          "type": "BIGINT"
+        },
+        {
+          "name": "CLM_FROM_DT",
+          "type": "TEXT"
+        },
+        {
+          "name": "CLM_THRU_DT",
+          "type": "TEXT"
+        },
+        {
+          "name": "PRVDR_NUM",
+          "type": "TEXT"
+        },
+        {
+          "name": "CLM_PMT_AMT",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "NCH_PRMRY_PYR_CLM_PD_AMT",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "AT_PHYSN_NPI",
+          "type": "TEXT"
+        },
+        {
+          "name": "OP_PHYSN_NPI",
+          "type": "TEXT"
+        },
+        {
+          "name": "OT_PHYSN_NPI",
+          "type": "TEXT"
+        },
+        {
+          "name": "CLM_ADMSN_DT",
+          "type": "TEXT"
+        },
+        {
+          "name": "ADMTNG_ICD9_DGNS_CD",
+          "type": "TEXT"
+        },
+        {
+          "name": "CLM_PASS_THRU_PER_DIEM_AMT",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "NCH_BENE_IP_DDCTBL_AMT",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "NCH_BENE_PTA_COINSRNC_LBLTY_AM",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "NCH_BENE_BLOOD_DDCTBL_LBLTY_AM",
+          "type": "DOUBLE PRECISION"
+        },
+        {
+          "name": "CLM_UTLZTN_DAY_CNT",
+          "type": "BIGINT"
+        },
+        {
+          "name": "NCH_BENE_DSCHRG_DT",
+          "type": "TEXT"
+        },
+        {
+          "name": "CLM_DRG_CD",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_2",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_3",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_4",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_5",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_6",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_7",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_8",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_9",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_DGNS_CD_10",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_PRCDR_CD_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_PRCDR_CD_2",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_PRCDR_CD_3",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_PRCDR_CD_4",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_PRCDR_CD_5",
+          "type": "TEXT"
+        },
+        {
+          "name": "ICD9_PRCDR_CD_6",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_1",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_2",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_3",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_4",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_5",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_6",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_7",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_8",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_9",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_10",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_11",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_12",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_13",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_14",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_15",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_16",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_17",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_18",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_19",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_20",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_21",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_22",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_23",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_24",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_25",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_26",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_27",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_28",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_29",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_30",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_31",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_32",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_33",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_34",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_35",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_36",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_37",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_38",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_39",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_40",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_41",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_42",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_43",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_44",
+          "type": "TEXT"
+        },
+        {
+          "name": "HCPCS_CD_45",
+          "type": "TEXT"
+        }
+      ]
+    }
+  ]
+}

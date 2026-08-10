@@ -1,0 +1,21 @@
+{
+  "easy": [
+    "What is the total Medicare payment amount for inpatient claims?",
+    "How many inpatient claims are there per year?",
+    "What is the average length of stay (utilization days) for inpatient claims?"
+  ],
+  "medium": [
+    "What is the average payment amount by DRG code?",
+    "Which diagnosis codes are the most common admission diagnoses?",
+    "What is the average length of stay by year?"
+  ],
+  "hard": [
+    "Show monthly claim volume with a 3-month rolling average",
+    "Which providers have the highest total Medicare payments?",
+    "What is the relationship between length of stay and payment amount?"
+  ],
+  "very_complex": [
+    "Compare 2008 vs 2010 inpatient costs: how did average payment and length of stay change, which DRGs drove the increase, and what was the deductible and coinsurance impact?",
+    "Build a report on high-cost patients: which beneficiaries have the highest cumulative Medicare payments, what are their common diagnoses, and how does their length of stay compare to the average?"
+  ]
+}

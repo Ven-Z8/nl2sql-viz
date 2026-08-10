@@ -1,0 +1,55 @@
+"""Run a question through the coordinator on the World Bank dataset."""
+import asyncio
+import time
+
+from app.agents.coordinator import CoordinatorAgent
+from app.agents.schema_agent import SchemaAgent
+from app.agents.schema_linker import SchemaLinker
+from app.agents.sql_agent import SQLAgent
+from app.agents.viz_agent import VizAgent
+from app.db.pool import PostgresPool
+from app.engine.cache import QueryCache
+
+DSN = "postgresql://testuser:testpass@localhost:5432/testdb"
+QUESTION = "What is the average life expectancy by region in 2020?"
+
+
+async def main() -> None:
+    pool = PostgresPool(dsn=DSN)
+    await pool.connect()
+
+    schema_agent = SchemaAgent()
+    schema_agent.pool = pool
+    sql_agent = SQLAgent()
+    sql_agent.pool = pool
+    viz_agent = VizAgent()
+    linker = SchemaLinker()
+    coordinator = CoordinatorAgent()
+    coordinator.schema_agent = schema_agent
+    coordinator.sql_agent = sql_agent
+    coordinator.viz_agent = viz_agent
+    coordinator.linker = linker
+    coordinator.cache = QueryCache()
+    coordinator.connection_id = "worldbank"
+    coordinator.focus_table = "ds_worldbank_values"
+
+    t0 = time.monotonic()
+    events = []
+    async for evt in coordinator.run(QUESTION):
+        events.append(evt)
+        if evt["type"] in ("progress", "sql"):
+            print(f"  [{time.monotonic()-t0:.1f}s] {evt['type']}: {str(evt.get('message') or evt.get('sql', ''))[:90]}")
+        if evt["type"] in ("result", "error"):
+            break
+    print(f"  total: {time.monotonic()-t0:.1f}s")
+    last = events[-1]
+    if last["type"] == "error":
+        print("  ERROR:", last["message"])
+    else:
+        print("  query_type:", last.get("query_type"))
+        print("  answer:", last["answer"]["text"][:250])
+    await pool.disconnect()
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
