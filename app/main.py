@@ -298,8 +298,13 @@ async def websocket_query(websocket: WebSocket):
                         "type": "error",
                         "message": f"Query timed out after {QUERY_TIMEOUT_SECONDS}s",
                     })
+            except WebSocketDisconnect:
+                pass  # client left mid-query — nothing to send
             except Exception as e:
-                await websocket.send_json({"type": "error", "message": str(e)})
+                try:
+                    await websocket.send_json({"type": "error", "message": str(e)})
+                except WebSocketDisconnect:
+                    pass  # client disconnected before the error could be sent
             finally:
                 # IMPORTANT: pool.disconnect() must stay here in the outer finally.
                 # asyncio.wait_for cancels _run_query() but does NOT immediately call
