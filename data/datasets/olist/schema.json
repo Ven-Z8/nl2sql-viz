@@ -1,0 +1,104 @@
+{
+  "name": "Olist Brazilian E-commerce",
+  "domain": "retail",
+  "description": "Real Brazilian e-commerce marketplace — 99K orders, 113K order items, 1M geolocation points, 9 tables with FKs (Olist, CC-BY-NC-SA-4.0)",
+  "tables": [
+    {
+      "name": "customers",
+      "columns": [
+        {"name": "customer_id", "type": "TEXT", "pk": true},
+        {"name": "customer_unique_id", "type": "TEXT"},
+        {"name": "customer_zip_code_prefix", "type": "TEXT"},
+        {"name": "customer_city", "type": "TEXT"},
+        {"name": "customer_state", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "sellers",
+      "columns": [
+        {"name": "seller_id", "type": "TEXT", "pk": true},
+        {"name": "seller_zip_code_prefix", "type": "TEXT"},
+        {"name": "seller_city", "type": "TEXT"},
+        {"name": "seller_state", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "products",
+      "columns": [
+        {"name": "product_id", "type": "TEXT", "pk": true},
+        {"name": "product_category_name", "type": "TEXT"},
+        {"name": "product_name_lenght", "type": "BIGINT"},
+        {"name": "product_description_lenght", "type": "BIGINT"},
+        {"name": "product_photos_qty", "type": "BIGINT"},
+        {"name": "product_weight_g", "type": "DOUBLE PRECISION"},
+        {"name": "product_length_cm", "type": "DOUBLE PRECISION"},
+        {"name": "product_height_cm", "type": "DOUBLE PRECISION"},
+        {"name": "product_width_cm", "type": "DOUBLE PRECISION"}
+      ]
+    },
+    {
+      "name": "orders",
+      "columns": [
+        {"name": "order_id", "type": "TEXT", "pk": true},
+        {"name": "customer_id", "type": "TEXT", "fk": "customers.customer_id"},
+        {"name": "order_status", "type": "TEXT"},
+        {"name": "order_purchase_timestamp", "type": "TIMESTAMP"},
+        {"name": "order_approved_at", "type": "TIMESTAMP"},
+        {"name": "order_delivered_carrier_date", "type": "TIMESTAMP"},
+        {"name": "order_delivered_customer_date", "type": "TIMESTAMP"},
+        {"name": "order_estimated_delivery_date", "type": "TIMESTAMP"}
+      ]
+    },
+    {
+      "name": "order_items",
+      "columns": [
+        {"name": "order_id", "type": "TEXT", "fk": "orders.order_id"},
+        {"name": "order_item_id", "type": "BIGINT"},
+        {"name": "product_id", "type": "TEXT", "fk": "products.product_id"},
+        {"name": "seller_id", "type": "TEXT", "fk": "sellers.seller_id"},
+        {"name": "shipping_limit_date", "type": "TIMESTAMP"},
+        {"name": "price", "type": "DOUBLE PRECISION"},
+        {"name": "freight_value", "type": "DOUBLE PRECISION"}
+      ]
+    },
+    {
+      "name": "payments",
+      "columns": [
+        {"name": "order_id", "type": "TEXT", "fk": "orders.order_id"},
+        {"name": "payment_sequential", "type": "BIGINT"},
+        {"name": "payment_type", "type": "TEXT"},
+        {"name": "payment_installments", "type": "BIGINT"},
+        {"name": "payment_value", "type": "DOUBLE PRECISION"}
+      ]
+    },
+    {
+      "name": "reviews",
+      "columns": [
+        {"name": "review_id", "type": "TEXT"},
+        {"name": "order_id", "type": "TEXT", "fk": "orders.order_id"},
+        {"name": "review_score", "type": "BIGINT"},
+        {"name": "review_comment_title", "type": "TEXT"},
+        {"name": "review_comment_message", "type": "TEXT"},
+        {"name": "review_creation_date", "type": "TIMESTAMP"},
+        {"name": "review_answer_timestamp", "type": "TIMESTAMP"}
+      ]
+    },
+    {
+      "name": "geolocation",
+      "columns": [
+        {"name": "geolocation_zip_code_prefix", "type": "TEXT"},
+        {"name": "geolocation_lat", "type": "DOUBLE PRECISION"},
+        {"name": "geolocation_lng", "type": "DOUBLE PRECISION"},
+        {"name": "geolocation_city", "type": "TEXT"},
+        {"name": "geolocation_state", "type": "TEXT"}
+      ]
+    },
+    {
+      "name": "category_translation",
+      "columns": [
+        {"name": "product_category_name", "type": "TEXT"},
+        {"name": "product_category_name_english", "type": "TEXT"}
+      ]
+    }
+  ]
+}

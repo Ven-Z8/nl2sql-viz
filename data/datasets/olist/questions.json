@@ -1,0 +1,22 @@
+{
+  "easy": [
+    "What is the total revenue from all orders?",
+    "How many orders are there by order status?",
+    "What is the average review score across all orders?"
+  ],
+  "medium": [
+    "What is the total revenue by product category?",
+    "What is the average order value by customer state?",
+    "Which sellers have the highest total sales?"
+  ],
+  "hard": [
+    "Show monthly revenue with a 3-month rolling average",
+    "What is the average delivery time from purchase to delivery by state, and which states are the slowest?",
+    "What is the customer lifetime value by state, considering only delivered orders?"
+  ],
+  "very_complex": [
+    "Compare 2017 vs 2018 revenue by product category, identify the top 3 categories driving growth, and explain what changed in the payment method mix",
+    "Build a report on customer retention: what percentage of customers who ordered in 2017 also ordered in 2018, broken down by state, and which state retained best?",
+    "Analyze delivery performance: how has the on-time delivery rate (delivered within the estimated date) changed month over month, and which product categories have the worst delivery delays?"
+  ]
+}
