@@ -158,8 +158,12 @@ class CoordinatorAgent(Agent, llm=SONNET):
                         ("avg", "average", "mean", "count", "rate", "ratio",
                          "pct", "percent", "share", "sum", "total", "median")
                     )
-                    label = col if is_aggregate else f"total {col}"
-                    _append(label, sum(values), source)
+                    if is_aggregate:
+                        # Summing per-group averages is meaningless — the
+                        # summary of an aggregate column is its mean
+                        _append(col, sum(values) / len(values), source)
+                    else:
+                        _append(f"total {col}", sum(values), source)
                     if len(values) > 1:
                         _append(f"latest {col}", values[-1], source)
         return metrics
