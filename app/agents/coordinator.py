@@ -341,6 +341,18 @@ class CoordinatorAgent(Agent, llm=SONNET):
                         sample_text=sample_text, feedback=feedback,
                     )
                     sqls[i] = retry.sql
+                # Cost gate per sub-query — drop pathological queries
+                try:
+                    cost = await self.sql_agent.estimate_cost(sqls[i])
+                    if not cost.is_safe:
+                        yield {"type": "progress", "message": f"Query {i+1} too expensive — retrying..."}
+                        retry = await self.sql_agent.generate_simple(
+                            question=sub_questions[i].question, schema=schema,
+                            sample_text=sample_text, feedback=cost.reason,
+                        )
+                        sqls[i] = retry.sql
+                except Exception:
+                    pass  # EXPLAIN is best-effort
 
             # Execute all queries IN PARALLEL
             yield {"type": "progress", "message": f"Executing {len(sqls)} queries in parallel..."}
@@ -378,6 +390,31 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 sql = generated.sql
             validate_read_only(sql)
             yield {"type": "sql", "sql": sql}
+
+            # Cost gate — reject pathological queries (full scans of huge
+            # tables, cartesian joins) BEFORE they burn the query budget.
+            try:
+                cost = await self.sql_agent.estimate_cost(sql)
+                if not cost.is_safe:
+                    yield {"type": "progress", "message": f"Query too expensive ({cost.reason[:70]}) — retrying..."}
+                    generated = await self._generate_sql(
+                        nl_query, schema, sample_text, feedback=cost.reason
+                    )
+                    sql = generated.sql
+                    for attempt in range(2):
+                        ok, fixed, errors = validator.validate_and_fix(sql)
+                        if ok:
+                            sql = fixed
+                            break
+                        feedback = "; ".join(errors)
+                        generated = await self._generate_sql(
+                            nl_query, schema, sample_text, feedback=feedback
+                        )
+                        sql = generated.sql
+                    validate_read_only(sql)
+                    yield {"type": "sql", "sql": sql}
+            except Exception:
+                pass  # EXPLAIN is best-effort — execute anyway
 
             yield {"type": "progress", "message": "Executing query..."}
             result = await self.sql_agent.execute_query(sql)

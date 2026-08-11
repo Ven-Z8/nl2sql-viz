@@ -51,7 +51,7 @@ def load_dataset(api_key: str, dataset_id: str) -> dict:
     req = urllib.request.Request(
         f"{API}/api/datasets/{dataset_id}/load", data=data, method="POST"
     )
-    with urllib.request.urlopen(req, timeout=120) as r:
+    with urllib.request.urlopen(req, timeout=600) as r:
         return json.loads(r.read().decode())
 
 
@@ -167,7 +167,9 @@ def judge(question: str, tier: str, events: list[dict], spot_issues: list[str]) 
 # ---------------------------------------------------------------------------
 
 async def run_question(api_key: str, dsn: str, question: str) -> tuple[list[dict], dict]:
-    async with websockets.connect(WS, open_timeout=30) as ws:
+    # ping_timeout=None: long LLM generation must not trip the client's
+    # default 20s keepalive ping timeout (BUG-4)
+    async with websockets.connect(WS, open_timeout=30, ping_interval=None, ping_timeout=None) as ws:
         await ws.send(json.dumps({"type": "auth", "api_key": api_key}))
         auth = json.loads(await asyncio.wait_for(ws.recv(), timeout=30))
         if auth.get("type") != "authenticated":
