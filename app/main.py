@@ -61,7 +61,11 @@ async def lifespan(app: FastAPI):
 app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",          # local dev
+        "https://ven-z8.github.io",       # GitHub Pages frontend
+        "https://nl2sql2viz.duckdns.org", # direct backend access
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
     allow_credentials=True,
