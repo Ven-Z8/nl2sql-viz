@@ -226,6 +226,9 @@ async def websocket_query(websocket: WebSocket):
     # Step 1: Auth handshake (first message must be auth)
     try:
         auth_msg = await websocket.receive_json()
+    except (WebSocketDisconnect, RuntimeError):
+        return  # client left before authenticating — nothing to do
+    try:
         if auth_msg.get("type") != "auth" or not auth_msg.get("api_key"):
             await websocket.close(code=4001)
             return
@@ -245,7 +248,10 @@ async def websocket_query(websocket: WebSocket):
 
         # Step 2: Handle queries
         while True:
-            data = await websocket.receive_json()
+            try:
+                data = await websocket.receive_json()
+            except (WebSocketDisconnect, RuntimeError):
+                break  # client disconnected — stop this connection cleanly
             if data.get("type") != "query":
                 continue
 
