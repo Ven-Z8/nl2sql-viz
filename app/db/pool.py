@@ -38,7 +38,7 @@ def _normalize_row(row: dict[str, Any]) -> dict[str, Any]:
 class PostgresPool:
     """Async connection pool for Postgres with query execution and schema introspection."""
 
-    def __init__(self, dsn: str, min_size: int = 2, max_size: int = 10) -> None:
+    def __init__(self, dsn: str, min_size: int = 2, max_size: int = 5) -> None:
         self._dsn = dsn
         self._min_size = min_size
         self._max_size = max_size

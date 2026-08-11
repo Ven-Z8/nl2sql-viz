@@ -79,8 +79,10 @@ class SchemaLinker(Agent, llm=HAIKU):
     async def link(self, question: str, schema_text: str) -> list[LinkedTable]:
         """Identify the tables and columns relevant to ``question``.
 
-        Calls the fast model with ``json_object`` response format (Ling flash
-        does not support ``json_schema``) and validates the parsed JSON here.
+        Calls the fast model and validates the parsed JSON here. No
+        ``response_format`` — Ling flash's providers (DeepInfra/Novita)
+        disagree on json_object/json_schema support, so the JSON is prompted
+        for and parsed defensively.
         """
         messages = [
             {"role": "system", "content": _SYSTEM_PROMPT},
@@ -89,14 +91,14 @@ class SchemaLinker(Agent, llm=HAIKU):
                 "content": f"Question: {question}\n\nDatabase schema:\n{schema_text}",
             },
         ]
-        response = await self.llm.acall(messages, response_format={"type": "json_object"}, max_tokens=2000)
+        response = await self.llm.acall(messages, max_tokens=2000)
         content = response.content
         if not isinstance(content, str):
             return []
         linked = _parse_linked(content)
         if not linked:
             # One retry — cheap models occasionally emit a malformed first pass
-            response = await self.llm.acall(messages, response_format={"type": "json_object"}, max_tokens=2000)
+            response = await self.llm.acall(messages, max_tokens=2000)
             content = response.content
             if isinstance(content, str):
                 linked = _parse_linked(content)

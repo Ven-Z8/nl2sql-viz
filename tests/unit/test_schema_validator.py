@@ -117,3 +117,38 @@ class TestSchemaValidator:
         ok, fixed, errors = v.validate_and_fix("SELECT regionid FROM sales")
         assert ok, errors
         assert '"region"' in fixed, fixed
+
+    def test_unknown_table_in_from_is_rejected(self):
+        # A typo'd table name (e.g. ds__worldbank_indicators) must be flagged,
+        # not passed through to fail at execution.
+        schema = SchemaMap(
+            tables=["sales"],
+            columns={"sales": [ColumnInfo(column="region", type="TEXT")]},
+        )
+        v = SchemaValidator(schema)
+        ok, fixed, errors = v.validate_and_fix("SELECT region FROM ds__sales_typo")
+        assert not ok
+        assert any("ds__sales_typo" in e for e in errors)
+
+    def test_unknown_table_in_join_is_rejected(self):
+        schema = SchemaMap(
+            tables=["sales"],
+            columns={"sales": [ColumnInfo(column="region", type="TEXT"), ColumnInfo(column="amount", type="TEXT")]},
+        )
+        v = SchemaValidator(schema)
+        ok, fixed, errors = v.validate_and_fix(
+            "SELECT s.region, o.amount FROM sales s JOIN orders_typo o ON s.region = o.region"
+        )
+        assert not ok
+        assert any("orders_typo" in e for e in errors)
+
+    def test_cte_and_subquery_tables_not_flagged(self):
+        schema = SchemaMap(
+            tables=["sales"],
+            columns={"sales": [ColumnInfo(column="region", type="TEXT"), ColumnInfo(column="amount", type="TEXT")]},
+        )
+        v = SchemaValidator(schema)
+        ok, fixed, errors = v.validate_and_fix(
+            "WITH t AS (SELECT region, amount FROM sales) SELECT region FROM t"
+        )
+        assert ok, errors

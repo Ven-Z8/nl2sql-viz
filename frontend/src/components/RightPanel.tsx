@@ -15,6 +15,8 @@ interface Answer {
   text: string;
   metrics: Metric[];
   sub_queries: { id: string; question: string }[];
+  key_points?: string[];
+  sections?: { title: string; text: string; metrics: Metric[] }[];
 }
 
 interface RightPanelProps {
@@ -213,6 +215,45 @@ export default function RightPanel({
             >
               Grounded answer
             </div>
+
+            {answer.key_points && answer.key_points.length > 0 && (
+              <div
+                style={{
+                  marginBottom: "var(--space-4)",
+                  padding: "12px 14px",
+                  borderRadius: "var(--radius-md)",
+                  background: "var(--color-paper-2)",
+                  border: "1px solid var(--color-border-subtle)",
+                }}
+              >
+                {answer.key_points.map((kp, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: "flex",
+                      gap: "10px",
+                      alignItems: "flex-start",
+                      padding: "4px 0",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "12px",
+                        lineHeight: 1.5,
+                        color: "var(--color-accent)",
+                        fontWeight: 700,
+                        flexShrink: 0,
+                      }}
+                    >
+                      ▸
+                    </span>
+                    <span style={{ fontSize: "13px", lineHeight: 1.55, color: "var(--color-ink)" }}>
+                      {kp}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {answer.metrics.length > 0 ? (
               <div

@@ -304,3 +304,7 @@ class GroundedAnswer(BaseModel):
     metrics: list[Metric] = Field(default_factory=list)
     sub_queries: list[SubQuery] = Field(default_factory=list)
     sections: list[ReportSection] = Field(default_factory=list)
+    key_points: list[str] = Field(
+        default_factory=list,
+        description="Analyst-style insights synthesized ONLY from the grounded metrics",
+    )

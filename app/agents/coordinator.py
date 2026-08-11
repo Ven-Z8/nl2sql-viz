@@ -24,6 +24,7 @@ from nooa.config import CodeActConfig
 from nooa.strategies import CodeActStrategy
 
 from app.agents.planner import QueryPlanner
+from app.agents.key_points import KeyPointsAgent, metrics_to_text
 from app.agents.schema_agent import SchemaAgent
 from app.agents.schema_linker import SchemaLinker
 from app.agents.sql_agent import SQLAgent
@@ -90,6 +91,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
     schema_agent: SchemaAgent
     planner: QueryPlanner | None = None
     linker: SchemaLinker | None = None
+    keypoints: KeyPointsAgent | None = None
     sql_agent: SQLAgent
     viz_agent: VizAgent
     cache: QueryCache
@@ -380,8 +382,31 @@ class CoordinatorAgent(Agent, llm=SONNET):
             yield {"type": "progress", "message": "Executing query..."}
             result = await self.sql_agent.execute_query(sql)
             if result.row_count == 0:
-                yield {"type": "error", "message": "Query returned zero rows. Try a broader question."}
-                return
+                # Zero-row dead-end: retry once asking the model to broaden the
+                # query (drop restrictive filters), so the user doesn't hit a
+                # wall on a question where the answer clearly exists.
+                yield {"type": "progress", "message": "Query returned zero rows — retrying with a broader query..."}
+                generated = await self._generate_sql(
+                    nl_query, schema, sample_text,
+                    feedback="The previous query returned zero rows. Remove restrictive filters, widen any date/status conditions, and make sure the query returns data.",
+                )
+                sql = generated.sql
+                for attempt in range(2):
+                    ok, fixed, errors = validator.validate_and_fix(sql)
+                    if ok:
+                        sql = fixed
+                        break
+                    feedback = "; ".join(errors)
+                    generated = await self._generate_sql(
+                        nl_query, schema, sample_text, feedback=feedback
+                    )
+                    sql = generated.sql
+                validate_read_only(sql)
+                yield {"type": "sql", "sql": sql}
+                result = await self.sql_agent.execute_query(sql)
+                if result.row_count == 0:
+                    yield {"type": "error", "message": "Query returned zero rows. Try a broader question."}
+                    return
             results.append(result)
             sqls.append(sql)
 
@@ -393,6 +418,17 @@ class CoordinatorAgent(Agent, llm=SONNET):
         if report_sections:
             answer.sections = report_sections
             answer.text = f"Report: {nl_query}"
+
+        # 4a. Analyst narrative — key points synthesized ONLY from the
+        # grounded numbers, so the answer tells a story instead of a bare dump
+        if self.keypoints is not None:
+            try:
+                yield {"type": "progress", "message": "Summarizing key points..."}
+                answer.key_points = await self.keypoints.synthesize(
+                    nl_query, metrics_to_text(metrics, answer.sections, primary.rows)
+                )
+            except Exception:
+                pass  # narrative is best-effort — numbers stay grounded
 
         # 5. Visualization of the primary result
         yield {"type": "progress", "message": "Building visualization..."}

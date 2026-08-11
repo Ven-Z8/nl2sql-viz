@@ -99,6 +99,10 @@ class SchemaValidator:
         cte_names = {
             node.alias for node in parsed.walk() if isinstance(node, exp.CTE)
         }
+        subquery_aliases = {
+            node.alias for node in parsed.walk()
+            if isinstance(node, exp.Subquery) and node.alias
+        }
         select_aliases = {
             node.alias for node in parsed.walk()
             if isinstance(node, exp.Alias) and node.alias
@@ -106,6 +110,14 @@ class SchemaValidator:
 
         errors: list[str] = []
         fixes: dict[tuple[str, str], str] = {}  # (table_ref, col) -> real_col
+
+        # Flag unknown tables in FROM/JOIN — a typo'd table name (e.g.
+        # ds__worldbank_indicators) otherwise fails only at execution.
+        for node in parsed.walk():
+            if isinstance(node, exp.Table):
+                t = node.name
+                if t not in self.columns and t not in cte_names and t not in subquery_aliases:
+                    errors.append(f"Table '{t}' not found in schema")
 
         for node in parsed.walk():
             if not isinstance(node, exp.Column):
@@ -117,7 +129,12 @@ class SchemaValidator:
             if table_ref:
                 real_table = aliases.get(table_ref, table_ref)
                 if real_table not in self.columns:
-                    continue  # CTE or unknown table — not our concern
+                    # A CTE or subquery alias is fine — an unknown table is a
+                    # hallucination (e.g. a typo'd name) that must be flagged,
+                    # otherwise the query fails only at execution.
+                    if real_table not in cte_names and real_table not in subquery_aliases:
+                        errors.append(f"Table '{real_table}' not found in schema")
+                    continue
                 real = self._resolve(real_table, col)
                 if real is not None:
                     if self._needs_fix(real, col):
