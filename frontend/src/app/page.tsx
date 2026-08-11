@@ -4,6 +4,7 @@ import { QueryWebSocket } from "@/lib/ws";
 import TopBar from "@/components/TopBar";
 import LeftPanel, { HistoryItem, SuggestedQuestion } from "@/components/LeftPanel";
 import RightPanel from "@/components/RightPanel";
+import { PipelineStageState } from "@/components/PipelinePanel";
 import { LogEntry } from "@/components/LogStream";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY ?? "";
@@ -39,6 +40,7 @@ export default function Home() {
   const [datasetName, setDatasetName] = useState("Postgres Workspace");
   const [connectionLabel, setConnectionLabel] = useState("Waiting for connection");
   const [suggestedQuestions, setSuggestedQuestions] = useState<SuggestedQuestion[]>([]);
+  const [pipeline, setPipeline] = useState<Record<string, PipelineStageState>>({});
   const [domains, setDomains] = useState<{ id: string; name: string }[]>([]);
   const [samples, setSamples] = useState<
     { id: string; name: string; domain: string; description: string }[]
@@ -139,6 +141,21 @@ export default function Home() {
       const ws = new QueryWebSocket(apiKey, (event) => {
       if (event.type === "progress") {
         const msg = event.message as string;
+        const stage = event.stage as string | undefined;
+        if (stage) {
+          const now = Date.now();
+          setPipeline((prev) => {
+            const next: Record<string, PipelineStageState> = {};
+            for (const [k, v] of Object.entries(prev)) {
+              next[k] =
+                v.status === "active"
+                  ? { ...v, status: "done", durationMs: now - v.startedAt }
+                  : v;
+            }
+            next[stage] = { status: "active", detail: msg, startedAt: now, durationMs: 0 };
+            return next;
+          });
+        }
         setLogs((prev) => {
           const updated = prev.map((e, i) =>
             e.active ? { ...e, active: false, icon: "done" as const } : e
@@ -167,6 +184,17 @@ export default function Home() {
             e.active ? { ...e, active: false, icon: "done" as const } : e
           )
         );
+        const now = Date.now();
+        setPipeline((prev) => {
+          const next: Record<string, PipelineStageState> = {};
+          for (const [k, v] of Object.entries(prev)) {
+            next[k] =
+              v.status === "active"
+                ? { ...v, status: "done", durationMs: now - v.startedAt }
+                : v;
+          }
+          return next;
+        });
         const chartSpec = event.chart_spec as
           | { spec?: Record<string, unknown> }
           | undefined;
@@ -485,6 +513,7 @@ export default function Home() {
           onToggleSql={() => setSqlVisible((v) => !v)}
           queryType={queryType}
           answer={answer}
+          pipeline={pipeline}
           isLoading={isLoading}
         />
       </div>

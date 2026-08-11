@@ -241,7 +241,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
         key = cache_key(self.connection_id, nl_query)
         cached = self.cache.get(key)
         if cached is not None:
-            yield {"type": "progress", "message": "Cache hit — returning stored result"}
+            yield {"type": "progress", "stage": "cache", "message": "Cache hit — returning stored result"}
             query_type = self.infer_query_type(nl_query, cached)
             metrics = self.extract_metrics(query_type, [cached])
             answer = self.build_answer(nl_query, query_type, metrics, [])
@@ -261,7 +261,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
             return
 
         # 2. Schema introspection
-        yield {"type": "progress", "message": "Analyzing database schema..."}
+        yield {"type": "progress", "stage": "schema", "message": "Analyzing database schema..."}
         full_schema = await self.schema_agent.fetch_schema()
         # The validator uses the FULL schema — joins need all tables' columns
         validator = SchemaValidator(full_schema)
@@ -280,7 +280,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
         # guesses across the whole database.
         if self.linker is not None:
             try:
-                yield {"type": "progress", "message": "Linking question to schema..."}
+                yield {"type": "progress", "stage": "link", "message": "Linking question to schema..."}
                 linked = await self.linker.link(nl_query, schema.compact_repr())
                 if linked:
                     schema = schema.filter_to(linked)
@@ -310,14 +310,14 @@ class CoordinatorAgent(Agent, llm=SONNET):
         report_sections: list[ReportSection] = []
 
         if complexity == QueryComplexity.COMPLEX:
-            yield {"type": "progress", "message": "Planning multi-query analysis..."}
+            yield {"type": "progress", "stage": "plan", "message": "Planning multi-query analysis..."}
             sub_questions = await self.sql_agent.plan_analysis(nl_query, schema, sample_text)
             if not sub_questions:
                 sub_questions = [SubQuery(id="q1", question=nl_query, purpose="main analysis")]
 
             # Generate each sub-query's SQL IN PARALLEL — the model is the
             # bottleneck, so concurrent calls cut wall time dramatically.
-            yield {"type": "progress", "message": f"Generating {len(sub_questions)} queries in parallel..."}
+            yield {"type": "progress", "stage": "generate", "message": f"Generating {len(sub_questions)} queries in parallel..."}
             generated = await asyncio.gather(*[
                 self.sql_agent.generate_simple(
                     question=sq.question, schema=schema, sample_text=sample_text
@@ -335,7 +335,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                         sqls[i] = fixed
                         break
                     feedback = "; ".join(errors)
-                    yield {"type": "progress", "message": f"Fixing query {i+1}: {errors[0][:60]}"}
+                    yield {"type": "progress", "stage": "validate", "message": f"Fixing query {i+1}: {errors[0][:60]}"}
                     retry = await self.sql_agent.generate_simple(
                         question=sub_questions[i].question, schema=schema,
                         sample_text=sample_text, feedback=feedback,
@@ -345,7 +345,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 try:
                     cost = await self.sql_agent.estimate_cost(sqls[i])
                     if not cost.is_safe:
-                        yield {"type": "progress", "message": f"Query {i+1} too expensive — retrying..."}
+                        yield {"type": "progress", "stage": "cost", "message": f"Query {i+1} too expensive — retrying..."}
                         retry = await self.sql_agent.generate_simple(
                             question=sub_questions[i].question, schema=schema,
                             sample_text=sample_text, feedback=cost.reason,
@@ -355,14 +355,14 @@ class CoordinatorAgent(Agent, llm=SONNET):
                     pass  # EXPLAIN is best-effort
 
             # Execute all queries IN PARALLEL
-            yield {"type": "progress", "message": f"Executing {len(sqls)} queries in parallel..."}
+            yield {"type": "progress", "stage": "execute", "message": f"Executing {len(sqls)} queries in parallel..."}
             executed = await asyncio.gather(*[
                 self.sql_agent.execute_query(sql) for sql in sqls
             ], return_exceptions=True)
 
             for i, (sq, sql, result) in enumerate(zip(sub_questions, sqls, executed)):
                 if isinstance(result, Exception):
-                    yield {"type": "progress", "message": f"Query {i+1} failed: {result}"}
+                    yield {"type": "progress", "stage": "execute", "message": f"Query {i+1} failed: {result}"}
                     continue
                 yield {"type": "sql", "sql": sql}
                 if result.row_count > 0:
@@ -372,7 +372,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 yield {"type": "error", "message": "All planned queries returned zero rows. Try a broader question."}
                 return
         else:
-            yield {"type": "progress", "message": "Generating SQL query..."}
+            yield {"type": "progress", "stage": "generate", "message": "Generating SQL query..."}
             generated = await self._generate_sql(nl_query, schema, sample_text)
             sql = generated.sql
             # Validate against the real schema — no guessing. Retry with
@@ -383,7 +383,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                     sql = fixed
                     break
                 feedback = "; ".join(errors)
-                yield {"type": "progress", "message": f"Fixing query: {errors[0][:60]}"}
+                yield {"type": "progress", "stage": "validate", "message": f"Fixing query: {errors[0][:60]}"}
                 generated = await self._generate_sql(
                     nl_query, schema, sample_text, feedback=feedback
                 )
@@ -396,7 +396,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
             try:
                 cost = await self.sql_agent.estimate_cost(sql)
                 if not cost.is_safe:
-                    yield {"type": "progress", "message": f"Query too expensive ({cost.reason[:70]}) — retrying..."}
+                    yield {"type": "progress", "stage": "cost", "message": f"Query too expensive ({cost.reason[:70]}) — retrying..."}
                     generated = await self._generate_sql(
                         nl_query, schema, sample_text, feedback=cost.reason
                     )
@@ -416,13 +416,13 @@ class CoordinatorAgent(Agent, llm=SONNET):
             except Exception:
                 pass  # EXPLAIN is best-effort — execute anyway
 
-            yield {"type": "progress", "message": "Executing query..."}
+            yield {"type": "progress", "stage": "execute", "message": "Executing query..."}
             result = await self.sql_agent.execute_query(sql)
             if result.row_count == 0:
                 # Zero-row dead-end: retry once asking the model to broaden the
                 # query (drop restrictive filters), so the user doesn't hit a
                 # wall on a question where the answer clearly exists.
-                yield {"type": "progress", "message": "Query returned zero rows — retrying with a broader query..."}
+                yield {"type": "progress", "stage": "execute", "message": "Query returned zero rows — retrying with a broader query..."}
                 generated = await self._generate_sql(
                     nl_query, schema, sample_text,
                     feedback="The previous query returned zero rows. Remove restrictive filters, widen any date/status conditions, and make sure the query returns data.",
@@ -460,7 +460,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
         # grounded numbers, so the answer tells a story instead of a bare dump
         if self.keypoints is not None:
             try:
-                yield {"type": "progress", "message": "Summarizing key points..."}
+                yield {"type": "progress", "stage": "narrative", "message": "Summarizing key points..."}
                 answer.key_points = await self.keypoints.synthesize(
                     nl_query, metrics_to_text(metrics, answer.sections, primary.rows)
                 )
@@ -468,7 +468,7 @@ class CoordinatorAgent(Agent, llm=SONNET):
                 pass  # narrative is best-effort — numbers stay grounded
 
         # 5. Visualization of the primary result
-        yield {"type": "progress", "message": "Building visualization..."}
+        yield {"type": "progress", "stage": "viz", "message": "Building visualization..."}
         plan = self.viz_agent.plan_chart(nl_query, primary)
         chart_spec = self.viz_agent.build_vega_lite(plan, primary)
 

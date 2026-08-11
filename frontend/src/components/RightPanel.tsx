@@ -1,5 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
+import PipelinePanel, { PipelineStageState } from "./PipelinePanel";
 
 // vega-embed must never be evaluated during SSR — its module-level code
 // (a Set-based expression guard) breaks the RSC serialization boundary.
@@ -28,6 +29,7 @@ interface RightPanelProps {
   onToggleSql: () => void;
   queryType: string | null;
   answer: Answer | null;
+  pipeline: Record<string, PipelineStageState>;
   isLoading: boolean;
 }
 
@@ -72,6 +74,7 @@ export default function RightPanel({
   onToggleSql,
   queryType,
   answer,
+  pipeline,
   isLoading,
 }: RightPanelProps) {
   const rowColumns = rows.length > 0 ? Object.keys(rows[0]).slice(0, 6) : [];
@@ -171,6 +174,9 @@ export default function RightPanel({
           gap: "var(--space-5)",
         }}
       >
+        {/* Live pipeline — the backend architecture lighting up as the query runs */}
+        <PipelinePanel pipeline={pipeline} isLoading={isLoading} />
+
         {/* Loading skeletons */}
         {isLoading && (
           <>
