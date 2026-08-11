@@ -1,0 +1,54 @@
+# Production stack — Postgres + NL2SQL app + Caddy (TLS + WebSocket proxy)
+# Usage: docker compose -f deploy/docker-compose.prod.yml up -d --build
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: nl2sql
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: nl2sql
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nl2sql"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://nl2sql:${POSTGRES_PASSWORD}@postgres:5432/nl2sql
+      DEMO_DATABASE_URL: postgresql://nl2sql:${POSTGRES_PASSWORD}@postgres:5432/nl2sql
+      OPENROUTER_API_KEY: ${OPENROUTER_API_KEY}
+      SECRET_KEY: ${SECRET_KEY}
+      NL2SQL_MODEL: openrouter/deepseek/deepseek-v4-flash-0731
+      NL2SQL_FAST_MODEL: openrouter/inclusionai/ling-3.0-flash
+    expose:
+      - "8000"
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on:
+      - app
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  pgdata:
+  caddy_data:
+  caddy_config:

@@ -1,0 +1,7 @@
+# Caddy — automatic HTTPS + WebSocket proxy for the NL2SQL app.
+# Replace nl2sql.duckdns.org with your subdomain (from duckdns.org).
+# Caddy fetches a Let's Encrypt cert automatically via HTTP-01.
+
+nl2sql.duckdns.org {
+    reverse_proxy app:8000
+}
