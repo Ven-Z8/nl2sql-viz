@@ -3,7 +3,7 @@
 
 ## Architecture
 ```
-GitHub Pages (static frontend) ──wss://──> https://nl2sql.duckdns.org
+GitHub Pages (static frontend) ──wss://──> https://nl2sql2viz.duckdns.org
                                              │ Caddy (auto-TLS + WS proxy)
                                              ▼ app:8000 (FastAPI)
                                              ▼ postgres:5432 (all datasets)
@@ -35,15 +35,15 @@ export SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')"
 bash setup.sh
 ```
 - Edit `deploy/Caddyfile` first if your DuckDNS subdomain differs from
-  `nl2sql.duckdns.org` (only change needed).
+  `nl2sql2viz.duckdns.org` (only change needed).
 - setup.sh installs Docker, builds, starts Postgres + app + Caddy, and seeds
   all 12 datasets + samples (~10 min).
 
 ## Step 4 — Point the frontend at it
 1. GitHub repo → Settings → Pages → Source: **GitHub Actions**
 2. Settings → Secrets and variables → Actions → Variables:
-   - `NEXT_PUBLIC_API_URL` = `https://nl2sql.duckdns.org`
-   - `NEXT_PUBLIC_WS_URL` = `wss://nl2sql.duckdns.org/ws/query`
+   - `NEXT_PUBLIC_API_URL` = `https://nl2sql2viz.duckdns.org`
+   - `NEXT_PUBLIC_WS_URL` = `wss://nl2sql2viz.duckdns.org/ws/query`
    - `NEXT_PUBLIC_BASE_PATH` = `/nl2sql-viz`
 3. Re-run the Pages workflow → live at `https://ven-z8.github.io/nl2sql-viz/`
 
