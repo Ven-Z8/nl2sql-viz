@@ -1,0 +1,1740 @@
+{
+  "timestamp": "2026-08-10T03:52:33.311948",
+  "api_key": "eloI5fhslB...",
+  "database_results": {
+    "olist": {
+      "easy": [
+        {
+          "question": "Which payment methods are used most often across orders?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 24.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does order volume vary by order status?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which product categories appear most frequently in orders?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 25.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "What does the average order value look like by customer state?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Compare total revenue across seller states",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the distribution of review scores across all orders?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 25.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly revenue trend with a 3-month rolling average",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has the share of each payment method changed month over month?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between review score and order value?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 21.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare 2017 vs 2018 growth by product category: which categories gained share, which lost it, and what drove the shift?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze delivery performance: how does delivery time vary by state, which states are fastest, and does faster delivery correlate with higher review scores?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which customers drive the most revenue, what do they have in common, and how does their purchasing behavior differ from the average customer?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "retail": {
+      "easy": [
+        {
+          "question": "Which sales channels contribute the most orders?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 18.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does revenue break down by region?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which product categories sell the most units?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "What does average order value look like by customer segment?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Compare payment method usage across sales channels",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 26.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the distribution of order values across all orders?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly revenue trend by channel",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 28.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has revenue per customer evolved month over month?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between product price and total units sold?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 23.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare Q4 vs Q3 performance by region: which regions grew, which categories drove the growth, and what was the channel mix impact?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze customer retention: what share of customers return for a second purchase, how does retention vary by segment, and which segment retains best?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 24.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which products are the most profitable per unit sold, and how does profitability vary across categories and regions?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "fdic": {
+      "easy": [
+        {
+          "question": "Which states host the most active banks?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 24.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does the banking industry break down by bank class?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 10.0,
+          "pass": false,
+          "reason": "timed out during opening handshake",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which states hold the largest banking assets?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 25.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average return on equity across bank classes",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 22.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of bank asset sizes look like?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 15.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which cities are home to the largest banks by assets?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 16.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the quarterly trend in total industry assets",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 14.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has aggregate bank net income evolved quarter over quarter?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 16.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between bank size and return on equity?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 13.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare 2020 vs 2024 profitability: how did return on equity and net income shift by bank class, which classes improved most, and what drove the change?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 15.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze banking concentration: how much of industry assets do the top 10 banks hold, how has that share changed over time, and which regions are most concentrated?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 15.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "worldbank": {
+      "easy": [
+        {
+          "question": "How does life expectancy vary across world regions?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 14.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which countries have the largest populations?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 14.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does GDP per capita compare across income groups?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 14.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare internet adoption between high-income and low-income countries",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 14.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of GDP growth look like across countries?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 14.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which world regions show the highest unemployment?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 14.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the population trend for the world's largest economies since 2000",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 14.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has global life expectancy evolved over the past 30 years?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 14.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between GDP per capita and internet usage?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 14.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare the development gap: how do life expectancy, internet usage, and fossil fuel consumption differ between income groups, and which gap has widened over time?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 14.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze economic growth: which countries grew fastest from 2000 to 2020, what do they have in common, and how did their inflation and trade patterns compare?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 14.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "finance": {
+      "easy": [
+        {
+          "question": "Which account types hold the most balance?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 14.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does transaction volume break down by category?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 13.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which loan statuses are most common?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 15.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average loan amounts across customer segments",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 14.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of account balances look like?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 15.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which regions generate the most transaction activity?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 14.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly transaction volume trend",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 16.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has the average loan size changed quarter over quarter?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 14.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between loan amount and interest rate?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 16.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare Q4 vs Q3 spending by category: which categories grew, which customer segments drove the growth, and what was the transaction mix impact?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 15.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze loan risk: how does the default rate vary by segment and region, which segments are riskiest, and how do riskier loans compare on interest rate?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 15.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "tpcds": {
+      "easy": [
+        {
+          "question": "Which sales channels (store, catalog, web) generate the most revenue?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 17.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which item categories sell the most units?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 16.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does revenue break down across sales channels?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 15.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average item prices across categories",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 14.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the distribution of item list prices?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 14.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which channels have the highest return rates?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 13.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly store sales trend",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 13.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has web sales revenue evolved quarter over quarter?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between item price and quantity sold?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 13.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare store vs web sales: how do the revenue trends differ over time, which categories drive the difference, and what is the return impact?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 14.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze inventory risk: which items have the highest stockout risk relative to sales, how does it vary by warehouse, and which items need restocking?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 14.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "cms": {
+      "easy": [
+        {
+          "question": "Which DRG codes appear most often in inpatient claims?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 13.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does claim volume break down by year?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 14.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which providers handle the most claims?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 13.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average payment amounts across the top DRG codes",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of claim payment amounts look like?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which admission diagnoses are the most common?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly claim volume trend",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 13.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has the average length of stay changed quarter over quarter?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between length of stay and payment amount?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare 2008 vs 2010 inpatient costs: how did average payment and length of stay change, which DRGs drove the increase, and what was the deductible impact?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze high-cost patients: which beneficiaries accumulate the most Medicare spend, what are their common diagnoses, and how does their length of stay compare to the average?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 13.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "ga": {
+      "easy": [
+        {
+          "question": "How does trip volume compare between members and casual riders?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 13.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which rideable types are used the most?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which start stations see the most trips?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average trip duration between members and casual riders",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does trip volume vary by day of week?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the distribution of trip durations?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly trip volume trend by member type",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does trip duration vary by hour of day for members vs casual riders?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 13.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which station pairs (start to end) are the most common routes?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 13.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare member vs casual rider behavior: how do trip duration and peak usage hours differ, and which station areas show the biggest seasonal swings?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 13.0,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze usage patterns: how did trip volume and average duration change from Q1 to Q4 2021 by rideable type, and which type drove the growth?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "census": {
+      "easy": [
+        {
+          "question": "Which states have the largest populations?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does median income vary across states?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which states have the highest poverty rates?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare commute mode usage (driving vs transit vs walking) across the largest states",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of median income look like across counties?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which counties have the largest populations?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the relationship between median income and poverty rate by county",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does the racial composition vary across the largest states?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between commute time and transit usage?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare the wealthiest vs poorest counties: how do employment, education, and commute patterns differ between them, and which states host both?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze the aging population: which states have the highest share of elderly residents, how does that correlate with income and labor force participation, and what does it imply for the workforce?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "healthcare": {
+      "easy": [
+        {
+          "question": "Which departments handle the most encounters?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does patient volume break down by payer?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which diagnoses are the most common?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average length of stay across departments",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of patient ages look like?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which regions carry the highest total procedure costs?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly admission trend",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has the average length of stay changed quarter over quarter?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between length of stay and procedure cost?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 13.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Analyze readmission patterns: which departments have the highest return rates, how does severity affect readmission, and what is the cost impact?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.6,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze the payer mix: how has the share of each payer changed over time, which payers carry the highest costs, and how does that vary by department?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "demographics_census": {
+      "easy": [
+        {
+          "question": "Which states have the most households?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 13.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does the housing mix break down by home type?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which area types (urban vs rural) hold more households?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.0,
+          "pass": false,
+          "reason": "unsupported operand type(s) for +: 'float' and 'str'",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average household size between urban and rural areas",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.2,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of individual income look like?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.0,
+          "pass": false,
+          "reason": "unsupported operand type(s) for +: 'float' and 'str'",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does employment status vary across education levels?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 12.7,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the income distribution by education level",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.0,
+          "pass": false,
+          "reason": "unsupported operand type(s) for +: 'float' and 'str'",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between age and individual income?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does the employment mix vary across states?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 12.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare urban vs rural households: how do income, education, and employment differ, and which areas show the biggest opportunity gaps?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze the workforce: what does the employment profile look like by education and region, which groups face the highest unemployment, and how does that correlate with income?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    },
+    "demographics_consumer": {
+      "easy": [
+        {
+          "question": "Which product categories drive the most purchases?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 12.4,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does spending break down by income bracket?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 20.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Which regions have the most consumers?",
+          "tier": "easy",
+          "status": "FAIL",
+          "time": 22.1,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "medium": [
+        {
+          "question": "Compare average purchase amounts across income brackets",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 23.9,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What does the distribution of purchase amounts look like?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 26.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How does category preference vary by gender?",
+          "tier": "medium",
+          "status": "FAIL",
+          "time": 26.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "hard": [
+        {
+          "question": "Show the monthly spending trend",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 26.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "How has spending changed quarter over quarter by category?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 26.5,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "What is the relationship between age and purchase amount?",
+          "tier": "hard",
+          "status": "FAIL",
+          "time": 25.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ],
+      "very_complex": [
+        {
+          "question": "Compare Q4 vs Q3 spending by category: which categories grew, which income brackets drove the growth, and what were the preference shifts?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 24.3,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        },
+        {
+          "question": "Analyze consumer segments: which age and income groups spend the most per purchase, how do their category preferences differ, and what drives the difference?",
+          "tier": "very_complex",
+          "status": "FAIL",
+          "time": 27.8,
+          "pass": false,
+          "reason": "",
+          "sql_ok": false,
+          "answer_ok": false,
+          "story": false,
+          "chart": false
+        }
+      ]
+    }
+  },
+  "sample_results": {},
+  "summary": {
+    "total_pass": 0,
+    "total_fail": 134,
+    "total": 134
+  }
+}

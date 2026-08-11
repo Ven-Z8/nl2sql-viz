@@ -1,0 +1,41 @@
+indicator_code,indicator_name,topic
+NY.GDP.MKTP.CD,GDP (current US$),WDI
+NY.GDP.PCAP.CD,GDP per capita (current US$),WDI
+NY.GDP.MKTP.KD.ZG,GDP growth (annual %),WDI
+SP.POP.TOTL,"Population, total",WDI
+SP.POP.TOTL.FE.ZS,"Population, female (% of total)",WDI
+SP.URB.TOTL.IN.ZS,Urban population (% of total),WDI
+SP.DYN.LE00.IN,Life expectancy at birth (years),WDI
+SP.DYN.TFRT.IN,Fertility rate (births per woman),WDI
+SP.DYN.CBRT.IN,"Birth rate (per 1,000 people)",WDI
+SP.DYN.CDRT.IN,"Death rate (per 1,000 people)",WDI
+SP.POP.65UP.TO.ZS,Population ages 65+ (% of total),WDI
+SP.POP.0014.TO.ZS,Population ages 0-14 (% of total),WDI
+SL.UEM.TOTL.ZS,Unemployment (% of labor force),WDI
+SL.TLF.CACT.FE.ZS,Female labor force participation (%),WDI
+SI.POV.DDAY,Poverty headcount at $2.15/day (%),WDI
+SI.POV.GINI,Gini index,WDI
+SE.XPD.TOTL.GD.ZS,Education expenditure (% of GDP),WDI
+SH.XPD.CHEX.GD.ZS,Health expenditure (% of GDP),WDI
+SH.DYN.MORT,"Infant mortality (per 1,000 live births)",WDI
+AG.LND.AGRI.ZS,Agricultural land (% of land area),WDI
+EG.USE.COMM.FO.ZS,Fossil fuel energy consumption (% of total),WDI
+EG.USE.ELEC.KH.PC,Electricity use (kWh per capita),WDI
+IT.NET.USER.ZS,Internet users (% of population),WDI
+TX.VAL.TECH.MF.ZS,High-technology exports (% of manufactured),WDI
+NE.TRD.GNFS.ZS,Trade (% of GDP),WDI
+BN.CAB.XOKA.GD.ZS,Current account balance (% of GDP),WDI
+FR.INR.LEND,Lending interest rate (%),WDI
+FP.CPI.TOTL.ZG,"Inflation, consumer prices (annual %)",WDI
+MS.MIL.XPND.GD.ZS,Military expenditure (% of GDP),WDI
+SG.GEN.PARL.ZS,Women in parliament (%),WDI
+SE.ADT.LITR.ZS,"Literacy rate, adult (%)",WDI
+SH.STA.ANVC.ZS,Antenatal care coverage (%),WDI
+SN.ITK.DEFC.ZS,Prevalence of undernourishment (%),WDI
+SP.RUR.TOTL.ZS,Rural population (% of total),WDI
+NY.GDP.PETR.RT.ZS,Oil rents (% of GDP),WDI
+EG.USE.PCAP.KG.OE,Energy use (kg of oil equivalent per capita),WDI
+IS.AIR.PSGR,"Air transport, passengers carried",WDI
+ST.INT.ARVL,"International tourism, arrivals",WDI
+EN.URB.LCTY.UR.ZS,Population in largest city (%),WDI
+SP.DYN.IMRT.IN,"Mortality rate, infant (per 1,000 live births)",WDI

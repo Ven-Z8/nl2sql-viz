@@ -1,148 +1,104 @@
-# NL2SQL Viz
+# NL2SQL Viz (DataLens AI)
 
-Natural-language analytics for Postgres. Ask a business question, get a guarded SQL query, and inspect the result as a Vega-Lite chart.
+Natural-language analytics for Postgres. Ask a business question, get a guarded
+SQL query, and a **grounded answer** (every number from real data — no
+hallucination) with an analyst narrative and a chart.
 
-## Demo
+**Live demo:** frontend on GitHub Pages · backend on Render (free tier)
 
-> _Screenshots and walkthrough video: TBD — to be added before public release._
+## Architecture
+
+```
+Frontend (Next.js 16, static on GitHub Pages)
+  │  WebSocket (wss://)
+  ▼
+FastAPI backend (Render, free tier)
+  │  coordinator pipeline:
+  │    schema introspection → fast-model schema linking → complexity routing
+  │    → SQL generation (DeepSeek flash) → schema validation (no guessing)
+  │    → EXPLAIN cost gate → read-only execution → grounded answer
+  │    → key-points narrative (grounded) → chart spec
+  ▼
+PostgreSQL (Render free tier) — 12 relational datasets + 11 CSV samples
+```
+
+Every answer number traces to executed query results. The narrative is
+synthesized **only** from those numbers.
+
+## Run locally
 
 ```bash
-# Ask in the UI
-"Show monthly recurring revenue by plan tier over time."
-# intent -> schema -> guarded SQL -> chart plan -> Vega-Lite render
+docker compose up -d                # Postgres
+uv run uvicorn app.main:app --port 8000   # backend
+cd frontend && npm run dev          # frontend at :3000
+uv run pytest tests -q              # 125 tests
 ```
 
-## Stack
+`.env` needs: `OPENROUTER_API_KEY`, `SECRET_KEY` (32-byte hex), `DATABASE_URL`.
 
-Python · FastAPI (async, WebSocket) · Claude via OpenRouter (SQL + chart agents) · PostgreSQL · Vega-Lite · Next.js 16 + TypeScript · Tailwind CSS · Argon2 (API key hashing) · AES-256-GCM (stored DSN encryption) · pytest · Docker Compose.
-
-## Overview
-
-NL2SQL Viz turns a database into an analyst-friendly interface. It inspects schema, generates read-only SQL, executes the query, streams status back to the browser, and renders a chart with the SQL visible for review.
-
-## Demo Dataset
-
-The bundled RavenStack dataset models a SaaS business with customer accounts, subscriptions, feature usage, support tickets, and churn events.
-
-| Table             |   Rows | Example questions                                       |
-| ----------------- | -----: | ------------------------------------------------------- |
-| `accounts`        |    500 | Which referral sources produce the highest average ARR? |
-| `subscriptions`   |  5,000 | Show monthly recurring revenue by plan tier over time.  |
-| `feature_usage`   | 25,000 | Which features have high usage and high error counts?   |
-| `support_tickets` |  2,000 | Show support volume and satisfaction by priority.       |
-| `churn_events`    |    600 | Compare churn reasons by initial plan tier.             |
-
-See [docs/ravenstack-demo.md](docs/ravenstack-demo.md) for the full walkthrough.
-
-## How It Works
-
-```mermaid
-flowchart TD
-  B[Browser] -->|WebSocket query| F[FastAPI Coordinator]
-  F --> SA[SchemaAgent]
-  SA -->|schema context| SQ[SQLAgent]
-  SQ -->|generated SQL| G[SQL Guard]
-  G -->|SELECT/WITH only| PG[Postgres]
-  PG -->|rows| CP[Chart Planner]
-  CP --> VZ[VizAgent]
-  VZ -->|Vega-Lite JSON| UI[Next.js UI]
-  G -.->|reject| F
-```
-
-## Highlights
-
-- Async FastAPI backend with WebSocket progress events
-- NOOA agent classes (Schema, SQL, Viz, Coordinator) with typed Pydantic contracts
-- LLM calls routed through OpenRouter via litellm
-- Postgres connection pool with read-only execution guardrails
-- Synthetic but realistic SaaS analytics dataset
-- Vega-Lite chart rendering in a Next.js frontend
-- Unit and integration tests around SQL generation, demo loading, chart planning, auth, and security
-
-## Quick Start
+Load the demo data:
 
 ```bash
-cp .env.example .env
-# Add OPENROUTER_API_KEY and SECRET_KEY
-
-uv sync
-docker compose up -d
-uv run python -m scripts.load_ravenstack
-uv run uvicorn app.main:app --reload --port 8000
+uv run python -m scripts.load_dataset olist   # any dataset id
+# or seed everything:
+DATABASE_URL=... uv run python -m scripts.seed_deploy
 ```
 
-In another terminal:
+## Deploy (GitHub Pages + Render)
+
+### 1. Backend → Render (free)
+
+1. Push this repo to GitHub (it is already at `github.com/Ven-Z8/nl2sql-viz`).
+2. Render dashboard → **New → Blueprint** → connect the repo (`render.yaml` is
+   included) — this creates the web service **and** a free Postgres.
+3. In the web service **Environment** tab, set secrets:
+   - `OPENROUTER_API_KEY` (your key)
+   - `SECRET_KEY` (`python -c "import secrets; print(secrets.token_hex(32))"`)
+   - Models are pre-set: `NL2SQL_MODEL=openrouter/deepseek/deepseek-v4-flash-0731`,
+     `NL2SQL_FAST_MODEL=openrouter/inclusionai/ling-3.0-flash`
+4. **Seed the data** (one-time, optional — without it the app loads datasets
+   on demand when you click them): trigger the `nl2sql-viz-seed` job from the
+   Render dashboard (Manual Run). Takes ~10 min for all 12 datasets.
+5. Note the service URL, e.g. `https://nl2sql-viz-api.onrender.com`.
+
+> Render free tier: the service sleeps after ~15 min idle (first query after
+> wake takes ~1 min). Free Postgres expires after 30 days.
+
+### 2. Frontend → GitHub Pages
+
+1. Repo **Settings → Pages** → Source: **GitHub Actions**.
+2. Repo **Settings → Secrets and variables → Actions → Variables**:
+   - `NEXT_PUBLIC_API_URL` = `https://<your-render-service>.onrender.com`
+   - `NEXT_PUBLIC_WS_URL` = `wss://<your-render-service>.onrender.com/ws/query`
+   - `NEXT_PUBLIC_BASE_PATH` = `/nl2sql-viz` (repo name; leave empty for a
+     custom domain)
+3. Push to `main` — `.github/workflows/pages.yml` builds the static export and
+   deploys. The site is at `https://<user>.github.io/nl2sql-viz/`.
+
+## Test harness
+
+`scripts/reference_harness.py` runs a dataset's question ladder over WebSocket
+and **spot-checks every answer** by re-running the SQL against Postgres:
 
 ```bash
-cd frontend
-npm install
-npm run dev
+uv run python -m scripts.reference_harness olist 12 3
 ```
-
-Open `http://localhost:3000`.
-
-## Quality Checks
-
-| Check              | Command                                    | Notes                          |
-| ------------------ | ------------------------------------------ | ------------------------------ |
-| Backend unit tests | `uv run pytest tests/unit -q`              | Does not require API keys      |
-| Backend lint       | `uv run ruff check .`                      | Python style and import checks |
-| Frontend typecheck | `cd frontend && npm run typecheck`         | TypeScript compile check       |
-| Demo loader        | `uv run python -m scripts.load_ravenstack` | Requires local Postgres        |
-
-Current validation:
-
-| Check              | Result                                               |
-| ------------------ | ---------------------------------------------------- |
-| Unit tests         | 59 passed                                            |
-| Integration tests  | 13 passed (requires local Postgres + OpenRouter key) |
-| Ruff               | Passed                                               |
-| Frontend typecheck | Passed                                               |
 
 ## Datasets
 
-The app ships with bundled sample datasets (in `data/samples/`) plus real public datasets you can download. Large files are **not committed to the repo** — grab them from the links below and drop them into `data/samples/` (they're picked up automatically by the manifest).
+12 relational databases (7 real: Olist, FDIC, GA bike-share, Census ACS,
+TPC-DS, CMS Medicare, World Bank; 5 generated) + 11 CSV samples (incl. real
+Lending Club 2.2M, Online Retail 542K). Question ladders per dataset:
+easy / medium / hard / very_complex — see `data/datasets/*/questions.json`.
 
-| Dataset                       | Domain     |            Rows | Download                                                                                    |
-| ----------------------------- | ---------- | --------------: | ------------------------------------------------------------------------------------------- |
-| Online Retail II              | Retail     |         541,910 | [UCI](https://archive.ics.uci.edu/dataset/502/online+retail+ii)                             |
-| Taiwanese Bankruptcy          | Finance    | 6,819 (96 cols) | [UCI](https://archive.ics.uci.edu/dataset/572/taiwanese+bankruptcy+prediction)              |
-| Online Shoppers Intention     | Marketing  |          12,330 | [UCI](https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset) |
-| Telco Customer Churn          | Finance    |           7,043 | [Kaggle](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)                    |
-| Lending Club Loans            | Finance    |            2.2M | [Kaggle](https://www.kaggle.com/datasets/wordsforthewise/lending-club)                      |
-| Olist Brazilian E-commerce    | Retail     |     100K orders | [Kaggle](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)                       |
-| Hospital Inpatient Discharges | Healthcare |            2.5M | [Kaggle](https://www.kaggle.com/datasets/rohitrox/hospital-inpatient-discharges)            |
+## Docs
 
-To add a dataset: place the CSV in `data/samples/` and add an entry to `data/samples/manifest.json` (name, domain, description, questions). The upload pipeline handles up to **20M rows** via Postgres COPY.
+- `docs/architecture.md` — system diagram
+- `docs/benchmark-report.md` — 137/138 (99%) grounded-answer benchmark
+- `docs/nooa-alignment.md` — NOOA framework alignment assessment
+- `handovers/` — state, gaps, test-questions guide, test report
 
-## Safety Boundaries
+## License
 
-- Only `SELECT` and `WITH` statements are allowed through the SQL guard.
-- Multiple SQL statements are rejected.
-- Mutating keywords such as `INSERT`, `UPDATE`, `DELETE`, `DROP`, and `ALTER` are blocked.
-- API keys are hashed with Argon2.
-- Stored database credentials use AES-256-GCM encryption.
-- `.env`, local databases, private keys, virtualenvs, build output, and editor state are ignored.
-
-## Repository Map
-
-```text
-app/
-  agents/        # schema, SQL, chart, visualization, and coordinator logic
-  connectors/    # Postgres connector and DB abstraction
-  core/          # auth, demo session, SQL guard, security, session state
-  execution/     # Bun sandbox for optional transform code execution
-frontend/
-  src/app/       # Next.js app shell
-  src/components # query panel, event log, chart panel, SQL viewer
-data/ravenstack/ # synthetic SaaS analytics CSVs
-docs/            # demo notes
-tests/           # unit, integration, and security tests
-```
-
-## Next Milestones
-
-- Add a screenshot-driven demo walkthrough.
-- Add saved queries and a connection wizard.
-- Replace raw DSN browser messages with server-side `connection_id` references.
-- Add benchmark cases for SQL validity, chart choice, and guardrail rejection.
+Demo data licenses: Olist CC-BY-NC-SA-4.0, World Bank CC-BY-4.0, Census CC0,
+CMS public domain, TPC-DS TPC EULA. Kaggle samples per their terms.
