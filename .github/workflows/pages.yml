@@ -18,12 +18,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Set these as repository variables (Settings -> Secrets and variables
-      # -> Actions -> Variables) AFTER the Render backend is deployed:
-      #   NEXT_PUBLIC_API_URL = https://<your-render-service>.onrender.com
-      #   NEXT_PUBLIC_WS_URL  = wss://<your-render-service>.onrender.com/ws/query
-      NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'http://localhost:8000' }}
-      NEXT_PUBLIC_WS_URL: ${{ vars.NEXT_PUBLIC_WS_URL || 'ws://localhost:8000/ws/query' }}
+      # Backend is the VPS at nl2sql.duckdns.org (Caddy TLS + WS proxy).
+      # Override via repository variables if the domain changes:
+      #   NEXT_PUBLIC_API_URL / NEXT_PUBLIC_WS_URL / NEXT_PUBLIC_BASE_PATH
+      NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'https://nl2sql.duckdns.org' }}
+      NEXT_PUBLIC_WS_URL: ${{ vars.NEXT_PUBLIC_WS_URL || 'wss://nl2sql.duckdns.org/ws/query' }}
       NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || '/nl2sql-viz' }}
     steps:
       - uses: actions/checkout@v4
