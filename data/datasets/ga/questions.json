@@ -1,21 +1,14 @@
 {
-  "easy": [
-    "How does trip volume compare between members and casual riders?",
-    "Which rideable types are used the most?",
-    "Which start stations see the most trips?"
-  ],
+  "easy": [],
   "medium": [
-    "Compare average trip duration between members and casual riders",
-    "How does trip volume vary by day of week?",
-    "What is the distribution of trip durations?"
+    "What is the average trip duration in minutes, broken down by rider type (member vs casual)? How do the two groups compare?"
   ],
   "hard": [
-    "Show the monthly trip volume trend by member type",
-    "How does trip duration vary by hour of day for members vs casual riders?",
-    "Which station pairs (start to end) are the most common routes?"
+    "Rank the top 10 start stations by total trip count. For each, what share of trips were taken by members vs casual riders? Are some stations much more member-dominated than others?",
+    "Compute the average trip duration by hour of day. What are the peak hours, and how does the member-vs-casual pattern differ between morning rush (7-9am) and evening rush (5-7pm)?"
   ],
   "very_complex": [
-    "Compare member vs casual rider behavior: how do trip duration and peak usage hours differ, and which station areas show the biggest seasonal swings?",
-    "Analyze usage patterns: how did trip volume and average duration change from Q1 to Q4 2021 by rideable type, and which type drove the growth?"
+    "Find the 20 most popular station-to-station routes (start_station_id, end_station_id pairs). For each, compute the average trip duration. Are round trips (same start and end) over-represented in the top 20?",
+    "Compute the day-of-week and hour-of-day heatmap of trips for members vs casual riders. Identify the single (weekday, hour) cell with the biggest difference in member-vs-casual share — i.e. the slot that is most distinctly one rider type."
   ]
 }

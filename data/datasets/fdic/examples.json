@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Which 10 banks have the largest total assets?",
+    "sql": "SELECT CERT, NAME, ASSET, ROA, ROE FROM ds_fdic_institutions ORDER BY ASSET DESC NULLS LAST LIMIT 10"
+  },
+  {
+    "question": "Compare average ROE across bank classes",
+    "sql": "SELECT BKCLASS, AVG(ROE) AS avg_roe, COUNT(*) AS num_banks FROM ds_fdic_institutions WHERE BKCLASS IS NOT NULL AND ROE IS NOT NULL GROUP BY BKCLASS ORDER BY avg_roe DESC"
+  },
+  {
+    "question": "Show total industry assets by year",
+    "sql": "SELECT SUBSTRING(REPDTE, 1, 4) AS report_year, SUM(ASSET) AS total_assets, COUNT(*) AS num_reports FROM ds_fdic_financials WHERE ASSET IS NOT NULL GROUP BY report_year ORDER BY report_year"
+  }
+]

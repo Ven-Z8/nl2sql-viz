@@ -1,22 +1,14 @@
 {
-  "easy": [
-    "Which sales channels contribute the most orders?",
-    "How does revenue break down by region?",
-    "Which product categories sell the most units?"
-  ],
+  "easy": [],
   "medium": [
-    "What does average order value look like by customer segment?",
-    "Compare payment method usage across sales channels",
-    "What is the distribution of order values across all orders?"
+    "Which product category has the highest gross margin per unit sold, and how does that compare to the category with the highest total revenue? Are they the same?"
   ],
   "hard": [
-    "Show the monthly revenue trend by channel",
-    "How has revenue per customer evolved month over month?",
-    "What is the relationship between product price and total units sold?"
+    "Show month-over-month revenue growth for 2023, flagging any month where revenue dropped more than 10% vs the prior month. What was the channel mix each time we saw a drop?",
+    "Rank the top 10 customers by lifetime value. For each, break down their revenue by product category — which high-LTV customers are actually concentrated in just one category vs spread across many?"
   ],
   "very_complex": [
-    "Compare Q4 vs Q3 performance by region: which regions grew, which categories drove the growth, and what was the channel mix impact?",
-    "Analyze customer retention: what share of customers return for a second purchase, how does retention vary by segment, and which segment retains best?",
-    "Which products are the most profitable per unit sold, and how does profitability vary across categories and regions?"
+    "Compare 2022 vs 2023 by region: which regions grew, which shrank, and for the growing regions, what share of growth came from new customers vs existing customers increasing their spend?",
+    "Find the 5 products with the biggest gap between units sold and revenue generated (i.e. high volume but low revenue contribution). What do these products have in common — are they all in the same category, same price tier, or sold mostly through one channel?"
   ]
 }

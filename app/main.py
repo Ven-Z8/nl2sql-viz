@@ -12,12 +12,14 @@ from pydantic import BaseModel
 
 from app.core.auth import generate_api_key, hash_api_key, key_digest, verify_api_key
 from app.core.connections import (
+    get_active_dataset,
     register as register_connection,
     register_demo_connection,
     resolve as resolve_connection,
+    set_active_dataset,
 )
 from app.core.csv_loader import CSVUploadError, infer_schema, iter_csv, load_csv, sanitize_table_name
-from app.core.dataset_loader import list_datasets, load_dataset
+from app.core.dataset_loader import list_datasets, load_dataset, read_examples
 from app.core.demo import DEMO_DATASET_NAME, build_demo_session, get_demo_questions
 from app.core.samples import list_samples, load_sample
 from app.core.session import SessionStore
@@ -184,6 +186,9 @@ async def load_dataset_endpoint(dataset_id: str, api_key: str = Form(...)):
     # New tables must be visible to the very next query — drop stale schemas.
     get_schema_cache().invalidate_dsn(UPLOAD_DATABASE_URL)
     result["connection_id"] = await register_connection(UPLOAD_DATABASE_URL, owner=username)
+    # Record the active dataset on the connection so the WS layer can pull
+    # per-dataset few-shot examples into the SQL generation prompt.
+    await set_active_dataset(result["connection_id"], dataset_id)
     return result
 
 
@@ -291,6 +296,10 @@ async def connect_db(req: ConnectRequest):
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Cannot connect to DB: {e}")
     connection_id = await register_connection(req.dsn, owner=username)
+    # Custom-DSN: no dataset is bound to this connection, so clear any
+    # stale active_dataset from a prior /api/datasets/<id>/load that
+    # happened to share the DSN.
+    await set_active_dataset(connection_id, "")
     return {"connection_id": connection_id}
 
 async def _resolve_user(api_key: str) -> str | None:
@@ -417,6 +426,18 @@ async def websocket_query(websocket: WebSocket):
                 # Activate the domain skill — injects analyst guidance into SQL generation
                 skill = get_domain_skill(domain)
                 sql_agent.domain_guidance = skill_guidance(skill)
+
+                # Per-dataset few-shot examples (Vanna-style RAG). Read from
+                # disk on each query — cheap and lets us swap datasets
+                # without restarting the WS connection.
+                active_dataset = await get_active_dataset(connection_id)
+                if active_dataset:
+                    examples = read_examples(active_dataset)
+                    sql_agent.few_shot_examples = examples
+                    coordinator.few_shot_examples = examples
+                else:
+                    sql_agent.few_shot_examples = []
+                    coordinator.few_shot_examples = []
 
                 async def ask_user(question: str, options: list[str]) -> int | None:
                     """Clarify channel: send the question, await the choice.

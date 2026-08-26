@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Compare average trip duration between members and casual riders",
+    "sql": "SELECT member_casual, AVG(EXTRACT(EPOCH FROM (ended_at - started_at)) / 60.0) AS avg_minutes, COUNT(*) AS num_trips FROM ds_ga_trips WHERE ended_at > started_at GROUP BY member_casual"
+  },
+  {
+    "question": "Top 10 start stations by trip count",
+    "sql": "SELECT start_station_name, COUNT(*) AS num_trips, COUNT(DISTINCT ride_id) AS unique_rides FROM ds_ga_trips WHERE start_station_name IS NOT NULL GROUP BY start_station_name ORDER BY num_trips DESC LIMIT 10"
+  },
+  {
+    "question": "How does trip volume vary by day of week?",
+    "sql": "SELECT EXTRACT(DOW FROM started_at) AS day_of_week, COUNT(*) AS num_trips FROM ds_ga_trips GROUP BY day_of_week ORDER BY day_of_week"
+  }
+]

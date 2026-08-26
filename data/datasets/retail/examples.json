@@ -1,0 +1,14 @@
+[
+  {
+    "question": "What is the average order value by customer segment?",
+    "sql": "SELECT segment, AVG(order_total) AS aov FROM (SELECT o.order_id, o.customer_id, c.segment, SUM(oi.quantity * oi.unit_price) AS order_total FROM ds_retail_orders o JOIN ds_retail_order_items oi ON oi.order_id = o.order_id JOIN ds_retail_customers c ON c.customer_id = o.customer_id GROUP BY o.order_id, o.customer_id, c.segment) sub GROUP BY segment ORDER BY aov DESC"
+  },
+  {
+    "question": "Show the monthly revenue trend by channel",
+    "sql": "SELECT DATE_TRUNC('month', o.order_date) AS month, o.channel, SUM(oi.quantity * oi.unit_price) AS revenue FROM ds_retail_orders o JOIN ds_retail_order_items oi ON oi.order_id = o.order_id GROUP BY month, o.channel ORDER BY month, o.channel"
+  },
+  {
+    "question": "Which products have the highest gross margin per unit sold?",
+    "sql": "SELECT p.product_id, p.name, p.category, AVG(p.price - p.cost) AS margin_per_unit, SUM(oi.quantity) AS units_sold FROM ds_retail_products p JOIN ds_retail_order_items oi ON oi.product_id = p.product_id GROUP BY p.product_id, p.name, p.category ORDER BY margin_per_unit DESC LIMIT 10"
+  }
+]

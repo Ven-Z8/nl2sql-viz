@@ -479,6 +479,11 @@ class CoordinatorAgent(Agent, llm=SONNET):
     # Conversation context block for follow-up questions (Contract V3).
     # Empty on the stateless path — routing/linking behavior is unchanged.
     conversation_context: str = ""
+    # Per-dataset few-shot examples (Vanna-style RAG). Loaded from
+    # data/datasets/<id>/examples.json and injected into SQL generation
+    # so the model sees the actual JOIN patterns and column names for
+    # this dataset instead of guessing.
+    few_shot_examples: list[dict[str, str]] = []
 
     # ------------------------------------------------------------------
     # Deterministic helpers

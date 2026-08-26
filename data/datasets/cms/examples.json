@@ -1,0 +1,14 @@
+[
+  {
+    "question": "What is the average Medicare payment per claim by year?",
+    "sql": "SELECT SUBSTRING(CLM_FROM_DT, 1, 4) AS claim_year, AVG(CLM_PMT_AMT) AS avg_payment, COUNT(*) AS num_claims FROM ds_cms_claims WHERE CLM_PMT_AMT IS NOT NULL AND CLM_FROM_DT IS NOT NULL GROUP BY claim_year ORDER BY claim_year"
+  },
+  {
+    "question": "Top 10 admitting diagnoses by claim count with avg payment and LOS",
+    "sql": "SELECT ADMTNG_ICD9_DGNS_CD AS admitting_dx, COUNT(*) AS num_claims, AVG(CLM_PMT_AMT) AS avg_payment, AVG(CLM_UTLZTN_DAY_CNT) AS avg_los FROM ds_cms_claims WHERE ADMTNG_ICD9_DGNS_CD IS NOT NULL GROUP BY ADMTNG_ICD9_DGNS_CD ORDER BY num_claims DESC LIMIT 10"
+  },
+  {
+    "question": "What is the relationship between length of stay and payment amount?",
+    "sql": "SELECT CLM_UTLZTN_DAY_CNT AS los_days, AVG(CLM_PMT_AMT) AS avg_payment, COUNT(*) AS num_claims FROM ds_cms_claims WHERE CLM_UTLZTN_DAY_CNT IS NOT NULL AND CLM_PMT_AMT IS NOT NULL GROUP BY CLM_UTLZTN_DAY_CNT ORDER BY CLM_UTLZTN_DAY_CNT"
+  }
+]

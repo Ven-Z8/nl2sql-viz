@@ -46,6 +46,11 @@ class SQLAgent(Agent, llm=SONNET):
     # Conversation context block for follow-up questions (Contract V3).
     # Empty on the stateless path — prompts stay byte-identical to before.
     conversation_context: str = ""
+    # Per-dataset few-shot examples (Vanna-style RAG). Each entry is
+    # {"question": ..., "sql": ...} and gets injected into the prompt
+    # so the model sees the actual JOIN patterns and column names for
+    # this dataset instead of guessing. Empty list = no examples.
+    few_shot_examples: list[dict[str, str]] = []
 
     # ------------------------------------------------------------------
     # Deterministic helpers
@@ -76,50 +81,121 @@ class SQLAgent(Agent, llm=SONNET):
         """
         return self.math.calculate(expression, variables)
 
+    def _format_few_shot(self) -> str:
+        """Format the per-dataset examples as a prompt block (Vanna-style).
+
+        Returns an empty string when no examples are loaded so the prompt
+        stays clean for custom-DSN connections.
+        """
+        if not self.few_shot_examples:
+            return ""
+        lines = ["## Few-shot examples for this dataset (use as reference for column names, JOIN patterns, and conventions)", ""]
+        for i, ex in enumerate(self.few_shot_examples, 1):
+            q = ex.get("question", "").strip()
+            sql = ex.get("sql", "").strip()
+            if not q or not sql:
+                continue
+            lines.append(f"### Example {i}")
+            lines.append(f"Q: {q}")
+            lines.append("```sql")
+            lines.append(sql)
+            lines.append("```")
+            lines.append("")
+        return "\n".join(lines)
+
     # ------------------------------------------------------------------
     # Generation methods
     # ------------------------------------------------------------------
 
     @strategy(PredictStrategy())
     async def generate_simple(self, question: str, schema: SchemaMap, sample_text: str = "", feedback: str = "") -> GeneratedSQL:
-        """Generate a safe, correct PostgreSQL query that answers the question.
+        """You are a senior PostgreSQL analytics engineer. Generate ONE
+        read-only SELECT that answers the question. Think step-by-step, then
+        output the SQL.
 
-        Return a GeneratedSQL with the final SQL and a brief explanation.
+        ## Reasoning steps (think before writing SQL)
+        1. What is the question actually asking? Restate it in your own words.
+        2. Which table(s) in the schema hold the data? Use ONLY the tables
+           and columns listed in the schema below — never invent column names.
+        3. Which columns answer the question (metric, dimension, filter)?
+           Cross-check EVERY column you plan to use against the schema. If a
+           column is not in the schema, it does not exist — pick a different one.
+        4. What aggregation/grouping/ordering is needed? Use the user's own
+           words: "largest" → ORDER BY ... DESC LIMIT, "trend over time" →
+           GROUP BY date/time column, "share" → ratio with NULLIF guard, etc.
+        5. Are derived metrics safe in SQL? Prefer SQL for ratios/percentages
+           using NULLIF(denominator, 0). For percentages 0-1, multiply by 100.
 
-        The schema is: {schema.compact_repr()}
+        ## Hard rules (violations fail validation)
+        - READ-ONLY: no INSERT/UPDATE/DELETE/DROP/CREATE/ALTER/TRUNCATE.
+        - Every column you reference MUST appear in the schema below.
+        - Prefer a single query. Use CTEs (WITH ... AS) if you need a temp step.
+        - Date filters must use ISO format. Text filters: case-insensitive (ILIKE).
+        - For "top N": ORDER BY <metric> DESC LIMIT N. For "bottom N": ASC LIMIT N.
+        - Do NOT compute percentages by hardcoding a denominator — derive it
+          from the data (e.g. (revenue / NULLIF(total_revenue, 0)) * 100).
+        - If a filter is ambiguous (e.g. "active users"), use a defensible
+          interpretation based on the schema and state your interpretation
+          in the explanation.
 
-        Sample data (real rows — use these to understand the column names, grain,
-        and value formats. Pick columns that actually exist in the sample):
+        ## Schema
+        {schema.compact_repr()}
+
+        ## Sample rows (verify column names and value formats here)
         {sample_text}
 
-        Domain guidance (follow these analyst conventions):
+        ## Domain guidance
         {self.domain_guidance}
 
         {self.conversation_context}
 
-        Previous attempt feedback (fix these errors — use ONLY the listed columns):
+        {self._format_few_shot()}
+
+        ## Previous attempt feedback (if any — fix these specific errors)
         {feedback}
+
+        ## Output
+        Return GeneratedSQL{{sql: <final SQL>, explanation: <one sentence>}}
         """
         ...
 
     @strategy(PredictStrategy())
     async def plan_analysis(self, question: str, schema: SchemaMap, sample_text: str = "") -> list[SubQuery]:
-        """Break a COMPLEX question into 3-5 verifiable sub-questions.
+        """You are decomposing a complex business question into 3-5
+        independent sub-questions that, when answered together, give the
+        full picture.
 
-        Each sub-question must be answerable by a single SELECT with basic
-        aggregation. The sub-questions are designed so their results can be
-        compared or joined to build the final report. Keep each sub-question
-        short and specific.
+        ## Reasoning steps
+        1. Read the question. Identify the distinct comparisons, time periods,
+           or entities the user wants to understand.
+        2. Each sub-question must be answerable by ONE SELECT with basic
+           aggregation (GROUP BY + COUNT/SUM/AVG, optional ORDER BY + LIMIT).
+        3. Sub-questions should be INDEPENDENT (one can fail without
+           breaking the others). Don't chain them with UNIONs or joins.
+        4. Order them so the first sub-question is the most foundational /
+           headline answer; later sub-questions provide context or contrast.
+        5. Avoid sub-questions that return nothing useful on their own
+           (e.g. "show me a single row count" when the question is about
+           change over time).
 
-        The schema is: {schema.compact_repr()}
+        ## Sub-question rules
+        - Each sub-question must reference ONLY columns in the schema.
+        - Each must be a self-contained natural-language question a user
+          would ask, NOT a SQL fragment.
+        - 3-5 sub-questions total. If the question is simple, return an
+          empty list — the simple path handles it.
 
-        Sample data (real rows — use these to understand the column names, grain,
-        and value formats. Pick columns that actually exist in the sample):
+        ## Schema
+        {schema.compact_repr()}
+
+        ## Sample rows
         {sample_text}
 
-        Domain guidance (follow these analyst conventions):
+        ## Domain guidance
         {self.domain_guidance}
 
         {self.conversation_context}
+
+        {self._format_few_shot()}
         """
         ...

@@ -1,21 +1,14 @@
 {
-  "easy": [
-    "Which states host the most active banks?",
-    "How does the banking industry break down by bank class?",
-    "Which states hold the largest banking assets?"
-  ],
+  "easy": [],
   "medium": [
-    "Compare average return on equity across bank classes",
-    "What does the distribution of bank asset sizes look like?",
-    "Which cities are home to the largest banks by assets?"
+    "Which 10 banks have the largest total assets, and what is each one's return on assets (ROA) and return on equity (ROE)? Are the biggest banks the most profitable?"
   ],
   "hard": [
-    "Show the quarterly trend in total industry assets",
-    "How has aggregate bank net income evolved quarter over quarter?",
-    "What is the relationship between bank size and return on equity?"
+    "For each state, compute the total bank deposits and number of bank offices. Which states have the highest deposits-per-office, and which have the most offices per capita of deposits?",
+    "Find banks where net income (NETINC) was positive in every quarter of 2023. How many such consistently profitable banks are there, and what share of total system assets do they represent?"
   ],
   "very_complex": [
-    "Compare 2020 vs 2024 profitability: how did return on equity and net income shift by bank class, which classes improved most, and what drove the change?",
-    "Analyze banking concentration: how much of industry assets do the top 10 banks hold, how has that share changed over time, and which regions are most concentrated?"
+    "Compute each bank's asset growth from Q1 2020 to Q1 2024. Which banks more than doubled their assets in that period, and what are their bank classes (BKCLASS)? Are the fastest growers concentrated in one class?",
+    "For the top 50 banks by assets, plot the trajectory of their return on assets across 2020-2024 quarters. Which bank(s) had the most volatile ROA (biggest swing between any two consecutive quarters), and which had the steadiest?"
   ]
 }

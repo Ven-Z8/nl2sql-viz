@@ -1,0 +1,14 @@
+[
+  {
+    "question": "Which states have the highest median household income?",
+    "sql": "SELECT State, AVG(Income) AS avg_income, COUNT(*) AS num_tracts FROM ds_census_tracts WHERE Income IS NOT NULL GROUP BY State ORDER BY avg_income DESC LIMIT 10"
+  },
+  {
+    "question": "How does poverty rate vary across the largest states?",
+    "sql": "SELECT State, AVG(Poverty * 100.0 / NULLIF(TotalPop, 0)) AS poverty_pct, SUM(TotalPop) AS total_pop FROM ds_census_tracts WHERE TotalPop > 0 GROUP BY State HAVING SUM(TotalPop) > 1000000 ORDER BY poverty_pct DESC LIMIT 10"
+  },
+  {
+    "question": "Find counties with the highest child poverty rates",
+    "sql": "SELECT State, County, ChildPoverty, TotalPop FROM ds_census_counties WHERE ChildPoverty IS NOT NULL ORDER BY ChildPoverty DESC LIMIT 10"
+  }
+]

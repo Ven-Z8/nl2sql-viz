@@ -37,6 +37,22 @@ def list_datasets() -> list[dict[str, str]]:
     return datasets
 
 
+def read_examples(dataset_id: str) -> list[dict[str, str]]:
+    """Read the few-shot examples.json for a dataset (Vanna-style RAG payload).
+
+    Returns an empty list if the dataset has no examples file. Cheap: pure
+    disk read, no DB work. Safe to call on every WS query.
+    """
+    path = _DATASETS_DIR / dataset_id / "examples.json"
+    if not path.exists():
+        return []
+    try:
+        data = _read_json(path)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return []
+    return data if isinstance(data, list) else []
+
+
 def _table_name(dataset_id: str, table: str) -> str:
     return f"ds_{dataset_id}_{table}"
 
@@ -73,6 +89,13 @@ async def load_dataset(pool: PostgresPool, dataset_id: str) -> dict:
         raise KeyError(dataset_id)
     schema = _read_json(schema_path)
     questions = _read_json(dataset_dir / "questions.json")
+    # Per-dataset few-shot (Vanna-style): 2-3 (question, sql) pairs that
+    # teach the model the column names, JOIN patterns, and analyst
+    # conventions specific to this dataset's shape.
+    examples: list[dict[str, str]] = []
+    examples_path = dataset_dir / "examples.json"
+    if examples_path.exists():
+        examples = _read_json(examples_path)
 
     tables = schema["tables"]
     # Create tables in dependency order (parents before children)
@@ -97,6 +120,7 @@ async def load_dataset(pool: PostgresPool, dataset_id: str) -> dict:
         # scoping stays inside this dataset's FK graph instead of the whole DB.
         "focus_table": _table_name(dataset_id, _pick_focus(tables)),
         "questions": questions,
+        "examples": examples,
     }
 
 

@@ -1,21 +1,14 @@
 {
-  "easy": [
-    "Which DRG codes appear most often in inpatient claims?",
-    "How does claim volume break down by year?",
-    "Which providers handle the most claims?"
-  ],
+  "easy": [],
   "medium": [
-    "Compare average payment amounts across the top DRG codes",
-    "What does the distribution of claim payment amounts look like?",
-    "Which admission diagnoses are the most common?"
+    "What is the average Medicare payment per claim, broken down by year (2008-2010)? Is the trend increasing or decreasing?"
   ],
   "hard": [
-    "Show the monthly claim volume trend",
-    "How has the average length of stay changed quarter over quarter?",
-    "What is the relationship between length of stay and payment amount?"
+    "What are the top 10 most common admitting diagnoses (ADMTNG_ICD9_DGNS_CD) by claim count, and what is the average payment and average length of stay for each?",
+    "Find DRG codes where the average payment per claim differs by more than 50% between 2008 and 2010. For each such DRG, how many claims were there in each year?"
   ],
   "very_complex": [
-    "Compare 2008 vs 2010 inpatient costs: how did average payment and length of stay change, which DRGs drove the increase, and what was the deductible impact?",
-    "Analyze high-cost patients: which beneficiaries accumulate the most Medicare spend, what are their common diagnoses, and how does their length of stay compare to the average?"
+    "Compute the average payment per utilization day (CLM_PMT_AMT / CLM_UTLZTN_DAY_CNT) for each DRG code. Which DRGs have the highest per-day cost, and are they also the DRGs with the longest average stays, or is cost-per-day independent of length of stay?",
+    "Find providers (PRVDR_NUM) that appear in claims for 100+ distinct patients (DESYNPUF_ID). For the top 10 such providers by patient count, what is the average payment per claim, and how does that compare to the overall average? Are high-volume providers higher or lower cost per claim?"
   ]
 }

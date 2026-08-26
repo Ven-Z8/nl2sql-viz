@@ -1,21 +1,14 @@
 {
-  "easy": [
-    "Which states have the largest populations?",
-    "How does median income vary across states?",
-    "Which states have the highest poverty rates?"
-  ],
+  "easy": [],
   "medium": [
-    "Compare commute mode usage (driving vs transit vs walking) across the largest states",
-    "What does the distribution of median income look like across counties?",
-    "Which counties have the largest populations?"
+    "Which 5 states have the highest median household income, and how does their poverty rate compare to the national average?"
   ],
   "hard": [
-    "Show the relationship between median income and poverty rate by county",
-    "How does the racial composition vary across the largest states?",
-    "What is the relationship between commute time and transit usage?"
+    "Find counties where the child poverty rate is more than double the overall poverty rate. How many such counties are there, and which states have the most?",
+    "Compute the income inequality ratio (ratio of Top 10% to Bottom 10% by income per capita) for each state, then rank states from most to least equal. What is the most unequal state?"
   ],
   "very_complex": [
-    "Compare the wealthiest vs poorest counties: how do employment, education, and commute patterns differ between them, and which states host both?",
-    "Analyze the aging population: which states have the highest share of elderly residents, how does that correlate with income and labor force participation, and what does it imply for the workforce?"
+    "Identify census tracts that are demographic outliers — tracts where the Hispanic, Black, or Asian population share is more than 3 standard deviations above the state mean. For each outlier tract, compare its median income to the state median. Are racially concentrated tracts richer or poorer?",
+    "For each state, compute the correlation between mean commute time and unemployment rate across its counties. Which states have the strongest positive correlation (long commute = more unemployment), and which have the strongest negative?"
   ]
 }
