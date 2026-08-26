@@ -28,6 +28,13 @@ async def main() -> int:
             qs = questions.json()["questions"]
             print(f"  {len(qs)} suggested questions")
 
+        # Register the demo DB server-side; only the id goes over the wire
+        conn = await client.post("/api/connections", json={"api_key": api_key, "dsn": DSN})
+        if conn.status_code != 200:
+            print(f"FAIL connect: {conn.status_code} {conn.text}")
+            return 1
+        connection_id = conn.json()["connection_id"]
+
     async with websockets.connect(WS_URL) as ws:
         await ws.send(json.dumps({"type": "auth", "api_key": api_key}))
         auth = json.loads(await ws.recv())
@@ -37,7 +44,7 @@ async def main() -> int:
         await ws.send(json.dumps({
             "type": "query",
             "query": "Show monthly recurring revenue by plan tier over time",
-            "dsn": DSN,
+            "connection_id": connection_id,
         }))
 
         events = []
@@ -63,20 +70,17 @@ async def main() -> int:
             return 1
 
         print("result event keys:", sorted(result.keys()))
-        chart_spec = result.get("chart_spec")
-        if not chart_spec or "spec" not in chart_spec:
-            print("FAIL: no chart_spec.spec in result")
+        chart_hint = result.get("chart_hint")
+        if not isinstance(chart_hint, dict) or not chart_hint.get("kind"):
+            print("FAIL: no chart_hint.kind in result")
             return 1
-        spec = chart_spec["spec"]
-        assert "$schema" in spec, "chart spec missing $schema"
         print("  row_count:", result.get("row_count"))
-        print("  chart renderer:", chart_spec.get("renderer"))
-        print("  chart type:", chart_spec.get("plan", {}).get("chart_type"))
-        print("  query_type:", result.get("query_type"))
+        print("  chart kind:", chart_hint.get("kind"), "x:", chart_hint.get("x"), "y:", chart_hint.get("y"))
         answer = result.get("answer")
         if not answer or not answer.get("text"):
             print("FAIL: no grounded answer in result")
             return 1
+        print("  query_type:", answer.get("query_type"))
         print("  answer:", answer["text"])
         print("  metrics:", [(m["label"], m["value"]) for m in answer.get("metrics", [])])
         print("  cached:", result.get("cached"))

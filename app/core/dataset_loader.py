@@ -41,8 +41,32 @@ def _table_name(dataset_id: str, table: str) -> str:
     return f"ds_{dataset_id}_{table}"
 
 
-async def load_dataset(pool: PostgresPool, dataset_id: str, dsn: str) -> dict:
-    """Load a multi-table dataset into Postgres. Returns dataset info."""
+def _pick_focus(tables: list[dict]) -> str:
+    """Choose the dataset's focus table — the FK-graph hub.
+
+    Schema scoping walks foreign keys outward from the focus table, so the
+    hub (most FK edges, counting both directions) reaches the largest slice
+    of the dataset. For a star schema this is the fact table; for worldbank
+    it's ``values`` joining countries+indicators.
+    """
+    if not tables:
+        raise KeyError("dataset has no tables")
+    degree: dict[str, int] = {t["name"]: 0 for t in tables}
+    for t in tables:
+        for c in t["columns"]:
+            fk = c.get("fk")
+            if fk:
+                degree[t["name"]] += 1
+                degree[fk.split(".")[0]] += 1
+    return max(degree, key=degree.get)
+
+
+async def load_dataset(pool: PostgresPool, dataset_id: str) -> dict:
+    """Load a multi-table dataset into Postgres. Returns dataset info.
+
+    Contains NO DSN — callers attach the opaque connection_id from the
+    server-side registry instead.
+    """
     dataset_dir = _DATASETS_DIR / dataset_id
     schema_path = dataset_dir / "schema.json"
     if not schema_path.exists():
@@ -69,8 +93,10 @@ async def load_dataset(pool: PostgresPool, dataset_id: str, dsn: str) -> dict:
         "name": schema.get("name", dataset_id),
         "domain": schema.get("domain", "general"),
         "tables": [t["name"] for t in tables],
+        # Qualified focus table — clients echo it back on queries so schema
+        # scoping stays inside this dataset's FK graph instead of the whole DB.
+        "focus_table": _table_name(dataset_id, _pick_focus(tables)),
         "questions": questions,
-        "dsn": dsn,
     }
 
 

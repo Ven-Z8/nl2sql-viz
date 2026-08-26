@@ -15,8 +15,9 @@ async def main() -> None:
     req = urllib.request.Request(f"{API}/api/demo/session", method="POST")
     with urllib.request.urlopen(req, timeout=30) as r:
         body = json.loads(r.read().decode())
-    api_key, dsn = body["api_key"], body["dsn"]
-    print("demo session OK — dsn host:", dsn.split("@")[1].split(":")[0])
+    api_key = body["api_key"]
+    connection_id = body["connection_id"]
+    print("demo session OK — dataset:", body.get("dataset", "?"), "connection:", connection_id)
 
     data = urllib.parse.urlencode({"api_key": api_key}).encode()
     req = urllib.request.Request(f"{API}/api/datasets/olist/load", data=data, method="POST")
@@ -28,7 +29,9 @@ async def main() -> None:
         await ws.send(json.dumps({"type": "auth", "api_key": api_key}))
         auth = json.loads(await asyncio.wait_for(ws.recv(), timeout=30))
         print("auth:", auth.get("type"))
-        await ws.send(json.dumps({"type": "query", "query": QUESTION, "dsn": dsn}))
+        await ws.send(json.dumps({
+            "type": "query", "query": QUESTION, "connection_id": connection_id,
+        }))
         while True:
             ev = json.loads(await asyncio.wait_for(ws.recv(), timeout=600))
             if ev["type"] == "progress":

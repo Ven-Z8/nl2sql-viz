@@ -83,16 +83,94 @@ class KeyPointsAgent(Agent, llm=HAIKU):
         return points
 
 
-def metrics_to_text(metrics, sections=None, rows=None) -> str:
-    """Render grounded metrics + report sections + top result rows for the synthesizer."""
+def metrics_to_text(metrics, sections=None, rows=None, metric_tags=None) -> str:
+    """Render grounded metrics + report sections + top result rows for the synthesizer.
+
+    ``metric_tags`` (aligned with ``metrics``) carries source ids like
+    ``[q0.r2]`` so the model sees exactly which shipped result set each number
+    came from — and only tagged (traceable) numbers are offered at all.
+    """
     lines: list[str] = []
     if rows:
         for r in rows[:5]:
             parts = [f"{k}: {v}" for k, v in list(r.items())[:5]]
-            lines.append(f"- {', '.join(parts)}")
-    for m in metrics:
-        lines.append(f"- {m.label}: {m.value:,.2f}")
+            lines.append(f"- {', '.join(parts)} [q0]")
+    for i, m in enumerate(metrics):
+        tag = metric_tags[i] if metric_tags and i < len(metric_tags) else ""
+        suffix = f" {tag}" if tag else ""
+        lines.append(f"- {m.label}: {m.value:,.2f}{suffix}")
     if sections:
         for s in sections:
             lines.append(f"- [{s.title}] {s.text}")
     return "\n".join(lines) if lines else "No numeric metrics were computed."
+
+
+# ---------------------------------------------------------------------------
+# Grounded-number enforcement for the narrative
+# ---------------------------------------------------------------------------
+
+_NUMBER_RE = re.compile(r"\d[\d,]*(?:\.\d+)?")
+# Years are context words in analyst prose ("grew in 2024"), not cited metrics;
+# demanding a data trace for them would drop valid points over dates that are
+# stored as strings in result rows.
+_YEAR_MIN, _YEAR_MAX = 1900, 2100
+
+
+def extract_numbers(text: str) -> list[float]:
+    """Parse every plain number out of ``text`` (comma separators tolerated)."""
+    values: list[float] = []
+    for match in _NUMBER_RE.finditer(text):
+        raw = match.group(0).replace(",", "")
+        try:
+            values.append(float(raw))
+        except ValueError:  # pragma: no cover — regex only emits valid floats
+            continue
+    return values
+
+
+def _matches_traceable(value: float, traceable: set[float]) -> bool:
+    """Same tolerance the reference harness uses: 1 unit or 1%."""
+    return any(abs(value - t) <= max(1.0, abs(t) * 0.01) for t in traceable)
+
+
+def filter_key_points_grounded(points: list[str], traceable: set[float]) -> list[str]:
+    """Drop key points that cite numbers absent from the shipped result sets.
+
+    Every number a point mentions must match a traceable value (or be a bare
+    year used as context). This is the hard backstop that keeps the narrative
+    from inventing or misquoting figures.
+    """
+    kept: list[str] = []
+    for point in points:
+        ok = True
+        for value in extract_numbers(point):
+            if value.is_integer() and _YEAR_MIN <= value <= _YEAR_MAX:
+                continue  # bare-year context — allowed without a data trace
+            if not _matches_traceable(value, traceable):
+                ok = False
+                break
+        if ok:
+            kept.append(point)
+    return kept
+
+
+def traceable_values(metrics, sections=None, rows=None) -> set[float]:
+    """Collect every number the answer is allowed to cite.
+
+    Metric values, report-section metric values, and numeric cells of the
+    shipped result rows all count; anything else in the narrative is
+    ungrounded and gets filtered.
+    """
+    values: set[float] = set()
+    for m in metrics:
+        values.add(float(m.value))
+    if sections:
+        for s in sections:
+            for m in s.metrics:
+                values.add(float(m.value))
+    if rows:
+        for row in rows:
+            for v in row.values():
+                if isinstance(v, (int, float)) and not isinstance(v, bool):
+                    values.add(float(v))
+    return values

@@ -15,12 +15,15 @@ async def main() -> None:
     req = urllib.request.Request(f"{API}/api/demo/session", method="POST")
     with urllib.request.urlopen(req, timeout=30) as r:
         body = json.loads(r.read().decode())
-    api_key, dsn = body["api_key"], body["dsn"]
+    api_key = body["api_key"]
+    connection_id = body["connection_id"]
 
     async with websockets.connect(WS, open_timeout=30, ping_interval=None, ping_timeout=None) as ws:
         await ws.send(json.dumps({"type": "auth", "api_key": api_key}))
         await asyncio.wait_for(ws.recv(), timeout=30)
-        await ws.send(json.dumps({"type": "query", "query": QUESTION, "dsn": dsn}))
+        await ws.send(json.dumps({
+            "type": "query", "query": QUESTION, "connection_id": connection_id,
+        }))
         stages = []
         while True:
             ev = json.loads(await asyncio.wait_for(ws.recv(), timeout=600))

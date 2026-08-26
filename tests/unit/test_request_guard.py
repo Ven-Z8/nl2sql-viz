@@ -10,7 +10,7 @@ def test_rate_limit_allows_under_threshold():
     for _ in range(RATE_LIMIT_QUERIES - 1):
         timestamps.append(time.monotonic() - 1)
     # Should NOT raise
-    _check_rate_limit(timestamps)
+    _check_rate_limit(timestamps, RATE_LIMIT_QUERIES, RATE_LIMIT_WINDOW_SECONDS)
 
 
 def test_rate_limit_blocks_at_threshold():
@@ -19,7 +19,7 @@ def test_rate_limit_blocks_at_threshold():
     for _ in range(RATE_LIMIT_QUERIES):
         timestamps.append(now - 1)  # all within the window
     with pytest.raises(RuntimeError, match="Rate limit"):
-        _check_rate_limit(timestamps)
+        _check_rate_limit(timestamps, RATE_LIMIT_QUERIES, RATE_LIMIT_WINDOW_SECONDS)
 
 
 def test_rate_limit_resets_after_window():
@@ -28,7 +28,7 @@ def test_rate_limit_resets_after_window():
     for _ in range(RATE_LIMIT_QUERIES):
         timestamps.append(old)  # all outside the window
     # Should NOT raise (old timestamps expire)
-    _check_rate_limit(timestamps)
+    _check_rate_limit(timestamps, RATE_LIMIT_QUERIES, RATE_LIMIT_WINDOW_SECONDS)
 
 
 def test_rate_limit_boundary_exact_window_edge():
@@ -46,7 +46,7 @@ def test_rate_limit_boundary_exact_window_edge():
     for _ in range(RATE_LIMIT_QUERIES):
         timestamps.append(now - RATE_LIMIT_WINDOW_SECONDS - 0.1)  # just beyond — evicted
     # Should NOT raise (all entries are evicted)
-    _check_rate_limit(timestamps)
+    _check_rate_limit(timestamps, RATE_LIMIT_QUERIES, RATE_LIMIT_WINDOW_SECONDS)
 
     # Fill to threshold with entries just INSIDE the window
     # now - ts < RATE_LIMIT_WINDOW_SECONDS, so they will NOT be evicted
@@ -54,4 +54,4 @@ def test_rate_limit_boundary_exact_window_edge():
     for _ in range(RATE_LIMIT_QUERIES):
         timestamps.append(now - RATE_LIMIT_WINDOW_SECONDS + 0.1)  # just inside — retained
     with pytest.raises(RuntimeError, match="Rate limit"):
-        _check_rate_limit(timestamps)
+        _check_rate_limit(timestamps, RATE_LIMIT_QUERIES, RATE_LIMIT_WINDOW_SECONDS)

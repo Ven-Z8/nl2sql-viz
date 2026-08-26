@@ -1,0 +1,97 @@
+name: Benchmark
+
+# Manual runs any time; weekly schedule is OPTIONAL — delete the `schedule:`
+# block below if you don't want cron-triggered benchmark runs burning
+# OpenRouter credits.
+on:
+  workflow_dispatch:
+    inputs:
+      subset:
+        description: "Comma-separated dataset ids (subset of: olist,tpcds,worldbank,fdic,ga,cms,census,retail,healthcare,finance)"
+        required: false
+        default: "olist,tpcds,ga"
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: testuser
+          POSTGRES_PASSWORD: testpass
+          POSTGRES_DB: testdb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgresql://testuser:testpass@localhost:5432/testdb
+      DEMO_DATABASE_URL: postgresql://testuser:testpass@localhost:5432/testdb
+      # LLM key placeholder — forks WITHOUT this secret still get full
+      # test-suite signal; only the benchmark steps are allowed to fail.
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      # Not a secret: ephemeral per-run signing key for credential encryption.
+      SECRET_KEY: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Sync dependencies
+        run: uv sync
+
+      # ------------------------------------------------------------------
+      # Deterministic signal — runs everywhere, needs NO API keys.
+      # ------------------------------------------------------------------
+      - name: Test suite
+        run: uv run pytest tests -q
+
+      # ------------------------------------------------------------------
+      # LLM-dependent steps (require the OPENROUTER_API_KEY secret).
+      # Marked skippable: continue-on-error lets forks without keys finish
+      # green with just the test-suite signal above.
+      # ------------------------------------------------------------------
+      - name: Start backend (background)
+        continue-on-error: true
+        run: |
+          uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 &
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8000/health > /dev/null; then
+              echo "backend healthy"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "::warning::backend did not become healthy — skipping benchmark"
+
+      - name: Run very-complex benchmark
+        continue-on-error: true
+        run: |
+          uv run python -m scripts.benchmark_very_complex \
+            --datasets "${{ github.event.inputs.subset || 'olist,tpcds,ga' }}" \
+            --json bench_results.json \
+            --load
+
+      - name: Upload benchmark results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench_results
+          path: bench_results.json
+          if-no-files-found: ignore

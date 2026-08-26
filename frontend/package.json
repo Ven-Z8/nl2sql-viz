@@ -9,12 +9,11 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@types/recharts": "^1.8.29",
     "next": "^16.2.6",
     "react": "19.2.4",
     "react-dom": "19.2.4",
-    "vega": "^6.2.0",
-    "vega-embed": "^7.1.0",
-    "vega-lite": "^6.4.2"
+    "recharts": "^3.10.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

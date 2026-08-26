@@ -21,6 +21,8 @@
   --color-success:      oklch(50% 0.15 150);
   --color-success-dim:  oklch(50% 0.15 150 / 0.12);
   --color-danger:       oklch(55% 0.2 25);
+  --color-warning:      oklch(58% 0.13 60);
+  --color-warning-dim:  oklch(58% 0.13 60 / 0.13);
   --color-border:       oklch(82% 0.01 250);
   --color-border-subtle: oklch(88% 0.01 250);
 
@@ -57,6 +59,18 @@
   --fn-color:  oklch(45% 0.15 150);
   --id-color:  oklch(40% 0.05 250);
   --lit-color: oklch(45% 0.1 80);
+
+  /* ── Charts (light — resolved to RGB at runtime for SVG attrs) ── */
+  --chart-grid:   oklch(88% 0.008 250);
+  --chart-axis:   oklch(55% 0.012 250);
+  --chart-c1:     oklch(55% 0.19 260);
+  --chart-c2:     oklch(56% 0.18 300);
+  --chart-c3:     oklch(60% 0.19 340);
+  --chart-c4:     oklch(68% 0.14 70);
+  --chart-c5:     oklch(58% 0.13 160);
+  --chart-c6:     oklch(58% 0.11 215);
+  --chart-c7:     oklch(62% 0.15 25);
+  --chart-c8:     oklch(60% 0.12 130);
 }
 
 [data-theme="dark"] {
@@ -74,6 +88,10 @@
   --color-success:      oklch(78% 0.15 150);
   --color-success-dim:  oklch(78% 0.15 150 / 0.12);
   --color-danger:       oklch(70% 0.18 25);
+  /* Hue 60 (orange-amber) vs the dark accent's hue 80 (gold) — close kin,
+   * distinct enough for a subtle tint; never used as a fill. */
+  --color-warning:      oklch(78% 0.14 60);
+  --color-warning-dim:  oklch(78% 0.14 60 / 0.14);
   --color-border:       oklch(30% 0.012 260);
   --color-border-subtle: oklch(24% 0.012 260);
 
@@ -81,6 +99,18 @@
   --fn-color:  oklch(85% 0.1 150);
   --id-color:  oklch(85% 0.05 260);
   --lit-color: oklch(88% 0.05 90);
+
+  /* ── Charts (dark) ──────────────────────────────────────── */
+  --chart-grid:   oklch(27% 0.012 260);
+  --chart-axis:   oklch(62% 0.01 260);
+  --chart-c1:     oklch(75% 0.14 260);
+  --chart-c2:     oklch(76% 0.13 300);
+  --chart-c3:     oklch(78% 0.14 340);
+  --chart-c4:     oklch(82% 0.13 80);
+  --chart-c5:     oklch(76% 0.13 160);
+  --chart-c6:     oklch(74% 0.1 215);
+  --chart-c7:     oklch(76% 0.14 25);
+  --chart-c8:     oklch(76% 0.11 130);
 }
 
 html,
@@ -117,6 +147,18 @@ body {
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Thread morph (contract v3): a follow-up result swapping into an existing
+ * answer card. Deliberately subtle — small distance, fast duration — and
+ * scoped to the swapped content only, never the panel layout. */
+@keyframes morph-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.morph-in {
+  animation: morph-in var(--dur-fast) var(--ease-out) both;
 }
 
 @keyframes shimmer {

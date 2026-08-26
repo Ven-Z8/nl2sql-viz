@@ -1,16 +1,14 @@
 """SQLAgent — generates safe, optimized SQL from natural language questions.
 
-NOOA Agent using CodeActStrategy: the model writes Python to iteratively
-build, validate, and refine SQL queries. It can call self.estimate_cost()
-and self.validate_sql() as deterministic helpers within the CodeAct loop.
+NOOA Agent using PredictStrategy for single-shot SQL generation and planning.
+Deterministic helpers expose EXPLAIN-based costing, read-only validation,
+execution, and exact math for derived metrics.
 """
 
 from __future__ import annotations
 
-
 from nooa import Agent, strategy
-from nooa.config import CodeActConfig
-from nooa.strategies import CodeActStrategy, PredictStrategy
+from nooa.strategies import PredictStrategy
 
 from app.core.math_tool import MathCalculator
 from app.db.cost import estimate_cost
@@ -19,27 +17,11 @@ from app.db.pool import PostgresPool
 from app.llm import SONNET
 from app.models import (
     GeneratedSQL,
-    QueryComplexity,
     QueryCost,
-    QueryPlan,
     QueryResult,
     SchemaMap,
     SubQuery,
 )
-
-_SQL_SYSTEM_HINT = """\
-You are a senior PostgreSQL analytics engineer. Given a natural language business \
-question and a database schema, write safe, correct, optimized SQL.
-
-Hard rules:
-- Single read-only SELECT or WITH statement only
-- Do not use SELECT *
-- Use explicit JOIN conditions from schema relationships
-- Guard division with NULLIF when needed
-- Use DATE_TRUNC for time-series, ORDER BY time
-- Use LIMIT for "top N" questions
-- Prefer simple SQL over clever SQL
-"""
 
 
 class SQLAgent(Agent, llm=SONNET):
@@ -61,9 +43,12 @@ class SQLAgent(Agent, llm=SONNET):
     pool: PostgresPool
     math: MathCalculator = MathCalculator()
     domain_guidance: str = ""
+    # Conversation context block for follow-up questions (Contract V3).
+    # Empty on the stateless path — prompts stay byte-identical to before.
+    conversation_context: str = ""
 
     # ------------------------------------------------------------------
-    # Deterministic helpers (callable from CodeAct Python)
+    # Deterministic helpers
     # ------------------------------------------------------------------
 
     async def estimate_cost(self, sql: str) -> QueryCost:
@@ -96,17 +81,6 @@ class SQLAgent(Agent, llm=SONNET):
     # ------------------------------------------------------------------
 
     @strategy(PredictStrategy())
-    async def classify_complexity(self, question: str, schema_text: str) -> QueryComplexity:
-        """Classify the complexity of this data question.
-
-        Return one of: simple, moderate, complex
-
-        - simple: single table, basic aggregation (COUNT, SUM, AVG)
-        - moderate: joins between 2-3 tables, window functions, subqueries
-        - complex: multi-step analysis, cross-table correlations, CTEs with multiple stages"""
-        ...
-
-    @strategy(PredictStrategy())
     async def generate_simple(self, question: str, schema: SchemaMap, sample_text: str = "", feedback: str = "") -> GeneratedSQL:
         """Generate a safe, correct PostgreSQL query that answers the question.
 
@@ -120,6 +94,8 @@ class SQLAgent(Agent, llm=SONNET):
 
         Domain guidance (follow these analyst conventions):
         {self.domain_guidance}
+
+        {self.conversation_context}
 
         Previous attempt feedback (fix these errors — use ONLY the listed columns):
         {feedback}
@@ -143,51 +119,7 @@ class SQLAgent(Agent, llm=SONNET):
 
         Domain guidance (follow these analyst conventions):
         {self.domain_guidance}
-        """
-        ...
 
-    @strategy(PredictStrategy())
-    async def plan_queries(self, question: str, schema: SchemaMap, sample_text: str = "", feedback: str = "") -> QueryPlan:
-        """Plan 3-5 SQL queries that together answer a COMPLEX question.
-
-        Break the question into verifiable parts. Each query must be a single
-        read-only SELECT/WITH that computes one piece of the answer. The queries
-        should be designed so their results can be compared or joined to build
-        the final report.
-
-        The schema is: {schema.compact_repr()}
-
-        Sample data (real rows — use these to understand the column names, grain,
-        and value formats. Pick columns that actually exist in the sample):
-        {sample_text}
-
-        Domain guidance (follow these analyst conventions):
-        {self.domain_guidance}
-
-        Previous attempt feedback (fix these errors — use ONLY the listed columns):
-        {feedback}
-        """
-        ...
-
-    @strategy(CodeActStrategy(config=CodeActConfig(max_iterations=6)))
-    async def generate_complex(self, question: str, schema: SchemaMap, sample_text: str = "") -> GeneratedSQL:
-        """Generate a safe, correct PostgreSQL query for a COMPLEX question.
-
-        Steps you should follow in your Python code:
-        1. Write an initial SQL query based on the schema and question
-        2. Call self.validate_sql(sql) to check it's safe
-        3. Call self.estimate_cost(sql) to check it's efficient
-        4. If cost is too high, add WHERE/GROUP BY/LIMIT and retry
-        5. Optionally call self.execute_query(sql) to verify it returns data
-        6. Return a GeneratedSQL with the final SQL
-
-        The schema is: {schema.compact_repr()}
-
-        Sample data (real rows — use these to understand the data shape, grain,
-        and value formats. Pick columns that actually exist in the sample):
-        {sample_text}
-
-        Domain guidance (follow these analyst conventions):
-        {self.domain_guidance}
+        {self.conversation_context}
         """
         ...

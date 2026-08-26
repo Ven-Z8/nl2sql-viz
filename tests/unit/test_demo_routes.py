@@ -21,5 +21,8 @@ def test_demo_session_registers_temporary_demo_user() -> None:
     assert response.status_code == 200
     body = response.json()
     assert body["username"].startswith("demo_")
-    assert body["dsn"].startswith("postgresql://")
     assert len(body["api_key"]) == 32
+    # Credential-leak fix: no DSN ever leaves the server — only an opaque id
+    assert "dsn" not in body
+    connection_id = body["connection_id"]
+    assert isinstance(connection_id, str) and len(connection_id) == 16

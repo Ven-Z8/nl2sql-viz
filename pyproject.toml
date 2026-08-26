@@ -15,6 +15,7 @@ dependencies = [
     "passlib[bcrypt]>=1.7.4",
     "python-dotenv>=1.2.2",
     "python-multipart>=0.0.32",
+    "spacy>=3.7.6",
     "sqlglot>=30.15.0",
     "uvicorn[standard]>=0.42.0",
 ]

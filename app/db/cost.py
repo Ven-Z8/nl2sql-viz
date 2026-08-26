@@ -1,12 +1,15 @@
 """Query cost estimator — pre-execution cost analysis using EXPLAIN.
 
-Rejects queries that would scan too many rows or take too long.
-Returns structured cost information for the SQLAgent to use.
+FAIL-CLOSED: if EXPLAIN is unavailable or errors out, the query is reported
+as UNSAFE so the pipeline blocks it instead of executing blind. Queries whose
+estimated row scan or planner cost exceeds the configured limits are also
+rejected with an actionable reason.
 """
 
 from __future__ import annotations
 
 import logging
+import os
 from typing import Any
 
 from app.db.pool import PostgresPool
@@ -16,20 +19,27 @@ logger = logging.getLogger(__name__)
 
 # Configurable thresholds
 MAX_ESTIMATED_ROWS = 10_000_000  # 10M row scan limit
-MAX_COST = 100_000.0  # PostgreSQL cost units
+MAX_COST = float(os.getenv("MAX_COST", "100000"))  # PostgreSQL cost units
 
 
 async def estimate_cost(pool: PostgresPool, sql: str) -> QueryCost:
-    """Run EXPLAIN and return structured cost information."""
+    """Run EXPLAIN and return structured cost information.
+
+    Fail-closed contract: any error producing an estimate returns
+    ``is_safe=False`` so the caller blocks execution.
+    """
     try:
         plan = await pool.explain(sql)
     except Exception as e:
-        logger.warning("EXPLAIN failed for query: %s", e)
+        logger.warning("EXPLAIN failed — blocking query (fail-closed): %s", e)
         return QueryCost(
             estimated_rows=0,
             estimated_cost=0,
-            is_safe=True,
-            reason=f"EXPLAIN unavailable: {e}",
+            is_safe=False,
+            reason=(
+                f"Cost estimate unavailable (EXPLAIN failed) — query blocked "
+                f"for safety. Original error: {e}"
+            ),
         )
 
     node = plan.get("Plan", {})
@@ -47,13 +57,19 @@ async def estimate_cost(pool: PostgresPool, sql: str) -> QueryCost:
         tables_touched=tables_touched,
     )
 
-    # Gate check
+    # Gate checks — rows scanned, then planner cost units
     if estimated_rows > MAX_ESTIMATED_ROWS:
         cost.is_safe = False
         cost.reason = (
             f"Query would scan ~{estimated_rows:,.0f} rows "
             f"(limit: {MAX_ESTIMATED_ROWS:,}). "
             "Add WHERE filters, GROUP BY, or LIMIT."
+        )
+    elif estimated_cost > MAX_COST:
+        cost.is_safe = False
+        cost.reason = (
+            f"Estimated query cost {estimated_cost:,.0f} exceeds the maximum "
+            f"budget of {MAX_COST:,.0f}. Add WHERE filters or LIMIT."
         )
 
     return cost

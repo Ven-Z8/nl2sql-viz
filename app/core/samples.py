@@ -37,8 +37,9 @@ def list_samples() -> list[dict[str, str]]:
     return samples
 
 
-async def load_sample(pool: PostgresPool, sample_id: str, dsn: str) -> dict:
-    """Load a sample CSV into Postgres. Returns the same shape as /api/upload."""
+async def load_sample(pool: PostgresPool, sample_id: str) -> dict:
+    """Load a sample CSV into Postgres. Returns the same shape as /api/upload
+    (no DSN — callers attach the registry's connection_id)."""
     manifest = _load_manifest()
     if sample_id not in manifest:
         raise KeyError(sample_id)
@@ -64,6 +65,5 @@ async def load_sample(pool: PostgresPool, sample_id: str, dsn: str) -> dict:
         "types": types,
         "domain": meta["domain"],
         "preview": sample[:5],
-        "dsn": dsn,
         "questions": meta.get("questions", []),
     }

@@ -37,7 +37,7 @@ async def main() -> int:
         await ws.send(json.dumps({
             "type": "query",
             "query": "What is the average loan amount by grade?",
-            "dsn": up["dsn"],
+            "connection_id": up["connection_id"],
             "domain": "finance",
         }))
         while True:

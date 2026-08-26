@@ -21,6 +21,8 @@ wheels/
 *.db
 *.sqlite
 *.sqlite3
+*.log
+bench_results.json
 
 # Tooling artifacts
 .superpowers/

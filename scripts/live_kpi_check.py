@@ -15,13 +15,17 @@ async def main() -> int:
         resp = await client.post("/api/register", json={"username": username})
         api_key = resp.json()["api_key"]
 
+        # Register the local demo DB server-side; only the id goes over the wire
+        conn = await client.post("/api/connections", json={"api_key": api_key, "dsn": DSN})
+        connection_id = conn.json()["connection_id"]
+
     async with websockets.connect("ws://localhost:8000/ws/query") as ws:
         await ws.send(json.dumps({"type": "auth", "api_key": api_key}))
         await ws.recv()
         await ws.send(json.dumps({
             "type": "query",
             "query": "How many accounts are there?",
-            "dsn": DSN,
+            "connection_id": connection_id,
         }))
         while True:
             evt = json.loads(await asyncio.wait_for(ws.recv(), timeout=60))

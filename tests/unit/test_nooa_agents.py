@@ -19,7 +19,7 @@ from app.models import (
     ColumnInfo,
     DataStrategy,
     GeneratedSQL,
-    QueryComplexity,
+    QueryCost,
     QueryResult,
     QueryType,
     SchemaMap,
@@ -284,29 +284,134 @@ class TestNOOAAgents:
         agent = VizAgent()
         assert agent is not None
 
-    def test_viz_agent_plan_chart_temporal(self):
+    def test_viz_agent_chart_hint_temporal(self):
         agent = VizAgent()
         rows = [
             {"month": "2024-01-01", "revenue": 100},
             {"month": "2024-02-01", "revenue": 200},
         ]
         result = QueryResult(columns=["month", "revenue"], rows=rows, row_count=2)
-        plan = agent.plan_chart("Show monthly revenue", result)
-        assert plan.chart_type == ChartType.LINE
-        assert plan.x_field == "month"
-        assert plan.y_field == "revenue"
+        hint = agent.build_chart_hint("Show monthly revenue", result)
+        assert hint["kind"] == "line"
+        assert hint["x"] == "month"
+        assert hint["y"] == ["revenue"]
+        assert hint["title"] == "Show monthly revenue"
+        assert hint["limit_applied"] is None
 
-    def test_viz_agent_plan_chart_categorical(self):
+    def test_viz_agent_chart_hint_small_categorical_is_pie(self):
         agent = VizAgent()
         rows = [
             {"region": "North", "sales": 100},
             {"region": "South", "sales": 200},
         ]
         result = QueryResult(columns=["region", "sales"], rows=rows, row_count=2)
-        plan = agent.plan_chart("Sales by region", result)
-        assert plan.chart_type == ChartType.BAR
-        assert plan.x_field == "region"
-        assert plan.y_field == "sales"
+        hint = agent.build_chart_hint("Sales by region", result)
+        assert hint["kind"] == "pie"
+        assert hint["x"] == "region"
+        assert hint["y"] == ["sales"]
+
+    def test_viz_agent_chart_hint_large_categorical_is_bar(self):
+        agent = VizAgent()
+        rows = [{"region": f"R{i}", "sales": i * 10} for i in range(8)]
+        result = QueryResult(columns=["region", "sales"], rows=rows, row_count=8)
+        hint = agent.build_chart_hint("Sales by region", result)
+        assert hint["kind"] == "bar"
+        assert hint["x"] == "region"
+
+    def test_viz_agent_chart_hint_kpi_single_row(self):
+        agent = VizAgent()
+        result = QueryResult(
+            columns=["count"], rows=[{"count": 42}], row_count=1,
+            sql="SELECT count(*) FROM accounts",
+        )
+        hint = agent.build_chart_hint("How many accounts?", result)
+        assert hint["kind"] == "kpi"
+        assert hint["x"] is None
+        assert hint["y"] == ["count"]
+
+    def test_viz_agent_chart_hint_scatter_two_numeric(self):
+        agent = VizAgent()
+        rows = [{"x": float(i), "y": float(i) * 2} for i in range(10)]
+        result = QueryResult(columns=["x", "y"], rows=rows, row_count=len(rows))
+        hint = agent.build_chart_hint("Correlate", result)
+        assert hint["kind"] == "scatter"
+        assert hint["x"] == "x"
+        assert hint["y"] == ["y"]
+
+    def test_viz_agent_two_numeric_few_rows_kpi(self):
+        # A handful of points shows no relationship — render as stat tiles.
+        agent = VizAgent()
+        rows = [{"x": 1.0, "y": 2.0}, {"x": 3.0, "y": 4.0}]
+        result = QueryResult(columns=["x", "y"], rows=rows, row_count=2)
+        hint = agent.build_chart_hint("Correlate", result)
+        assert hint["kind"] == "kpi"
+
+    def test_viz_agent_chart_hint_histogram_distribution(self):
+        agent = VizAgent()
+        rows = [
+            {"bucket": "0-10", "n": 5},
+            {"bucket": "11-20", "n": 9},
+            {"bucket": "21-30", "n": 3},
+        ]
+        result = QueryResult(columns=["bucket", "n"], rows=rows, row_count=3)
+        hint = agent.build_chart_hint("Distribution of order values", result)
+        assert hint["kind"] == "histogram"
+
+    def test_viz_agent_chart_hint_empty_result(self):
+        agent = VizAgent()
+        result = QueryResult(columns=[], rows=[], row_count=0)
+        assert agent.build_chart_hint("anything", result) is None
+
+    def test_viz_agent_chart_hint_grouped_bar_multi_measure(self):
+        """Several numeric measures per category → grouped bar (Contract V2)."""
+        agent = VizAgent()
+        rows = [
+            {"region": "North", "sales": 100, "cost": 60},
+            {"region": "South", "sales": 200, "cost": 90},
+        ]
+        result = QueryResult(columns=["region", "sales", "cost"], rows=rows, row_count=2)
+        hint = agent.build_chart_hint("Sales vs cost by region", result, None)
+        assert hint["kind"] == "grouped_bar"
+        assert hint["x"] == "region"
+        assert hint["y"] == ["sales", "cost"]
+        assert "color" not in hint
+
+    def test_viz_agent_chart_hint_stacked_bar_with_series_dimension(self):
+        """One measure + a second categorical → stacked bar with color field."""
+        agent = VizAgent()
+        rows = [
+            {"quarter": "Q1", "revenue": 100, "segment": "consumer"},
+            {"quarter": "Q1", "revenue": 50, "segment": "enterprise"},
+            {"quarter": "Q2", "revenue": 120, "segment": "consumer"},
+            {"quarter": "Q2", "revenue": 70, "segment": "enterprise"},
+        ]
+        result = QueryResult(
+            columns=["quarter", "revenue", "segment"], rows=rows, row_count=4,
+        )
+        hint = agent.build_chart_hint("Revenue by quarter and segment", result, None)
+        assert hint["kind"] == "stacked_bar"
+        assert hint["x"] == "quarter"
+        assert hint["y"] == ["revenue"]
+        assert hint["color"] == "segment"
+
+    def test_viz_agent_chart_hint_skips_stacked_when_series_too_wide(self):
+        """A second categorical with too many distinct values stays a plain bar."""
+        agent = VizAgent()
+        rows = [
+            {"region": f"R{i}", "sales": i, "customer_id": f"C{i}"} for i in range(10)
+        ]
+        result = QueryResult(
+            columns=["region", "sales", "customer_id"], rows=rows, row_count=10,
+        )
+        hint = agent.build_chart_hint("Sales by region", result, None)
+        assert hint["kind"] == "bar"
+
+    def test_viz_agent_chart_hint_limit_applied_for_big_results(self):
+        agent = VizAgent()
+        rows = [{"i": i} for i in range(2000)]
+        result = QueryResult(columns=["i"], rows=rows, row_count=2000)
+        hint = agent.build_chart_hint("big scan", result)
+        assert hint["limit_applied"] == 1000
 
     def test_coordinator_agent_instantiates(self):
         agent = CoordinatorAgent()
@@ -357,7 +462,7 @@ class TestCoordinatorPipeline:
                 raise AssertionError("schema fetched on cache hit")
 
         class StubSQL:
-            async def generate(self, question, schema):
+            async def generate_simple(self, *a, **k):
                 raise AssertionError("sql generated on cache hit")
 
         agent.schema_agent = StubSchema()
@@ -373,7 +478,10 @@ class TestCoordinatorPipeline:
         assert event["cached"] is True
         assert event["row_count"] == 1
         assert event["sql"] == "SELECT month, revenue FROM subscriptions"
-        assert event["chart_spec"]["plan"]["chart_type"] == "line"
+        assert event["query"] == "show monthly revenue"
+        assert "chart_spec" not in event
+        # Single-row cached result → kpi hint per contract
+        assert event["chart_hint"]["kind"] == "kpi"
 
     def test_cache_miss_runs_pipeline(self):
         """A cache miss must run the full pipeline and store the result."""
@@ -389,27 +497,29 @@ class TestCoordinatorPipeline:
 
         class StubSchema:
             async def fetch_schema(self):
-                return SchemaMap(tables=["accounts"], columns={"accounts": []})
+                # The validator rejects SQL that references unknown columns,
+                # so the stub schema must declare the columns the SQL uses.
+                return SchemaMap(
+                    tables=["accounts"],
+                    columns={"accounts": [
+                        ColumnInfo(column="region", type="text"),
+                        ColumnInfo(column="sales", type="numeric"),
+                    ]},
+                )
 
         class StubSQL:
-            async def classify_complexity(self, question, schema_text):
-                return QueryComplexity.SIMPLE
+            async def estimate_cost(self, sql):
+                return QueryCost(estimated_rows=10, estimated_cost=10, is_safe=True)
 
             async def generate_simple(self, question, schema, sample_text="", feedback=""):
-                return GeneratedSQL(sql="SELECT region, sales FROM accounts")
-
-            async def generate_complex(self, question, schema, sample_text=""):
                 return GeneratedSQL(sql="SELECT region, sales FROM accounts")
 
             async def execute_query(self, sql):
                 return result
 
         class StubViz:
-            def plan_chart(self, question, result):
-                return VizAgent().plan_chart(question, result)
-
-            def build_vega_lite(self, plan, result):
-                return VizAgent().build_vega_lite(plan, result)
+            def build_chart_hint(self, question, result, query_type=None):
+                return VizAgent().build_chart_hint(question, result, query_type)
 
         agent.schema_agent = StubSchema()
         agent.sql_agent = StubSQL()
@@ -422,6 +532,7 @@ class TestCoordinatorPipeline:
         result_events = [e for e in events if e["type"] == "result"]
         assert len(result_events) == 1
         assert result_events[0]["cached"] is False
+        assert result_events[0]["chart_hint"]["kind"] == "kpi"
         # Result stored for next call
         assert agent.cache.get(cache_key("test", "sales by region")) is not None
 
@@ -501,11 +612,16 @@ class TestCoordinatorPipeline:
 
         class StubSchema:
             async def fetch_schema(self):
-                return SchemaMap(tables=["accounts"], columns={"accounts": []})
+                return SchemaMap(
+                    tables=["accounts"],
+                    columns={"accounts": [
+                        ColumnInfo(column="total", type="numeric"),
+                    ]},
+                )
 
         class StubSQL:
-            async def classify_complexity(self, question, schema_text):
-                return QueryComplexity.COMPLEX
+            async def estimate_cost(self, sql):
+                return QueryCost(estimated_rows=10, estimated_cost=10, is_safe=True)
 
             async def plan_analysis(self, question, schema, sample_text=""):
                 return [
@@ -514,17 +630,14 @@ class TestCoordinatorPipeline:
                 ]
 
             async def generate_simple(self, question, schema, sample_text="", feedback=""):
-                return GeneratedSQL(sql=f"SELECT {question}")
+                return GeneratedSQL(sql=f"SELECT total FROM accounts WHERE x = '{question}'")
 
             async def execute_query(self, sql):
                 return QueryResult(columns=["total"], rows=[{"total": 100}], row_count=1, sql=sql)
 
         class StubViz:
-            def plan_chart(self, question, result):
-                return VizAgent().plan_chart(question, result)
-
-            def build_vega_lite(self, plan, result):
-                return VizAgent().build_vega_lite(plan, result)
+            def build_chart_hint(self, question, result, query_type=None):
+                return VizAgent().build_chart_hint(question, result, query_type)
 
         agent.schema_agent = StubSchema()
         agent.sql_agent = StubSQL()

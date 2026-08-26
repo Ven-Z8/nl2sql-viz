@@ -14,7 +14,7 @@ async def main() -> None:
     pool = PostgresPool(dsn=DSN)
     await pool.connect()
     t0 = time.monotonic()
-    info = await load_dataset(pool, dataset_id, DSN)
+    info = await load_dataset(pool, dataset_id)
     print(f"{info['name']}: {len(info['tables'])} tables in {time.monotonic()-t0:.1f}s")
     for t in info["tables"]:
         result = await pool.execute(f'SELECT count(*) AS n FROM "ds_{dataset_id}_{t}"')

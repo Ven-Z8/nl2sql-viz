@@ -43,3 +43,35 @@ async def test_verify_all_users(store):
 async def test_nonexistent_user_returns_none(store):
     assert await store.get_hashed_key("nobody") is None
     assert await store.exists("nobody") is False
+
+
+@pytest.mark.asyncio
+async def test_find_by_key_digest(store):
+    await store.register("erin", "hash_e", key_digest="digest_e")
+    await store.register("frank", "hash_f")  # legacy row, no digest
+    assert await store.find_by_key_digest("digest_e") == "erin"
+    assert await store.find_by_key_digest("digest_missing") is None
+
+
+@pytest.mark.asyncio
+async def test_init_migrates_pre_digest_db(tmp_path):
+    """A database created before the key_digest column must keep working."""
+    import aiosqlite
+
+    db_path = str(tmp_path / "legacy_users.db")
+    async with aiosqlite.connect(db_path) as db:
+        await db.execute(
+            "CREATE TABLE users (username TEXT PRIMARY KEY, hashed_key TEXT NOT NULL)"
+        )
+        await db.execute(
+            "INSERT INTO users (username, hashed_key) VALUES ('ghost', 'hash_g')"
+        )
+        await db.commit()
+
+    store = UserStore(db_path=db_path)
+    await store.init()
+    assert await store.exists("ghost") is True
+    # Legacy rows have no digest; new rows register with one on the migrated table.
+    await store.register("new", "hash_n", key_digest="digest_n")
+    assert await store.find_by_key_digest("digest_n") == "new"
+    assert await store.find_by_key_digest("digest_ghost") is None

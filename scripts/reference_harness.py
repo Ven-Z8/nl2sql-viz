@@ -7,8 +7,7 @@ the numbers. A question only PASSES if:
 1. A result event arrives (not an error)
 2. The SQL is present
 3. The answer has text
-4. The chart spec is present — checked at the CORRECT path:
-   chart_spec["spec"]["$schema"] (the Vega-Lite spec is nested inside spec)
+4. The chart hint is present with a valid kind
 5. The answer's numbers match the actual data (spot-check)
 
 Run SEQUENTIALLY — the WS server cannot handle many concurrent connections.
@@ -21,6 +20,7 @@ from __future__ import annotations
 
 import asyncio
 import json
+import os
 import re
 import sys
 import time
@@ -34,16 +34,24 @@ import websockets
 API = "http://localhost:8000"
 WS = "ws://localhost:8000/ws/query"
 
+# Direct-connection DSN used ONLY by this harness for independent spot-checks;
+# never sent through the API. Must point at the same DB the server registered.
+SPOT_CHECK_DSN = (
+    os.getenv("DEMO_DATABASE_URL") or os.getenv("DATABASE_URL")
+    or "postgresql://testuser:testpass@localhost:5432/testdb"
+)
+
 
 # ---------------------------------------------------------------------------
 # Setup
 # ---------------------------------------------------------------------------
 
 def get_demo_session() -> tuple[str, str]:
+    """Return (api_key, connection_id) — the server keeps the DSN itself."""
     req = urllib.request.Request(f"{API}/api/demo/session", method="POST")
     with urllib.request.urlopen(req, timeout=30) as r:
         body = json.loads(r.read().decode())
-    return body["api_key"], body["dsn"]
+    return body["api_key"], body["connection_id"]
 
 
 def load_dataset(api_key: str, dataset_id: str) -> dict:
@@ -143,12 +151,14 @@ def judge(question: str, tier: str, events: list[dict], spot_issues: list[str]) 
     answer = result.get("answer", {})
     if not answer.get("text"):
         reasons.append("no answer")
-    chart = result.get("chart_spec", {})
-    spec = chart.get("spec", {}) if isinstance(chart, dict) else {}
-    if not spec.get("$schema"):
-        reasons.append("no chart spec")
-    if not spec.get("mark"):
-        reasons.append("no chart mark")
+    hint = result.get("chart_hint")
+    if not isinstance(hint, dict) or not hint.get("kind"):
+        reasons.append("no chart hint")
+    elif hint.get("kind") not in (
+        "bar", "stacked_bar", "grouped_bar", "line", "area",
+        "pie", "scatter", "histogram", "kpi",
+    ):
+        reasons.append(f"invalid chart kind: {hint.get('kind')}")
     if spot_issues:
         reasons.append("spot-check: " + "; ".join(spot_issues[:3]))
     return {
@@ -158,7 +168,7 @@ def judge(question: str, tier: str, events: list[dict], spot_issues: list[str]) 
         "answer": answer.get("text", "")[:140],
         "sql": result.get("sql", "")[:140],
         "row_count": result.get("row_count"),
-        "chart_mark": spec.get("mark", {}).get("type") if isinstance(spec.get("mark"), dict) else spec.get("mark"),
+        "chart_kind": hint.get("kind") if isinstance(hint, dict) else None,
     }
 
 
@@ -166,7 +176,7 @@ def judge(question: str, tier: str, events: list[dict], spot_issues: list[str]) 
 # Runner
 # ---------------------------------------------------------------------------
 
-async def run_question(api_key: str, dsn: str, question: str) -> tuple[list[dict], dict]:
+async def run_question(api_key: str, connection_id: str, question: str) -> tuple[list[dict], dict]:
     # ping_timeout=None: long LLM generation must not trip the client's
     # default 20s keepalive ping timeout (BUG-4)
     async with websockets.connect(WS, open_timeout=30, ping_interval=None, ping_timeout=None) as ws:
@@ -174,7 +184,9 @@ async def run_question(api_key: str, dsn: str, question: str) -> tuple[list[dict
         auth = json.loads(await asyncio.wait_for(ws.recv(), timeout=30))
         if auth.get("type") != "authenticated":
             return [], {"type": "error", "message": f"auth failed: {auth}"}
-        await ws.send(json.dumps({"type": "query", "query": question, "dsn": dsn}))
+        await ws.send(json.dumps({
+            "type": "query", "query": question, "connection_id": connection_id,
+        }))
         events: list[dict] = []
         while True:
             raw = await asyncio.wait_for(ws.recv(), timeout=600)
@@ -190,8 +202,8 @@ async def main() -> None:
     limit = int(sys.argv[2]) if len(sys.argv) > 2 else 3
     delay = float(sys.argv[3]) if len(sys.argv) > 3 else 3.0
 
-    api_key, dsn = get_demo_session()
-    print(f"demo session: {api_key[:8]}... dsn={dsn[:45]}...")
+    api_key, connection_id = get_demo_session()
+    print(f"demo session: {api_key[:8]}... connection_id={connection_id}")
     body = load_dataset(api_key, dataset_id)
     print(f"loaded {body['name']} — {len(body['tables'])} tables")
     questions = [
@@ -205,16 +217,16 @@ async def main() -> None:
         print(f"\n[{i}/{len(questions)}] [{tier}] {q[:70]}")
         t0 = time.monotonic()
         try:
-            events, last = await run_question(api_key, dsn, q)
+            events, last = await run_question(api_key, connection_id, q)
             spot_issues: list[str] = []
             if last.get("type") == "result":
-                spot_issues = await spot_check(dsn, last.get("sql", ""), last)
+                spot_issues = await spot_check(SPOT_CHECK_DSN, last.get("sql", ""), last)
             j = judge(q, tier, events, spot_issues)
             j["time_s"] = round(time.monotonic() - t0, 1)
             results.append(j)
             print(f"  -> {'PASS' if j['pass'] else 'FAIL'} ({j['time_s']}s) {j.get('reason','')}")
             if j.get("query_type"):
-                print(f"     type={j['query_type']} rows={j.get('row_count')} mark={j.get('chart_mark')}")
+                print(f"     type={j['query_type']} rows={j.get('row_count')} chart={j.get('chart_kind')}")
                 print(f"     answer: {j.get('answer','')}")
         except Exception as e:  # noqa: BLE001
             print(f"  -> HARNESS ERROR: {type(e).__name__}: {str(e)[:200]}")

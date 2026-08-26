@@ -297,6 +297,19 @@ class Metric(BaseModel):
     source: str = Field(default="", description="Which sub-query / row produced this value")
 
 
+class ProvenanceEntry(BaseModel):
+    """Wire contract: traces one number cited in the answer to its source.
+
+    ``query_index`` points into the result event's ``queries`` array (the
+    final query is index 0); ``row_index`` is the row inside that result set,
+    or null when the number is derived across rows (e.g. a SUM).
+    """
+    metric: str = Field(description="Label exactly as cited in the answer")
+    value: float = Field(description="Value exactly as cited in the answer")
+    query_index: int
+    row_index: int | None = None
+
+
 class GroundedAnswer(BaseModel):
     """The final answer — every number traces back to executed query results."""
     text: str

@@ -1,520 +1,136 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
-import { QueryWebSocket } from "@/lib/ws";
+import { useCallback, useState } from "react";
 import TopBar from "@/components/TopBar";
-import LeftPanel, { HistoryItem, SuggestedQuestion } from "@/components/LeftPanel";
+import LeftPanel from "@/components/LeftPanel";
 import RightPanel from "@/components/RightPanel";
-import { PipelineStageState } from "@/components/PipelinePanel";
-import { LogEntry } from "@/components/LogStream";
+import ArchitecturePanel from "@/components/ArchitecturePanel";
+import Banner from "@/components/Banner";
+import SetupRequired from "@/components/SetupRequired";
+import { useBackendSession } from "@/hooks/useBackendSession";
+import { useWorkspace } from "@/hooks/useWorkspace";
+import { useQueryStream } from "@/hooks/useQueryStream";
+import { isApiConfigured } from "@/lib/config";
 
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY ?? "";
-const DSN = process.env.NEXT_PUBLIC_DSN ?? "";
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-
-function now(): string {
-  return new Date().toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  });
-}
-
+/**
+ * DataLens AI — workbench shell.
+ *
+ * Composition:
+ *   useBackendSession → demo credentials (api_key + connection_id)
+ *   useWorkspace      → catalogs, suggested questions, dataset flows
+ *   useQueryStream    → WS lifecycle, pipeline/log/result state
+ *
+ * All backend URLs come from lib/config.ts. When NEXT_PUBLIC_API_URL is
+ * missing, the app renders a setup-required card instead of silently
+ * targeting localhost.
+ */
 export default function Home() {
+  const configured = isApiConfigured();
+
+  // Local UI-only state (kept out of hooks deliberately).
   const [query, setQuery] = useState("");
-  const [logs, setLogs] = useState<LogEntry[]>([]);
-  const [history, setHistory] = useState<HistoryItem[]>([]);
-  const [vegaSpec, setVegaSpec] = useState<string | null>(null);
-  const [rows, setRows] = useState<Record<string, unknown>[]>([]);
-  const [sql, setSql] = useState("");
   const [sqlVisible, setSqlVisible] = useState(false);
-  const [queryType, setQueryType] = useState<string | null>(null);
-  const [answer, setAnswer] = useState<{
-    text: string;
-    metrics: { label: string; value: number; unit: string }[];
-    sub_queries: { id: string; question: string }[];
-  } | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [connected, setConnected] = useState(false);
-  const [resultTitle, setResultTitle] = useState("");
-  const [runtimeDsn, setRuntimeDsn] = useState(DSN);
-  const [datasetName, setDatasetName] = useState("Postgres Workspace");
-  const [connectionLabel, setConnectionLabel] = useState("Waiting for connection");
-  const [suggestedQuestions, setSuggestedQuestions] = useState<SuggestedQuestion[]>([]);
-  const [pipeline, setPipeline] = useState<Record<string, PipelineStageState>>({});
-  const [domains, setDomains] = useState<{ id: string; name: string }[]>([]);
-  const [samples, setSamples] = useState<
-    { id: string; name: string; domain: string; description: string }[]
-  >([]);
-  const [datasets, setDatasets] = useState<
-    { id: string; name: string; domain: string; description: string }[]
-  >([]);
-  const [activeDomain, setActiveDomain] = useState("general");
-  const [uploading, setUploading] = useState(false);
-  const [uploadedDataset, setUploadedDataset] = useState<{
-    table_name: string;
-    row_count: number;
-    columns: string[];
-    domain: string;
-  } | null>(null);
-  const [uploadError, setUploadError] = useState<string | null>(null);
 
-  const wsRef = useRef<QueryWebSocket | null>(null);
-  const apiKeyRef = useRef<string>(API_KEY);
+  const backend = useBackendSession(configured);
+  const workspace = useWorkspace({
+    enabled: configured,
+    apiKey: backend.session?.apiKey ?? null,
+    onConnectionId: backend.adoptConnection,
+    initialFocusTable: backend.session?.focusTable,
+  });
 
-  useEffect(() => {
-    let cancelled = false;
+  const stream = useQueryStream({
+    apiKey: backend.session?.apiKey ?? null,
+    connectionId: backend.session?.connectionId ?? null,
+    domain: workspace.activeDomain,
+    focusTable: workspace.uploadedDataset?.table_name ?? workspace.focusTable,
+  });
 
-    const start = async () => {
-      let apiKey = API_KEY;
-      let dsn = DSN;
+  const runFromHistory = useCallback(
+    (q: string) => {
+      setQuery(q);
+      // History reruns are deliberate replays, not conversation — always a
+      // fresh topic (contract v3).
+      stream.runQuestion(q, { continueThread: false });
+    },
+    [stream]
+  );
 
-      try {
-        const questionsResp = await fetch(`${API_URL}/api/demo/questions`);
-        if (questionsResp.ok) {
-          const body = (await questionsResp.json()) as {
-            dataset: string;
-            questions: SuggestedQuestion[];
-          };
-          if (!cancelled) {
-            setDatasetName(body.dataset);
-            setSuggestedQuestions(body.questions);
-          }
-        }
+  const askSuggested = useCallback(
+    (q: string) => {
+      setQuery(q);
+      stream.runQuestion(q);
+    },
+    [stream]
+  );
 
-        const domainsResp = await fetch(`${API_URL}/api/domains`);
-        if (domainsResp.ok) {
-          const body = (await domainsResp.json()) as {
-            domains: { id: string; name: string }[];
-          };
-          if (!cancelled) setDomains(body.domains);
-        }
+  if (!configured) {
+    return <SetupRequired />;
+  }
 
-        const samplesResp = await fetch(`${API_URL}/api/samples`);
-        if (samplesResp.ok) {
-          const body = (await samplesResp.json()) as {
-            samples: { id: string; name: string; domain: string; description: string }[];
-          };
-          if (!cancelled) setSamples(body.samples);
-        }
-
-        const datasetsResp = await fetch(`${API_URL}/api/datasets`);
-        if (datasetsResp.ok) {
-          const body = (await datasetsResp.json()) as {
-            datasets: { id: string; name: string; domain: string; description: string }[];
-          };
-          if (!cancelled) setDatasets(body.datasets);
-        }
-
-        if (!apiKey || !dsn) {
-          const sessionResp = await fetch(`${API_URL}/api/demo/session`, {
-            method: "POST",
-          });
-          if (!sessionResp.ok) {
-            throw new Error("Could not create demo session");
-          }
-          const session = (await sessionResp.json()) as {
-            username: string;
-            api_key: string;
-            dsn: string;
-            dataset: string;
-          };
-          apiKey = session.api_key;
-          dsn = session.dsn;
-          if (!cancelled) {
-            setDatasetName(session.dataset);
-          }
-        }
-      } catch {
-        if (!apiKey || !dsn) {
-          if (!cancelled) {
-            setConnectionLabel("Set NEXT_PUBLIC_API_KEY and NEXT_PUBLIC_DSN");
-          }
-          return;
-        }
-      }
-
-      if (cancelled) return;
-      apiKeyRef.current = apiKey;
-      setRuntimeDsn(dsn);
-      setConnectionLabel(new URL(API_URL).host);
-
-      const ws = new QueryWebSocket(apiKey, (event) => {
-      if (event.type === "progress") {
-        const msg = event.message as string;
-        const stage = event.stage as string | undefined;
-        if (stage) {
-          const now = Date.now();
-          setPipeline((prev) => {
-            const next: Record<string, PipelineStageState> = {};
-            for (const [k, v] of Object.entries(prev)) {
-              next[k] =
-                v.status === "active"
-                  ? { ...v, status: "done", durationMs: now - v.startedAt }
-                  : v;
-            }
-            next[stage] = { status: "active", detail: msg, startedAt: now, durationMs: 0 };
-            return next;
-          });
-        }
-        setLogs((prev) => {
-          const updated = prev.map((e, i) =>
-            e.active ? { ...e, active: false, icon: "done" as const } : e
-          );
-          return [...updated, { time: now(), icon: "run" as const, text: msg, active: true }];
-        });
-      }
-
-      if (event.type === "sql") {
-        const rawSql = event.sql as string;
-        setSql(rawSql);
-        setLogs((prev) => [
-          ...prev,
-          {
-            time: now(),
-            icon: "sql" as const,
-            text: rawSql.slice(0, 40) + (rawSql.length > 40 ? "…" : ""),
-            active: false,
-          },
-        ]);
-      }
-
-      if (event.type === "result") {
-        setLogs((prev) =>
-          prev.map((e, i) =>
-            e.active ? { ...e, active: false, icon: "done" as const } : e
-          )
-        );
-        const now = Date.now();
-        setPipeline((prev) => {
-          const next: Record<string, PipelineStageState> = {};
-          for (const [k, v] of Object.entries(prev)) {
-            next[k] =
-              v.status === "active"
-                ? { ...v, status: "done", durationMs: now - v.startedAt }
-                : v;
-          }
-          return next;
-        });
-        const chartSpec = event.chart_spec as
-          | { spec?: Record<string, unknown> }
-          | undefined;
-        setVegaSpec(chartSpec?.spec ? JSON.stringify(chartSpec.spec) : null);
-        setRows((event.rows as Record<string, unknown>[] | undefined) ?? []);
-        if (event.sql) setSql(event.sql as string);
-        setQueryType((event.query_type as string | undefined) ?? null);
-        setAnswer(
-          (event.answer as {
-            text: string;
-            metrics: { label: string; value: number; unit: string }[];
-            sub_queries: { id: string; question: string }[];
-          } | undefined) ?? null
-        );
-        setIsLoading(false);
-      }
-
-      if (event.type === "error") {
-        setLogs((prev) => {
-          const updated = prev.map((e, i) =>
-            e.active ? { ...e, active: false, icon: "done" as const } : e
-          );
-          return [
-            ...updated,
-            {
-              time: now(),
-              icon: "run" as const,
-              text: `Error: ${event.message as string}`,
-              active: false,
-            },
-          ];
-        });
-        setIsLoading(false);
-      }
-      });
-
-      ws.connect()
-        .then(() => {
-          if (cancelled) {
-            ws.disconnect();
-            return;
-          }
-          wsRef.current = ws;
-          setConnected(true);
-        })
-        .catch(() => {
-          if (!cancelled) setConnected(false);
-        });
-    };
-
-    void start();
-
-    return () => {
-      cancelled = true;
-      wsRef.current?.disconnect();
-      setConnected(false);
-    };
-  }, []);
-
-  const handleSubmit = (q?: string) => {
-    const question = (typeof q === "string" ? q : query).trim();
-    if (!question || isLoading) return;
-
-    if (!wsRef.current) {
-      setLogs((prev) => [
-        ...prev,
-        { time: now(), icon: "run" as const, text: "Not connected — check NEXT_PUBLIC_API_KEY", active: false },
-      ]);
-      return;
-    }
-
-    if (!runtimeDsn) {
-      setLogs((prev) => [
-        ...prev,
-        { time: now(), icon: "run", text: "Missing DSN — set NEXT_PUBLIC_DSN", active: false },
-      ]);
-      return;
-    }
-
-    // Reset result state
-    setLogs([]);
-    setVegaSpec(null);
-    setRows([]);
-    setSql("");
-    setSqlVisible(false);
-    setQueryType(null);
-    setAnswer(null);
-    setIsLoading(true);
-    setResultTitle(question);
-
-    // Prepend to history
-    setHistory((prev) => [{ query: question, timestamp: now() }, ...prev]);
-
-    wsRef.current?.sendQuery(question, runtimeDsn, activeDomain, uploadedDataset?.table_name);
-  };
-
-  const handleUpload = async (file: File, domain: string) => {
-    if (!file || uploading) return;
-    if (!apiKeyRef.current) {
-      setUploadError("Not connected — register or start a demo session first.");
-      return;
-    }
-    setUploading(true);
-    setUploadError(null);
-    try {
-      const form = new FormData();
-      form.append("api_key", apiKeyRef.current);
-      form.append("domain", domain);
-      form.append("file", file);
-      const resp = await fetch(`${API_URL}/api/upload`, {
-        method: "POST",
-        body: form,
-      });
-      const body = (await resp.json()) as {
-        table_name: string;
-        row_count: number;
-        columns: string[];
-        domain: string;
-        dsn: string;
-        detail?: string;
-      };
-      if (!resp.ok) {
-        throw new Error(body.detail ?? "Upload failed");
-      }
-      setUploadedDataset({
-        table_name: body.table_name,
-        row_count: body.row_count,
-        columns: body.columns,
-        domain: body.domain,
-      });
-      setActiveDomain(body.domain);
-      setRuntimeDsn(body.dsn);
-      setDatasetName(body.table_name.replace(/^upload_/, ""));
-    } catch (e) {
-      setUploadError(e instanceof Error ? e.message : "Upload failed");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleLoadSample = async (sampleId: string) => {
-    if (uploading) return;
-    if (!apiKeyRef.current) {
-      setUploadError("Not connected — register or start a demo session first.");
-      return;
-    }
-    setUploading(true);
-    setUploadError(null);
-    try {
-      const form = new FormData();
-      form.append("api_key", apiKeyRef.current);
-      const resp = await fetch(`${API_URL}/api/samples/${sampleId}/load`, {
-        method: "POST",
-        body: form,
-      });
-      const body = (await resp.json()) as {
-        table_name: string;
-        row_count: number;
-        columns: string[];
-        domain: string;
-        dsn: string;
-        questions?: string[];
-        detail?: string;
-      };
-      if (!resp.ok) {
-        throw new Error(body.detail ?? "Failed to load sample");
-      }
-      setUploadedDataset({
-        table_name: body.table_name,
-        row_count: body.row_count,
-        columns: body.columns,
-        domain: body.domain,
-      });
-      setActiveDomain(body.domain);
-      setRuntimeDsn(body.dsn);
-      setDatasetName(body.table_name.replace(/^upload_/, ""));
-      // Show the dataset's suggested questions
-      if (body.questions && body.questions.length > 0) {
-        setSuggestedQuestions(
-          body.questions.map((q, i) => ({
-            id: `sample-q-${i}`,
-            question: q,
-            category: body.domain,
-          }))
-        );
-      }
-    } catch (e) {
-      setUploadError(e instanceof Error ? e.message : "Failed to load sample");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleLoadDataset = async (datasetId: string) => {
-    if (uploading) return;
-    if (!apiKeyRef.current) {
-      setUploadError("Not connected — register or start a demo session first.");
-      return;
-    }
-    setUploading(true);
-    setUploadError(null);
-    try {
-      const form = new FormData();
-      form.append("api_key", apiKeyRef.current);
-      const resp = await fetch(`${API_URL}/api/datasets/${datasetId}/load`, {
-        method: "POST",
-        body: form,
-      });
-      const body = (await resp.json()) as {
-        name: string;
-        domain: string;
-        tables: string[];
-        questions: Record<string, string[]>;
-        dsn: string;
-        detail?: string;
-      };
-      if (!resp.ok) {
-        throw new Error(body.detail ?? "Failed to load dataset");
-      }
-      setActiveDomain(body.domain);
-      setRuntimeDsn(body.dsn);
-      setDatasetName(body.name);
-      setUploadedDataset(null);
-      // Show the dataset's question ladder, grouped by difficulty tier
-      const tiers: { key: "easy" | "medium" | "hard" | "very_complex"; questions: string[] }[] = [
-        { key: "easy", questions: body.questions.easy ?? [] },
-        { key: "medium", questions: body.questions.medium ?? [] },
-        { key: "hard", questions: body.questions.hard ?? [] },
-        { key: "very_complex", questions: body.questions.very_complex ?? [] },
-      ];
-      const all = tiers.flatMap(({ key, questions }) =>
-        questions.map((q) => ({ q, tier: key }))
-      );
-      setSuggestedQuestions(
-        all.map(({ q, tier }, i) => ({
-          id: `ds-q-${i}`,
-          question: q,
-          category: body.domain,
-          tier,
-        }))
-      );
-    } catch (e) {
-      setUploadError(e instanceof Error ? e.message : "Failed to load dataset");
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const handleConnect = async (dsn: string) => {
-    if (!apiKeyRef.current) {
-      setUploadError("Not connected — register or start a demo session first.");
-      return;
-    }
-    setUploading(true);
-    setUploadError(null);
-    try {
-      const resp = await fetch(`${API_URL}/api/connections`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ api_key: apiKeyRef.current, dsn }),
-      });
-      const body = (await resp.json()) as { connection_id?: string; detail?: string };
-      if (!resp.ok) {
-        throw new Error(body.detail ?? "Connection failed");
-      }
-      setRuntimeDsn(dsn);
-      setDatasetName("Connected Database");
-      setConnectionLabel(new URL(dsn).host);
-      setUploadedDataset(null);
-    } catch (e) {
-      setUploadError(e instanceof Error ? e.message : "Connection failed");
-    } finally {
-      setUploading(false);
-    }
-  };
+  const retryingNotice =
+    stream.status === "retrying" ? (
+      <Banner
+        tone="info"
+        message="Connecting to backend… Render free tier can take ~60s to wake"
+      />
+    ) : null;
 
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
-      <TopBar connected={connected} />
+      <TopBar status={stream.status} />
       <div style={{ flex: 1, display: "flex", overflow: "hidden" }}>
         <LeftPanel
           query={query}
           onQueryChange={setQuery}
-          onSubmit={handleSubmit}
-          isLoading={isLoading}
-          datasetName={datasetName}
-          connectionLabel={connectionLabel}
-          suggestedQuestions={suggestedQuestions}
-          logs={logs}
-          history={history}
-          activeHistoryIndex={history.length > 0 ? 0 : null}
-          onHistoryClick={(q) => setQuery(q)}
-          onSuggestedQuestionClick={(q) => {
-            setQuery(q);
-            handleSubmit(q);
-          }}
-          domains={domains}
-          activeDomain={activeDomain}
-          onDomainChange={setActiveDomain}
-          uploading={uploading}
-          uploadedDataset={uploadedDataset}
-          uploadError={uploadError}
-          onUpload={handleUpload}
-          samples={samples}
-          onLoadSample={handleLoadSample}
-          datasets={datasets}
-          onLoadDataset={handleLoadDataset}
-          onConnect={handleConnect}
+          onSubmit={() => stream.runQuestion(query)}
+          // Composer disabled while paused on a clarify too — answer the
+          // question first; runQuestion guards against it regardless.
+          isLoading={stream.isLoading || stream.pendingClarify != null}
+          canRun={stream.status === "open"}
+          composerPlaceholder={
+            stream.activeThreadId ? "Ask a follow-up…" : undefined
+          }
+          datasetName={workspace.datasetName}
+          connectionLabel={backend.connectionLabel}
+          suggestedQuestions={workspace.suggestedQuestions}
+          logs={stream.logs}
+          history={stream.history}
+          onHistoryRerun={runFromHistory}
+          onAsk={askSuggested}
+          domains={workspace.domains}
+          activeDomain={workspace.activeDomain}
+          onDomainChange={workspace.setActiveDomain}
+          uploading={workspace.uploading}
+          uploadedDataset={workspace.uploadedDataset}
+          uploadError={workspace.uploadError}
+          onUpload={workspace.uploadCsv}
+          samples={workspace.samples}
+          onLoadSample={workspace.loadSample}
+          datasets={workspace.datasets}
+          onLoadDataset={workspace.loadDataset}
+          onConnect={workspace.connectDsn}
         />
         <RightPanel
-          title={resultTitle}
-          vegaSpec={vegaSpec}
-          rows={rows}
-          sql={sql}
+          slots={stream.slots}
+          activeThreadId={stream.activeThreadId}
+          loadingThreadId={stream.loadingThreadId}
+          pendingTitle={stream.pendingTitle}
+          draftSql={stream.draftSql}
+          pendingClarify={stream.pendingClarify}
+          onRespondClarify={stream.respondClarify}
           sqlVisible={sqlVisible}
           onToggleSql={() => setSqlVisible((v) => !v)}
-          queryType={queryType}
-          answer={answer}
-          pipeline={pipeline}
-          isLoading={isLoading}
+          isLoading={stream.isLoading}
+          phase={stream.phase}
+          error={stream.error}
+          onDismissError={stream.dismissError}
+          onNewTopic={stream.startNewTopic}
+          notice={retryingNotice}
+        />
+        <ArchitecturePanel
+          pipeline={stream.pipeline}
+          isLoading={stream.isLoading}
+          hasRun={stream.pipelineEverFired}
         />
       </div>
     </div>

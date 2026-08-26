@@ -19,6 +19,9 @@ async def main() -> int:
         resp = await client.post("/api/register", json={"username": username})
         api_key = resp.json()["api_key"]
 
+        conn = await client.post("/api/connections", json={"api_key": api_key, "dsn": DSN})
+        connection_id = conn.json()["connection_id"]
+
     async with websockets.connect(WS_URL) as ws:
         await ws.send(json.dumps({"type": "auth", "api_key": api_key}))
         await ws.recv()
@@ -26,7 +29,7 @@ async def main() -> int:
         await ws.send(json.dumps({
             "type": "query",
             "query": "What is the average loan amount by grade?",
-            "dsn": DSN,
+            "connection_id": connection_id,
             "domain": "finance",
             "focus_table": "upload_finance_lending",
         }))

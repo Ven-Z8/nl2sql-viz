@@ -26,7 +26,7 @@ async def main() -> None:
     for d in list_datasets():
         t0 = time.monotonic()
         try:
-            info = await load_dataset(pool, d["id"], dsn)
+            info = await load_dataset(pool, d["id"])
             print(f"dataset {d['id']}: {len(info['tables'])} tables in {time.monotonic()-t0:.0f}s")
         except Exception as e:  # noqa: BLE001
             print(f"dataset {d['id']}: FAILED {type(e).__name__}: {str(e)[:120]}")
@@ -34,7 +34,7 @@ async def main() -> None:
     for s in list_samples():
         t0 = time.monotonic()
         try:
-            info = await load_sample(pool, s["id"], dsn)
+            info = await load_sample(pool, s["id"])
             print(f"sample {s['id']}: {info.get('row_count', '?')} rows in {time.monotonic()-t0:.0f}s")
         except Exception as e:  # noqa: BLE001
             print(f"sample {s['id']}: FAILED {type(e).__name__}: {str(e)[:120]}")

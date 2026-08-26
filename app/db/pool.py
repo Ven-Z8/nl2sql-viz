@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import datetime
 import decimal
+import json
 import logging
 import time
 import uuid
@@ -137,13 +138,17 @@ class PostgresPool:
     # ------------------------------------------------------------------
 
     async def explain(self, sql: str) -> dict[str, Any]:
-        """Run EXPLAIN (FORMAT JSON) and return the plan."""
+        """Run EXPLAIN (FORMAT JSON) and return the top-level plan node."""
         if not self._pool:
             raise RuntimeError("Not connected — call connect() first")
 
         async with self._pool.acquire() as conn:
             rows = await conn.fetch(f"EXPLAIN (FORMAT JSON) {sql}")
-        return rows[0]["QUERY PLAN"][0]
+        raw = rows[0]["QUERY PLAN"]
+        # asyncpg returns json/jsonb columns as str unless a codec is installed
+        if isinstance(raw, str):
+            raw = json.loads(raw)
+        return raw[0]
 
     async def get_sample(self, table_name: str, n: int = 5) -> list[dict[str, Any]]:
         """Return up to ``n`` sample rows from a table — bounded, for LLM context.

@@ -1,85 +1,354 @@
 "use client";
-import dynamic from "next/dynamic";
-import PipelinePanel, { PipelineStageState } from "./PipelinePanel";
-
-// vega-embed must never be evaluated during SSR — its module-level code
-// (a Set-based expression guard) breaks the RSC serialization boundary.
-const VegaChart = dynamic(() => import("./VegaChart"), { ssr: false });
-
-interface Metric {
-  label: string;
-  value: number;
-  unit: string;
-}
-
-interface Answer {
-  text: string;
-  metrics: Metric[];
-  sub_queries: { id: string; question: string }[];
-  key_points?: string[];
-  sections?: { title: string; text: string; metrics: Metric[] }[];
-}
+import { useState, type ReactNode } from "react";
+import Banner from "./Banner";
+import AnswerCard from "./right-panel/AnswerCard";
+import ClarifyCard from "./right-panel/ClarifyCard";
+import ResultTable from "./right-panel/ResultTable";
+import DataChart from "./DataChart";
+import { copyText } from "@/lib/clipboard";
+import { downloadRowsCsv } from "@/lib/csv";
+import { fmtDuration, fmtNumber } from "@/lib/format";
+import { highlightSQL } from "@/lib/sqlHighlight";
+import type { QueryEntry, ResultRow } from "@/lib/types";
+import type {
+  PendingClarify,
+  QueryPhase,
+  ThreadSlot,
+} from "@/hooks/useQueryStream";
 
 interface RightPanelProps {
-  title: string;
-  vegaSpec: string | null;
-  rows: Record<string, unknown>[];
-  sql: string;
+  /** One card per topic; a follow-up morphs its slot in place (contract v3). */
+  slots: ThreadSlot[];
+  activeThreadId: string | null;
+  /** Thread id whose card is awaiting a follow-up result; null while a new
+   *  topic is loading or the panel is idle. */
+  loadingThreadId: string | null;
+  /** Optimistic header title while a new topic is in flight. */
+  pendingTitle: string | null;
+  /** SQL streamed before a brand-new topic's first result lands. */
+  draftSql: string | null;
+  pendingClarify: PendingClarify | null;
+  onRespondClarify: (choice: number) => void;
   sqlVisible: boolean;
   onToggleSql: () => void;
-  queryType: string | null;
-  answer: Answer | null;
-  pipeline: Record<string, PipelineStageState>;
   isLoading: boolean;
+  phase: QueryPhase;
+  error: string | null;
+  onDismissError: () => void;
+  /** Contract v3 — clears the active thread; next question starts fresh. */
+  onNewTopic: () => void;
+  /** Slot for global notices (e.g. backend-retrying banner). */
+  notice?: ReactNode;
 }
 
-function highlightSQL(sql: string): string {
-  const keywords = /\b(SELECT|FROM|WHERE|GROUP BY|ORDER BY|HAVING|JOIN|LEFT|RIGHT|INNER|OUTER|ON|AS|AND|OR|NOT|IN|LIKE|LIMIT|OFFSET|INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|WITH|UNION|DISTINCT|CASE|WHEN|THEN|ELSE|END|NULL|IS|BY|ASC|DESC)\b/gi;
-  const functions = /\b(count|sum|avg|min|max|coalesce|nullif|cast|extract|date_trunc|now|current_date|round|floor|ceil|abs|length|lower|upper|trim|substr|replace)\b/gi;
-  const identifiers = /(`[^`]+`|"[^"]+")/g;
-  const strings = /('(?:[^']|'')*')/g;
-  const numbers = /\b(\d+(?:\.\d+)?)\b/g;
-
-  return sql
-    .replace(identifiers, '<span class="id">$1</span>')
-    .replace(strings, '<span class="lit">$1</span>')
-    .replace(numbers, '<span class="lit">$1</span>')
-    .replace(functions, '<span class="fn">$&</span>')
-    .replace(keywords, '<span class="kw">$&</span>');
-}
-
-function formatValue(value: number): string {
-  if (Math.abs(value) >= 1000) {
-    return value.toLocaleString("en-US", { maximumFractionDigits: 2 });
-  }
-  return String(Number(value.toFixed(2)));
-}
-
-function titleCase(label: string): string {
-  return label.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
-}
-
-const PANEL: React.CSSProperties = {
+const PILL: React.CSSProperties = {
+  fontSize: "10.5px",
+  fontWeight: 600,
+  letterSpacing: "0.05em",
+  borderRadius: "var(--radius-pill)",
+  padding: "3px 10px",
+  fontFamily: "var(--font-mono)",
   border: "1px solid var(--color-border-subtle)",
-  borderRadius: "var(--radius-lg)",
-  background: "var(--color-paper-2)",
+  color: "var(--color-ink-dim)",
+  background: "var(--color-paper-3)",
+  whiteSpace: "nowrap",
 };
 
+const THREAD_PILL: React.CSSProperties = {
+  ...PILL,
+  color: "var(--color-accent)",
+  borderColor: "var(--color-accent-dim)",
+  background: "var(--color-accent-dim)",
+};
+
+/** One answer card in the conversation column: topic headline + follow-up
+ *  chips + the thread's latest result. The inner content div is keyed by
+ *  turn index so a morph remounts ONLY the swapped content — the 150ms
+ *  `morph-in` animation plays there, never on the surrounding layout. */
+function AnswerSlotCard({
+  slot,
+  awaitingFollowUp,
+}: {
+  slot: ThreadSlot;
+  awaitingFollowUp: boolean;
+}) {
+  const meta = slot.result.meta;
+  const metrics = slot.result.answer?.metrics ?? [];
+  const rowCount = meta?.rowCount ?? null;
+  const truncated =
+    rowCount != null && slot.result.rows.length > 0 && slot.result.rows.length < rowCount;
+
+  return (
+    <section
+      aria-label={`Topic: ${slot.question}`}
+      style={{
+        border: "1px solid var(--color-border-subtle)",
+        borderRadius: "var(--radius-lg)",
+        background: "var(--color-paper-2)",
+        padding: "var(--space-4) var(--space-5) var(--space-5)",
+        opacity: awaitingFollowUp ? 0.72 : 1,
+        transition: "opacity var(--dur-fast) var(--ease-out)",
+        display: "flex",
+        flexDirection: "column",
+        gap: "var(--space-4)",
+      }}
+    >
+      {/* Headline: the original question never changes across turns */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "baseline",
+          justifyContent: "space-between",
+          gap: "var(--space-3)",
+        }}
+      >
+        <h3
+          style={{
+            margin: 0,
+            fontSize: "13.5px",
+            fontWeight: 700,
+            letterSpacing: "-0.01em",
+            color: "var(--color-ink)",
+            lineHeight: 1.45,
+            overflowWrap: "anywhere",
+          }}
+        >
+          {slot.question}
+        </h3>
+        {awaitingFollowUp && (
+          <span style={{ ...PILL, flexShrink: 0 }} aria-live="polite">
+            updating…
+          </span>
+        )}
+      </div>
+
+      {/* Follow-up trail: reads as conversation, not data loss */}
+      {(slot.followUps.length > 0 || awaitingFollowUp) && (
+        <div
+          style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginTop: "-6px" }}
+        >
+          {slot.followUps.map((fu) => (
+            <span
+              key={fu.turnIndex}
+              style={{
+                fontSize: "11px",
+                color: "var(--color-ink-dim)",
+                border: "1px solid var(--color-border)",
+                borderRadius: "var(--radius-pill)",
+                padding: "3px 10px",
+                fontFamily: "var(--font-mono)",
+                overflowWrap: "anywhere",
+              }}
+            >
+              ↳ {fu.question}
+            </span>
+          ))}
+          {awaitingFollowUp && (
+            <span
+              style={{
+                fontSize: "11px",
+                color: "var(--color-accent)",
+                border: "1px dashed var(--color-accent-dim)",
+                borderRadius: "var(--radius-pill)",
+                padding: "3px 10px",
+                fontFamily: "var(--font-mono)",
+              }}
+            >
+              ↳ …
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Swappable content — keyed by turn so morphs animate in place */}
+      <div
+        key={slot.result.turnIndex ?? "single"}
+        className="morph-in"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "var(--space-4)",
+        }}
+      >
+        {/* Truth badges: timing · cache · read-only */}
+        {meta && (
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+            {meta.executionTimeMs > 0 && (
+              <span style={PILL}>⚡ {fmtDuration(meta.executionTimeMs)}</span>
+            )}
+            {meta.cached && (
+              <span
+                style={{
+                  ...PILL,
+                  color: "var(--color-success)",
+                  borderColor: "var(--color-success-dim)",
+                  background: "var(--color-success-dim)",
+                }}
+              >
+                ↺ cache hit
+              </span>
+            )}
+            <span style={PILL}>read-only</span>
+          </div>
+        )}
+
+        {/* Grounded answer narrative */}
+        {slot.result.answer && (
+          <AnswerCard
+            answer={slot.result.answer}
+            provenance={slot.result.provenance}
+            queries={slot.result.queries}
+          />
+        )}
+
+        {/* Dedicated zero-rows state */}
+        {slot.result.rows.length === 0 && metrics.length === 0 && (
+          <div
+            role="status"
+            style={{
+              textAlign: "center",
+              maxWidth: "420px",
+              margin: "8px auto",
+              border: "1px dashed var(--color-border)",
+              borderRadius: "var(--radius-lg)",
+              background: "var(--color-paper-2)",
+              padding: "var(--space-6) var(--space-5)",
+            }}
+          >
+            <div
+              style={{
+                fontSize: "26px",
+                marginBottom: "var(--space-3)",
+                opacity: 0.5,
+              }}
+              aria-hidden
+            >
+              ∅
+            </div>
+            <div
+              style={{
+                fontSize: "14px",
+                fontWeight: 700,
+                color: "var(--color-ink)",
+                marginBottom: "6px",
+              }}
+            >
+              No rows returned
+            </div>
+            <div
+              style={{
+                fontSize: "13px",
+                color: "var(--color-ink-dim)",
+                lineHeight: 1.6,
+              }}
+            >
+              {slot.result.answer?.text
+                ? `“${slot.result.answer.text}” — try a broader question.`
+                : "Query returned zero rows. Try a broader question."}
+            </div>
+          </div>
+        )}
+
+        {/* The one chart renderer */}
+        {(slot.result.rows.length > 0 || metrics.length > 0) && (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              minHeight: 320,
+              border: "1px solid var(--color-border-subtle)",
+              borderRadius: "var(--radius-xl)",
+              background: "var(--color-paper-2)",
+              overflow: "hidden",
+            }}
+          >
+            <DataChart
+              hint={meta?.chartHint ?? null}
+              rows={slot.result.rows}
+              rowCount={rowCount}
+              metrics={metrics}
+              provenance={slot.result.provenance}
+            />
+          </div>
+        )}
+
+        {/* Sortable result table */}
+        {slot.result.rows.length > 0 && <ResultTable rows={slot.result.rows} />}
+      </div>
+    </section>
+  );
+}
+
 export default function RightPanel({
-  title,
-  vegaSpec,
-  rows,
-  sql,
+  slots,
+  activeThreadId,
+  loadingThreadId,
+  pendingTitle,
+  draftSql,
+  pendingClarify,
+  onRespondClarify,
   sqlVisible,
   onToggleSql,
-  queryType,
-  answer,
-  pipeline,
   isLoading,
+  phase,
+  error,
+  onDismissError,
+  onNewTopic,
+  notice,
 }: RightPanelProps) {
-  const rowColumns = rows.length > 0 ? Object.keys(rows[0]).slice(0, 6) : [];
-  const isKpi = queryType === "kpi";
-  const hasResult = Boolean(vegaSpec) || rows.length > 0;
+  const [copiedSql, setCopiedSql] = useState(false);
+  // Active tab inside the SQL & Queries drawer (final first).
+  const [queryTab, setQueryTab] = useState(0);
+
+  // The card the header acts on: the active thread's slot, else the newest.
+  const activeSlot =
+    slots.find((s) => s.threadId === activeThreadId) ??
+    slots[slots.length - 1] ??
+    null;
+
+  const newTopicLoading = isLoading && loadingThreadId == null;
+  const hasResult = phase === "done" || phase === "error";
+
+  // ── header stats (operate on the active slot) ──────────────
+  const rows: ResultRow[] = activeSlot?.result.rows ?? [];
+  const rowCount = activeSlot?.result.meta?.rowCount ?? null;
+  const truncated =
+    rowCount != null && rows.length > 0 && rows.length < rowCount;
+
+  // ── SQL & Queries drawer sources ───────────────────────────
+  const activeQueries: QueryEntry[] = activeSlot?.result.queries ?? [];
+  const hasQueries = activeQueries.length > 0;
+  const activeQueryIdx = hasQueries
+    ? Math.min(queryTab, activeQueries.length - 1)
+    : 0;
+  const activeQuery = activeQueries[activeQueryIdx] ?? null;
+  // While a brand-new topic streams its first SQL there is no slot yet —
+  // show the live draft instead of the previous card's query.
+  const drawerSql = newTopicLoading
+    ? (draftSql ?? "")
+    : hasQueries
+      ? (activeQuery?.sql ?? "")
+      : (activeSlot?.result.sql ?? "");
+  const drawerOpen = sqlVisible && drawerSql.trim().length > 0;
+
+  const handleCopySql = async () => {
+    if (!drawerSql) return;
+    const ok = await copyText(drawerSql);
+    if (ok) {
+      setCopiedSql(true);
+      setTimeout(() => setCopiedSql(false), 2000);
+    }
+  };
+
+  // ── thread pill state (F3) ─────────────────────────────────
+  const activeThreadSlot = activeThreadId
+    ? (slots.find((s) => s.threadId === activeThreadId) ?? null)
+    : null;
+  const threadTurns = activeThreadSlot
+    ? (activeThreadSlot.result.turnIndex ??
+      activeThreadSlot.followUps.length + 1)
+    : 0;
+  const showThreadPill = threadTurns >= 2;
 
   return (
     <div
@@ -89,6 +358,7 @@ export default function RightPanel({
         flexDirection: "column",
         overflow: "hidden",
         background: "var(--color-paper)",
+        minWidth: 0,
       }}
     >
       {/* Header */}
@@ -99,6 +369,7 @@ export default function RightPanel({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          gap: "var(--space-3)",
           flexShrink: 0,
         }}
       >
@@ -107,58 +378,84 @@ export default function RightPanel({
             fontSize: "14px",
             fontWeight: 600,
             letterSpacing: "-0.01em",
-            color: title ? "var(--color-ink)" : "var(--color-ink-faint)",
+            color:
+              pendingTitle || activeSlot
+                ? "var(--color-ink)"
+                : "var(--color-ink-faint)",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
           }}
         >
-          {title || "Results"}
+          {pendingTitle || activeSlot?.result.title || "Results"}
         </span>
-        <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
-          {queryType && (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "var(--space-2)",
+            flexShrink: 0,
+          }}
+        >
+          {activeSlot?.result.queryType && (
             <span
               style={{
-                fontSize: "10.5px",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.08em",
+                ...PILL,
                 color: "var(--color-accent)",
-                border: "1px solid var(--color-accent-dim)",
-                borderRadius: "var(--radius-pill)",
-                padding: "3px 10px",
-                fontFamily: "var(--font-mono)",
+                borderColor: "var(--color-accent-dim)",
+                background: "transparent",
+                textTransform: "uppercase",
               }}
             >
-              {queryType}
+              {activeSlot.result.queryType}
             </span>
+          )}
+          {truncated ? (
+            <span
+              style={{ ...PILL }}
+              title="The preview shows a subset; row_count is the full result size."
+            >
+              showing {rows.length} of {rowCount}
+            </span>
+          ) : (
+            rows.length > 0 && <span style={{ ...PILL }}>{rows.length} rows</span>
           )}
           {rows.length > 0 && (
-            <span
-              style={{
-                color: "var(--color-ink-dim)",
-                fontSize: "12px",
-                fontFamily: "var(--font-mono)",
-                fontVariantNumeric: "tabular-nums",
-              }}
-            >
-              {rows.length} rows
-            </span>
-          )}
-          {sql && (
             <button
-              onClick={onToggleSql}
-              style={{
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                color: "var(--color-accent)",
-                fontSize: "12.5px",
-                fontWeight: 500,
-                padding: "4px 8px",
-                borderRadius: "var(--radius-sm)",
-                fontFamily: "var(--font-mono)",
-              }}
+              onClick={() =>
+                downloadRowsCsv(
+                  rows,
+                  activeSlot?.result.title || "results"
+                )
+              }
+              title="Download the current preview rows as CSV"
+              style={ACTION_BUTTON}
             >
-              SQL {sqlVisible ? "▴" : "▾"}
+              ↓ CSV
             </button>
+          )}
+          {drawerSql.trim().length > 0 && (
+            <>
+              <button
+                onClick={handleCopySql}
+                title="Copy the generated SQL to the clipboard"
+                style={ACTION_BUTTON}
+              >
+                {copiedSql ? "Copied ✓" : "Copy SQL"}
+              </button>
+              <button
+                onClick={onToggleSql}
+                title={
+                  hasQueries
+                    ? `Show all ${hasQueries ? activeQueries.length : 1} executed queries (final first)`
+                    : "Show the generated SQL"
+                }
+                style={ACTION_BUTTON}
+              >
+                {hasQueries && activeQueries.length > 1 ? "SQL & Queries" : "SQL"}{" "}
+                {sqlVisible ? "▴" : "▾"}
+              </button>
+            </>
           )}
         </div>
       </div>
@@ -174,411 +471,203 @@ export default function RightPanel({
           gap: "var(--space-5)",
         }}
       >
-        {/* Live pipeline — the backend architecture lighting up as the query runs */}
-        <PipelinePanel pipeline={pipeline} isLoading={isLoading} />
+        {/* Backend-wake notice (replaces the old misleading API-key message) */}
+        {!isLoading && notice}
 
-        {/* Loading skeletons */}
-        {isLoading && (
+        {/* Contract v2 clarify card — pipeline paused, waiting on the user */}
+        {pendingClarify && (
+          <ClarifyCard clarify={pendingClarify} onRespond={onRespondClarify} />
+        )}
+
+        {/* Dismissible error banner */}
+        {!isLoading && error && (
+          <Banner tone="error" message={error} onDismiss={onDismissError} />
+        )}
+
+        {/* Contract v3 thread status row — pill once the conversation has
+            ≥2 turns, plus the explicit escape hatch to start fresh. */}
+        {showThreadPill && !isLoading && (
+          <div
+            role="status"
+            aria-label={`Active thread: ${threadTurns} turns`}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              gap: "var(--space-2)",
+            }}
+          >
+            <span style={THREAD_PILL}>Thread · {threadTurns} turns</span>
+            <button
+              type="button"
+              onClick={onNewTopic}
+              aria-label="Start a new topic — your next question won't continue this thread"
+              title="Next question starts a new topic (this conversation stays on screen)"
+              style={NEW_TOPIC_BUTTON}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.borderColor = "var(--color-accent)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.borderColor = "var(--color-border)";
+              }}
+            >
+              New topic
+            </button>
+          </div>
+        )}
+
+        {/* Conversation column — one card per topic; follow-ups morphed
+            into their card by useQueryStream before they get here. */}
+        {slots.map((slot) => (
+          <AnswerSlotCard
+            key={slot.key}
+            slot={slot}
+            awaitingFollowUp={
+              isLoading && loadingThreadId === slot.threadId
+            }
+          />
+        ))}
+
+        {/* Loading skeletons — only for a brand-new topic now; follow-ups
+            morph their existing card instead (subtle "updating…" treatment).
+            Suppressed while paused on a clarify, where the honest state is
+            "waiting on you", not "working". */}
+        {newTopicLoading && !pendingClarify && (
           <>
             <div className="skeleton" style={{ height: "72px", width: "100%" }} />
-            <div className="skeleton" style={{ height: 220, width: "100%" }} />
+            <div className="skeleton" style={{ height: 300, width: "100%" }} />
             <div className="skeleton" style={{ height: 120, width: "100%" }} />
           </>
         )}
 
-        {/* Grounded answer banner */}
-        {!isLoading && answer && (
-          <div
-            style={{
-              border: "1px solid var(--color-accent-dim)",
-              borderRadius: "var(--radius-lg)",
-              background: "var(--color-paper-2)",
-              padding: "var(--space-5) var(--space-6)",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
+        {/* Idle empty state (no stale 3D promises here) */}
+        {!isLoading &&
+          !hasResult &&
+          slots.length === 0 &&
+          !notice &&
+          !pendingClarify && (
             <div
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "3px",
-                height: "100%",
-                background: "var(--color-accent)",
-              }}
-            />
-            <div
-              style={{
-                fontSize: "10.5px",
-                fontWeight: 600,
-                color: "var(--color-accent)",
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                marginBottom: "var(--space-3)",
-                fontFamily: "var(--font-mono)",
-              }}
+              style={{ textAlign: "center", maxWidth: "340px", margin: "40px auto" }}
             >
-              Grounded answer
+              <div
+                style={{
+                  fontSize: "13px",
+                  color: "var(--color-ink-faint)",
+                  lineHeight: 1.6,
+                }}
+              >
+                Ask a question to see results. Charts adapt to your data — trends,
+                breakdowns, comparisons, distributions, and KPIs.
+              </div>
             </div>
-
-            {answer.key_points && answer.key_points.length > 0 && (
-              <div
-                style={{
-                  marginBottom: "var(--space-4)",
-                  padding: "12px 14px",
-                  borderRadius: "var(--radius-md)",
-                  background: "var(--color-paper-2)",
-                  border: "1px solid var(--color-border-subtle)",
-                }}
-              >
-                {answer.key_points.map((kp, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      display: "flex",
-                      gap: "10px",
-                      alignItems: "flex-start",
-                      padding: "4px 0",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        lineHeight: 1.5,
-                        color: "var(--color-accent)",
-                        fontWeight: 700,
-                        flexShrink: 0,
-                      }}
-                    >
-                      ▸
-                    </span>
-                    <span style={{ fontSize: "13px", lineHeight: 1.55, color: "var(--color-ink)" }}>
-                      {kp}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            )}
-
-            {answer.metrics.length > 0 ? (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
-                  gap: "var(--space-3)",
-                }}
-              >
-                {answer.metrics.map((m, i) => (
-                  <div
-                    key={`${m.label}-${i}`}
-                    style={{
-                      display: "flex",
-                      alignItems: "baseline",
-                      justifyContent: "space-between",
-                      gap: "var(--space-3)",
-                      padding: "10px 14px",
-                      borderRadius: "var(--radius-md)",
-                      background: "var(--color-paper-3)",
-                      border: "1px solid var(--color-border-subtle)",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "12px",
-                        color: "var(--color-ink-dim)",
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                      }}
-                    >
-                      {titleCase(m.label)}
-                    </span>
-                    <span
-                      style={{
-                        fontSize: "16px",
-                        fontWeight: 700,
-                        color: "var(--color-ink)",
-                        fontFamily: "var(--font-mono)",
-                        fontVariantNumeric: "tabular-nums",
-                        letterSpacing: "-0.02em",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {formatValue(m.value)}
-                      {m.unit && (
-                        <span
-                          style={{
-                            fontSize: "11px",
-                            color: "var(--color-ink-faint)",
-                            marginLeft: "3px",
-                            fontWeight: 500,
-                          }}
-                        >
-                          {m.unit}
-                        </span>
-                      )}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div
-                style={{
-                  fontSize: "15px",
-                  fontWeight: 600,
-                  color: "var(--color-ink)",
-                  lineHeight: 1.5,
-                  letterSpacing: "-0.01em",
-                }}
-              >
-                {answer.text}
-              </div>
-            )}
-
-            {answer.sub_queries.length > 0 && (
-              <div
-                style={{
-                  marginTop: "var(--space-3)",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "6px",
-                }}
-              >
-                {answer.sub_queries.map((sq) => (
-                  <span
-                    key={sq.id}
-                    style={{
-                      fontSize: "11px",
-                      color: "var(--color-ink-dim)",
-                      border: "1px solid var(--color-border)",
-                      borderRadius: "var(--radius-pill)",
-                      padding: "3px 10px",
-                      fontFamily: "var(--font-mono)",
-                    }}
-                  >
-                    {sq.question}
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* KPI stat strip — big grounded numbers */}
-        {!isLoading && isKpi && answer && answer.metrics.length > 0 && (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${Math.min(answer.metrics.length, 4)}, minmax(0, 1fr))`,
-              gap: "var(--space-4)",
-            }}
-          >
-            {answer.metrics.slice(0, 4).map((m, i) => (
-              <div
-                key={`${m.label}-${i}`}
-                style={{
-                  border: "1px solid var(--color-border-subtle)",
-                  borderRadius: "var(--radius-lg)",
-                  background: "var(--color-paper-2)",
-                  padding: "var(--space-5) var(--space-6)",
-                  animation: "fade-up var(--dur-med) var(--ease-out) both",
-                  animationDelay: `${i * 70}ms`,
-                }}
-              >
-                <div
-                  style={{
-                    fontSize: "10.5px",
-                    fontWeight: 600,
-                    color: "var(--color-ink-faint)",
-                    textTransform: "uppercase",
-                    letterSpacing: "0.1em",
-                    marginBottom: "var(--space-2)",
-                    fontFamily: "var(--font-mono)",
-                  }}
-                >
-                  {titleCase(m.label)}
-                </div>
-                <div
-                  style={{
-                    fontSize: i === 0 ? "34px" : "28px",
-                    fontWeight: 700,
-                    color: "var(--color-ink)",
-                    letterSpacing: "-0.03em",
-                    fontFamily: "var(--font-mono)",
-                    fontVariantNumeric: "tabular-nums",
-                  }}
-                >
-                  {formatValue(m.value)}
-                  {m.unit && (
-                    <span
-                      style={{
-                        fontSize: "13px",
-                        color: "var(--color-ink-dim)",
-                        marginLeft: "4px",
-                        fontWeight: 500,
-                      }}
-                    >
-                      {m.unit}
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Chart area */}
-        {!isLoading && !isKpi && (
-          <div
-            style={{
-              flex: 1,
-              minHeight: "300px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              border: "1px solid var(--color-border-subtle)",
-              borderRadius: "var(--radius-xl)",
-              background: "var(--color-paper-2)",
-              padding: "var(--space-5)",
-            }}
-          >
-            {vegaSpec ? (
-              <div style={{ width: "100%", height: "100%", minHeight: 0 }}>
-                <VegaChart spec={vegaSpec} />
-              </div>
-            ) : hasResult ? (
-              <div
-                style={{
-                  color: "var(--color-ink-dim)",
-                  fontSize: "14px",
-                  textAlign: "center",
-                }}
-              >
-                No rows returned for this question.
-              </div>
-            ) : (
-              <div style={{ textAlign: "center", maxWidth: "320px" }}>
-                <div
-                  style={{
-                    fontSize: "13px",
-                    color: "var(--color-ink-faint)",
-                    lineHeight: 1.6,
-                  }}
-                >
-                  Ask a question to see results. Charts adapt to your data — trends,
-                  breakdowns, comparisons, and KPIs.
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Result rows table */}
-        {!isLoading && rows.length > 0 && (
-          <div
-            style={{
-              border: "1px solid var(--color-border-subtle)",
-              borderRadius: "var(--radius-lg)",
-              background: "var(--color-paper-2)",
-              overflow: "hidden",
-            }}
-          >
-            <div
-              style={{
-                padding: "10px 14px",
-                borderBottom: "1px solid var(--color-border-subtle)",
-                color: "var(--color-ink-faint)",
-                fontSize: "10.5px",
-                fontWeight: 600,
-                textTransform: "uppercase",
-                letterSpacing: "0.1em",
-                fontFamily: "var(--font-mono)",
-              }}
-            >
-              Result Rows
-            </div>
-            <div style={{ overflow: "auto", maxHeight: "320px" }}>
-              <table
-                style={{
-                  width: "100%",
-                  borderCollapse: "collapse",
-                  fontSize: "12.5px",
-                  fontVariantNumeric: "tabular-nums",
-                }}
-              >
-                <thead
-                  style={{
-                    position: "sticky",
-                    top: 0,
-                    background: "var(--color-paper-2)",
-                    zIndex: 1,
-                  }}
-                >
-                  <tr>
-                    {rowColumns.map((column) => (
-                      <th
-                        key={column}
-                        style={{
-                          padding: "9px 14px",
-                          color: "var(--color-ink-faint)",
-                          textAlign: "left",
-                          borderBottom: "1px solid var(--color-border-subtle)",
-                          whiteSpace: "nowrap",
-                          fontWeight: 500,
-                          fontFamily: "var(--font-mono)",
-                          fontSize: "11px",
-                        }}
-                      >
-                        {column}
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {rows.map((row, index) => (
-                    <tr key={index}>
-                      {rowColumns.map((column) => (
-                        <td
-                          key={column}
-                          style={{
-                            padding: "8px 14px",
-                            color: "var(--color-ink-dim)",
-                            borderBottom: "1px solid var(--color-border-subtle)",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {String(row[column] ?? "")}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+          )}
       </div>
 
-      {/* SQL panel */}
-      {sqlVisible && sql && (
+      {/* SQL & Queries drawer — contract v2: every synthesized result set,
+          final first; legacy payloads fall back to the single-SQL view.
+          While a brand-new topic streams, shows its live draft SQL. */}
+      {drawerOpen && (
         <div
           style={{
             flexShrink: 0,
             borderTop: "1px solid var(--color-border-subtle)",
             background: "var(--color-paper-2)",
             padding: "14px var(--space-6)",
-            maxHeight: "180px",
+            maxHeight: "220px",
             overflowY: "auto",
-            fontFamily: "var(--font-mono)",
-            fontSize: "12px",
-            lineHeight: "1.8",
-            color: "var(--color-ink-dim)",
-            whiteSpace: "pre-wrap",
           }}
-          dangerouslySetInnerHTML={{ __html: highlightSQL(sql) }}
-        />
+        >
+          {!newTopicLoading && hasQueries && (
+            <div
+              role="tablist"
+              aria-label="Executed queries"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                gap: "4px",
+                marginBottom: "10px",
+              }}
+            >
+              {activeQueries.map((q, i) => {
+                const selected = i === activeQueryIdx;
+                return (
+                  <button
+                    key={i}
+                    role="tab"
+                    aria-selected={selected}
+                    onClick={() => setQueryTab(i)}
+                    title={`Query ${i + 1}${i === 0 ? " (final answer)" : ""} · ${q.row_count} rows`}
+                    style={{
+                      background: selected
+                        ? "var(--color-accent-dim)"
+                        : "transparent",
+                      border: `1px solid ${selected ? "var(--color-accent-dim)" : "var(--color-border-subtle)"}`,
+                      borderRadius: "var(--radius-pill)",
+                      padding: "3px 11px",
+                      fontSize: "10.5px",
+                      fontWeight: 600,
+                      fontFamily: "var(--font-mono)",
+                      color: selected
+                        ? "var(--color-accent)"
+                        : "var(--color-ink-dim)",
+                      cursor: "pointer",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {i === 0 ? "final" : `#${i + 1}`} ·{" "}
+                    {fmtNumber(q.row_count)} rows
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <div
+            role={!newTopicLoading && hasQueries ? "tabpanel" : undefined}
+            aria-label={
+              !newTopicLoading && hasQueries
+                ? `SQL for query ${activeQueryIdx + 1}`
+                : undefined
+            }
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "12px",
+              lineHeight: "1.8",
+              color: "var(--color-ink-dim)",
+              whiteSpace: "pre-wrap",
+            }}
+            dangerouslySetInnerHTML={{
+              __html: highlightSQL(drawerSql),
+            }}
+          />
+        </div>
       )}
     </div>
   );
 }
+
+const ACTION_BUTTON: React.CSSProperties = {
+  background: "none",
+  border: "none",
+  cursor: "pointer",
+  color: "var(--color-accent)",
+  fontSize: "12px",
+  fontWeight: 500,
+  padding: "4px 8px",
+  borderRadius: "var(--radius-sm)",
+  fontFamily: "var(--font-mono)",
+  whiteSpace: "nowrap",
+};
+
+const NEW_TOPIC_BUTTON: React.CSSProperties = {
+  background: "none",
+  border: "1px solid var(--color-border)",
+  cursor: "pointer",
+  color: "var(--color-ink-dim)",
+  fontSize: "11px",
+  fontWeight: 600,
+  padding: "3px 12px",
+  borderRadius: "var(--radius-pill)",
+  fontFamily: "var(--font-mono)",
+  whiteSpace: "nowrap",
+  transition: "border-color var(--dur-fast) var(--ease-out)",
+};

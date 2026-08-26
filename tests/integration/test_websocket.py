@@ -2,8 +2,10 @@
 WebSocket integration tests for the /ws/query endpoint.
 
 Tests:
-  1. Full flow: register -> auth handshake -> NL query -> result event with chart_spec
+  1. Full flow: register -> register connection -> auth handshake -> NL query
+     -> result event with chart_hint
   2. Bad API key: server closes connection with code 4001
+  3. Unknown/foreign connection_id: server sends an "unknown connection" error
 """
 import uuid
 from starlette.testclient import TestClient
@@ -18,9 +20,10 @@ def test_register_and_query_via_websocket(seed_test_db):
     """
     Full end-to-end flow via WebSocket:
     - Register a new user to obtain an API key
+    - POST /api/connections to store the DSN server-side (never sent over WS)
     - Authenticate over WebSocket
-    - Send an NL query against the seeded sales table
-    - Assert a result event arrives with vega_spec and sql fields
+    - Send an NL query against the seeded sales table using connection_id
+    - Assert a result event arrives with sql and chart_hint fields
     """
     with TestClient(app) as client:
         # Register with a unique username to avoid collisions with persistent SQLite store
@@ -28,6 +31,10 @@ def test_register_and_query_via_websocket(seed_test_db):
         resp = client.post("/api/register", json={"username": username})
         assert resp.status_code == 200, f"Registration failed: {resp.text}"
         api_key = resp.json()["api_key"]
+
+        conn_resp = client.post("/api/connections", json={"api_key": api_key, "dsn": TEST_DSN})
+        assert conn_resp.status_code == 200, f"Connection registration failed: {conn_resp.text}"
+        connection_id = conn_resp.json()["connection_id"]
 
         with client.websocket_connect("/ws/query") as ws:
             # Auth handshake
@@ -41,7 +48,7 @@ def test_register_and_query_via_websocket(seed_test_db):
             ws.send_json({
                 "type": "query",
                 "query": "What is the total sales amount per region?",
-                "dsn": TEST_DSN,
+                "connection_id": connection_id,
             })
 
             # Collect events until result or error arrives (up to 20 messages)
@@ -62,13 +69,23 @@ def test_register_and_query_via_websocket(seed_test_db):
     )
 
     result = next(e for e in events if e["type"] == "result")
-    assert "chart_spec" in result, f"result event missing 'chart_spec': {result}"
+    # Contract: chart_hint replaces the old chart_spec field
+    assert "chart_spec" not in result, f"result must not carry chart_spec: {result.keys()}"
+    assert isinstance(result.get("chart_hint"), dict), f"result missing 'chart_hint': {result}"
+    assert result["chart_hint"]["kind"] in (
+        "bar", "stacked_bar", "grouped_bar", "line", "area",
+        "pie", "scatter", "histogram", "kpi",
+    )
     assert "sql" in result, f"result event missing 'sql': {result}"
-
-    # chart_spec must be a valid Vega-Lite spec with a $schema field
-    chart_spec = result["chart_spec"]
-    assert "$schema" in chart_spec["spec"], (
-        f"chart_spec missing '$schema': {list(chart_spec.get('spec', {}).keys())}"
+    assert result["query"].startswith("What is the total sales")
+    # Contract V2 additions: every shipped result set + per-number provenance
+    assert isinstance(result.get("queries"), list) and result["queries"], (
+        f"result missing 'queries': {result.keys()}"
+    )
+    assert result["queries"][0]["row_count"] == result["row_count"]
+    prov = result.get("provenance")
+    assert prov is None or all(
+        {"metric", "value", "query_index", "row_index"} <= set(p) for p in prov
     )
 
 
@@ -97,3 +114,32 @@ def test_websocket_rejects_bad_api_key():
     assert connection_closed, (
         "Expected server to close WebSocket on bad API key"
     )
+
+
+def test_websocket_unknown_connection_is_rejected(seed_test_db):
+    """A query naming an unregistered connection_id gets a clean error, not a crash."""
+    with TestClient(app) as client:
+        username = f"ws_test_{uuid.uuid4().hex[:8]}"
+        resp = client.post("/api/register", json={"username": username})
+        api_key = resp.json()["api_key"]
+
+        with client.websocket_connect("/ws/query") as ws:
+            ws.send_json({"type": "auth", "api_key": api_key})
+            auth_resp = ws.receive_json()
+            assert auth_resp["type"] == "authenticated"
+
+            ws.send_json({
+                "type": "query",
+                "query": "What is the total sales amount?",
+                "connection_id": "0" * 16,  # never registered
+            })
+            event = ws.receive_json()
+            assert event["type"] == "error"
+            assert event["message"] == "unknown connection"
+
+
+def test_health_endpoint():
+    with TestClient(app) as client:
+        resp = client.get("/health")
+    assert resp.status_code == 200
+    assert resp.json() == {"status": "ok"}

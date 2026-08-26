@@ -6,6 +6,10 @@ export type LogEntry = {
   icon: "done" | "run" | "sql";
   text: string;
   active?: boolean;
+  /** Self-correction events (refine loop / cost tightening) get a subtle
+   *  amber tint so the pipeline visibly corrects itself. Unknown/absent
+   *  tones render exactly as before. */
+  tone?: "selfcorrect";
 };
 
 interface LogStreamProps {
@@ -45,6 +49,7 @@ export default function LogStream({ logs }: LogStreamProps) {
       )}
       {logs.map((entry, i) => {
         const ic = ICON[entry.icon];
+        const selfCorrect = entry.tone === "selfcorrect";
         return (
           <div
             key={i}
@@ -56,10 +61,23 @@ export default function LogStream({ logs }: LogStreamProps) {
             }}
           >
             <span style={{ color: "var(--color-ink-faint)", flexShrink: 0 }}>{entry.time}</span>
-            <span style={{ color: ic.color, flexShrink: 0 }}>{ic.char}</span>
             <span
               style={{
-                color: entry.active ? "var(--color-ink)" : "var(--color-ink-dim)",
+                color: selfCorrect ? "var(--color-warning)" : ic.color,
+                flexShrink: 0,
+              }}
+            >
+              {ic.char}
+            </span>
+            <span
+              style={{
+                color:
+                  entry.active && !selfCorrect
+                    ? "var(--color-ink)"
+                    : selfCorrect
+                      ? "var(--color-warning)"
+                      : "var(--color-ink-dim)",
+                fontStyle: selfCorrect ? "italic" : undefined,
                 wordBreak: "break-word",
               }}
             >

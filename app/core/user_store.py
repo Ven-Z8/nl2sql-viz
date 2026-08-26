@@ -33,15 +33,26 @@ class UserStore:
                     hashed_key TEXT NOT NULL
                 )"""
             )
+            try:
+                # Migration for pre-digest databases: rows keep working via
+                # the full-scan fallback until their keys are re-issued.
+                await db.execute("ALTER TABLE users ADD COLUMN key_digest TEXT")
+            except aiosqlite.OperationalError:
+                pass  # column already exists
+            await db.execute(
+                "CREATE INDEX IF NOT EXISTS idx_users_key_digest ON users(key_digest)"
+            )
             await db.commit()
 
-    async def register(self, username: str, hashed_key: str) -> None:
+    async def register(
+        self, username: str, hashed_key: str, key_digest: str | None = None
+    ) -> None:
         """Register a new user. Raises ValueError if username already exists."""
         async with aiosqlite.connect(self._db_path) as db:
             try:
                 await db.execute(
-                    "INSERT INTO users (username, hashed_key) VALUES (?, ?)",
-                    (username, hashed_key),
+                    "INSERT INTO users (username, hashed_key, key_digest) VALUES (?, ?, ?)",
+                    (username, hashed_key, key_digest),
                 )
                 await db.commit()
             except sqlite3.IntegrityError:
@@ -66,3 +77,12 @@ class UserStore:
         async with aiosqlite.connect(self._db_path) as db:
             async with db.execute("SELECT username, hashed_key FROM users") as cursor:
                 return await cursor.fetchall()
+
+    async def find_by_key_digest(self, digest: str) -> Optional[str]:
+        """Return the username whose key digest matches, or None."""
+        async with aiosqlite.connect(self._db_path) as db:
+            async with db.execute(
+                "SELECT username FROM users WHERE key_digest = ?", (digest,)
+            ) as cursor:
+                row = await cursor.fetchone()
+                return row[0] if row else None

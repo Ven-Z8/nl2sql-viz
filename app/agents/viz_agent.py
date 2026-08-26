@@ -1,34 +1,50 @@
-"""VizAgent — generates chart specifications from query results.
+"""VizAgent — picks a chart hint for the frontend from query results.
 
-NOOA Agent using PredictStrategy for single-shot chart spec generation.
-Deterministic helpers handle chart type selection and data strategy routing.
+Fully deterministic (no LLM call): the server knows the result's column
+shapes, so chart selection is a pure function of (question, result, query
+type). The frontend renders bar/line/area/pie/scatter/histogram/kpi itself;
+the server only decides WHICH chart and WHICH columns.
+
+Emitted shape (shared WS contract):
+    {"kind": "bar"|"stacked_bar"|"grouped_bar"|"line"|"area"|"pie"|"scatter"|
+             "histogram"|"kpi",
+     "x": str | None,
+     "y": list[str],
+     "color": str | None,      # series dimension for stacked/grouped bars
+     "title": str | None,
+     "limit_applied": int | None}
 """
 
 from __future__ import annotations
 
+import re
 from datetime import date, datetime
 from decimal import Decimal
 from typing import Any
 
-from nooa import Agent, strategy
-from nooa.strategies import PredictStrategy
+from app.models import QueryResult, QueryType
 
-from app.engine.results import classify_size, prepare_for_viz
-from app.llm import SONNET
-from app.models import (
-    ChartPlan,
-    ChartSpec,
-    ChartType,
-    QueryResult,
+# Rows above this count are downsampled by the caller before charting;
+# limit_applied tells the frontend the data was capped.
+CHART_POINT_LIMIT = 1_000
+
+_PIE_MAX_GROUPS = 6
+# A second categorical with more distinct values than this makes a hopeless
+# stacked bar — fall back to the plain single-measure chart instead.
+_STACKED_MAX_SERIES = 8
+# Beyond this many categories a bar chart becomes a wall — the hint carries
+# top_n so the renderer shows only the leading slices (sorted desc).
+_BAR_MAX_GROUPS = 12
+
+_DISTRIBUTION_HINTS = re.compile(
+    r"\b(distribution|histogram|spread of|range of|frequency of)\b", re.IGNORECASE
 )
-
-
-def _json_default(value: Any) -> Any:
-    if isinstance(value, Decimal):
-        return float(value)
-    if isinstance(value, (date, datetime)):
-        return value.isoformat()
-    raise TypeError(f"Object of type {type(value).__name__} is not JSON serializable")
+# datetime.fromisoformat rejects reduced-precision ISO dates ("2024", "2024-01")
+# yet month/year grain is everywhere in real aggregates.
+_DATE_LIKE = re.compile(
+    r"^\d{4}(?:-\d{1,2}){0,2}(?:[ T]\d{1,2}:\d{2}(?::\d{2})?)?(?:Z|[+-]\d{2}:?\d{2})?$"
+)
+_YEAR_FIELD = re.compile(r"(^|_)(year|yr)(_|$)", re.IGNORECASE)
 
 
 def _is_number(v: Any) -> bool:
@@ -38,131 +54,156 @@ def _is_number(v: Any) -> bool:
 def _is_temporal(v: Any) -> bool:
     if isinstance(v, (date, datetime)):
         return True
-    if not isinstance(v, str):
+    if isinstance(v, str):
+        s = v.strip()
+        if _DATE_LIKE.match(s):
+            return True
+        try:
+            datetime.fromisoformat(s.replace("Z", "+00:00"))
+            return True
+        except ValueError:
+            return False
+        except TypeError:
+            return False
+    return False
+
+
+def _year_column(field: str, rows: list[dict]) -> bool:
+    """Integer columns named *year* whose values plausibly are years."""
+    if not _YEAR_FIELD.search(field):
         return False
-    try:
-        date.fromisoformat(v[:10])
-        return True
-    except ValueError:
-        return False
+    vals = [r.get(field) for r in rows if r.get(field) is not None]
+    return bool(vals) and all(
+        _is_number(v) and 1500 <= float(v) <= 2200 for v in vals
+    )
 
 
-class VizAgent(Agent, llm=SONNET):
-    """You are a data visualization expert. Given query results and the original
-    question, you generate appropriate chart specifications.
+def _primary_measure(question: str | None, numeric: list[str]) -> str:
+    """The measure the question actually asks about (token overlap scoring).
 
-    You have deterministic helpers:
-    - self.plan_chart(question, result): analyzes data shape and picks chart type
-    - self.build_vega_lite(plan, result): builds a Vega-Lite v6 spec
+    "How does median income vary across states?" over measures
+    [median_income, avg_county_income, ...] picks median_income — plotting
+    every aggregate column as side-by-side bars is noise, not insight.
     """
+    if len(numeric) == 1:
+        return numeric[0]
+    q_tokens = set(re.findall(r"[a-z]+", (question or "").lower()))
+    best, best_score = numeric[0], -1
+    for field in numeric:
+        score = sum(
+            1 for tok in re.findall(r"[a-z]+", field.lower())
+            if len(tok) > 2 and tok in q_tokens
+        )
+        if score > best_score:
+            best, best_score = field, score
+    return best
 
-    # ------------------------------------------------------------------
-    # Deterministic helpers
-    # ------------------------------------------------------------------
 
-    def plan_chart(self, question: str, result: QueryResult) -> ChartPlan:
-        """Analyze data shape and determine chart type and data strategy."""
-        strategy = classify_size(result)
+class VizAgent:
+    """Deterministic chart-hint planner (no LLM needed — data shape suffices)."""
 
+    def build_chart_hint(
+        self,
+        question: str,
+        result: QueryResult,
+        query_type: QueryType | None = None,
+    ) -> dict[str, Any] | None:
+        """Pick a chart deterministically from result shape + question intent."""
         if not result.rows:
-            return ChartPlan(
-                chart_type=ChartType.BAR,
-                data_strategy=strategy,
-                title=question,
-            )
+            return None
 
         fields = list(result.rows[0].keys())
-        numeric = [f for f in fields if all(_is_number(r.get(f)) for r in result.rows if r.get(f) is not None)]
-        temporal = [f for f in fields if all(_is_temporal(r.get(f)) for r in result.rows if r.get(f) is not None)]
+        numeric = [
+            f for f in fields
+            if all(_is_number(r.get(f)) for r in result.rows if r.get(f) is not None)
+            and not _year_column(f, result.rows)
+        ]
+        temporal = [
+            f for f in fields
+            if f not in numeric and (
+                _year_column(f, result.rows)
+                or all(
+                    _is_temporal(r.get(f)) for r in result.rows if r.get(f) is not None
+                )
+            )
+        ]
         nominal = [f for f in fields if f not in numeric and f not in temporal]
 
-        if temporal and numeric:
-            return ChartPlan(
-                chart_type=ChartType.LINE,
-                data_strategy=strategy,
-                title=question,
-                x_field=temporal[0],
-                y_field=numeric[-1],
-                color_field=nominal[0] if nominal else "",
-            )
+        def _hint(
+            kind: str, x: str | None, y: list[str], color: str | None = None,
+            top_n: int | None = None,
+        ) -> dict[str, Any]:
+            hint: dict[str, Any] = {
+                "kind": kind,
+                "x": x,
+                "y": y[:4],
+                "title": question or None,
+                "limit_applied": CHART_POINT_LIMIT if result.row_count > CHART_POINT_LIMIT else None,
+                # Renderers sort categorical charts desc by their first measure;
+                # keeps unsorted SQL from producing random-looking bars.
+                "sort": "desc" if kind in {"bar", "pie", "stacked_bar", "grouped_bar"} else None,
+            }
+            if color is not None:
+                # Series dimension — stacked/grouped bars, or the pivot column
+                # that splits a temporal line/area into one series per value.
+                hint["color"] = color
+            if top_n is not None:
+                hint["top_n"] = top_n
+            return hint
+
+        # 1. KPI — single-row metric sets render as stat tiles
+        if len(result.rows) == 1 and numeric:
+            return _hint("kpi", None, numeric)
+
+        # 2. Temporal x → line/area time series.
+        # Long format (month, channel, revenue): pivot on the nominal column
+        # so each category becomes its own series instead of being ignored.
+        if temporal:
+            t = temporal[0]
+            series = [f for f in numeric if f != t]
+            if (
+                len(nominal) >= 1 and len(series) == 1
+                and 2 <= len({r.get(nominal[0]) for r in result.rows}) <= _STACKED_MAX_SERIES
+            ):
+                return _hint("line", t, series, color=nominal[0])
+            return _hint("line", t, series or numeric)
+
+        # 3. Distribution queries over a single numeric measure → histogram
+        if (
+            query_type == QueryType.DISTRIBUTION or _DISTRIBUTION_HINTS.search(question or "")
+        ) and len(numeric) >= 1 and nominal:
+            return _hint("histogram", nominal[0], [])
+
+        # 4. Categorical x + numeric y → stacked/grouped variants, then pie/bar
         if nominal and numeric:
-            return ChartPlan(
-                chart_type=ChartType.BAR,
-                data_strategy=strategy,
-                title=question,
-                x_field=nominal[0],
-                y_field=numeric[-1],
+            groups = {r.get(nominal[0]) for r in result.rows}
+            n_groups = len(groups)
+            primary = _primary_measure(question, numeric)
+            # Multiple measures per category → side-by-side bars, but only
+            # when both stay small; otherwise plot just the asked-about one.
+            if len(numeric) >= 2:
+                if len(numeric) <= 3 and n_groups <= _BAR_MAX_GROUPS:
+                    return _hint("grouped_bar", nominal[0], numeric, top_n=_BAR_MAX_GROUPS if n_groups > 8 else None)
+                return _hint("bar", nominal[0], [primary], top_n=_BAR_MAX_GROUPS if n_groups > _BAR_MAX_GROUPS else None)
+            # One measure + a second categorical → stacked by that series
+            if len(nominal) >= 2:
+                series_values = {r.get(nominal[1]) for r in result.rows}
+                if 2 <= len(series_values) <= _STACKED_MAX_SERIES:
+                    return _hint("stacked_bar", nominal[0], [numeric[-1]], color=nominal[1])
+            if 2 <= n_groups <= _PIE_MAX_GROUPS:
+                return _hint("pie", nominal[0], [primary])
+            return _hint(
+                "bar", nominal[0], [primary],
+                top_n=_BAR_MAX_GROUPS if n_groups > _BAR_MAX_GROUPS else None,
             )
+
+        # 5. Two numeric columns, nothing categorical → scatter (needs enough
+        # points to show a relationship; a handful is just noise)
         if len(numeric) >= 2:
-            return ChartPlan(
-                chart_type=ChartType.SCATTER,
-                data_strategy=strategy,
-                title=question,
-                x_field=numeric[0],
-                y_field=numeric[1],
-            )
-        return ChartPlan(
-            chart_type=ChartType.BAR,
-            data_strategy=strategy,
-            title=question,
-            x_field=fields[0] if fields else "",
-            y_field=numeric[-1] if numeric else "",
-        )
+            if len(result.rows) >= 8:
+                return _hint("scatter", numeric[0], [numeric[1]])
+            return _hint("kpi", None, numeric)
 
-    def build_vega_lite(self, plan: ChartPlan, result: QueryResult) -> ChartSpec:
-        """Build a Vega-Lite v6 spec from a chart plan and data."""
-        data_strategy, data, meta = prepare_for_viz(result)
-
-        spec: dict[str, Any] = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
-            "title": {"text": plan.title, "color": "#e5e7eb", "fontSize": 15, "anchor": "start"},
-            "background": "transparent",
-            "width": 760,
-            "height": 360,
-            "autosize": {"type": "fit", "contains": "padding"},
-            "data": {"values": data},
-            "config": {
-                "axis": {"labelColor": "#cbd5e1", "titleColor": "#94a3b8", "gridColor": "#1f2937"},
-                "legend": {"labelColor": "#cbd5e1", "titleColor": "#94a3b8", "orient": "bottom"},
-                "view": {"stroke": "transparent"},
-            },
-        }
-
-        mark_map = {
-            ChartType.LINE: {"type": "line", "point": {"filled": True, "size": 48}, "strokeWidth": 2.5},
-            ChartType.BAR: {"type": "bar"},
-            ChartType.SCATTER: {"type": "point", "size": 60},
-            ChartType.ARC: {"type": "arc"},
-        }
-        spec["mark"] = mark_map.get(plan.chart_type, {"type": "bar"})
-
-        encoding: dict[str, Any] = {}
-        if plan.x_field:
-            x_type = "temporal" if (data and _is_temporal(data[0].get(plan.x_field))) else "nominal"
-            encoding["x"] = {"field": plan.x_field, "type": x_type, "title": plan.x_field}
-        if plan.y_field:
-            encoding["y"] = {"field": plan.y_field, "type": "quantitative", "title": plan.y_field}
-        if plan.color_field:
-            encoding["color"] = {"field": plan.color_field, "type": "nominal", "title": plan.color_field}
-        encoding["tooltip"] = [{"field": f} for f in (data[0].keys() if data else [])]
-        spec["encoding"] = encoding
-
-        return ChartSpec(
-            renderer="vega-lite",
-            spec=spec,
-            plan=plan,
-            row_count=result.row_count,
-        )
-
-    # ------------------------------------------------------------------
-    # Generation method — LLM picks chart type for ambiguous data
-    # ------------------------------------------------------------------
-
-    @strategy(PredictStrategy())
-    async def suggest_chart(self, question: str, column_names: str, sample_row: str) -> ChartPlan:
-        """Given the question, column names, and a sample row, suggest the best chart type
-        and encoding. Return a ChartPlan with chart_type, x_field, y_field, and color_field.
-
-        Choose from: bar, line, scatter, arc, heatmap, summary
-        Prefer line for temporal data, bar for categorical, scatter for two numeric fields."""
-        ...
+        # 6. Fallback — first field on x, best numeric on y
+        x_field = fields[0]
+        return _hint("bar", x_field, [f for f in numeric if f != x_field])

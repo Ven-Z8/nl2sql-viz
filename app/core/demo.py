@@ -1,10 +1,8 @@
-import os
 import uuid
 from typing import Any
 
 from app.core.auth import generate_api_key
 
-DEFAULT_DEMO_DSN = "postgresql://testuser:testpass@localhost:5432/testdb"
 DEMO_DATASET_NAME = "RavenStack SaaS Analytics"
 
 _DEMO_QUESTIONS: tuple[dict[str, str], ...] = (
@@ -41,25 +39,24 @@ _DEMO_QUESTIONS: tuple[dict[str, str], ...] = (
 )
 
 
-def get_demo_dsn() -> str:
-    """Return the configured sample Postgres DSN.
-
-    The bundled RavenStack dataset is only the default sample. Operators can point
-    demo mode at any Postgres database by setting DEMO_DATABASE_URL or DATABASE_URL.
-    """
-    return os.getenv("DEMO_DATABASE_URL") or os.getenv("DATABASE_URL") or DEFAULT_DEMO_DSN
-
-
 def get_demo_questions() -> list[dict[str, str]]:
     """Return natural-language sample questions without SQL shortcuts."""
     return [dict(question) for question in _DEMO_QUESTIONS]
 
 
-def build_demo_session(dsn: str | None = None, username: str | None = None) -> dict[str, Any]:
-    """Create demo credentials for a browser session."""
+DEMO_FOCUS_TABLE = "accounts"
+
+
+def build_demo_session(username: str | None = None) -> dict[str, Any]:
+    """Create demo credentials for a browser session.
+
+    Deliberately contains NO DSN — the demo database is registered in the
+    server-side connection registry (app.core.connections); clients receive
+    only its opaque ``connection_id``, which the caller attaches.
+    """
     return {
         "username": username or f"demo_{uuid.uuid4().hex[:8]}",
         "api_key": generate_api_key(),
-        "dsn": dsn or get_demo_dsn(),
         "dataset": DEMO_DATASET_NAME,
+        "focus_table": DEMO_FOCUS_TABLE,
     }

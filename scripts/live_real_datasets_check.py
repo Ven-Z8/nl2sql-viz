@@ -27,7 +27,8 @@ async def load_and_query(client, api_key, sample_id, question) -> bool:
         await ws.send(json.dumps({"type": "auth", "api_key": api_key}))
         await ws.recv()
         await ws.send(json.dumps({
-            "type": "query", "query": question, "dsn": up["dsn"], "domain": up["domain"],
+            "type": "query", "query": question,
+            "connection_id": up["connection_id"], "domain": up["domain"],
         }))
         while True:
             evt = json.loads(await asyncio.wait_for(ws.recv(), timeout=120))

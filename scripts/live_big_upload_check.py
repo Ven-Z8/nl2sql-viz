@@ -42,7 +42,7 @@ async def main() -> int:
         await ws.send(json.dumps({
             "type": "query",
             "query": "What is the monthly revenue trend and top 5 best-selling products by quantity?",
-            "dsn": up["dsn"],
+            "connection_id": up["connection_id"],
             "domain": "retail",
         }))
         while True:

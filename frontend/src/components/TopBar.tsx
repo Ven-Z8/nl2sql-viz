@@ -1,16 +1,53 @@
 "use client";
 import { useEffect, useState } from "react";
+import type { WsStatus } from "@/lib/ws";
 
 interface TopBarProps {
-  connected: boolean;
+  status: WsStatus;
 }
 
-export default function TopBar({ connected }: TopBarProps) {
+const STATUS_META: Record<
+  WsStatus,
+  { label: string; color: string; bg: string; border: string; dot: string }
+> = {
+  open: {
+    label: "Connected",
+    color: "var(--color-success)",
+    bg: "var(--color-success-dim)",
+    border: "var(--color-success-dim)",
+    dot: "var(--color-success)",
+  },
+  connecting: {
+    label: "Connecting…",
+    color: "var(--color-accent)",
+    bg: "var(--color-accent-dim)",
+    border: "var(--color-accent-dim)",
+    dot: "var(--color-accent)",
+  },
+  retrying: {
+    label: "Reconnecting…",
+    color: "var(--color-accent)",
+    bg: "var(--color-accent-dim)",
+    border: "var(--color-accent-dim)",
+    dot: "var(--color-accent)",
+  },
+  closed: {
+    label: "Disconnected",
+    color: "var(--color-ink-faint)",
+    bg: "var(--color-paper-3)",
+    border: "var(--color-border)",
+    dot: "var(--color-ink-faint)",
+  },
+};
+
+export default function TopBar({ status }: TopBarProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
+
+  const meta = STATUS_META[status];
 
   return (
     <header
@@ -60,11 +97,7 @@ export default function TopBar({ connected }: TopBarProps) {
       <div style={{ display: "flex", alignItems: "center", gap: "var(--space-3)" }}>
         {/* Theme toggle */}
         <button
-          onClick={() => {
-            const next = theme === "light" ? "dark" : "light";
-            setTheme(next);
-            document.documentElement.setAttribute("data-theme", next);
-          }}
+          onClick={() => setTheme((t) => (t === "light" ? "dark" : "light"))}
           title="Toggle theme"
           style={{
             background: "var(--color-paper-3)",
@@ -81,29 +114,29 @@ export default function TopBar({ connected }: TopBarProps) {
           {theme === "light" ? "◐ Dark" : "◐ Light"}
         </button>
 
-        {/* Status pill */}
+        {/* Status pill — reflects the real WS lifecycle */}
         <div
+          title={
+            status === "retrying"
+              ? "The backend may be waking up. Retrying automatically."
+              : undefined
+          }
           style={{
             display: "flex",
             alignItems: "center",
             gap: "8px",
             padding: "5px 12px",
             borderRadius: "var(--radius-pill)",
-            background: connected ? "var(--color-success-dim)" : "var(--color-paper-3)",
-            border: `1px solid ${connected ? "var(--color-success-dim)" : "var(--color-border)"}`,
+            background: meta.bg,
+            border: `1px solid ${meta.border}`,
             fontSize: "12px",
             fontWeight: 500,
-            color: connected ? "var(--color-success)" : "var(--color-ink-faint)",
+            color: meta.color,
             transition: "background var(--dur-fast) var(--ease-out)",
           }}
         >
-          <span
-            className="status-dot"
-            style={{
-              background: connected ? "var(--color-success)" : "var(--color-ink-faint)",
-            }}
-          />
-          {connected ? "Connected" : "Disconnected"}
+          <span className="status-dot" style={{ background: meta.dot }} />
+          {meta.label}
         </div>
       </div>
     </header>

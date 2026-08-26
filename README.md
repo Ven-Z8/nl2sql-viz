@@ -6,6 +6,25 @@ hallucination) with an analyst narrative and a chart.
 
 **Live demo:** frontend on GitHub Pages · backend on Render (free tier)
 
+## Features
+
+- **Grounded answers** — every number is computed from executed query results;
+  narrative key points citing untraceable numbers are dropped, not shipped
+- **Conversation threads** — follow-ups ("what about 2019?", "only the top 5")
+  resolve against short-term per-user conversational memory
+- **Self-correcting refine loop** — results are inspected before synthesis
+  (empty / degenerate / null-dominant) and the SQL regenerated within a hard
+  execution budget of 4 per question
+- **Cost auto-tighten** — over-budget queries are deterministically tightened
+  (LIMIT cap → date-window narrowing → planner-marked join drop) instead of
+  flat-out rejected
+- **Provenance panel** — every cited number carries `{query_index, row_index}`
+  source traces back to the result set
+- **Grouped grounded answers** — grouped results enumerate their top segments
+  with per-row provenance instead of KPI-style single numbers
+- **Schema cache** — introspection cached per connection/DSN; repeat queries
+  skip the schema round trip
+
 ## Architecture
 
 ```
@@ -17,7 +36,8 @@ FastAPI backend (Render, free tier)
   │    schema introspection → fast-model schema linking → complexity routing
   │    → SQL generation (DeepSeek flash) → schema validation (no guessing)
   │    → EXPLAIN cost gate → read-only execution → grounded answer
-  │    → key-points narrative (grounded) → chart spec
+  │    → key-points narrative (grounded) → chart hint
+  │    (frontend renders hints via a single Recharts component — ADR-0004)
   ▼
 PostgreSQL (Render free tier) — 12 relational datasets + 11 CSV samples
 ```
@@ -31,7 +51,7 @@ synthesized **only** from those numbers.
 docker compose up -d                # Postgres
 uv run uvicorn app.main:app --port 8000   # backend
 cd frontend && npm run dev          # frontend at :3000
-uv run pytest tests -q              # 125 tests
+uv run pytest tests -q              # 222 tests
 ```
 
 `.env` needs: `OPENROUTER_API_KEY`, `SECRET_KEY` (32-byte hex), `DATABASE_URL`.
@@ -84,6 +104,29 @@ and **spot-checks every answer** by re-running the SQL against Postgres:
 uv run python -m scripts.reference_harness olist 12 3
 ```
 
+## Very-complex benchmark
+
+`scripts/benchmark_very_complex.py` runs one fixed very_complex question per
+database against a live backend on `:8000`, then **spot-checks every answer**
+by re-running the returned SQL against Postgres and comparing the numbers:
+
+```bash
+make run                                        # backend on :8000 (+ Postgres)
+make benchmark SUBSET=olist,tpcds               # or directly:
+uv run python -m scripts.benchmark_very_complex \
+    [--all | --datasets olist,tpcds,ga] \
+    [--json bench_results.json] \
+    [--load]
+```
+
+Results are written **incrementally** after each run (default:
+`.scratch/benchmark_very_complex.json`). `--load` POSTs each dataset's
+`/load` endpoint first — required when the target database is still empty.
+Run sequentially: the WebSocket server cannot handle many concurrent
+connections. `.github/workflows/benchmark.yml` runs this in CI (manual +
+weekly schedule); its LLM steps are `continue-on-error` so forks without an
+`OPENROUTER_API_KEY` secret still get full test-suite signal.
+
 ## Datasets
 
 12 relational databases (7 real: Olist, FDIC, GA bike-share, Census ACS,
@@ -95,6 +138,8 @@ easy / medium / hard / very_complex — see `data/datasets/*/questions.json`.
 
 - `docs/architecture.md` — system diagram
 - `docs/benchmark-report.md` — 137/138 (99%) grounded-answer benchmark
+- `docs/adr/` — architecture decisions (0001 NOOA · 0004 chart hints ·
+  0005 conversation threads & self-correction)
 - `docs/nooa-alignment.md` — NOOA framework alignment assessment
 - `handovers/` — state, gaps, test-questions guide, test report
 

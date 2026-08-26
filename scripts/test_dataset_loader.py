@@ -13,7 +13,7 @@ async def main() -> None:
     pool = PostgresPool(dsn=DSN)
     await pool.connect()
     t0 = time.monotonic()
-    info = await load_dataset(pool, "retail", DSN)
+    info = await load_dataset(pool, "retail")
     print(f"loaded {info['name']} in {time.monotonic()-t0:.1f}s")
     print("tables:", info["tables"])
     print("questions:", {k: len(v) for k, v in info["questions"].items()})
