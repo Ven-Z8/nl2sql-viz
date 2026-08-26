@@ -22,18 +22,28 @@ def _read_json(path: Path) -> dict:
 
 
 def list_datasets() -> list[dict[str, str]]:
-    """List available datasets (directories with schema.json)."""
+    """List available datasets (directories with schema.json).
+
+    Datasets whose directory name starts with a dot (e.g. ``.olist.disabled``)
+    are hidden from the catalog — they ship with the repo for completeness but
+    are not loadable on the current deployment (e.g. exceed Neon free-tier
+    storage). The double-underscore prefix keeps them greppable in the tree
+    while making the API and frontend ignore them.
+    """
     datasets: list[dict[str, str]] = []
     for d in sorted(_DATASETS_DIR.iterdir()):
+        if not d.is_dir() or d.name.startswith("."):
+            continue
         schema_path = d / "schema.json"
-        if d.is_dir() and schema_path.exists():
-            schema = _read_json(schema_path)
-            datasets.append({
-                "id": d.name,
-                "name": schema.get("name", d.name),
-                "domain": schema.get("domain", "general"),
-                "description": schema.get("description", ""),
-            })
+        if not schema_path.exists():
+            continue
+        schema = _read_json(schema_path)
+        datasets.append({
+            "id": d.name,
+            "name": schema.get("name", d.name),
+            "domain": schema.get("domain", "general"),
+            "description": schema.get("description", ""),
+        })
     return datasets
 
 
