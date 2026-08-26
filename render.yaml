@@ -1,11 +1,12 @@
 # Render blueprint — NL2SQL Viz (DataLens AI)
-# Creates: free web service (FastAPI) + free Postgres.
+# Creates: one free web service (FastAPI). The Postgres lives on Neon
+# (free, no card) and is passed in as a static env var.
 #
 # After deploy:
 #   1. Set OPENROUTER_API_KEY and SECRET_KEY in the web service's
-#      Environment tab (secrets, not plain text).
-#   2. Optional: run the seed job once to pre-load all datasets:
-#      Render dashboard -> the seed job -> Manual Run.
+#      Environment tab (Render dashboard → nl2sql-viz-api → Environment).
+#   2. Seed the data once (locally or any host with network access to Neon):
+#        DATABASE_URL=... python scripts/seed_deploy.py
 #   3. Without the seed, the app loads datasets on demand when the
 #      frontend calls POST /api/datasets/<id>/load.
 
@@ -17,29 +18,14 @@ services:
     healthCheckPath: /api/datasets
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: nl2sql-viz-db
-          property: connectionString
+        value: postgresql://neondb_owner:npg_QaDSxZW6CK8O@ep-rapid-meadow-ax9ghvtu-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require
       - key: OPENROUTER_API_KEY
         sync: false
       - key: SECRET_KEY
         sync: false
       - key: NL2SQL_MODEL
-        value: openrouter/deepseek/deepseek-v4-flash-0731
+        value: openrouter/minimax/minimax-m3:free
       - key: NL2SQL_FAST_MODEL
         value: openrouter/inclusionai/ling-3.0-flash
-
-  - type: job
-    name: nl2sql-viz-seed
-    runtime: docker
-    plan: free
-    startCommand: python scripts/seed_deploy.py
-    envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: nl2sql-viz-db
-          property: connectionString
-
-databases:
-  - name: nl2sql-viz-db
-    plan: free
+      - key: CORS_ALLOW_ORIGINS
+        value: https://ven-z8.github.io,http://localhost:3000
