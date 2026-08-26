@@ -35,13 +35,25 @@ jobs:
         run: npm ci
         working-directory: frontend
       - name: Build (static export)
-        # Next.js loads `frontend/.env.local` even in CI, overriding the
-        # workflow's NEXT_PUBLIC_* env vars. Clear it so the deploy target
-        # is whatever the workflow specifies (Render by default).
+        # Next.js inlines NEXT_PUBLIC_* env vars at build time. The `env:`
+        # block on the job doesn't propagate to `next build` (it sees only
+        # its own .env* files), so we write a fresh .env.production with
+        # the right backend URL before building. Also wipe any leftover
+        # .env.local that would otherwise win precedence.
         run: |
           rm -f .env.local
+          cat > .env.production <<EOF
+          NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+          NEXT_PUBLIC_WS_URL=${NEXT_PUBLIC_WS_URL}
+          NEXT_PUBLIC_BASE_PATH=${NEXT_PUBLIC_BASE_PATH}
+          EOF
+          cat .env.production
           npm run build
         working-directory: frontend
+        env:
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'https://nl2sql-viz-api.onrender.com' }}
+          NEXT_PUBLIC_WS_URL: ${{ vars.NEXT_PUBLIC_WS_URL || 'wss://nl2sql-viz-api.onrender.com/ws/query' }}
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || '/nl2sql-viz' }}
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
