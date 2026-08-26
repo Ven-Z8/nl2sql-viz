@@ -60,3 +60,4 @@ data/samples/raw_lending/
 
 # Next.js build output (frontend/out is deployed by GitHub Actions)
 frontend/out/
+  
