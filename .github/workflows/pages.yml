@@ -18,11 +18,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      # Backend is the VPS at nl2sql2viz.duckdns.org (Caddy TLS + WS proxy).
-      # Override via repository variables if the domain changes:
+      # Backend is the Render free-tier web service. Override via repository
+      # variables if the domain changes:
       #   NEXT_PUBLIC_API_URL / NEXT_PUBLIC_WS_URL / NEXT_PUBLIC_BASE_PATH
-      NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'https://nl2sql2viz.duckdns.org' }}
-      NEXT_PUBLIC_WS_URL: ${{ vars.NEXT_PUBLIC_WS_URL || 'wss://nl2sql2viz.duckdns.org/ws/query' }}
+      NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL || 'https://nl2sql-viz-api.onrender.com' }}
+      NEXT_PUBLIC_WS_URL: ${{ vars.NEXT_PUBLIC_WS_URL || 'wss://nl2sql-viz-api.onrender.com/ws/query' }}
       NEXT_PUBLIC_BASE_PATH: ${{ vars.NEXT_PUBLIC_BASE_PATH || '/nl2sql-viz' }}
     steps:
       - uses: actions/checkout@v4
