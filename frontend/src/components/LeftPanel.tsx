@@ -80,7 +80,9 @@ export default function LeftPanel({
   onLoadDataset,
   onConnect,
 }: LeftPanelProps) {
-  const [activeTab, setActiveTab] = useState<"csv" | "db">("csv");
+  // Default to Databases — the curated demo experience. CSV is the
+  // upload-your-own escape hatch.
+  const [activeTab, setActiveTab] = useState<"csv" | "db">("db");
 
   return (
     <aside

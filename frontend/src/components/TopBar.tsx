@@ -118,7 +118,7 @@ export default function TopBar({ status }: TopBarProps) {
         <div
           title={
             status === "retrying"
-              ? "The backend may be waking up. Retrying automatically."
+              ? "Demo backend warming up — pick a dataset or ask a question to continue."
               : undefined
           }
           style={{

@@ -71,7 +71,7 @@ export default function Home() {
     stream.status === "retrying" ? (
       <Banner
         tone="info"
-        message="Connecting to backend… Render free tier can take ~60s to wake"
+        message="Warming up the demo backend — picking a dataset and asking a question kicks it off."
       />
     ) : null;
 

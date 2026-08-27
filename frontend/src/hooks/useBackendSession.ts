@@ -23,6 +23,14 @@ export function useBackendSession(enabled: boolean) {
     let cancelled = false;
 
     const start = async () => {
+      // Ping /health FIRST so the free Render tier starts waking up before
+      // we try to open a session. Without this, the first user waits the
+      // full 30-60s cold-start before anything useful appears.
+      try {
+        await fetch(apiUrl("/health"), { method: "GET", cache: "no-store" });
+      } catch {
+        // best-effort; even if this fails, the session call will retry
+      }
       try {
         const resp = await fetch(apiUrl("/api/demo/session"), { method: "POST" });
         const body = (await resp.json().catch(() => ({}))) as Partial<DemoSession> & {
